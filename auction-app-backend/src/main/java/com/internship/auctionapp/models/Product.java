@@ -31,7 +31,7 @@ public class Product {
     private String ImageURL;
 
     @NotBlank(message = "Please provide Product Creation Date")
-    private LocalDate CreationDate = LocalDate.now();
+    private LocalDate CreationDate;
 
     @NotBlank(message = "Please provide Expiration Date")
     private LocalDate ExpirationDate;
