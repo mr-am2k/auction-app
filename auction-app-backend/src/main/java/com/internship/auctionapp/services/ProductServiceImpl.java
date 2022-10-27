@@ -2,9 +2,11 @@ package com.internship.auctionapp.services;
 
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.repositories.ProductRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -23,5 +25,23 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product addProduct(Product product) {
         return productRepository.save(product);
+    }
+
+    @Override
+    public Product getSingleProduct(UUID id) {
+        return productRepository.findById(id).get();
+    }
+
+    @Override
+    public Product updateProduct(UUID id, Product product)  {
+        Product productForUpdate = productRepository.findById(id).get();
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.map(product, productForUpdate);
+        return productRepository.save(productForUpdate);
+    }
+
+    @Override
+    public void deleteProduct(UUID id) {
+        productRepository.deleteById(id);
     }
 }

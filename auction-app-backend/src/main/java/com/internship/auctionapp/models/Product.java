@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -19,8 +17,9 @@ import java.util.UUID;
 @Builder
 public class Product {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     @NotBlank(message = "Please provide Product Name")
     private String Name;
