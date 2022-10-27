@@ -16,7 +16,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class ProductServiceImplTest {
+class DefaultProductServiceTest {
 
     @Autowired
     private ProductService productService;
@@ -26,16 +26,15 @@ class ProductServiceImplTest {
 
     @BeforeEach
     void setUp() {
-         Product product = Product.builder()
+        Product product = Product.builder()
                 .id(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))
-                .Name("Shirt")
-                .Description("Black shirt")
-                .ImageURL("/shirt.jpg")
-                .CreationDate(LocalDate.now())
-                .ExpirationDate(LocalDate.now())
-                .Status("available")
-                .Size("L")
-                .Color("Black")
+                .name("Shirt")
+                .description("Black shirt")
+                .imageURL("/shirt.jpg")
+                .creationDate(LocalDate.now())
+                .expirationDate(LocalDate.now())
+                .status("available")
+                .size("L")
                 .build();
         Mockito.when(productRepository.findById(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).thenReturn(Optional.ofNullable(product));
     }
@@ -43,14 +42,13 @@ class ProductServiceImplTest {
     @Test
     public void whenValidId_thenProductShouldBeFound(){
         UUID id = UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6");
-        String Name = "Shirt";
-        String ImageURL = "/shirt.jpg";
-        String Size = "L";
+        String name = "Shirt";
+        String imageURL = "/shirt.jpg";
+        String size = "L";
         Product wantedProduct = productService.getSingleProduct(id);
         assertEquals(id, wantedProduct.getId());
-        assertEquals(Name, wantedProduct.getName());
-        assertEquals(ImageURL, wantedProduct.getImageURL());
-        assertEquals(Size, wantedProduct.getSize());
+        assertEquals(name, wantedProduct.getName());
+        assertEquals(imageURL, wantedProduct.getImageURL());
+        assertEquals(size, wantedProduct.getSize());
     }
-
 }

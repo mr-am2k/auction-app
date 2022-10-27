@@ -9,16 +9,15 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class DefaultProductService implements ProductService{
+    private final ProductRepository productRepository;
 
-    private ProductRepository productRepository;
-
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public DefaultProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
     @Override
-    public List<Product> getAllProducts() throws Exception {
+    public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 

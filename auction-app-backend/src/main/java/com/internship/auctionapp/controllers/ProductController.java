@@ -10,46 +10,37 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/v1/")
+@RequestMapping("api/v1/products")
 @Tag(name="Products")
 public class ProductController {
-    private ProductService productService;
+    private final ProductService productService;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
-    //Add new product
-    @PostMapping("/products")
+    @PostMapping()
     public Product addProduct(@Valid @RequestBody Product product){
         return productService.addProduct(product);
     }
 
-    //Get all products
-    @GetMapping("/products")
+    @GetMapping()
     public List<Product> getAllProducts() throws Exception {
         return productService.getAllProducts();
     }
-    //Get product by ID
-    @GetMapping("/products/{id}")
+
+    @GetMapping("/{id}")
     public Product getSingleProduct(@PathVariable("id") UUID id){
         return productService.getSingleProduct(id);
     }
-    //Updating product
-    @PutMapping("/products/{id}")
-    public Product updateProduct(@PathVariable("id") UUID id,@RequestBody Product product) {
+
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable("id") UUID id, @RequestBody Product product) {
         return productService.updateProduct(id, product);
     }
 
-    //Deleting product
-    @DeleteMapping("/product/{id}")
-    public String deleteProduct(@PathVariable("id") UUID id){
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable("id") UUID id){
         productService.deleteProduct(id);
-        return "Product deleted successfully";
     }
-
-
-
-
-
 }

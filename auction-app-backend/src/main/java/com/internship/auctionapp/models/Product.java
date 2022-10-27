@@ -18,32 +18,27 @@ import java.util.UUID;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "Id", updatable = false, nullable = false)
     private UUID id;
 
     @NotBlank(message = "Please provide Product Name")
-    private String Name;
+    private String name;
 
     @NotBlank(message = "Please provide Product Description")
-    private String Description;
+    private String description;
 
     @NotBlank(message = "Please provide Product ImageURL")
-    private String ImageURL;
+    private String imageURL;
 
     @NotBlank(message = "Please provide Product Creation Date")
-    private LocalDate CreationDate;
+    private LocalDate creationDate;
 
     @NotBlank(message = "Please provide Expiration Date")
-    private LocalDate ExpirationDate;
+    private LocalDate expirationDate;
 
     @NotBlank(message = "Please provide Status")
-    private String Status;
+    private String status;
 
     @NotBlank(message = "Please provide Size")
-    private String Size;
-
-    @NotBlank(message = "Please provide Color")
-    private String Color;
-
-
+    private String size;
 }

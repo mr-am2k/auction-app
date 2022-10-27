@@ -35,36 +35,36 @@ class ProductControllerTest {
     void setUp() {
         product = Product.builder()
                 .id(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))
-                .Name("Shirt")
-                .Description("Black shirt")
-                .ImageURL("/shirt.jpg")
-                .CreationDate(LocalDate.now())
-                .ExpirationDate(LocalDate.now())
-                .Status("available")
-                .Size("L")
-                .Color("Black")
+                .name("Shirt")
+                .description("Black shirt")
+                .imageURL("/shirt.jpg")
+                .creationDate(LocalDate.now())
+                .expirationDate(LocalDate.now())
+                .status("available")
+                .size("L")
                 .build();
     }
 
     @Test
     void addProduct() throws Exception {
         Product inputProduct = Product.builder()
-                .Name("Shirt").Description("Black shirt").ImageURL("/shirt.jpg").CreationDate(LocalDate.now()).ExpirationDate(LocalDate.now())
-                .Status("available").Size("L").Color("Black").build();
+                .name("Shirt").description("Black shirt").imageURL("/shirt.jpg").creationDate(LocalDate.now()).expirationDate(LocalDate.now())
+                .status("available").size("L").build();
         Mockito.when(productService.addProduct(inputProduct)).thenReturn(product);
 
         mockMvc.perform(post("/api/v1/products")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\n" +
-                        "    \"Name\":\"Shirt\",\n" +
-                        "    \"Description\":\"Black shirt\",\n" +
-                        "    \"ImageURL\": \"/shirt.jpg\",\n" +
-                        "    \"CreationDate\":\"2022-10-27\",\n" +
-                        "    \"ExpirationDate\":\"2022-10-27\",\n" +
-                        "    \"Status\": \"available\",\n" +
-                        "    \"Size\": \"L\",\n" +
-                        "    \"Color\": \"Black\"\n" +
-                        "}\n"))
+                .content("""
+                        {
+                            "name":"Shirt",
+                            "description":"Black shirt",
+                            "imageURL": "/shirt.jpg",
+                            "creationDate":"2022-10-27",
+                            "expirationDate":"2022-10-27",
+                            "status": "available",
+                            "size": "L"
+                        }
+                        """))
                 .andExpect(status().isOk());
     }
 
