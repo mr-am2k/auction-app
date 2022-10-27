@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ProductService  {
-    List<Product> getAllProducts();
+    List<Product> getAllProducts() throws Exception;
 
     Product addProduct(Product product);
 
