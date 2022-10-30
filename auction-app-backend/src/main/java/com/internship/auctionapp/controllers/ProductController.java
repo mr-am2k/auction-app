@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/products")
-@Tag(name="Products")
+@Tag(name = "Products")
 public class ProductController {
     private final ProductService productService;
 
@@ -20,7 +20,7 @@ public class ProductController {
     }
 
     @PostMapping()
-    public Product addProduct(@Valid @RequestBody Product product){
+    public Product addProduct(@Valid @RequestBody Product product) {
         return productService.addProduct(product);
     }
 
@@ -30,7 +30,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getSingleProduct(@PathVariable("id") UUID id){
+    public Product getSingleProduct(@PathVariable("id") UUID id) {
         return productService.getSingleProduct(id);
     }
 
@@ -40,7 +40,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable("id") UUID id){
+    public void deleteProduct(@PathVariable("id") UUID id) {
         productService.deleteProduct(id);
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class DefaultProductService implements ProductService{
+public class DefaultProductService implements ProductService {
     private final ProductRepository productRepository;
 
     public DefaultProductService(ProductRepository productRepository) {
@@ -32,7 +32,7 @@ public class DefaultProductService implements ProductService{
     }
 
     @Override
-    public Product updateProduct(UUID id, Product product)  {
+    public Product updateProduct(UUID id, Product product) {
         Product productForUpdate = productRepository.findById(id).get();
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.map(product, productForUpdate);

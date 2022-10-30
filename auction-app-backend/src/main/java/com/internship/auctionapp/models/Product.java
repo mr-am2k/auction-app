@@ -21,24 +21,24 @@ public class Product {
     @Column(name = "Id", updatable = false, nullable = false)
     private UUID id;
 
-    @NotBlank(message = "Please provide Product Name")
+    @NotBlank(message = "Product Name is required")
     private String name;
 
-    @NotBlank(message = "Please provide Product Description")
+    @NotBlank(message = "Product Description is required")
     private String description;
 
-    @NotBlank(message = "Please provide Product ImageURL")
+    @NotBlank(message = "Product ImageURL is required")
     private String imageURL;
 
-    @NotBlank(message = "Please provide Product Creation Date")
+    @NotBlank(message = "Product Creation Date is required")
     private LocalDate creationDate;
 
-    @NotBlank(message = "Please provide Expiration Date")
+    @NotBlank(message = "Product Expiration Date is required")
     private LocalDate expirationDate;
 
-    @NotBlank(message = "Please provide Status")
+    @NotBlank(message = "Product Status is required")
     private String status;
 
-    @NotBlank(message = "Please provide Size")
+    @NotBlank(message = "Product Size is required")
     private String size;
 }

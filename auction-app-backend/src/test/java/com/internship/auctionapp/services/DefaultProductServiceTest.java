@@ -24,10 +24,12 @@ class DefaultProductServiceTest {
     @MockBean
     private ProductRepository productRepository;
 
+    private static final UUID PRODUCT_ID = UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6");
+
     @BeforeEach
     void setUp() {
         Product product = Product.builder()
-                .id(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))
+                .id(PRODUCT_ID)
                 .name("Shirt")
                 .description("Black shirt")
                 .imageURL("/shirt.jpg")
@@ -36,16 +38,18 @@ class DefaultProductServiceTest {
                 .status("available")
                 .size("L")
                 .build();
-        Mockito.when(productRepository.findById(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).thenReturn(Optional.ofNullable(product));
+        Mockito.when(productRepository.findById(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).thenReturn(Optional.of(product));
     }
 
     @Test
-    public void whenValidId_thenProductShouldBeFound(){
-        UUID id = UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6");
+    public void whenValidId_thenProductShouldBeFound() {
+        UUID id = PRODUCT_ID;
         String name = "Shirt";
         String imageURL = "/shirt.jpg";
         String size = "L";
+
         Product wantedProduct = productService.getSingleProduct(id);
+
         assertEquals(id, wantedProduct.getId());
         assertEquals(name, wantedProduct.getName());
         assertEquals(imageURL, wantedProduct.getImageURL());

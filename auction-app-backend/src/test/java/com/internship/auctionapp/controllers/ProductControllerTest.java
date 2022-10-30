@@ -30,11 +30,12 @@ class ProductControllerTest {
     private ProductService productService;
 
     private Product product;
+    private static final UUID PRODUCT_ID = UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6");
 
     @BeforeEach
     void setUp() {
         product = Product.builder()
-                .id(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))
+                .id(PRODUCT_ID)
                 .name("Shirt")
                 .description("Black shirt")
                 .imageURL("/shirt.jpg")
@@ -47,25 +48,24 @@ class ProductControllerTest {
 
     @Test
     void addProduct() throws Exception {
-        Product inputProduct = Product.builder()
-                .name("Shirt").description("Black shirt").imageURL("/shirt.jpg").creationDate(LocalDate.now()).expirationDate(LocalDate.now())
-                .status("available").size("L").build();
-        Mockito.when(productService.addProduct(inputProduct)).thenReturn(product);
+        Mockito.when(productService.addProduct(product)).thenReturn(product);
 
         mockMvc.perform(post("/api/v1/products")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                        {
-                            "name":"Shirt",
-                            "description":"Black shirt",
-                            "imageURL": "/shirt.jpg",
-                            "creationDate":"2022-10-27",
-                            "expirationDate":"2022-10-27",
-                            "status": "available",
-                            "size": "L"
-                        }
-                        """))
-                .andExpect(status().isOk());
+                .content(
+                        """
+                                {
+                                    "name":"Shirt",
+                                    "description":"Black shirt",
+                                    "imageURL": "/shirt.jpg",
+                                    "creationDate":"2022-10-27",
+                                    "expirationDate":"2022-10-27",
+                                    "status": "available",
+                                    "size": "L"
+                                }
+                                                        
+                        """
+                )).andExpect(status().isOk());
     }
 
     @Test
@@ -73,7 +73,7 @@ class ProductControllerTest {
         Mockito.when(productService.getSingleProduct(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).thenReturn(product);
         mockMvc.perform(get("/api/v1/products/3fa85f64-5717-4562-b3fc-2c963f66afa6")
                         .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isOk())
-                        .andExpect(jsonPath("$.description").value(product.getDescription()));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.description").value(product.getDescription()));
     }
 }
