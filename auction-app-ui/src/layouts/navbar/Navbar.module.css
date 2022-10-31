@@ -1,0 +1,71 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 12rem;
+  background-color: var(--white-color);
+  font-family: var(--font-family);
+}
+.appLogo {
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  width: 25%;
+}
+
+.searchField {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  height: 57.94px;
+  border: 1px solid var(--grey-color);
+  width: 55%;
+}
+.searchField input {
+  outline: none;
+  border: none;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: 0.63px;
+  color: var(--black-color);
+  width: 60%;
+}
+.searchField input::placeholder {
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 19px;
+  color: var(--grey-color);
+}
+.searchField img {
+  cursor: pointer;
+}
+.searchInputIcons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.navbarOptions {
+  width: 20%;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 4rem;
+}
+.navbarOptions a {
+  text-decoration: none;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 19px;
+  color: var(--black-color);
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+.navbarOptions a:focus {
+  font-weight: 700;
+  color: var(--purple-color);
+}
