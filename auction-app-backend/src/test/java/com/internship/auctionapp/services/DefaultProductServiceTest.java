@@ -43,14 +43,13 @@ class DefaultProductServiceTest {
 
     @Test
     public void whenValidId_thenProductShouldBeFound() {
-        UUID id = PRODUCT_ID;
         String name = "Shirt";
         String imageURL = "/shirt.jpg";
         String size = "L";
 
-        Product wantedProduct = productService.getSingleProduct(id);
+        Product wantedProduct = productService.getSingleProduct(PRODUCT_ID);
 
-        assertEquals(id, wantedProduct.getId());
+        assertEquals(PRODUCT_ID, wantedProduct.getId());
         assertEquals(name, wantedProduct.getName());
         assertEquals(imageURL, wantedProduct.getImageURL());
         assertEquals(size, wantedProduct.getSize());
