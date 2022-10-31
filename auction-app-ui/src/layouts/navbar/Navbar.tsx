@@ -18,7 +18,9 @@ const Navbar = () => {
       </div>
       <div className={classes.searchField}>
         <input
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => setInputContent(event.target.value)}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            setInputContent(event.target.value)
+          }
           type='text'
           placeholder='Try enter: Shoes'
           value={inputContent}

@@ -12,14 +12,13 @@
   flex-grow: 0;
   width: 25%;
 }
-
 .searchField {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 12px 20px;
-  height: 57.94px;
+  height: 58px;
   border: 1px solid var(--grey-color);
   width: 55%;
 }
