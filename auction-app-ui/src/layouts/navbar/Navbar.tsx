@@ -1,8 +1,8 @@
 import auctionAppLogo from '../../assets/logo/auctionAppLogo.png';
-import search from '../../assets/icons/search.png';
+import searchIcon from '../../assets/icons/searchIcon.png';
 import xIcon from '../../assets/icons/xIcon.png';
 import classes from './Navbar.module.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
@@ -18,7 +18,7 @@ const Navbar = () => {
       </div>
       <div className={classes.searchField}>
         <input
-          onChange={(event: any) => setInputContent(event.target.value)}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => setInputContent(event.target.value)}
           type='text'
           placeholder='Try enter: Shoes'
           value={inputContent}
@@ -27,7 +27,7 @@ const Navbar = () => {
           {inputContent.length !== 0 && (
             <img src={xIcon} alt='Close' onClick={() => setInputContent('')} />
           )}
-          <img src={search} alt='Search' onClick={searchHandler} />
+          <img src={searchIcon} alt='Search' onClick={searchHandler} />
         </div>
       </div>
       <div className={classes.navbarOptions}>

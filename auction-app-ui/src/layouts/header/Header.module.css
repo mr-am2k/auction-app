@@ -18,9 +18,9 @@
   font-weight: 700;
   line-height: 17px;
 }
-.headerMessage p,
-.headerMessage a{
-    margin: 0;
+.headerMessage p{
+  color: var(--white-color);
+  padding: 0;
 }
 .headerMessage span {
   padding: 0 1rem;

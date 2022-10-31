@@ -4,6 +4,7 @@
   display: flex;
   justify-content: space-between;
   padding: 2rem 12rem 5rem;
+  margin-top: 10rem;
 }
 p {
   margin: 0;

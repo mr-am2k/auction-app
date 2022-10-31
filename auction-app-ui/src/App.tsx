@@ -1,4 +1,5 @@
 import { Navbar, Header, Footer } from './layouts';
+import { PrivacyAndPolicy, TermsAndConditions } from './pages';
 import { Routes, Route } from 'react-router-dom';
 import classes from './App.module.css';
 
@@ -15,8 +16,16 @@ const App = () => {
                 <Navbar />
               </header>
               <main>
-                <p>Main content</p>
-                {/*Here will be defined all other routes*/}
+                <Routes>
+                  <Route
+                    path='/privacy-and-policy'
+                    element={<PrivacyAndPolicy />}
+                  />
+                  <Route
+                    path='/terms-and-conditions'
+                    element={<TermsAndConditions />}
+                  />
+                </Routes>
               </main>
               <footer>
                 <Footer />
