@@ -1,0 +1,35 @@
+.header {
+  background-color: var(--black-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 12rem;
+}
+.headerIcons a {
+  padding: 0 0.5rem;
+}
+.headerMessage {
+  display: flex;
+  align-items: center;
+  color: var(--white-color);
+  font-family: var(--font-family);
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17px;
+}
+.headerMessage p,
+.headerMessage a{
+    margin: 0;
+}
+.headerMessage span {
+  padding: 0 1rem;
+  color: var(--grey-color);
+}
+.headerMessage a{
+    text-decoration: none;
+    color: var(--white-color);
+}
+.loginOrRegister:hover {
+  cursor: pointer;
+}
