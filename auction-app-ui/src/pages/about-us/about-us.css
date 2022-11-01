@@ -1,3 +1,8 @@
+.c-page-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
 .c-about-us {
   padding: 0 12rem;
   font-family: var(--font-family);
@@ -11,9 +16,34 @@ h1 {
 }
 
 .c-content {
-  width: 50%;
+  width: 45rem;
 }
 
 p {
   padding-bottom: 1rem;
+}
+
+.c-main-image {
+  background-image: url('assets/images/about-us-image-1.png');
+  width: 548px;
+  height: 381px;
+}
+
+.c-other-images {
+  display: flex;
+  margin-top: 1.5rem;
+  gap: 1.5rem;
+}
+
+.c-image-2,
+.c-image-3 {
+  width: 262px;
+  height: 199px;
+}
+
+.c-image-2 {
+  background-image: url('assets/images/about-us-image-2.png');
+}
+.c-image-3 {
+  background-image: url('assets/images/about-us-image-3.png');
 }
