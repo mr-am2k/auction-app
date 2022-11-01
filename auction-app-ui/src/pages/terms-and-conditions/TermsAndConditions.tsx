@@ -1,4 +1,4 @@
-import './terms-and-conditions.css';
+import './terms-and-conditions.scss';
 
 const TermsAndConditions = () => {
   return (

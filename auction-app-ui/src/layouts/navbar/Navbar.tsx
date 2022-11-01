@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import auctionAppLogo from 'assets/logo/auction-app-logo.svg';
 import { SearchIcon, CloseIcon } from 'assets/icons';
-import './navbar.css';
+import './navbar.scss';
 
 const Navbar = () => {
   const [inputContent, setInputContent] = useState('');

@@ -1,4 +1,4 @@
-import './privacy-and-policy.css';
+import './privacy-and-policy.scss';
 
 const PrivacyAndPolicy = () => {
   return (

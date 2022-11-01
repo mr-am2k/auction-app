@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import enStrings from '../../util/en_string';
 
 import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
-import './footer.css';
+import './footer.scss';
 
 const Footer = () => {
   return (

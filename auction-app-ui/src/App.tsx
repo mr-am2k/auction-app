@@ -3,11 +3,11 @@ import { Routes, Route } from 'react-router-dom';
 import routes from './util/routes';
 
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
-import classes from './App.module.css';
+import './app.scss'
 
 const App = () => {
   return (
-    <div className={classes['c-page-wrapper']}>
+    <div className='c-page-wrapper'>
       <Routes>
         <Route
           path='/*'

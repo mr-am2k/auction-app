@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
-import './header.css';
+import './header.scss';
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);

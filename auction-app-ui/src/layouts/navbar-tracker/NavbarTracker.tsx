@@ -2,7 +2,7 @@ import { useLocation } from 'react-router';
 import getPathName from 'util/get_path_name';
 
 import { ArrowIcon } from 'assets/icons';
-import './navbar-tracker.css';
+import './navbar-tracker.scss';
 
 const NavbarTracker = () => {
   const location = useLocation();

@@ -1,0 +1,74 @@
+@import '/src/sassStyles/variables';
+@import '/src/sassStyles/mixin';
+
+.c-navbar {
+  @include flexDisplay(space-between, center);
+  padding: 1rem 12rem;
+  background-color: $whiteColor;
+  font-family: $fontFamily;
+
+  .c-navbar-logo {
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    width: 25%;
+  }
+
+  .c-search-field {
+    @include flexDisplay(space-between, center);
+    flex-direction: row;
+    padding: 12px 20px;
+    height: 58px;
+    border: 1px solid $greyColor;
+    width: 55%;
+
+    input {
+      outline: none;
+      border: none;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 22px;
+      letter-spacing: 0.63px;
+      color: $blackColor;
+      width: 60%;
+    }
+
+    input::placeholder {
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 19px;
+      color: $greyColor;
+    }
+
+    span {
+      cursor: pointer;
+    }
+
+    .c-search-input-icons {
+      @include flexDisplay(center, center);
+      gap: 1rem;
+    }
+  }
+
+  .c-navbar-options {
+    width: 20%;
+    @include flexDisplay(space-between, center);
+    padding-left: 4rem;
+
+    a {
+      text-decoration: none;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 19px;
+      color: $blackColor;
+      flex: none;
+      order: 0;
+      flex-grow: 0;
+    }
+
+    a:focus {
+      font-weight: 700;
+      color: $purpleColor;
+    }
+  }
+}
