@@ -1,4 +1,4 @@
-export default function TwitterIcon() {
+const FacebookIcon = () => {
   return (
     <svg
       width='24'
@@ -15,4 +15,6 @@ export default function TwitterIcon() {
       />
     </svg>
   );
-}
+};
+
+export default FacebookIcon;

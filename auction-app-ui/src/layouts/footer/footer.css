@@ -44,6 +44,6 @@ p {
   color: var(--smoke-white-color);
 }
 
-.c-footer-icons img {
+.c-footer-icons svg {
   padding-right: 1rem;
 }

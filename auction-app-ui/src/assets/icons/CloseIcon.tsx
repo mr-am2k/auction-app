@@ -1,4 +1,4 @@
-export default function TwitterIcon() {
+const CloseIcon = () => {
   return (
     <svg
       width='11'
@@ -13,4 +13,6 @@ export default function TwitterIcon() {
       />
     </svg>
   );
-}
+};
+
+export default CloseIcon;

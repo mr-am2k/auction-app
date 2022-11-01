@@ -1,8 +1,8 @@
 import { PrivacyAndPolicy, TermsAndConditions, AboutUs } from './pages';
 import { Routes, Route } from 'react-router-dom';
-import routes from './util/routes'
+import routes from './util/routes';
 
-import { Navbar, Header, Footer } from './layouts';
+import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import classes from './App.module.css';
 
 const App = () => {
@@ -16,6 +16,7 @@ const App = () => {
               <header>
                 <Header />
                 <Navbar />
+                <NavbarTracker />
               </header>
               <main>
                 <Routes>

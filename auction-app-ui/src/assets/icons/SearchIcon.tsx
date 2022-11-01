@@ -1,4 +1,4 @@
-export default function TwitterIcon() {
+const SearchIcon = () => {
   return (
     <svg
       width='18'
@@ -13,4 +13,6 @@ export default function TwitterIcon() {
       />
     </svg>
   );
-}
+};
+
+export default SearchIcon;
