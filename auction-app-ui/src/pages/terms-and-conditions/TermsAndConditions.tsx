@@ -1,7 +1,8 @@
-import classes from './TermsAndConditions.module.css';
+import './terms-and-conditions.css';
+
 const TermsAndConditions = () => {
   return (
-    <div className={classes.termsAndCondition}>
+    <div className='c-terms-and-conditions'>
       <h1>Some title here</h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis consequat

@@ -1,9 +1,9 @@
-import auctionAppLogo from '../../assets/logo/auctionAppLogo.png';
-import searchIcon from '../../assets/icons/searchIcon.png';
-import xIcon from '../../assets/icons/xIcon.png';
-import classes from './Navbar.module.css';
-import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+
+import auctionAppLogo from 'assets/logo/auction-app-logo.svg';
+import { SearchIcon, CloseIcon } from 'assets/icons';
+import './navbar.css';
 
 const Navbar = () => {
   const [inputContent, setInputContent] = useState('');
@@ -12,11 +12,11 @@ const Navbar = () => {
   };
 
   return (
-    <div className={classes.navbar}>
-      <div className={classes.appLogo}>
+    <div className='c-navbar'>
+      <div className='c-navbar-logo'>
         <img src={auctionAppLogo} alt='Auction App' />
       </div>
-      <div className={classes.searchField}>
+      <div className='c-search-field'>
         <input
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             setInputContent(event.target.value)
@@ -25,14 +25,18 @@ const Navbar = () => {
           placeholder='Try enter: Shoes'
           value={inputContent}
         />
-        <div className={classes.searchInputIcons}>
+        <div className='c-search-input-icons'>
           {inputContent.length !== 0 && (
-            <img src={xIcon} alt='Close' onClick={() => setInputContent('')} />
+            <span onClick={() => setInputContent('')}>
+              <CloseIcon />
+            </span>
           )}
-          <img src={searchIcon} alt='Search' onClick={searchHandler} />
+          <span onClick={searchHandler}>
+            <SearchIcon />
+          </span>
         </div>
       </div>
-      <div className={classes.navbarOptions}>
+      <div className='c-navbar-options'>
         <Link to='/'>HOME</Link>
         <Link to='/shop'>SHOP</Link>
         <Link to='/my-account'>MY ACCOUNT</Link>

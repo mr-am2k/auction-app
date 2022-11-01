@@ -1,4 +1,4 @@
-.navbar {
+.c-navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -6,13 +6,15 @@
   background-color: var(--white-color);
   font-family: var(--font-family);
 }
-.appLogo {
+
+.c-app-logo {
   flex: none;
   order: 0;
   flex-grow: 0;
   width: 25%;
 }
-.searchField {
+
+.c-search-field {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -22,7 +24,8 @@
   border: 1px solid var(--grey-color);
   width: 55%;
 }
-.searchField input {
+
+.c-search-field input {
   outline: none;
   border: none;
   font-weight: 400;
@@ -32,28 +35,33 @@
   color: var(--black-color);
   width: 60%;
 }
-.searchField input::placeholder {
+
+.c-search-field input::placeholder {
   font-weight: 300;
   font-size: 16px;
   line-height: 19px;
   color: var(--grey-color);
 }
-.searchField img {
+
+.c-search-field span {
   cursor: pointer;
 }
-.searchInputIcons {
+
+.c-search-input-icons {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
 }
-.navbarOptions {
+
+.c-navbar-options {
   width: 20%;
   display: flex;
   justify-content: space-between;
   padding-left: 4rem;
 }
-.navbarOptions a {
+
+.c-navbar-options a {
   text-decoration: none;
   font-style: normal;
   font-weight: 300;
@@ -64,7 +72,8 @@
   order: 0;
   flex-grow: 0;
 }
-.navbarOptions a:focus {
+
+.c-navbar-options a:focus {
   font-weight: 700;
   color: var(--purple-color);
 }

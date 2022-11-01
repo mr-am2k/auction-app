@@ -1,9 +1,9 @@
-import classes from './PrivacyAndPolicy.module.css';
+import './privacy-and-policy.css';
 
 const PrivacyAndPolicy = () => {
   return (
-    <div className={classes.privacyAndPolicy}>
-      <div className={classes.content}>
+    <div className='c-privacy-and-policy'>
+      <div className='c-content'>
         <h1>Some title here</h1>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis

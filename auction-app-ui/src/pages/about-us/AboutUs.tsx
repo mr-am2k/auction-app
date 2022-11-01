@@ -1,10 +1,10 @@
-import classes from './AboutUs.module.css';
+import './about-us.css';
 
 const AboutUs = () => {
   return (
-    <div className={classes.aboutUs}>
+    <div className='c-about-us'>
       <h1>About Us</h1>
-      <div className={classes.content}>
+      <div className='c-content'>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
           consequat pretium turpis, in eleifend mi laoreet sed. Donec ipsum
@@ -42,7 +42,7 @@ const AboutUs = () => {
           Curabitur quis tincidunt mauris.
         </p>
       </div>
-      <div className={classes.images}></div>
+      <div className='c-images'></div>
     </div>
   );
 };

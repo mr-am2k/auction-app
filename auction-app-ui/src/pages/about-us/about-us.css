@@ -1,17 +1,19 @@
-.aboutUs {
+.c-about-us {
   padding: 0 12rem;
   font-family: var(--font-family);
   font-weight: 400;
 }
+
 h1 {
   line-height: 51px;
   letter-spacing: 0.84px;
-  color: #000000;
-}
-.content {
-  width: 50%;
-}
-p{
-    padding-bottom: 1rem;
+  color: var(--dark-black-color);
 }
 
+.c-content {
+  width: 50%;
+}
+
+p {
+  padding-bottom: 1rem;
+}

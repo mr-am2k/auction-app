@@ -1,11 +1,13 @@
-import { Navbar, Header, Footer } from './layouts';
 import { PrivacyAndPolicy, TermsAndConditions, AboutUs } from './pages';
 import { Routes, Route } from 'react-router-dom';
+import routes from './util/routes'
+
+import { Navbar, Header, Footer } from './layouts';
 import classes from './App.module.css';
 
 const App = () => {
   return (
-    <div className={classes.pageWrapper}>
+    <div className={classes['c-page-wrapper']}>
       <Routes>
         <Route
           path='/*'
@@ -18,14 +20,14 @@ const App = () => {
               <main>
                 <Routes>
                   <Route
-                    path='/privacy-and-policy'
+                    path={routes.PRIVACY_AND_POLICY}
                     element={<PrivacyAndPolicy />}
                   />
                   <Route
-                    path='/terms-and-conditions'
+                    path={routes.TERMS_AND_CONDITIONS}
                     element={<TermsAndConditions />}
                   />
-                  <Route path='/about-us' element={<AboutUs />} />
+                  <Route path={routes.ABOUT_US} element={<AboutUs />} />
                 </Routes>
               </main>
               <footer>

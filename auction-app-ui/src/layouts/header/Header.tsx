@@ -1,36 +1,34 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import facebookIcon from '../../assets/icons/facebookIcon.png';
-import instagramIcon from '../../assets/icons/instagramIcon.png';
-import twitterIcon from '../../assets/icons/twitterIcon.png';
 
-import classes from './Header.module.css';
+import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
+import './header.css';
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   return (
-    <div className={classes.header}>
-      <div className={classes.headerIcons}>
+    <div className='c-header'>
+      <div className='c-header-icons'>
         <a href='http://www.facebook.com' target='_blank' rel='noreferrer'>
-          <img src={facebookIcon} alt='Facebook icon' />
+          <FacebookIcon />
         </a>
         <a href='http://www.instagram.com' target='_blank' rel='noreferrer'>
-          <img src={instagramIcon} alt='Instagram icon' />
+          <InstagramIcon />
         </a>
         <a href='http://www.twitter.com' target='_blank' rel='noreferrer'>
-          <img src={twitterIcon} alt='Twitter icon' />
+          <TwitterIcon />
         </a>
       </div>
-      <div className={classes.headerMessage}>
+      <div className='c-header-message'>
         {isLoggedIn && <p>Hi, John Doe</p>}
         {/* Can happen to redirect logged in user on register page and keep this message, but in future if he redirects on register/login he will be logged out, so this won't happen */}
         {!isLoggedIn && (
           <>
-            <Link to='/login' className={classes.loginOrRegister}>
+            <Link to='/login' className='c-login-or-register'>
               Login
             </Link>
             <span>or</span>
-            <Link to='/register' className={classes.loginOrRegister}>
+            <Link to='/register' className='c-login-or-register'>
               Create an Account
             </Link>
           </>
