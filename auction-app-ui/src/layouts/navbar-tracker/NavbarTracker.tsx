@@ -7,7 +7,7 @@ import './navbar-tracker.scss';
 const NavbarTracker = () => {
   const location = useLocation();
   let outputArray: string[] = [];
-  if (location.pathname.length > 1) {
+  if (location.pathname.length) {
     const pathNameArray = location.pathname.split('/');
     outputArray = [...getPathName(pathNameArray)];
   }

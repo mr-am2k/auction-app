@@ -22,6 +22,7 @@ const getPathName = (pathArray: string[]): string[] => {
   for (let i = 0; i < outputArray.length; i++) {
     outputArray[i] = correctSpelling(outputArray[i]);
   }
+
   return outputArray;
 };
 

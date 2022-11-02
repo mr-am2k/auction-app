@@ -1,9 +1,9 @@
 import { PrivacyAndPolicy, TermsAndConditions, AboutUs } from './pages';
 import { Routes, Route } from 'react-router-dom';
-import routes from './util/routes';
+import ROUTES from './util/routes';
 
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
-import './app.scss'
+import './app.scss';
 
 const App = () => {
   return (
@@ -13,27 +13,23 @@ const App = () => {
           path='/*'
           element={
             <>
-              <header>
-                <Header />
-                <Navbar />
-                <NavbarTracker />
-              </header>
+              <Header />
+              <Navbar />
+              <NavbarTracker />
               <main>
                 <Routes>
                   <Route
-                    path={routes.PRIVACY_AND_POLICY}
+                    path={ROUTES.PRIVACY_AND_POLICY}
                     element={<PrivacyAndPolicy />}
                   />
                   <Route
-                    path={routes.TERMS_AND_CONDITIONS}
+                    path={ROUTES.TERMS_AND_CONDITIONS}
                     element={<TermsAndConditions />}
                   />
-                  <Route path={routes.ABOUT_US} element={<AboutUs />} />
+                  <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
                 </Routes>
               </main>
-              <footer>
-                <Footer />
-              </footer>
+              <Footer />
             </>
           }
         />

@@ -4,6 +4,7 @@
   padding: 0 12rem;
   font-family: $fontFamily;
   font-weight: 400;
+  height: 800px;
 
   h1 {
     line-height: 51px;
@@ -21,11 +22,14 @@
 
       p {
         padding-bottom: 1rem;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        color: $greyColor;
       }
     }
 
     .c-images {
-      
       .c-main-image {
         background-image: url('~/src/assets/images/about-us-image-1.png');
         width: 548px;
