@@ -4,7 +4,7 @@ export default {
   "Footer.PrivacyAndPolicy": 'Privacy and policy',
   "Footer.Auction": 'AUCTION',
   "Footer.GetInTouch": 'GET IN TOUCH',
-  "Navbar.Home": 'HOME',
-  "Navbar.Shop": 'SHOP',
-  "Navbar.MyAccount": 'MY ACCOUNT',
+  "Navbar.Home": 'Home',
+  "Navbar.Shop": 'Shope',
+  "Navbar.MyAccount": 'My Account',
 };

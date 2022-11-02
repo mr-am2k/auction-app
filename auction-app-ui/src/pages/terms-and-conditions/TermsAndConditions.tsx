@@ -1,6 +1,19 @@
+import { useContext, useEffect } from 'react';
+import PageContext from 'store/page-context';
+import EN_STRINGS from 'util/en_strings';
+
 import './terms-and-conditions.scss';
 
 const TermsAndConditions = () => {
+  const pageCtx = useContext(PageContext);
+
+  useEffect(() => {
+    pageCtx.setNavbarItems([
+      EN_STRINGS['Navbar.Home'],
+      EN_STRINGS['Footer.TermsAndConditions'],
+    ]);
+  }, []);
+
   return (
     <div className='c-terms-and-conditions'>
       <h1>Some title here</h1>

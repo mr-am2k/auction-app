@@ -1,6 +1,19 @@
+import { useContext, useEffect } from 'react';
+import PageContext from 'store/page-context';
+import EN_STRINGS from 'util/en_strings';
+
 import './privacy-and-policy.scss';
 
 const PrivacyAndPolicy = () => {
+  const pageCtx = useContext(PageContext);
+  
+  useEffect(() => {
+    pageCtx.setNavbarItems([
+      EN_STRINGS['Navbar.Home'],
+      EN_STRINGS['Footer.PrivacyAndPolicy'],
+    ]);
+  }, []);
+
   return (
     <div className='c-privacy-and-policy'>
       <div className='c-content'>

@@ -11,6 +11,7 @@ const Navbar = () => {
   const handleSearch = () => {
     console.log(inputContent);
   };
+
   return (
     <div className='c-navbar'>
       <div className='c-navbar-logo'>
@@ -37,9 +38,11 @@ const Navbar = () => {
         </div>
       </div>
       <div className='c-navbar-options'>
-        <Link to='/'>{EN_STRINGS['Navbar.Home']}</Link>
-        <Link to='/shop'>{EN_STRINGS['Navbar.Shop']}</Link>
-        <Link to='/my-account'>{EN_STRINGS['Navbar.MyAccount']}</Link>
+        <Link to='/'>{EN_STRINGS['Navbar.Home'].toUpperCase()}</Link>
+        <Link to='/shop'>{EN_STRINGS['Navbar.Shop'].toUpperCase()}</Link>
+        <Link to='/my-account'>
+          {EN_STRINGS['Navbar.MyAccount'].toUpperCase()}
+        </Link>
       </div>
     </div>
   );
