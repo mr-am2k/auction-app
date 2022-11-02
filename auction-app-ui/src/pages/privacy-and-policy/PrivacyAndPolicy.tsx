@@ -5,10 +5,10 @@ import EN_STRINGS from 'util/en_strings';
 import './privacy-and-policy.scss';
 
 const PrivacyAndPolicy = () => {
-  const pageCtx = useContext(PageContext);
+  const { setNavbarItems } = useContext(PageContext);
 
   useEffect(() => {
-    pageCtx.setNavbarItems([
+    setNavbarItems([
       EN_STRINGS['Navbar.Home'],
       EN_STRINGS['Footer.PrivacyAndPolicy'],
     ]);
@@ -33,6 +33,7 @@ const PrivacyAndPolicy = () => {
           luctus placerat. Sed venenatis ornare augue, et viverra dolor
           ullamcorper id. Duis id quam hendrerit, mollis ex ut, varius ipsum.
         </p>
+
         <p>
           Etiam bibendum viverra nulla, at cursus leo fringilla eget. In
           pellentesque viverra elit id vestibulum. Sed eget leo suscipit,
@@ -45,6 +46,7 @@ const PrivacyAndPolicy = () => {
           scelerisque vitae vel leo. Cras interdum tellus in sapien fermentum
           consequat.
         </p>
+
         <p>
           Sed sollicitudin non elit eu faucibus. Phasellus et enim ultricies,
           tincidunt velit eu, dictum dui. Proin laoreet semper sapien vitae

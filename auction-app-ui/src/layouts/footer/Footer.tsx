@@ -18,10 +18,11 @@ const Footer = () => {
           {EN_STRINGS['Footer.PrivacyAndPolicy']}
         </Link>
       </div>
+
       <div className='c-contact-part'>
         <p className='c-title'>{EN_STRINGS['Footer.GetInTouch']}</p>
-        <p>Call Us at {CONSTANTS['Footer.PhoneNumber']}</p>
-        <p>{CONSTANTS['Footer.Email']}</p>
+        <p>Call Us at {CONSTANTS.PHONE_NUMBER}</p>
+        <p>{CONSTANTS.EMAIL}</p>
         <div className='c-footer-icons'>
           <a href='http://www.facebook.com' target='_blank' rel='noreferrer'>
             <FacebookIcon />

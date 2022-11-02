@@ -5,13 +5,10 @@ import EN_STRINGS from 'util/en_strings';
 import './about-us.scss';
 
 const AboutUs = () => {
-  const pageCtx = useContext(PageContext);
+  const { setNavbarItems } = useContext(PageContext);
 
   useEffect(() => {
-    pageCtx.setNavbarItems([
-      EN_STRINGS['Navbar.Home'],
-      EN_STRINGS['Footer.AboutUs'],
-    ]);
+    setNavbarItems([EN_STRINGS['Navbar.Home'], EN_STRINGS['Footer.AboutUs']]);
   }, []);
 
   return (
@@ -56,6 +53,7 @@ const AboutUs = () => {
             turpis. Curabitur quis tincidunt mauris.
           </p>
         </div>
+
         <div className='c-images'>
           <div className='c-main-image'></div>
           <div className='c-other-images'>

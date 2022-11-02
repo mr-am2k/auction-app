@@ -1,5 +1,5 @@
-@import '/src/sassStyles/variables';
-@import '/src/sassStyles/mixin';
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
 
 .c-navbar {
   @include flexDisplay(space-between, center);

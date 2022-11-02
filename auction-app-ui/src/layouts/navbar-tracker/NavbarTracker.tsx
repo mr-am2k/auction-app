@@ -1,14 +1,14 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import PageContext from 'store/page-context';
 
 import { ArrowIcon } from 'assets/icons';
 import './navbar-tracker.scss';
 
 const NavbarTracker = () => {
-  const pageCtx = useContext(PageContext);
+  const { navbarItems } = useContext(PageContext);
 
-  const listOfPaths = pageCtx.navbarItems.map(function (word, index: number) {
-    if (index + 1 !== pageCtx.navbarItems.length && index !== 0) {
+  const listOfPaths = navbarItems.map(function (word, index: number) {
+    if (index + 1 !== navbarItems.length && index !== 0) {
       return (
         <span key={index} className='c-path-item'>
           <ArrowIcon />
@@ -16,7 +16,8 @@ const NavbarTracker = () => {
         </span>
       );
     }
-    if (index + 1 === pageCtx.navbarItems.length) {
+
+    if (index + 1 === navbarItems.length) {
       return (
         <span className='c-last-item c-path-item' key={index}>
           <ArrowIcon />
@@ -26,15 +27,16 @@ const NavbarTracker = () => {
     }
   });
 
-  if (pageCtx.navbarItems.length < 1) {
+  if (!navbarItems.length) {
     return <div className='c-empty-div'></div>;
   }
+
   return (
     <div className='c-navbar-tracker'>
-      <div className='c-current-page'>{pageCtx.navbarItems[0]}</div>
+      <div className='c-current-page'>{navbarItems[0]}</div>
       <div className='c-page-path'>
         <>
-          <span className='c-path-item'>{pageCtx.navbarItems[0]}</span>
+          <span className='c-path-item'>{navbarItems[0]}</span>
           {listOfPaths}
         </>
       </div>

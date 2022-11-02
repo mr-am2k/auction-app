@@ -5,6 +5,8 @@ export default {
   "Footer.Auction": 'AUCTION',
   "Footer.GetInTouch": 'GET IN TOUCH',
   "Navbar.Home": 'Home',
-  "Navbar.Shop": 'Shope',
+  "Navbar.Shop": 'Shop',
   "Navbar.MyAccount": 'My Account',
+  "Header.Login": 'Login',
+  "Header.CreateAccount": 'Create Account',
 };

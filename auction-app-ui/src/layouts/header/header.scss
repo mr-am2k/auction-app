@@ -1,5 +1,5 @@
-@import '/src/sassStyles/variables';
-@import '/src/sassStyles/mixin';
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
 
 .c-header {
   background-color: $blackColor;
@@ -22,7 +22,7 @@
 
     p {
       color: $whiteColor;
-      padding: 0;
+      margin: 0;
     }
 
     span {
@@ -35,7 +35,7 @@
       color: $whiteColor;
     }
 
-    .c-login-or-register:hover {
+    .c-header-link-item:hover {
       cursor: pointer;
     }
   }

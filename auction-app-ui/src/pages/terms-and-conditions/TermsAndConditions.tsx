@@ -5,10 +5,10 @@ import EN_STRINGS from 'util/en_strings';
 import './terms-and-conditions.scss';
 
 const TermsAndConditions = () => {
-  const pageCtx = useContext(PageContext);
+  const { setNavbarItems } = useContext(PageContext);
 
   useEffect(() => {
-    pageCtx.setNavbarItems([
+    setNavbarItems([
       EN_STRINGS['Navbar.Home'],
       EN_STRINGS['Footer.TermsAndConditions'],
     ]);
@@ -26,6 +26,7 @@ const TermsAndConditions = () => {
         laoreet quam molestie. In id elementum turpis. Curabitur quis tincidunt
         mauris.
       </p>
+
       <h3>Some title here</h3>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis consequat
@@ -36,6 +37,7 @@ const TermsAndConditions = () => {
         laoreet quam molestie. In id elementum turpis. Curabitur quis tincidunt
         mauris.
       </p>
+
       <h3>Some title here</h3>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis consequat

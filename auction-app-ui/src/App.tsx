@@ -32,6 +32,7 @@ const App = () => {
                     <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
                   </Routes>
                 </main>
+                
                 <Footer />
               </>
             }

@@ -1,4 +1,4 @@
 export default {
-  'Footer.PhoneNumber': '+123 797-567-2535',
-  'Footer.Email': 'support@auction.com',
+  'PHONE_NUMBER': '+123 797-567-2535',
+  'EMAIL': 'support@auction.com',
 };
