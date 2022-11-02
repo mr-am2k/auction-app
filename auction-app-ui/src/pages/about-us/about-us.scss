@@ -1,20 +1,20 @@
 @import '/src/sassStyles/variables';
+@import '/src/sassStyles/mixin';
 
 .c-about-us {
   padding: 0 12rem;
   font-family: $fontFamily;
-  font-weight: 400;
+  font-weight: $mediumFontWeight;
   height: 800px;
 
   h1 {
-    line-height: 51px;
-    letter-spacing: 0.84px;
+    line-height: $headingLineHeight;
+    letter-spacing: $letterSpacing;
     color: $darkBlackColor;
   }
 
   .c-page-wrapper {
-    display: flex;
-    justify-content: space-between;
+    @include flexDisplay('center', space-between);
     flex-direction: row;
 
     .c-content {
@@ -22,9 +22,9 @@
 
       p {
         padding-bottom: 1rem;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 24px;
+        font-weight: $mediumFontWeight;
+        font-size: $fontSize;
+        line-height: $paragraphLineHeight;
         color: $greyColor;
       }
     }

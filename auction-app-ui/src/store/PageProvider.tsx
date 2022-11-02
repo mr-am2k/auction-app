@@ -22,11 +22,15 @@ const PageProvider: React.FC<Props> = ({ children }) => {
   const pageContext: AppContextInterface = {
     navbarItems: navbarItems,
     setNavbarItems: handelNavbarItemsUpdate,
-  }
+  };
 
   //those are three routes that shouldn't have navbar tracker, and since there is no components for them, navbarItems will be set to empty array here, later will be moved to the components
-  if(location.pathname === '/' || location.pathname === '/shop' || location.pathname === '/my-account' ) {
-    pageContext.navbarItems = []
+  if (
+    location.pathname === '/' ||
+    location.pathname === '/shop' ||
+    location.pathname === '/my-account'
+  ) {
+    pageContext.navbarItems = [];
   }
 
   return (

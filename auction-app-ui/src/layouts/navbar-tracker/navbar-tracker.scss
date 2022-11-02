@@ -13,9 +13,9 @@
   font-family: $fontFamily;
 
   .c-current-page {
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 24px;
+    font-weight: $highFontWeight;
+    font-size: $fontSize;
+    line-height: $paragraphLineHeight;
     color: $blackColor;
   }
 
@@ -26,15 +26,15 @@
       padding-left: 1rem;
       @include flexDisplay(flex-start, center);
       gap: 1rem;
-      font-weight: 400;
-      font-size: 18px;
-      line-height: 22px;
+      font-weight: $mediumFontWeight;
+      font-size: $fontSize;
+      line-height: $paragraphLineHeight;
       color: $greyColor;
     }
 
     .c-last-item {
       font-weight: 700;
-      font-size: 16px;
+      font-size: $fontSize;
       line-height: 19px;
       text-align: right;
       color: $purpleColor;

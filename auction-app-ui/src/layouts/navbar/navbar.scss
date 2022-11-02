@@ -25,7 +25,7 @@
     input {
       outline: none;
       border: none;
-      font-weight: 400;
+      font-weight: $mediumFontWeight;
       font-size: 18px;
       line-height: 22px;
       letter-spacing: 0.63px;
@@ -35,7 +35,7 @@
 
     input::placeholder {
       font-weight: 300;
-      font-size: 16px;
+      font-size: $fontSize;
       line-height: 19px;
       color: $greyColor;
     }
@@ -58,7 +58,7 @@
     a {
       text-decoration: none;
       font-weight: 300;
-      font-size: 16px;
+      font-size: $fontSize;
       line-height: 19px;
       color: $blackColor;
       flex: none;
@@ -67,7 +67,7 @@
     }
 
     a:focus {
-      font-weight: 700;
+      font-weight: $highFontWeight;
       color: $purpleColor;
     }
   }

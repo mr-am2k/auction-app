@@ -6,7 +6,7 @@ import './privacy-and-policy.scss';
 
 const PrivacyAndPolicy = () => {
   const pageCtx = useContext(PageContext);
-  
+
   useEffect(() => {
     pageCtx.setNavbarItems([
       EN_STRINGS['Navbar.Home'],

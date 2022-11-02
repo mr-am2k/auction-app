@@ -3,18 +3,18 @@
 .c-terms-and-conditions {
   padding: 0 40rem;
   font-family: $fontFamily;
-  font-weight: 400;
+  font-weight: $mediumFontWeight
 
   h1 {
     font-size: 32px;
-    line-height: 51px;
-    letter-spacing: 0.84px;
+    line-height: $headingLineHeight;
+    letter-spacing: $letterSpacing;
     color: $blackColor;
   }
 
   p {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: $fontSize;
+    line-height: $paragraphLineHeight;
     color: $greyColor;
   }
 
