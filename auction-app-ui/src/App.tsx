@@ -1,4 +1,4 @@
-import { PrivacyAndPolicy, TermsAndConditions, AboutUs } from './pages';
+import { PrivacyAndPolicy, TermsAndConditions, AboutUs, Home } from './pages';
 import { Routes, Route } from 'react-router-dom';
 import ROUTES from './util/routes';
 
@@ -30,6 +30,7 @@ const App = () => {
                       element={<TermsAndConditions />}
                     />
                     <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
+                    <Route path='/' element={<Home/>} />
                   </Routes>
                 </main>
                 

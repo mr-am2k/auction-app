@@ -1,0 +1,26 @@
+@import '/src/scss/mixin';
+@import '/src/scss/variables';
+
+.c-home-wrapper {
+  padding-top: 2rem;
+
+  .c-top-part {
+    @include flexDisplay(space-between, center);
+    flex-direction: row;
+    padding: 0 12rem;
+
+    background-color: $lightGreyColor;
+
+    .c-categories {
+      font-family: $fontFamily;
+
+      .c-category-heading {
+        font-weight: $highFontWeight;
+        font-size: $fontSize;
+        line-height: $paragraphLineHeight;
+        color: $purpleColor;
+        padding: 16px;
+      }
+    }
+  }
+}

@@ -9,7 +9,7 @@
   height: 60px;
   @include flexDisplay(space-between, center);
   padding: 0 12rem;
-  background-color: $navbarTrackerWhiteColor;
+  background-color: $lightGreyColor;
   font-family: $fontFamily;
 
   .c-current-page {
