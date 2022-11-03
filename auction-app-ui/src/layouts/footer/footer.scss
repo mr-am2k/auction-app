@@ -1,0 +1,56 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
+
+.c-footer {
+  background-color: $blackColor;
+  font-family: $fontFamily;
+  @include flexDisplay(space-between, center);
+  padding: 2rem 12rem 5rem;
+  margin-top: 10rem;
+
+  p {
+    margin: 0;
+  }
+
+  .c-auction-part {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .c-title {
+      font-weight: $highFontWeight;
+      font-size: $fontSize;
+      line-height: $paragraphLineHeight;
+      color: $whiteColor;
+      opacity: 0.5;
+    }
+
+    a {
+      text-decoration: none;
+      color: $whiteColor;
+      font-weight: $highFontWeight;
+      font-size: $fontSize;
+      line-height: $paragraphLineHeight;
+      color: $smokeWhiteColor;
+    }
+  }
+
+  .c-contact-part {
+    p {
+      display: flex;
+      flex-direction: column;
+      padding-top: 1rem;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+      color: $smokeWhiteColor;
+    }
+
+    .c-footer-icons {
+      svg {
+        padding-top: 1rem;
+        padding-right: 1rem;
+      }
+    }
+  }
+}

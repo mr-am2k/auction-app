@@ -1,0 +1,42 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
+
+.c-header {
+  background-color: $blackColor;
+  @include flexDisplay(space-between, center);
+  padding: 0.5rem 12rem;
+
+  .c-header-icons {
+    a {
+      padding: 0 0.5rem;
+    }
+  }
+
+  .c-header-message {
+    @include flexDisplay(center, center);
+    color: $whiteColor;
+    font-family: $fontFamily;
+    font-size: 14px;
+    font-weight: $highFontWeight;
+    line-height: 17px;
+
+    p {
+      color: $whiteColor;
+      margin: 0;
+    }
+
+    span {
+      padding: 0 1rem;
+      color: $greyColor;
+    }
+
+    a {
+      text-decoration: none;
+      color: $whiteColor;
+    }
+
+    .c-header-link-item:hover {
+      cursor: pointer;
+    }
+  }
+}

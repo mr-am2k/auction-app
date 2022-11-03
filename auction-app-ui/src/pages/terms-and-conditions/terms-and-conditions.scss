@@ -1,0 +1,24 @@
+@import '/src/scss/variables';
+
+.c-terms-and-conditions {
+  padding: 0 40rem;
+  font-family: $fontFamily;
+  font-weight: $mediumFontWeight
+
+  h1 {
+    font-size: 32px;
+    line-height: $headingLineHeight;
+    letter-spacing: $letterSpacing;
+    color: $blackColor;
+  }
+
+  p {
+    font-size: $fontSize;
+    line-height: $paragraphLineHeight;
+    color: $greyColor;
+  }
+
+  h3 {
+    padding-top: 1rem;
+  }
+}

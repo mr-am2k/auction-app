@@ -1,0 +1,43 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
+
+.c-empty-div {
+  display: none;
+}
+
+.c-navbar-tracker {
+  height: 60px;
+  @include flexDisplay(space-between, center);
+  padding: 0 12rem;
+  background-color: $navbarTrackerWhiteColor;
+  font-family: $fontFamily;
+
+  .c-current-page {
+    font-weight: $highFontWeight;
+    font-size: $fontSize;
+    line-height: $paragraphLineHeight;
+    color: $blackColor;
+  }
+
+  .c-page-path {
+    @include flexDisplay(center, center);
+
+    .c-path-item {
+      padding-left: 1rem;
+      @include flexDisplay(flex-start, center);
+      gap: 1rem;
+      font-weight: $mediumFontWeight;
+      font-size: $fontSize;
+      line-height: $paragraphLineHeight;
+      color: $greyColor;
+    }
+
+    .c-last-item {
+      font-weight: 700;
+      font-size: $fontSize;
+      line-height: 19px;
+      text-align: right;
+      color: $purpleColor;
+    }
+  }
+}
