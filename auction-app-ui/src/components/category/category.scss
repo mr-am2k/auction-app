@@ -4,11 +4,11 @@
 .c-category-wrapper {
   @include flexDisplay(flex-start, flex-start);
   flex-direction: row;
-  padding: 16px;
+  padding-left: 16px;
   gap: 10px;
-  width: 260px;
+  width: 330px;
   background: $whiteColor;
-  border-bottom: 1px solid $greyColor;
+  border-bottom: 2px solid $smokeWhiteColor;
 
   p {
     font-family: $fontFamily;

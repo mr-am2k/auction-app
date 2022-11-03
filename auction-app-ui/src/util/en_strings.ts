@@ -12,4 +12,8 @@ export default {
   'Navbar.InputPlaceholder': 'Try enter: Shoes',
   'Footer.CallUs': 'Call us at: ',
   'Home.Categories': 'CATEGORIES',
+  'Home.BidNow': 'Bid now',
+  'Home.NewArrivals': 'New Arrivals',
+  'Home.LastChance': 'Last Chance',
+  'HomeProducts.StartFrom' : 'Start from:'
 };
