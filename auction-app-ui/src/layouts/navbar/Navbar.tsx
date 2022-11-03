@@ -25,7 +25,7 @@ const Navbar = () => {
             setInputContent(event.target.value)
           }
           type='text'
-          placeholder='Try enter: Shoes'
+          placeholder={EN_STRINGS['Navbar.InputPlaceholder']}
           value={inputContent}
         />
 
@@ -43,7 +43,9 @@ const Navbar = () => {
 
       <div className='c-navbar-options'>
         <Link to='/'>{EN_STRINGS['Navbar.Home'].toUpperCase()}</Link>
-        <Link to={`/${ROUTES.SHOP}`}>{EN_STRINGS['Navbar.Shop'].toUpperCase()}</Link>
+        <Link to={`/${ROUTES.SHOP}`}>
+          {EN_STRINGS['Navbar.Shop'].toUpperCase()}
+        </Link>
         <Link to={`/${ROUTES.MY_ACCOUNT}`}>
           {EN_STRINGS['Navbar.MyAccount'].toUpperCase()}
         </Link>

@@ -21,7 +21,9 @@ const Footer = () => {
 
       <div className='c-contact-part'>
         <p className='c-title'>{EN_STRINGS['Footer.GetInTouch']}</p>
-        <p>Call Us at {CONSTANTS.PHONE_NUMBER}</p>
+        <p>
+          {EN_STRINGS['Footer.CallUs']} {CONSTANTS.PHONE_NUMBER}
+        </p>
         <p>{CONSTANTS.EMAIL}</p>
         <div className='c-footer-icons'>
           <a href='http://www.facebook.com' target='_blank' rel='noreferrer'>

@@ -9,4 +9,6 @@ export default {
   "Navbar.MyAccount": 'My Account',
   "Header.Login": 'Login',
   "Header.CreateAccount": 'Create Account',
+  "Navbar.InputPlaceholder": 'Try enter: Shoes',
+  "Footer.CallUs": 'Call us at: ',
 };

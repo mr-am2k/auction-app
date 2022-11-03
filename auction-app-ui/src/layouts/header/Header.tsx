@@ -8,6 +8,7 @@ import './header.scss';
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+
   return (
     <div className='c-header'>
       <div className='c-header-icons'>
