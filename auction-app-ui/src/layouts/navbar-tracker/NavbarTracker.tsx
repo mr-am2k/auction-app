@@ -11,6 +11,7 @@ const NavbarTracker = () => {
     return <div className='c-empty-div'></div>;
   }
 
+  // eslint-disable-next-line array-callback-return
   const listOfPaths = navbarItems.map(function (item, index: number) {
     if (index + 1 === navbarItems.length) {
       return (
