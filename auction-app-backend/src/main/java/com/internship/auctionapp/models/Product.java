@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
@@ -26,11 +28,15 @@ public class Product {
     @Column(name = "Name", nullable = false)
     private String name;
 
-    @Column(name = "Description", nullable = false)
+    @Column(name = "Description", nullable = false, columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "ImageURL", nullable = false)
     private String imageURL;
+
+    @Column(name = "Price", nullable = false)
+    @DecimalMin("0.5")
+    private Double price;
 
     @Column(name = "CreationDate", nullable = false)
     private LocalDate creationDate;

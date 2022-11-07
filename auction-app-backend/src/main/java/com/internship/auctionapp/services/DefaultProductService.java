@@ -28,6 +28,9 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public Product addProduct(Product product) {
+        if (product.getExpirationDate().isBefore(product.getCreationDate())) {
+            throw new IllegalArgumentException("Expiration date has to be after creation date");
+        }
         return productRepository.save(product);
     }
 
