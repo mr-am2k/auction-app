@@ -3,7 +3,6 @@ import { GreaterIcon } from 'assets/icons';
 import { Category, HomeProducts } from 'components';
 import EN_STRINGS from 'util/en_strings';
 
-import defaultImage from 'assets/images/home-main-image.png';
 import './home.scss';
 import agent from 'lib/agent';
 import { Product } from 'models/product';
@@ -41,6 +40,7 @@ const Home = () => {
   };
 
   const fetchLastChanceOrNewArrivalProducts = async (queryParam: string) => {
+    //split into 2 parts
     if (queryParam === 'last-chance' && lastChanceProducts.length < 1) {
       const data = await agent.Products.lastOrNew(queryParam);
       setLastChanceProducts(data);
@@ -54,7 +54,6 @@ const Home = () => {
   useEffect(() => {
     fetchSingleProduct();
     fetchLastChanceOrNewArrivalProducts('new-arrival');
-    console.log(lastChanceProducts);
   }, []);
 
   return (
@@ -110,12 +109,8 @@ const Home = () => {
         </div>
 
         <div className='c-items'>
-          {newArrivalsActive && (
-            <HomeProducts product={newArrivalProducts} />
-          )}
-          {lastChanceActive&& (
-            <HomeProducts product={lastChanceProducts} />
-          )}
+          {newArrivalsActive && <HomeProducts product={newArrivalProducts} />}
+          {lastChanceActive && <HomeProducts product={lastChanceProducts} />}
         </div>
       </div>
     </div>
