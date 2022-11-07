@@ -23,31 +23,39 @@ const DUMMY_CATEGORIES = [
 
 const Home = () => {
   const [randomProduct, setRandomProduct] = useState<Product>();
-  const [lastChanceProducts, setLastChanceProducts] = useState<Product[]> ([]);
-  const [newArrivalProducts, setNewArrivalProducts] = useState<Product[]> ([])
-  const [newArrivals, setNewArrivals] = useState('c-navbar-item c-focus');
-  const [lastChance, setLastChance] = useState('c-navbar-item');
+  const [lastChanceProducts, setLastChanceProducts] = useState<Product[]>([]);
+  const [newArrivalProducts, setNewArrivalProducts] = useState<Product[]>([]);
+  const [newArrivalsActive, setNewArrivalsActive] = useState(true);
+  const [lastChanceActive, setLastChanceActive] = useState(false);
 
-  const fetchSingleProduct = async() => {
+  let newArrivalsClassName = newArrivalsActive
+    ? 'c-navbar-item c-focus'
+    : 'c-navbar-item';
+  let lastChanceClassName = lastChanceActive
+    ? 'c-navbar-item c-focus'
+    : 'c-navbar-item';
+
+  const fetchSingleProduct = async () => {
     const data = await agent.Products.randomProduct();
     setRandomProduct(data);
-  }
+  };
 
-  const fetchLastChanceOrNewArrivalProducts = async(queryParam: string) => {
-    if(queryParam === 'last-chance'){
-      const data = await agent.Products.lastOrNew(queryParam)
-      setLastChanceProducts(data)
+  const fetchLastChanceOrNewArrivalProducts = async (queryParam: string) => {
+    if (queryParam === 'last-chance' && lastChanceProducts.length < 1) {
+      const data = await agent.Products.lastOrNew(queryParam);
+      setLastChanceProducts(data);
     }
-    if(queryParam === 'new-arrival') {
-      const data =  await agent.Products.lastOrNew(queryParam)
-      setNewArrivalProducts(data)
+    if (queryParam === 'new-arrival') {
+      const data = await agent.Products.lastOrNew(queryParam);
+      setNewArrivalProducts(data);
     }
-  }
+  };
 
   useEffect(() => {
     fetchSingleProduct();
-    fetchLastChanceOrNewArrivalProducts('new-arrival')
-  }, [])
+    fetchLastChanceOrNewArrivalProducts('new-arrival');
+    console.log(lastChanceProducts);
+  }, []);
 
   return (
     <div className='c-home-wrapper'>
@@ -62,39 +70,39 @@ const Home = () => {
         <div className='c-main-product'>
           <div className='c-info'>
             <h1>{randomProduct?.name}</h1>
-            <h1 className='c-price'>Start From $59.00</h1>
-            
-            <p>
-              {randomProduct?.description}
-            </p>
+            <h1 className='c-price'>
+              {EN_STRINGS['HomeProducts.StartFrom']} ${randomProduct?.price}
+            </h1>
+
+            <p>{randomProduct?.description}</p>
 
             <button>
               {EN_STRINGS['Home.BidNow']} <GreaterIcon />
             </button>
           </div>
 
-          <img src={defaultImage} alt='Highlighted product' />
+          <img src={randomProduct?.imageURL} alt='Highlighted product' />
         </div>
       </div>
 
       <div className='c-bottom-part'>
         <div className='c-navbar'>
           <p
-            className={newArrivals}
+            className={newArrivalsClassName}
             onClick={() => {
-              setNewArrivals('c-navbar-item c-focus');
-              setLastChance('c-navbar-item');
+              setNewArrivalsActive(true);
+              setLastChanceActive(false);
             }}
           >
             {EN_STRINGS['Home.NewArrivals']}
           </p>
 
           <p
-            className={lastChance}
+            className={lastChanceClassName}
             onClick={() => {
-              setLastChance('c-navbar-item  c-focus');
-              setNewArrivals('c-navbar-item');
-              fetchLastChanceOrNewArrivalProducts('last-chance')
+              setLastChanceActive(true);
+              setNewArrivalsActive(false);
+              fetchLastChanceOrNewArrivalProducts('last-chance');
             }}
           >
             {EN_STRINGS['Home.LastChance']}
@@ -102,12 +110,10 @@ const Home = () => {
         </div>
 
         <div className='c-items'>
-          {newArrivals.includes('c-focus') && (
-            <HomeProducts
-              product={newArrivalProducts}
-            />
+          {newArrivalsActive && (
+            <HomeProducts product={newArrivalProducts} />
           )}
-          {lastChance.includes('c-focus') && (
+          {lastChanceActive&& (
             <HomeProducts product={lastChanceProducts} />
           )}
         </div>

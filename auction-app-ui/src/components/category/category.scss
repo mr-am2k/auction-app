@@ -16,9 +16,9 @@
     font-size: $fontSize;
     line-height: $paragraphLineHeight;
     color: $blackColor;
-  }
 
-  p:hover{
-    cursor: pointer;
+    &:hover{
+      cursor: pointer;
+    }
   }
 }
