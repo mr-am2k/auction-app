@@ -66,7 +66,7 @@ public class DefaultProductService implements ProductService {
             return products;
         }
         if (oldOrNew.equalsIgnoreCase("new-arrival")) {
-            Pageable newArrivalsOrderingOfEightElements = PageRequest.of(0, 8, Sort.by("expirationDate").descending());
+            Pageable newArrivalsOrderingOfEightElements = PageRequest.of(0, 8, Sort.by("creationDate").descending());
             List<Product> products = productRepository.findAll(newArrivalsOrderingOfEightElements).getContent();
             return products;
         }
