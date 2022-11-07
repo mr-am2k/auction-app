@@ -33,10 +33,9 @@ class DefaultProductServiceTest {
                 .name("Shirt")
                 .description("Black shirt")
                 .imageURL("/shirt.jpg")
+                .price(52.20)
                 .creationDate(LocalDate.now())
                 .expirationDate(LocalDate.now())
-                .status("available")
-                .size("L")
                 .build();
         Mockito.when(productRepository.findById(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).thenReturn(Optional.of(product));
     }
@@ -52,6 +51,5 @@ class DefaultProductServiceTest {
         assertEquals(PRODUCT_ID, wantedProduct.getId());
         assertEquals(name, wantedProduct.getName());
         assertEquals(imageURL, wantedProduct.getImageURL());
-        assertEquals(size, wantedProduct.getSize());
     }
 }

@@ -39,10 +39,9 @@ class ProductControllerTest {
                 .name("Shirt")
                 .description("Black shirt")
                 .imageURL("/shirt.jpg")
+                .price(52.20)
                 .creationDate(LocalDate.now())
                 .expirationDate(LocalDate.now())
-                .status("available")
-                .size("L")
                 .build();
     }
 
@@ -58,10 +57,9 @@ class ProductControllerTest {
                                     "name":"Shirt",
                                     "description":"Black shirt",
                                     "imageURL": "/shirt.jpg",
+                                    "price": 52.20,
                                     "creationDate":"2022-10-27",
-                                    "expirationDate":"2022-10-27",
-                                    "status": "available",
-                                    "size": "L"
+                                    "expirationDate":"2022-10-27"
                                 }
                                                         
                         """

@@ -6,10 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -28,7 +25,7 @@ public class Product {
     @Column(name = "Name", nullable = false)
     private String name;
 
-    @Column(name = "Description", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "Description", nullable = false, columnDefinition="varchar(1000)")
     private String description;
 
     @Column(name = "ImageURL", nullable = false)
@@ -44,4 +41,12 @@ public class Product {
     @Column(name = "ExpirationDate", nullable = false)
     private LocalDate expirationDate;
 
+    public Product(String name, String description, String imageURL, Double price, LocalDate creationDate, LocalDate expirationDate) {
+        this.name = name;
+        this.description = description;
+        this.imageURL = imageURL;
+        this.price = price;
+        this.creationDate = creationDate;
+        this.expirationDate = expirationDate;
+    }
 }
