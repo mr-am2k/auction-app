@@ -3,6 +3,7 @@ export type Product = {
     name: string;
     description: string;
     imageURL: string;
+    price: number;
     creationDate: Date;
     expirationDate: Date;
 }

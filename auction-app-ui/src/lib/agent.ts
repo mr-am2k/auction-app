@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { Product } from 'models/product';
 
-axios.defaults.baseURL = 'http://localhost:5000/api/v1';
+axios.defaults.baseURL = 'http://localhost:8080/api/v1';
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data; 
 const requests = {
@@ -13,10 +13,10 @@ const requests = {
 };
 
 const Products = {
-    list: () => requests.get<Product[]>('/'),
-    singleProduct: (id:string) => requests.get<Product>(`/${id}`),
-    randomProduct: () => requests.get<Product>('/randomProduct'),
-    lastOrNew: () => requests.get<Product[]>('/searchProducts')
+    list: () => requests.get<Product[]>('/products'),
+    singleProduct: (id:string) => requests.get<Product>(`/products/${id}`),
+    randomProduct: () => requests.get<Product>('/products/randomProduct'),
+    lastOrNew: (queryParam:string) => requests.get<Product[]>(`/products/searchProducts?oldOrNew=${queryParam}`)
 };
 
 const agent = {

@@ -1,10 +1,12 @@
+import { useState, useEffect } from 'react';
 import { GreaterIcon } from 'assets/icons';
 import { Category, HomeProducts } from 'components';
 import EN_STRINGS from 'util/en_strings';
 
 import defaultImage from 'assets/images/home-main-image.png';
 import './home.scss';
-import { useState } from 'react';
+import agent from 'lib/agent';
+import { Product } from 'models/product';
 
 const DUMMY_CATEGORIES = [
   'Fashion',
@@ -20,8 +22,32 @@ const DUMMY_CATEGORIES = [
 ];
 
 const Home = () => {
+  const [randomProduct, setRandomProduct] = useState<Product>();
+  const [lastChanceProducts, setLastChanceProducts] = useState<Product[]> ([]);
+  const [newArrivalProducts, setNewArrivalProducts] = useState<Product[]> ([])
   const [newArrivals, setNewArrivals] = useState('c-navbar-item c-focus');
   const [lastChance, setLastChance] = useState('c-navbar-item');
+
+  const fetchSingleProduct = async() => {
+    const data = await agent.Products.randomProduct();
+    setRandomProduct(data);
+  }
+
+  const fetchLastChanceOrNewArrivalProducts = async(queryParam: string) => {
+    if(queryParam === 'last-chance'){
+      const data = await agent.Products.lastOrNew(queryParam)
+      setLastChanceProducts(data)
+    }
+    if(queryParam === 'new-arrival') {
+      const data =  await agent.Products.lastOrNew(queryParam)
+      setNewArrivalProducts(data)
+    }
+  }
+
+  useEffect(() => {
+    fetchSingleProduct();
+    fetchLastChanceOrNewArrivalProducts('new-arrival')
+  }, [])
 
   return (
     <div className='c-home-wrapper'>
@@ -35,15 +61,11 @@ const Home = () => {
 
         <div className='c-main-product'>
           <div className='c-info'>
-            <h1>Running shoes</h1>
+            <h1>{randomProduct?.name}</h1>
             <h1 className='c-price'>Start From $59.00</h1>
             
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Vestibulum hendrerit odio a erat lobortis auctor. Curabitur
-              sodales pharetra placerat. Aenean auctor luctus tempus. Cras
-              laoreet et magna in dignissim. Nam et tincidunt augue. Vivamus
-              quis malesuada velit. In hac habitasse platea dictumst.
+              {randomProduct?.description}
             </p>
 
             <button>
@@ -72,6 +94,7 @@ const Home = () => {
             onClick={() => {
               setLastChance('c-navbar-item  c-focus');
               setNewArrivals('c-navbar-item');
+              fetchLastChanceOrNewArrivalProducts('last-chance')
             }}
           >
             {EN_STRINGS['Home.LastChance']}
@@ -81,12 +104,11 @@ const Home = () => {
         <div className='c-items'>
           {newArrivals.includes('c-focus') && (
             <HomeProducts
-              productName='Shoes collection'
-              productPrice='$59.90'
+              product={newArrivalProducts}
             />
           )}
           {lastChance.includes('c-focus') && (
-            <HomeProducts productName='Last chance' productPrice='$59.90' />
+            <HomeProducts product={lastChanceProducts} />
           )}
         </div>
       </div>
