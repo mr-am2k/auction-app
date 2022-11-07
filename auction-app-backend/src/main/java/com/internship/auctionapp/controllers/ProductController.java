@@ -43,4 +43,14 @@ public class ProductController {
     public void deleteProduct(@PathVariable("id") UUID id) {
         productService.deleteProduct(id);
     }
+
+    @GetMapping("/randomProduct")
+    public Product getRandomProduct(){
+        return productService.getRandomProduct();
+    }
+
+    @GetMapping("/searchProducts")
+    public List<Product> getProductsByCriteria(@RequestParam(required = false) String oldOrNew){
+        return productService.getProductsByCriteria(oldOrNew);
+    }
 }

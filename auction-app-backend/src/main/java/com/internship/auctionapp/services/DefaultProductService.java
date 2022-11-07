@@ -2,10 +2,15 @@ package com.internship.auctionapp.services;
 
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.repositories.ProductRepository;
+import org.hibernate.procedure.NoSuchParameterException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -42,5 +47,26 @@ public class DefaultProductService implements ProductService {
     @Override
     public void deleteProduct(UUID id) {
         productRepository.deleteById(id);
+    }
+
+    @Override
+    public Product getRandomProduct() {
+        return productRepository.getRandomProduct();
+
+    }
+
+    @Override
+    public List<Product> getProductsByCriteria(String oldOrNew) {
+        if (oldOrNew.equalsIgnoreCase("last-chance")) {
+            Pageable lastChanceOrderingOfEightElements = PageRequest.of(0, 8, Sort.by("expirationDate").ascending());
+            List<Product> products = productRepository.findAll(lastChanceOrderingOfEightElements).getContent();
+            return products;
+        }
+        if (oldOrNew.equalsIgnoreCase("new-arrival")) {
+            Pageable newArrivalsOrderingOfEightElements = PageRequest.of(0, 8, Sort.by("expirationDate").descending());
+            List<Product> products = productRepository.findAll(newArrivalsOrderingOfEightElements).getContent();
+            return products;
+        }
+        throw new NoSuchParameterException("You entered wrong query parameter: " + oldOrNew);
     }
 }

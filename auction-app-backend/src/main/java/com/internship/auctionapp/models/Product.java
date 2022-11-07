@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -16,37 +16,26 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "Product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Product Name is required")
+    @Column(name = "Name", nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Product Description is required")
+    @Column(name = "Description", nullable = false)
     private String description;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Product ImageURL is required")
+    @Column(name = "ImageURL", nullable = false)
     private String imageURL;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Product Creation Date is required")
+    @Column(name = "CreationDate", nullable = false)
     private LocalDate creationDate;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Product Expiration Date is required")
+    @Column(name = "ExpirationDate", nullable = false)
     private LocalDate expirationDate;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Product Status is required")
-    private String status;
-
-    @Column(nullable = false)
-    @NotBlank(message = "Product Size is required")
-    private String size;
 }

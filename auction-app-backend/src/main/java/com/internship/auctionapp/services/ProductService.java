@@ -15,4 +15,8 @@ public interface ProductService {
     Product updateProduct(UUID id, Product product);
 
     void deleteProduct(UUID id);
+
+    Product getRandomProduct();
+
+    List<Product> getProductsByCriteria(String oldOrNew);
 }

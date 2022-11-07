@@ -1,6 +1,7 @@
 package com.internship.auctionapp.middleware.exception;
 
 import org.hibernate.PropertyValueException;
+import org.hibernate.procedure.NoSuchParameterException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleNoSuchElementException(HttpServletRequest req, NoSuchElementException ex) {
         String message = "The row for address is not existent: " + req.getRequestURI();
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, message));
+    }
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<Object> handleNullPointerException(HttpServletRequest req, NullPointerException ex){
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
+    }
+
+    @ExceptionHandler(NoSuchParameterException.class)
+    public ResponseEntity<Object> handleNoSuchParameterException(HttpServletRequest req, NoSuchParameterException ex){
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
