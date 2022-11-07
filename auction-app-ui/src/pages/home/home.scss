@@ -24,8 +24,9 @@
 
     .c-main-product {
       font-family: $fontFamily;
-      @include flexDisplay(flex-start, flex-start);
+      @include flexDisplay(flex-end, flex-start);
       gap: 5rem;
+      width: 100%;
 
       .c-info {
         width: 450px;

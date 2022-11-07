@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { GreaterIcon } from 'assets/icons';
-import { Category, HomeProducts } from 'components';
+import { Category, HomeProducts, Loading } from 'components';
 import EN_STRINGS from 'util/en_strings';
 
 import './home.scss';
-import agent from 'lib/agent';
 import { Product } from 'models/product';
+import productsService from 'services/productService';
 
 const DUMMY_CATEGORIES = [
   'Fashion',
@@ -35,25 +35,25 @@ const Home = () => {
     : 'c-navbar-item';
 
   const fetchSingleProduct = async () => {
-    const data = await agent.Products.randomProduct();
+    const data = await productsService.randomProduct();
     setRandomProduct(data);
   };
 
-  const fetchLastChanceOrNewArrivalProducts = async (queryParam: string) => {
-    //split into 2 parts
-    if (queryParam === 'last-chance' && lastChanceProducts.length < 1) {
-      const data = await agent.Products.lastOrNew(queryParam);
+  const fetchLastChanceProducts = async (queryParam: string) => {
+    if (lastChanceProducts.length < 1) {
+      const data = await productsService.lastOrNew(queryParam);
       setLastChanceProducts(data);
     }
-    if (queryParam === 'new-arrival') {
-      const data = await agent.Products.lastOrNew(queryParam);
-      setNewArrivalProducts(data);
-    }
+  };
+
+  const fetchNewArrivalProducts = async (queryParam: string) => {
+    const data = await productsService.lastOrNew(queryParam);
+    setNewArrivalProducts(data);
   };
 
   useEffect(() => {
     fetchSingleProduct();
-    fetchLastChanceOrNewArrivalProducts('new-arrival');
+    fetchNewArrivalProducts('new-arrival');
   }, []);
 
   return (
@@ -66,22 +66,30 @@ const Home = () => {
           ))}
         </div>
 
-        <div className='c-main-product'>
-          <div className='c-info'>
-            <h1>{randomProduct?.name}</h1>
-            <h1 className='c-price'>
-              {EN_STRINGS['HomeProducts.StartFrom']} ${randomProduct?.price}
-            </h1>
-
-            <p>{randomProduct?.description}</p>
-
-            <button>
-              {EN_STRINGS['Home.BidNow']} <GreaterIcon />
-            </button>
+        {!randomProduct && (
+          <div className='c-main-product'>
+            {' '}
+            <Loading />{' '}
           </div>
+        )}
+        {randomProduct && (
+          <div className='c-main-product'>
+            <div className='c-info'>
+              <h1>{randomProduct?.name}</h1>
+              <h1 className='c-price'>
+                {EN_STRINGS['HomeProducts.StartFrom']} ${randomProduct?.price}
+              </h1>
 
-          <img src={randomProduct?.imageURL} alt='Highlighted product' />
-        </div>
+              <p>{randomProduct?.description}</p>
+
+              <button>
+                {EN_STRINGS['Home.BidNow']} <GreaterIcon />
+              </button>
+            </div>
+
+            <img src={randomProduct?.imageURL} alt='Highlighted product' />
+          </div>
+        )}
       </div>
 
       <div className='c-bottom-part'>
@@ -101,7 +109,7 @@ const Home = () => {
             onClick={() => {
               setLastChanceActive(true);
               setNewArrivalsActive(false);
-              fetchLastChanceOrNewArrivalProducts('last-chance');
+              fetchLastChanceProducts('last-chance');
             }}
           >
             {EN_STRINGS['Home.LastChance']}
@@ -109,8 +117,14 @@ const Home = () => {
         </div>
 
         <div className='c-items'>
-          {newArrivalsActive && <HomeProducts product={newArrivalProducts} />}
-          {lastChanceActive && <HomeProducts product={lastChanceProducts} />}
+          {newArrivalsActive && newArrivalProducts.length < 1 && <Loading />}
+          {newArrivalsActive && newArrivalProducts.length > 0 && (
+            <HomeProducts product={newArrivalProducts} />
+          )}
+          {lastChanceActive && lastChanceProducts.length < 1 && <Loading />}
+          {lastChanceActive && lastChanceProducts.length > 0 && (
+            <HomeProducts product={lastChanceProducts} />
+          )}
         </div>
       </div>
     </div>
