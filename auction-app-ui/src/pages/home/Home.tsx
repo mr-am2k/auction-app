@@ -51,9 +51,12 @@ const Home = () => {
     setNewArrivalProducts(data);
   };
 
+
   useEffect(() => {
     fetchSingleProduct();
-    fetchNewArrivalProducts('new-arrival');
+    fetchNewArrivalProducts(
+      EN_STRINGS['Home.NewArrivalFetch']
+    );
   }, []);
 
   return (
@@ -109,7 +112,7 @@ const Home = () => {
             onClick={() => {
               setLastChanceActive(true);
               setNewArrivalsActive(false);
-              fetchLastChanceProducts('last-chance');
+              fetchLastChanceProducts(EN_STRINGS['Home.LastChanceFetch']);
             }}
           >
             {EN_STRINGS['Home.LastChance']}

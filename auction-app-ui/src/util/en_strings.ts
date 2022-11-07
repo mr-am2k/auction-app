@@ -1,4 +1,4 @@
-export default {
+const en_strings = {
   'Footer.AboutUs': 'About Us',
   'Footer.TermsAndConditions': 'Terms and Conditions',
   'Footer.PrivacyAndPolicy': 'Privacy and policy',
@@ -15,5 +15,9 @@ export default {
   'Home.BidNow': 'Bid now',
   'Home.NewArrivals': 'New Arrivals',
   'Home.LastChance': 'Last Chance',
-  'HomeProducts.StartFrom' : 'Start from:'
+  'HomeProducts.StartFrom' : 'Start from:',
+  'Home.NewArrivalFetch': 'new-arrival',
+  'Home.LastChanceFetch': 'last-chance',
 };
+
+export default en_strings;

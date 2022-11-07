@@ -3,3 +3,11 @@
   justify-content: $justify;
   align-items: $align;
 }
+
+@mixin footerTitle() {
+  font-weight: $highFontWeight;
+  font-size: $fontSize;
+  line-height: $paragraphLineHeight;
+  color: $whiteColor;
+  opacity: 0.5;
+}
