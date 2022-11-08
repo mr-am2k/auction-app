@@ -35,21 +35,26 @@ const Home = () => {
     : 'c-navbar-item';
 
   const fetchSingleProduct = () => {
-    productsService.getRandomProduct().then((data) => setRandomProduct(data));
+    productsService
+      .getRandomProduct()
+      .then((data) => setRandomProduct(data))
+      .catch((error) => console.log(error));
   };
 
   const fetchLastChanceProducts = (queryParam: string) => {
     if (!lastChanceProducts.length) {
       productsService
         .search(queryParam)
-        .then((data) => setLastChanceProducts(data));
+        .then((data) => setLastChanceProducts(data.content))
+        .catch((error) => console.log(error));
     }
   };
 
   const fetchNewArrivalProducts = (queryParam: string) => {
     productsService
       .search(queryParam)
-      .then((data) => setNewArrivalProducts(data));
+      .then((data) => setNewArrivalProducts(data.content))
+      .catch((error) => console.log(error));
   };
 
   useEffect(() => {
