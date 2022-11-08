@@ -17,7 +17,6 @@ import java.util.NoSuchElementException;
 @ControllerAdvice()
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-
     @ExceptionHandler(PropertyValueException.class)
     public ResponseEntity<Object> handleSqlIntegrityException(HttpServletRequest req, PropertyValueException ex) {
         String error = "Unable to submit post: " + ex.getMessage();
@@ -43,9 +42,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleIllegalArgumentException(HttpServletRequest req, IllegalArgumentException ex){
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
+    
+    @ExceptionHandler(ProductExpirationDateException.class)
+    public ResponseEntity<Object> handleIllegalArgumentException(HttpServletRequest req, ProductExpirationDateException ex){
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
+    }
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
     }
-
 }

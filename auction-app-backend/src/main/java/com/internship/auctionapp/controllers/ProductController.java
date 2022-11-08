@@ -3,6 +3,7 @@ package com.internship.auctionapp.controllers;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.services.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -45,13 +46,13 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
-    @GetMapping("/randomProduct")
+    @GetMapping("/random")
     public Product getRandomProduct(){
         return productService.getRandomProduct();
     }
 
-    @GetMapping("/searchProducts")
-    public List<Product> getProductsByCriteria(@RequestParam(required = false) String oldOrNew){
-        return productService.getProductsByCriteria(oldOrNew);
+    @GetMapping("/search")
+    public Page<Product> getProductsByCriteria(@RequestParam(required = false) String criteria){
+        return productService.getProductsByCriteria(criteria);
     }
 }

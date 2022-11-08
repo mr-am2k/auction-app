@@ -1,16 +1,16 @@
 package com.internship.auctionapp.services;
 
+import com.internship.auctionapp.middleware.exception.ProductExpirationDateException;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.repositories.ProductRepository;
-import org.hibernate.procedure.NoSuchParameterException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -28,8 +28,8 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public Product addProduct(Product product) {
-        if (product.getExpirationDate().isBefore(product.getCreationDate())) {
-            throw new IllegalArgumentException("Expiration date has to be after creation date");
+        if (product.getExpirationDateTime().isBefore(product.getCreationDateTime())) {
+            throw new ProductExpirationDateException("Expiration date has to be after creation date");
         }
         return productRepository.save(product);
     }
@@ -55,21 +55,13 @@ public class DefaultProductService implements ProductService {
     @Override
     public Product getRandomProduct() {
         return productRepository.getRandomProduct();
-
     }
 
     @Override
-    public List<Product> getProductsByCriteria(String oldOrNew) {
-        if (oldOrNew.equalsIgnoreCase("last-chance")) {
-            Pageable lastChanceOrderingOfEightElements = PageRequest.of(0, 8, Sort.by("expirationDate").ascending());
-            List<Product> products = productRepository.findAll(lastChanceOrderingOfEightElements).getContent();
-            return products;
-        }
-        if (oldOrNew.equalsIgnoreCase("new-arrival")) {
-            Pageable newArrivalsOrderingOfEightElements = PageRequest.of(0, 8, Sort.by("creationDate").descending());
-            List<Product> products = productRepository.findAll(newArrivalsOrderingOfEightElements).getContent();
-            return products;
-        }
-        throw new NoSuchParameterException("You entered wrong query parameter: " + oldOrNew);
+    public Page<Product> getProductsByCriteria(String criteria) {
+        final Pageable page = PageRequest.of(0, 8, criteria.equalsIgnoreCase("last-chance") ? Sort.by("expirationDateTime").ascending() : Sort.by("creationDateTime").descending());
+
+        return productRepository.findAll(page);
+
     }
 }

@@ -1,6 +1,7 @@
 package com.internship.auctionapp.services;
 
 import com.internship.auctionapp.models.Product;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,5 +19,5 @@ public interface ProductService {
 
     Product getRandomProduct();
 
-    List<Product> getProductsByCriteria(String oldOrNew);
+    Page<Product> getProductsByCriteria(String criteria);
 }
