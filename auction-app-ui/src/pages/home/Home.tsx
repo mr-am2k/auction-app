@@ -34,29 +34,27 @@ const Home = () => {
     ? 'c-navbar-item c-focus'
     : 'c-navbar-item';
 
-  const fetchSingleProduct = async () => {
-    const data = await productsService.randomProduct();
-    setRandomProduct(data);
+  const fetchSingleProduct = () => {
+    productsService.getRandomProduct().then((data) => setRandomProduct(data));
   };
 
-  const fetchLastChanceProducts = async (queryParam: string) => {
-    if (lastChanceProducts.length < 1) {
-      const data = await productsService.lastOrNew(queryParam);
-      setLastChanceProducts(data);
+  const fetchLastChanceProducts = (queryParam: string) => {
+    if (!lastChanceProducts.length) {
+      productsService
+        .search(queryParam)
+        .then((data) => setLastChanceProducts(data));
     }
   };
 
-  const fetchNewArrivalProducts = async (queryParam: string) => {
-    const data = await productsService.lastOrNew(queryParam);
-    setNewArrivalProducts(data);
+  const fetchNewArrivalProducts = (queryParam: string) => {
+    productsService
+      .search(queryParam)
+      .then((data) => setNewArrivalProducts(data));
   };
-
 
   useEffect(() => {
     fetchSingleProduct();
-    fetchNewArrivalProducts(
-      EN_STRINGS['Home.NewArrivalFetch']
-    );
+    fetchNewArrivalProducts(EN_STRINGS['Home.NewArrivalFetch']);
   }, []);
 
   return (
