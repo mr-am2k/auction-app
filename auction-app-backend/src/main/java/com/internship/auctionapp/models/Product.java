@@ -46,7 +46,8 @@ public class Product {
     @Column(name = "expirationDateTime", nullable = false)
     private LocalDateTime expirationDateTime;
 
-    public Product(String name, String description, String imageURL, Double price, LocalDateTime creationDateTime, LocalDateTime expirationDateTime) {
+    public Product(String name, String description, String imageURL,
+                   Double price, LocalDateTime creationDateTime, LocalDateTime expirationDateTime) {
         this.name = name;
         this.description = description;
         this.imageURL = imageURL;

@@ -17,13 +17,13 @@ import java.util.UUID;
 public class DefaultProductService implements ProductService {
     private final ProductRepository productRepository;
 
-    private static final int numberOfElementsPerPage = 8;
+    private static final int DEFAULT_ELEMENTS_PER_PAGE = 8;
 
-    private static final String lastChance = "last-chance";
+    private static final String LAST_CHANCE = "last-chance";
 
-    private static final String expirationDateTime = "expirationDateTime";
+    private static final String EXPIRATION_DATE_TIME = "expirationDateTime";
 
-    private static final String creationDateTime = "creationDateTime";
+    private static final String CREATION_DATE_TIME = "creationDateTime";
 
     public DefaultProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -67,8 +67,9 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public Page<Product> getProductsByCriteria(String criteria) {
-        final Pageable page = PageRequest.of(0, numberOfElementsPerPage, criteria.equalsIgnoreCase(lastChance) ? Sort.by(expirationDateTime).ascending() : Sort.by(creationDateTime).descending());
+        final Pageable page = PageRequest.of(0, DEFAULT_ELEMENTS_PER_PAGE, criteria.equalsIgnoreCase(LAST_CHANCE) ?
+                Sort.by(EXPIRATION_DATE_TIME).ascending() :
+                Sort.by(CREATION_DATE_TIME).descending());
         return productRepository.findAll(page);
-
     }
 }

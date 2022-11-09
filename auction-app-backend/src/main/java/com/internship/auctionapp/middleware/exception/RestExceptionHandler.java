@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.ZonedDateTime;
 import java.util.NoSuchElementException;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -46,16 +45,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ProductExpirationDateException.class)
-    public ResponseEntity<Object> handleIllegalArgumentException(HttpServletRequest req, ProductExpirationDateException ex){
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Expiration date has to be after creation date"));
+    public ResponseEntity<Object> handleIllegalArgumentException(HttpServletRequest req,
+                                                                 ProductExpirationDateException ex){
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST,
+                "Expiration date has to be after creation date."));
     }
-
-    /*public ResponseEntity<Object> handleProductExpirationDateException(ProductExpirationDateException e){
-        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
-
-        ApiException apiException = new ApiException(e.getMessage(), badRequest, ZonedDateTime.now());
-        return new ResponseEntity<>(apiException, badRequest);
-    }*/
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
