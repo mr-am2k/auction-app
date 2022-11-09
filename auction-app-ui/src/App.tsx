@@ -30,7 +30,6 @@ const App = () => {
                       element={<TermsAndConditions />}
                     />
                     <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
-
                     <Route path='/' element={<Home />} />
                   </Routes>
                 </main>

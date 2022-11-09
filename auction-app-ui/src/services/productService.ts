@@ -11,6 +11,5 @@ const productsService = {
     search: (queryParam: string) =>
       agent.get<any>(`/search?criteria=${queryParam}`),
   };
-  
 
 export default productsService
