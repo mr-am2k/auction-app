@@ -17,6 +17,14 @@ import java.util.UUID;
 public class DefaultProductService implements ProductService {
     private final ProductRepository productRepository;
 
+    private static final int numberOfElementsPerPage = 8;
+
+    private static final String lastChance = "last-chance";
+
+    private static final String expirationDateTime = "expirationDateTime";
+    
+    private static final String creationDateTime = "creationDateTime";
+
     public DefaultProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
@@ -29,7 +37,7 @@ public class DefaultProductService implements ProductService {
     @Override
     public Product addProduct(Product product) {
         if (product.getExpirationDateTime().isBefore(product.getCreationDateTime())) {
-            throw new ProductExpirationDateException("Expiration date has to be after creation date");
+            throw new ProductExpirationDateException();
         }
         return productRepository.save(product);
     }
@@ -59,8 +67,7 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public Page<Product> getProductsByCriteria(String criteria) {
-        final Pageable page = PageRequest.of(0, 8, criteria.equalsIgnoreCase("last-chance") ? Sort.by("expirationDateTime").ascending() : Sort.by("creationDateTime").descending());
-
+        final Pageable page = PageRequest.of(0, numberOfElementsPerPage, criteria.equalsIgnoreCase(lastChance) ? Sort.by(expirationDateTime).ascending() : Sort.by(creationDateTime).descending());
         return productRepository.findAll(page);
 
     }

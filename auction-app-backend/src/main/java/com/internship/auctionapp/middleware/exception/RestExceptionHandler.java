@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.ZonedDateTime;
 import java.util.NoSuchElementException;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -28,6 +29,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         String message = "The row for address is not existent: " + req.getRequestURI();
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, message));
     }
+
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<Object> handleNullPointerException(HttpServletRequest req, NullPointerException ex){
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
@@ -42,11 +44,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleIllegalArgumentException(HttpServletRequest req, IllegalArgumentException ex){
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
-    
+
     @ExceptionHandler(ProductExpirationDateException.class)
     public ResponseEntity<Object> handleIllegalArgumentException(HttpServletRequest req, ProductExpirationDateException ex){
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Expiration date has to be after creation date"));
     }
+
+    /*public ResponseEntity<Object> handleProductExpirationDateException(ProductExpirationDateException e){
+        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+
+        ApiException apiException = new ApiException(e.getMessage(), badRequest, ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, badRequest);
+    }*/
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());

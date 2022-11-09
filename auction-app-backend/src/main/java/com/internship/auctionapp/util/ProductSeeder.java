@@ -7,13 +7,14 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-
 @Component
 public class ProductSeeder implements CommandLineRunner {
 
     final ProductRepository productRepository;
 
-    String productDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum hendrerit odio a erat lobortis auctor. Curabitur sodales pharetra placerat. Aenean auctor luctus tempus. Cras laoreet et magna in dignissim. Nam et tincidunt augue. Vivamus quis malesuada velit. In hac habitasse platea dictumst. ";
+    String productDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum hendrerit odio a erat lobortis auctor. " +
+            "Curabitur sodales pharetra placerat. Aenean auctor luctus tempus. Cras laoreet et magna in dignissim. " +
+            "Nam et tincidunt augue. Vivamus quis malesuada velit. In hac habitasse platea dictumst. ";
 
     public ProductSeeder(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -108,7 +109,5 @@ public class ProductSeeder implements CommandLineRunner {
             productRepository.save(product9);
             productRepository.save(product10);
         }
-
     }
-
 }

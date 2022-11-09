@@ -1,8 +1,7 @@
 package com.internship.auctionapp.middleware.exception;
 
 public class ProductExpirationDateException extends RuntimeException{
-    public ProductExpirationDateException(String message) {
-        super(message);
+    public ProductExpirationDateException() {
     }
 
 
