@@ -8,14 +8,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,10 +37,6 @@ class DefaultProductServiceTest {
                 .creationDateTime(LocalDateTime.now())
                 .expirationDateTime(LocalDateTime.now())
                 .build();
-        List<Product> products = new ArrayList<>();
-        products.add(product);
-        Page<Product> pageForReturn = new PageImpl<>(products);
-        final Pageable page = PageRequest.of(0, 8);
         Mockito.when(productRepository.findById(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).thenReturn(Optional.of(product));
         Mockito.when(productRepository.getRandomProduct()).thenReturn(product);
     }
