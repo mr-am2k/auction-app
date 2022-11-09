@@ -22,7 +22,7 @@ public class DefaultProductService implements ProductService {
     private static final String lastChance = "last-chance";
 
     private static final String expirationDateTime = "expirationDateTime";
-    
+
     private static final String creationDateTime = "creationDateTime";
 
     public DefaultProductService(ProductRepository productRepository) {
