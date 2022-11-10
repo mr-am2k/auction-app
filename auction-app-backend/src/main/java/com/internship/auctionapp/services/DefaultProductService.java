@@ -19,7 +19,8 @@ import java.util.UUID;
 public class DefaultProductService implements ProductService {
     private final ProductRepository productRepository;
 
-    private static final Logger LOGGER= LoggerFactory.getLogger(DefaultProductService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
+    
     private static final int DEFAULT_ELEMENTS_PER_PAGE = 8;
 
     private static final String LAST_CHANCE = "last-chance";
@@ -36,22 +37,21 @@ public class DefaultProductService implements ProductService {
     public List<Product> getAllProducts() {
         LOGGER.info("Fetched products from the database.");
         return productRepository.findAll();
-
     }
 
     @Override
     public Product addProduct(Product product) {
         if (product.getExpirationDateTime().isBefore(product.getCreationDateTime())) {
-            LOGGER.error("Product expiration date is before product creation date " + product);
+            LOGGER.error("Product expiration date is before product creation date. Product={}", product);
             throw new ProductExpirationDateException();
         }
-        LOGGER.info("Successfully added " + product + " to the database.");
+        LOGGER.info("Successfully added product={} to the database.", product);
         return productRepository.save(product);
     }
 
     @Override
     public Product getSingleProduct(UUID id) {
-        LOGGER.info("Fetched product from the database with the id: " + id);
+        LOGGER.info("Fetched product from the database with the id={} ", id);
         return productRepository.findById(id).get();
     }
 
@@ -60,13 +60,13 @@ public class DefaultProductService implements ProductService {
         Product productForUpdate = productRepository.findById(id).get();
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.map(product, productForUpdate);
-        LOGGER.info("Product with the id: " + id + " has been updated.");
+        LOGGER.info("Product with the id={} has been updated.", id);
         return productRepository.save(productForUpdate);
     }
 
     @Override
     public void deleteProduct(UUID id) {
-        LOGGER.info("Successfully deleted product with the id " + id);
+        LOGGER.info("Successfully deleted product with the id={}", id);
         productRepository.deleteById(id);
     }
 
@@ -81,7 +81,7 @@ public class DefaultProductService implements ProductService {
         final Pageable page = PageRequest.of(0, DEFAULT_ELEMENTS_PER_PAGE, criteria.equalsIgnoreCase(LAST_CHANCE) ?
                 Sort.by(EXPIRATION_DATE_TIME).ascending() :
                 Sort.by(CREATION_DATE_TIME).descending());
-        LOGGER.info("Fetched page of 8 products from the database, based on criteria: " + criteria);
+        LOGGER.info("Fetched page of 8 products from the database, based on criteria={} ", criteria);
         return productRepository.findAll(page);
     }
 }

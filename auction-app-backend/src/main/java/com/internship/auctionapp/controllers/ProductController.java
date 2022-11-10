@@ -47,12 +47,12 @@ public class ProductController {
     }
 
     @GetMapping("/random")
-    public Product getRandomProduct(){
+    public Product getRandomProduct() {
         return productService.getRandomProduct();
     }
 
     @GetMapping("/search")
-    public Page<Product> getProductsByCriteria(@RequestParam(required = false) String criteria){
+    public Page<Product> getProductsByCriteria(@RequestParam(required = false) String criteria) {
         return productService.getProductsByCriteria(criteria);
     }
 }
