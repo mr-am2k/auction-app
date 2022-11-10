@@ -125,13 +125,13 @@ const Home = () => {
 
         <div className='c-items'>
           {newArrivalsActive &&
-            (newArrivalProducts.length < 1 ? (
+            (!newArrivalProducts.length ? (
               <Loading />
             ) : (
               <HomeProducts product={newArrivalProducts} />
             ))}
           {lastChanceActive &&
-            (lastChanceProducts.length < 1 ? (
+            (!lastChanceProducts.length ? (
               <Loading />
             ) : (
               <HomeProducts product={lastChanceProducts} />
