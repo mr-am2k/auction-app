@@ -1,0 +1,24 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
+
+.c-category-wrapper {
+  @include flexDisplay(flex-start, flex-start);
+  flex-direction: row;
+  padding-left: 16px;
+  gap: 10px;
+  width: 330px;
+  background: $whiteColor;
+  border-bottom: 2px solid $smokeWhiteColor;
+
+  p {
+    font-family: $fontFamily;
+    font-weight: $highFontWeight;
+    font-size: $fontSize;
+    line-height: $paragraphLineHeight;
+    color: $blackColor;
+
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}

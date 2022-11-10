@@ -1,0 +1,40 @@
+@import '/src/scss/mixin';
+@import '/src/scss/variables';
+
+.c-loading-container {
+  width: 100%;
+  height: inherit;
+  @include flexDisplay(center, center);
+  flex-direction: column;
+
+  .c-spinner {
+    display: block;
+    width: 80px;
+    height: 80px;
+  }
+
+  &:after {
+    content: ' ';
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid $purpleColor;
+    border-color: $purpleColor transparent $purpleColor transparent;
+    animation: spinner 1.2s linear infinite;
+  }
+
+  h3 {
+    font-family: $fontFamily
+  }
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

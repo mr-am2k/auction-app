@@ -5,9 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.time.LocalDate;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -15,30 +20,39 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "Product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "Id", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @NotBlank(message = "Product Name is required")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @NotBlank(message = "Product Description is required")
+    @Column(name = "description", nullable = false, columnDefinition="varchar(1000)")
     private String description;
 
-    @NotBlank(message = "Product ImageURL is required")
+    @Column(name = "imageURL", nullable = false)
     private String imageURL;
 
-    @NotBlank(message = "Product Creation Date is required")
-    private LocalDate creationDate;
+    @Column(name = "price", nullable = false)
+    @DecimalMin("0.5")
+    private Double price;
 
-    @NotBlank(message = "Product Expiration Date is required")
-    private LocalDate expirationDate;
+    @Column(name = "creationDateTime", nullable = false)
+    private LocalDateTime creationDateTime;
 
-    @NotBlank(message = "Product Status is required")
-    private String status;
+    @Column(name = "expirationDateTime", nullable = false)
+    private LocalDateTime expirationDateTime;
 
-    @NotBlank(message = "Product Size is required")
-    private String size;
+    public Product(String name, String description, String imageURL,
+                   Double price, LocalDateTime creationDateTime, LocalDateTime expirationDateTime) {
+        this.name = name;
+        this.description = description;
+        this.imageURL = imageURL;
+        this.price = price;
+        this.creationDateTime = creationDateTime;
+        this.expirationDateTime = expirationDateTime;
+    }
 }

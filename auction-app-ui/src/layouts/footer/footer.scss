@@ -18,11 +18,7 @@
     gap: 1rem;
 
     .c-title {
-      font-weight: $highFontWeight;
-      font-size: $fontSize;
-      line-height: $paragraphLineHeight;
-      color: $whiteColor;
-      opacity: 0.5;
+      @include footerTitle();
     }
 
     a {
@@ -36,6 +32,10 @@
   }
 
   .c-contact-part {
+    .c-title {
+      @include footerTitle();
+    }
+    
     p {
       display: flex;
       flex-direction: column;

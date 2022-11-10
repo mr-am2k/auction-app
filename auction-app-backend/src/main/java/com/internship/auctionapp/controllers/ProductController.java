@@ -3,6 +3,7 @@ package com.internship.auctionapp.controllers;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.services.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/products")
+@CrossOrigin
 @Tag(name = "Products")
 public class ProductController {
     private final ProductService productService;
@@ -42,5 +44,15 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable("id") UUID id) {
         productService.deleteProduct(id);
+    }
+
+    @GetMapping("/random")
+    public Product getRandomProduct() {
+        return productService.getRandomProduct();
+    }
+
+    @GetMapping("/search")
+    public Page<Product> getProductsByCriteria(@RequestParam(required = false) String criteria) {
+        return productService.getProductsByCriteria(criteria);
     }
 }
