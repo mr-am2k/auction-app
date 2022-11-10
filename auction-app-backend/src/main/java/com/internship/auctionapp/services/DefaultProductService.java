@@ -4,6 +4,8 @@ import com.internship.auctionapp.middleware.exception.ProductExpirationDateExcep
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.repositories.ProductRepository;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,7 @@ import java.util.UUID;
 public class DefaultProductService implements ProductService {
     private final ProductRepository productRepository;
 
+    private static final Logger LOGGER= LoggerFactory.getLogger(DefaultProductService.class);
     private static final int DEFAULT_ELEMENTS_PER_PAGE = 8;
 
     private static final String LAST_CHANCE = "last-chance";
@@ -31,19 +34,24 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public List<Product> getAllProducts() {
+        LOGGER.info("Fetched products from the database.");
         return productRepository.findAll();
+
     }
 
     @Override
     public Product addProduct(Product product) {
         if (product.getExpirationDateTime().isBefore(product.getCreationDateTime())) {
+            LOGGER.error("Product expiration date is before product creation date " + product);
             throw new ProductExpirationDateException();
         }
+        LOGGER.info("Successfully added " + product + " to the database.");
         return productRepository.save(product);
     }
 
     @Override
     public Product getSingleProduct(UUID id) {
+        LOGGER.info("Fetched product from the database with the id: " + id);
         return productRepository.findById(id).get();
     }
 
@@ -52,16 +60,19 @@ public class DefaultProductService implements ProductService {
         Product productForUpdate = productRepository.findById(id).get();
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.map(product, productForUpdate);
+        LOGGER.info("Product with the id: " + id + " has been updated.");
         return productRepository.save(productForUpdate);
     }
 
     @Override
     public void deleteProduct(UUID id) {
+        LOGGER.info("Successfully deleted product with the id " + id);
         productRepository.deleteById(id);
     }
 
     @Override
     public Product getRandomProduct() {
+        LOGGER.info("Fetched random product from the database.");
         return productRepository.getRandomProduct();
     }
 
@@ -70,6 +81,7 @@ public class DefaultProductService implements ProductService {
         final Pageable page = PageRequest.of(0, DEFAULT_ELEMENTS_PER_PAGE, criteria.equalsIgnoreCase(LAST_CHANCE) ?
                 Sort.by(EXPIRATION_DATE_TIME).ascending() :
                 Sort.by(CREATION_DATE_TIME).descending());
+        LOGGER.info("Fetched page of 8 products from the database, based on criteria: " + criteria);
         return productRepository.findAll(page);
     }
 }
