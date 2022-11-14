@@ -8,12 +8,13 @@ import productsService from 'services/productService';
 import { GreaterIcon } from 'assets/icons';
 import { Loading } from 'components';
 import './single-product.scss';
+import UserContext from 'store/user-context';
 
 const SingleProduct = () => {
   const { setNavbarItems } = useContext(PageContext);
+  const { loggedInUser } = useContext(UserContext);
   const { id } = useParams();
   const [mainImageIndex, setMainImageIndex] = useState(0);
-  const [userIsLoggedIn, setUserIsLoggedIn] = useState(true); //since there is no user, this should mimic logged in user or guest
   const [singleProduct, setSingleProduct] = useState<Product>();
 
   const otherImages = singleProduct?.imageURL.map((image, index: number) =>
@@ -84,9 +85,9 @@ const SingleProduct = () => {
             <input
               type='number'
               placeholder='Enter $56 or higher'
-              disabled={!userIsLoggedIn}
+              disabled={!loggedInUser}
             />
-            <button disabled={!userIsLoggedIn}>
+            <button disabled={!loggedInUser}>
               {EN_STRINGS['SingleProduct.PlaceBid']} <GreaterIcon />
             </button>
           </div>

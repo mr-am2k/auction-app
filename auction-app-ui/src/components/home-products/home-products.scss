@@ -10,7 +10,12 @@
   flex-wrap: wrap;
 
   .c-item {
+    a{
+      text-decoration: none;
+    }
+
     img {
+      object-fit: cover;
       width: 362px;
       height: 362px;
     }

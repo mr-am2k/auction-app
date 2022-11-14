@@ -18,7 +18,7 @@ const HomeProducts: React.FC<Props> = ({ product }) => {
           <Link to={`/shop/${item.id}`}>
             <img src={item.imageURL[0]} alt='Product' />
           </Link>
-          <Link to={`/shop/${item.id}`} style={{ textDecoration: 'none'}}>
+          <Link to={`/shop/${item.id}`}>
             <h3>{item.name}</h3>
           </Link>
           <p>

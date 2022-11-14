@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { GreaterIcon } from 'assets/icons';
 import { Category, HomeProducts, Loading } from 'components';
 import EN_STRINGS from 'util/en_strings';
@@ -7,6 +7,7 @@ import './home.scss';
 import { Product } from 'models/product';
 import productsService from 'services/productService';
 import { Link } from 'react-router-dom';
+import PageContext from 'store/page-context';
 
 const DUMMY_CATEGORIES = [
   'Fashion',
@@ -22,6 +23,7 @@ const DUMMY_CATEGORIES = [
 ];
 
 const Home = () => {
+  const { setNavbarItems } = useContext(PageContext);
   const [randomProduct, setRandomProduct] = useState<Product>();
   const [lastChanceProducts, setLastChanceProducts] = useState<Product[]>([]);
   const [newArrivalProducts, setNewArrivalProducts] = useState<Product[]>([]);
@@ -61,6 +63,7 @@ const Home = () => {
   };
 
   useEffect(() => {
+    setNavbarItems([])
     fetchSingleProduct();
     fetchNewArrivalProducts(EN_STRINGS['Home.NewArrivalFetch']);
   }, []);
@@ -92,7 +95,6 @@ const Home = () => {
 
               <Link
                 to={`/shop/${randomProduct.id}`}
-                style={{ textDecoration: 'none'}}
               >
                 <button>
                   {EN_STRINGS['Home.BidNow']} <GreaterIcon />
