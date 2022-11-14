@@ -22,7 +22,7 @@ const NavbarTracker = () => {
       );
     }
 
-    if (index > 0 && index < navbarItems.length) {
+    if (index > 1 && index < navbarItems.length) {
       return (
         <span key={index} className='c-path-item'>
           <ArrowIcon />
@@ -37,7 +37,7 @@ const NavbarTracker = () => {
       <div className='c-current-page'>{navbarItems[0]}</div>
       <div className='c-page-path'>
         <>
-          <span className='c-path-item'>{navbarItems[0]}</span>
+          <span className='c-path-item'>{navbarItems[1]}</span>
           {listOfPaths}
         </>
       </div>

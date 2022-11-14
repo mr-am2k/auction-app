@@ -10,6 +10,7 @@ const PrivacyAndPolicy = () => {
   useEffect(() => {
     setNavbarItems([
       EN_STRINGS['Navbar.Home'],
+      EN_STRINGS['Navbar.Home'],
       EN_STRINGS['Footer.PrivacyAndPolicy'],
     ]);
   }, []);

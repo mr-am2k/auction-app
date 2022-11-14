@@ -5,6 +5,7 @@ import ROUTES from './util/routes';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import PageProvider from 'store/PageProvider';
 import './app.scss';
+import SingleProduct from 'pages/single-product/SingleProduct';
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
                     />
                     <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
                     <Route path='/' element={<Home />} />
+                    <Route path='/shop/single-product' element={<SingleProduct />} />
                   </Routes>
                 </main>
 

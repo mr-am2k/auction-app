@@ -18,6 +18,7 @@ const en_strings = {
   'HomeProducts.StartFrom' : 'Start from:',
   'Home.NewArrivalFetch': 'new-arrival',
   'Home.LastChanceFetch': 'last-chance',
+  'Shop.SingleProduct': 'Single Product',
 };
 
 export default en_strings;

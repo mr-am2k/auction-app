@@ -8,7 +8,11 @@ const AboutUs = () => {
   const { setNavbarItems } = useContext(PageContext);
 
   useEffect(() => {
-    setNavbarItems([EN_STRINGS['Navbar.Home'], EN_STRINGS['Footer.AboutUs']]);
+    setNavbarItems([
+      EN_STRINGS['Navbar.Home'],
+      EN_STRINGS['Navbar.Home'],
+      EN_STRINGS['Footer.AboutUs'],
+    ]);
   }, []);
 
   return (
