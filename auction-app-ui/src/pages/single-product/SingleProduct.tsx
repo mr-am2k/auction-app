@@ -1,32 +1,21 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Product } from 'models/product';
-import PageContext from 'store/page-context';
+import PageContext from 'store/page-context/page-context';
 import EN_STRINGS from 'util/en_strings';
 import productsService from 'services/productService';
 
 import { GreaterIcon } from 'assets/icons';
 import { Loading } from 'components';
 import './single-product.scss';
-import UserContext from 'store/user-context';
+import UserContext from 'store/user-context/user-context';
+import ImagePicker from 'components/image-picker/ImagePicker';
 
 const SingleProduct = () => {
   const { setNavbarItems } = useContext(PageContext);
   const { loggedInUser } = useContext(UserContext);
   const { id } = useParams();
-  const [mainImageIndex, setMainImageIndex] = useState(0);
   const [singleProduct, setSingleProduct] = useState<Product>();
-
-  const otherImages = singleProduct?.imageURL.map((image, index: number) =>
-    index !== mainImageIndex ? (
-      <img
-        src={image}
-        alt='slika'
-        key={index}
-        onClick={() => setMainImageIndex(index)}
-      />
-    ) : ('')
-  );
 
   const fetchSingleProduct = (productId: string) => {
     productsService
@@ -52,13 +41,7 @@ const SingleProduct = () => {
 
   return (
     <div className='c-single-product'>
-      <div className='c-images'>
-        <div className='c-main-image'>
-          <img src={singleProduct?.imageURL[mainImageIndex]} alt='Main' />
-        </div>
-
-        <div className='c-other-images'>{otherImages}</div>
-      </div>
+      <ImagePicker singleProduct={singleProduct} />
 
       <div className='c-product-info'>
         <h1>{singleProduct?.name}</h1>

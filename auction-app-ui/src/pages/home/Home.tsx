@@ -7,7 +7,7 @@ import './home.scss';
 import { Product } from 'models/product';
 import productsService from 'services/productService';
 import { Link } from 'react-router-dom';
-import PageContext from 'store/page-context';
+import PageContext from 'store/page-context/page-context';
 
 const DUMMY_CATEGORIES = [
   'Fashion',

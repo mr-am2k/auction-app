@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import PageContext from 'store/page-context';
+import PageContext from 'store/page-context/page-context';
 
 import { ArrowIcon } from 'assets/icons';
 import './navbar-tracker.scss';

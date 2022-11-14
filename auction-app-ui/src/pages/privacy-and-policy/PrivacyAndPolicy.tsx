@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import PageContext from 'store/page-context';
+import PageContext from 'store/page-context/page-context';
 import EN_STRINGS from 'util/en_strings';
 
 import './privacy-and-policy.scss';
