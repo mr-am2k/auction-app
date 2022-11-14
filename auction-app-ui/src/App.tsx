@@ -1,4 +1,10 @@
-import { PrivacyAndPolicy, TermsAndConditions, AboutUs, Home, SingleProduct } from './pages';
+import {
+  PrivacyAndPolicy,
+  TermsAndConditions,
+  AboutUs,
+  Home,
+  SingleProduct,
+} from './pages';
 import { Routes, Route } from 'react-router-dom';
 import ROUTES from './util/routes';
 

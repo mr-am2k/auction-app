@@ -90,7 +90,10 @@ const Home = () => {
 
               <p>{randomProduct?.description}</p>
 
-              <Link to={`/shop/${randomProduct.id}`} style={{ textDecoration: 'none' }}>
+              <Link
+                to={`/shop/${randomProduct.id}`}
+                style={{ textDecoration: 'none'}}
+              >
                 <button>
                   {EN_STRINGS['Home.BidNow']} <GreaterIcon />
                 </button>

@@ -6,14 +6,15 @@ import EN_STRINGS from 'util/en_strings';
 import productsService from 'services/productService';
 
 import { GreaterIcon } from 'assets/icons';
+import { Loading } from 'components';
 import './single-product.scss';
 
 const SingleProduct = () => {
   const { setNavbarItems } = useContext(PageContext);
+  const { id } = useParams();
   const [mainImageIndex, setMainImageIndex] = useState(0);
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(true); //since there is no user, this should mimic logged in user or guest
   const [singleProduct, setSingleProduct] = useState<Product>();
-  const { id } = useParams();
 
   const otherImages = singleProduct?.imageURL.map((image, index: number) =>
     index !== mainImageIndex ? (
@@ -23,9 +24,7 @@ const SingleProduct = () => {
         key={index}
         onClick={() => setMainImageIndex(index)}
       />
-    ) : (
-      ''
-    )
+    ) : ('')
   );
 
   const fetchSingleProduct = (productId: string) => {
@@ -45,20 +44,28 @@ const SingleProduct = () => {
   useEffect(() => {
     fetchSingleProduct(id!);
   }, []);
+
+  if (!singleProduct) {
+    return <Loading />;
+  }
+
   return (
     <div className='c-single-product'>
       <div className='c-images'>
         <div className='c-main-image'>
           <img src={singleProduct?.imageURL[mainImageIndex]} alt='Main' />
         </div>
+
         <div className='c-other-images'>{otherImages}</div>
       </div>
+
       <div className='c-product-info'>
         <h1>{singleProduct?.name}</h1>
         <p>
           {EN_STRINGS['SingleProduct.StartsFrom']}{' '}
           <span>${singleProduct?.price}</span>
         </p>
+
         <div className='c-bid-container'>
           <div className='c-bid-info'>
             <p>
@@ -72,6 +79,7 @@ const SingleProduct = () => {
               <span>10 days 6 weeks</span>
             </p>
           </div>
+
           <div className='c-send-bid'>
             <input
               type='number'
@@ -83,6 +91,7 @@ const SingleProduct = () => {
             </button>
           </div>
         </div>
+
         <div className='c-details'>
           <div className='c-navbar'>
             <p className='c-navbar-item c-focus'>
@@ -95,6 +104,7 @@ const SingleProduct = () => {
               {EN_STRINGS['SingleProduct.CustomReviews']}
             </p>
           </div>
+          
           <div className='c-details-description'>
             <p>{singleProduct?.description}</p>
           </div>

@@ -12,6 +12,7 @@
     .c-main-image {
       @include flexDisplay(center, center);
       padding: 2rem 1rem;
+
       img {
         width: 450px;
         height: 620px;
@@ -23,6 +24,7 @@
       @include flexDisplay(center, center);
       flex-wrap: wrap;
       gap: 2rem;
+
       img {
         width: 70px;
         height: 100px;
@@ -36,6 +38,7 @@
 
   .c-product-info {
     width: 50%;
+
     h1 {
       color: $darkBlackColor;
     }

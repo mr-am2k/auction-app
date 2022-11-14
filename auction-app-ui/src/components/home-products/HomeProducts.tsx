@@ -10,7 +10,7 @@ type Props = {
 };
 
 //when there is backend created, productName and productPrice will be replaced with actual list of products, and then will be mapped through that list
-const NewArrivals: React.FC<Props> = ({ product }) => {
+const HomeProducts: React.FC<Props> = ({ product }) => {
   return (
     <div className='c-new-arrivals'>
       {product.map((item, index: number) => (
@@ -18,7 +18,9 @@ const NewArrivals: React.FC<Props> = ({ product }) => {
           <Link to={`/shop/${item.id}`}>
             <img src={item.imageURL[0]} alt='Product' />
           </Link>
-          <h3>{item.name}</h3>
+          <Link to={`/shop/${item.id}`} style={{ textDecoration: 'none'}}>
+            <h3>{item.name}</h3>
+          </Link>
           <p>
             {EN_STRINGS['HomeProducts.StartFrom']} {<span>${item.price}</span>}
           </p>
@@ -28,4 +30,4 @@ const NewArrivals: React.FC<Props> = ({ product }) => {
   );
 };
 
-export default NewArrivals;
+export default HomeProducts;
