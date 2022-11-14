@@ -32,9 +32,9 @@ class ProductControllerTest {
     @MockBean
     private ProductService productService;
 
-    private Product PRODUCT;
+    private Product PRODUCT_1;
 
-    private Product PRODUCT2;
+    private Product PRODUCT_2;
 
     private List<String> IMAGES = new ArrayList<>() {{
         add("https://underarmour.scene7.com/is/image/Underarmour/PS1306443-001_HF?rp=" +
@@ -50,7 +50,7 @@ class ProductControllerTest {
 
     @BeforeEach
     void setUp() {
-        PRODUCT = Product.builder()
+        PRODUCT_1 = Product.builder()
                 .id(PRODUCT_ID)
                 .name("Shirt")
                 .description("Black shirt")
@@ -60,7 +60,7 @@ class ProductControllerTest {
                 .expirationDateTime(LocalDateTime.now())
                 .build();
 
-        PRODUCT2 = Product.builder()
+        PRODUCT_2 = Product.builder()
                 .id(PRODUCT_ID)
                 .name("Shoes")
                 .description("Black shoes")
@@ -73,7 +73,7 @@ class ProductControllerTest {
 
     @Test
     void addProduct() throws Exception {
-        Mockito.when(productService.addProduct(PRODUCT)).thenReturn(PRODUCT);
+        Mockito.when(productService.addProduct(PRODUCT_1)).thenReturn(PRODUCT_1);
 
         mockMvc.perform(post("/api/v1/products")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -91,27 +91,27 @@ class ProductControllerTest {
 
     @Test
     void getSingleProduct() throws Exception {
-        Mockito.when(productService.getSingleProduct(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).thenReturn(PRODUCT);
+        Mockito.when(productService.getSingleProduct(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).thenReturn(PRODUCT_1);
         mockMvc.perform(get("/api/v1/products/3fa85f64-5717-4562-b3fc-2c963f66afa6")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.description").value(PRODUCT.getDescription()));
+                .andExpect(jsonPath("$.description").value(PRODUCT_1.getDescription()));
     }
 
     @Test
     void getRandomProduct() throws Exception {
-        Mockito.when(productService.getRandomProduct()).thenReturn(PRODUCT);
+        Mockito.when(productService.getRandomProduct()).thenReturn(PRODUCT_1);
         mockMvc.perform(get("/api/v1/products/random")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value(PRODUCT.getName()));
+                .andExpect(jsonPath("$.name").value(PRODUCT_1.getName()));
     }
 
     @Test
     void getProductsByCriteria() throws Exception {
         List<Product> products = new ArrayList<>();
-        products.add(PRODUCT);
-        products.add(PRODUCT2);
+        products.add(PRODUCT_1);
+        products.add(PRODUCT_2);
         Page<Product> page = new PageImpl<Product>(products);
         Mockito.when(productService.getProductsByCriteria("last-chance")).thenReturn(page);
         mockMvc.perform(get("/api/v1/products/search?criteria=last-chance").contentType(MediaType.APPLICATION_JSON))
