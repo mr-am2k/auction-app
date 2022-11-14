@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -33,8 +36,9 @@ public class Product {
     @Column(name = "description", nullable = false, columnDefinition="varchar(1000)")
     private String description;
 
+    @ElementCollection
     @Column(name = "imageURL", nullable = false)
-    private String imageURL;
+    private List<String> imageURL;
 
     @Column(name = "price", nullable = false)
     @DecimalMin("0.5")
@@ -46,8 +50,7 @@ public class Product {
     @Column(name = "expirationDateTime", nullable = false)
     private LocalDateTime expirationDateTime;
 
-    public Product(String name, String description, String imageURL,
-                   Double price, LocalDateTime creationDateTime, LocalDateTime expirationDateTime) {
+    public Product(String name, String description, List<String> imageURL, Double price, LocalDateTime creationDateTime, LocalDateTime expirationDateTime) {
         this.name = name;
         this.description = description;
         this.imageURL = imageURL;

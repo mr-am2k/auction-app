@@ -6,6 +6,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Component
 public class ProductSeeder implements CommandLineRunner {
@@ -31,78 +34,125 @@ public class ProductSeeder implements CommandLineRunner {
         if (productRepository.count() == 0) {
             Product product1 = new Product("Running Shoes",
                     productDescription,
-                    "https://d1fufvy4xao6k9.cloudfront.net/images/landings/421/brown-captoe-shoes-5.webp",
+                    new ArrayList<String>(){{
+                        add("https://media.cntraveler.com/photos/62e7cbd7af14e65bfedc7cd0/master/w_2100,h_1500,c_limit/" +
+                                "Best%20Running%20Shoes-2022_Hoka%20Rincon%203%20Men.jpg");
+                        add("https://i.insider.com/5e84e28f2d654f2c2469cc6b?width=1136&format=jpeg");
+                        add("https://hips.hearstapps.com/hmg-prod/images/" +
+                                "run-flat-footed-runningshoes-1642804867.jpg");}},
                     55.50,
                     LocalDateTime.now(),
                     LocalDateTime.of(2023, 12, 12, 19, 30, 40));
 
             Product product2 = new Product("Black shirt",
                     productDescription,
-                    "https://img.freepik.com/free-photo/ironic-thoughtful-handsome-young-man-with-afro-" +
-                            "wearing-black-sleeveless-cotton-t-shirt-white-wall_346278-1011.jpg?w=2000",
+                    new ArrayList<String>(){{
+                        add("https://pyxis.nymag.com/v1/imgs/a88/914/1abfe54a4c29e33a6a86c7cb386644d71c-7----.2x." +
+                                "rhorizontal.w600.jpg");
+                        add("https://cdn.shopify.com/s/files/1/0752/6435/products/" +
+                                "IMG_0272_734768d7-e51a-4416-832a-0c873edf027c.jpg?v=1650634953");
+                        add("https://media.gq.com/photos/602ea742937235d39fc1315b/master/" +
+                                "w_2000,h_1334,c_limit/sunspel.jpg"); }},
                     25.25,
                     LocalDateTime.now(),
                     LocalDateTime.of(2023, 05, 11, 11, 20, 23));
 
             Product product3 = new Product("Nike Air Force",
                     productDescription,
-                    "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/e125b578-4173-401a-" +
-                            "ab13-f066979c8848/air-force-1-big-kids-shoes-M7mcL9.png",
+                    new ArrayList<String>(){{
+                        add("https://images.complex.com/complex/images/c_scale,f_auto,q_auto,w_1920/fl_lossy," +
+                                "pg_1/iot1dbjmzr7z6kfkoxrb/nike-air-force-1-lead-1?fimg-ssr-default");
+                        add("https://static.nike.com/a/images/t_default/da1668ca-6dc5-4c00-879e-" +
+                                "77f8b9587e67/air-force-1-07-shoe-NMmm1B.png");
+                        add("https://n.nordstrommedia.com/id/sr3/e3de6e99-07a2-4739-9e0f-adf90a22c11e.jpeg?" +
+                                "crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838");}},
                     125.50,
                     LocalDateTime.now(),
                     LocalDateTime.of(2022, 12, 12, 15,15,15));
 
             Product product4 = new Product("Coat",
                     productDescription,
-                    "https://cdni.llbean.net/is/image/wim/260347_2772_41?hei=1095&wid=" +
-                            "950&resMode=sharp2&defaultImage=llbprod/A0211793_2",
+                    new ArrayList<String>(){{
+                        add("https://i.pinimg.com/originals/2b/71/37/2b7137b29ac5414cb148894dddc0fdc2.jpg");
+                        add("https://images.express.com/is/image/expressfashion/0037_06215332_2834?" +
+                                "cache=on&wid=361&fmt=jpeg&qlt=75,1&resmode=sharp2&op_usm=1,1,5,0&defaultImage=Photo-Coming-Soon");
+                        add("https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/" +
+                                "/14311496/2021/9/21/27c1c6be-4025-4a72-b8f8-24f5708b54381632208425681-" +
+                                "Sztori-Plus-Size-Men-Grey-Melange-Solid-Regular-Fit-Casual-D-1.jpg");}},
                     91.99,
                     LocalDateTime.now(),
                     LocalDateTime.of(2023, 4, 9, 21, 14, 44));
 
             Product product5 = new Product("Summer shirt",
                     productDescription,
-                    "https://static.footshop.com/755008-full_product/222031.jpg",
+                    new ArrayList<String>(){{
+                        add("https://static.footshop.com/755008-full_product/222031.jpg");
+                        add("https://www.thecoolector.com/wp-content/uploads/2020/04/huck-1-1050x700.jpg");
+                        add("https://encrypted-tbn0.gstatic.com/images?" +
+                                "q=tbn:ANd9GcRbB04TMVGpXE-ehT9imIF5ElfdrS6T6tHdVA&usqp=CAU");}},
                     15.50,
                     LocalDateTime.now(),
                     LocalDateTime.of(2024, 12, 12, 12, 12, 12));
 
             Product product6 = new Product("Shorts",
                     productDescription,
-                    "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/2264a97b-848e-4278-" +
-                            "8733-3c46da5c1a0c/dri-fit-golf-shorts-QNrCtG.png",
+                    new ArrayList<String>(){{
+                        add("https://underarmour.scene7.com/is/image/Underarmour/PS1306443-001_HF?rp=" +
+                                "standard-0pad|pdpMainDesktop&scl=1&fmt=jpg&qlt=85&resMode=sharp2&" +
+                                "cache=on,on&bgc=F0F0F0&wid=566&hei=708&size=566,708");
+                        add("https://encrypted-tbn0.gstatic.com/images?" +
+                                "q=tbn:ANd9GcTGyiH5Aej95fsvI0dHjPRMD3vsnDE98iIQWg&usqp=CAU");
+                        add("https://www.champion.com.au/media/catalog/product/cache/" +
+                                "9890eac9b882d8eab76fc4de618372e9/A/V/AV8HN_BLK_EE_1.jpg");}},
                     25.25,
                     LocalDateTime.now(),
                     LocalDateTime.of(2024, 9, 12, 9, 45, 11));
 
             Product product7 = new Product("Jacket",
                     productDescription,
-                    "https://cdn.shopify.com/s/files/1/0419/1525/products/1024x1024-Men-Moto-Tobacco-" +
-                            "050322-1.jpg?v=1652112663",
+                    new ArrayList<String>(){{
+                        add("https://cdn.shopify.com/s/files/1/0419/1525/products/1024x1024-" +
+                                "Men-Moto-Tobacco-050322-1.jpg?v=1652112663");
+                        add("https://cdn.shopify.com/s/files/1/0419/1525/products/" +
+                                "1024x1024-Men-Jacket-Keanu-BlackMatte-091721-1.jpg?v=1632508569");
+                        add("https://cdn.shopify.com/s/files/1/0419/1525/products/1024x1024-" +
+                                "Mens-Jacket-Keanu-BlackMatte-091721-FrontZipped.jpg?v=1632508562");}},
                     75.50,
                     LocalDateTime.now(),
                     LocalDateTime.of(2023, 3, 3, 3, 3, 3));
 
-            Product product8 = new Product("Simson Socks",
+            Product product8 = new Product("Simpson Socks",
                     productDescription,
-                    "https://www.stance.com/dw/image/v2/BGWC_PRD/on/demandware.static/-/Sites-" +
-                            "GlobalProductCatalog/default/dwd153fd50/images/products/A556A22BAR_WHT.jpg?sw=800&sh=800",
+                    new ArrayList<String>(){{
+                        add("https://www.stance.com/dw/image/v2/BGWC_PRD/on/demandware.static/-/" +
+                                "Sites-GlobalProductCatalog/default/dwd153fd50/images/" +
+                                "products/A556A22BAR_WHT.jpg?sw=800&sh=800");
+                        add("https://encrypted-tbn0.gstatic.com/images?" +
+                                "q=tbn:ANd9GcSz4PeeFfbGi6a7L348o6vmmA_MB3fAXEfaSA&usqp=CAU");
+                        add("https://img.shopstyle-cdn.com/sim/1b/14/" +
+                                "1b140eff2fe08ec3f9b3596a1623004e_xlarge/" +
+                                "the-simpsonstm-gender-neutral-socks-for-adults.jpg");}},
                     9.50,
                     LocalDateTime.now(),
                     LocalDateTime.of(2023, 11, 11, 12, 12, 11));
 
             Product product9 = new Product("Ring",
                     productDescription,
-                    "https://image.brilliantearth.com/media/diamond_ring_vto/8T/" +
-                            "BE1D64_white_Round_top_75_carat.png",
+                    new ArrayList<String>(){{
+                        add("https://upload.wikimedia.org/wikipedia/commons/d/d4/One_Ring_Blender_Render.png");
+                        add("https://www.wetanz.com/media/catalog/product/cache/" +
+                                "0c729873665a1c695396984e8457e603/1/4/1468044588cb6de1ae583f9a6ad2b28cc2e90e0f5b.jpg");
+                        add("https://i.insider.com/5c9df52092c88634ba266b74?width=1000&format=jpeg&auto=webp");}},
                     12.45,
                     LocalDateTime.now(),
                     LocalDateTime.of(2025, 12, 12, 7, 23, 12));
 
             Product product10 = new Product("Watch",
                     productDescription,
-                    "https://consumer.huawei.com/content/dam/huawei-cbg-site/" +
-                            "common/mkt/pdp/wearables/watch-d/img/pc/huawei-watch-d-design.png",
+                    new ArrayList<String>(){{
+                        add("https://m.media-amazon.com/images/I/71C3rHLQItL._AC_UL1347_.jpg");
+                        add("https://5.imimg.com/data5/OJ/VU/MY-10732933/hand-watch-500x500.jpg");
+                        add("https://5.imimg.com/data5/FN/FI/MY-34063937/mens-hand-watch-500x500.jpg");}},
                     85.50,
                     LocalDateTime.now(),
                     LocalDateTime.of(2024, 7, 12, 14, 12, 9));
