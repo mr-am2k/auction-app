@@ -6,6 +6,7 @@ import EN_STRINGS from 'util/en_strings';
 import './home.scss';
 import { Product } from 'models/product';
 import productsService from 'services/productService';
+import { Link } from 'react-router-dom';
 
 const DUMMY_CATEGORIES = [
   'Fashion',
@@ -89,12 +90,16 @@ const Home = () => {
 
               <p>{randomProduct?.description}</p>
 
-              <button>
-                {EN_STRINGS['Home.BidNow']} <GreaterIcon />
-              </button>
+              <Link to={`/shop/${randomProduct.id}`} style={{ textDecoration: 'none' }}>
+                <button>
+                  {EN_STRINGS['Home.BidNow']} <GreaterIcon />
+                </button>
+              </Link>
             </div>
 
-            <img src={randomProduct?.imageURL[0]} alt='Highlighted product' />
+            <Link to={`/shop/${randomProduct.id}`}>
+              <img src={randomProduct?.imageURL[0]} alt='Highlighted product' />
+            </Link>
           </div>
         )}
       </div>

@@ -1,11 +1,10 @@
-import { PrivacyAndPolicy, TermsAndConditions, AboutUs, Home } from './pages';
+import { PrivacyAndPolicy, TermsAndConditions, AboutUs, Home, SingleProduct } from './pages';
 import { Routes, Route } from 'react-router-dom';
 import ROUTES from './util/routes';
 
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import PageProvider from 'store/PageProvider';
 import './app.scss';
-import SingleProduct from 'pages/single-product/SingleProduct';
 
 const App = () => {
   return (

@@ -16,6 +16,7 @@
   .c-page-wrapper {
     @include flexDisplay('center', space-between);
     flex-direction: row;
+    gap: 2rem;
 
     .c-content {
       width: 45rem;

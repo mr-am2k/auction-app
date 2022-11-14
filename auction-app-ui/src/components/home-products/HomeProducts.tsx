@@ -1,7 +1,8 @@
-import './home-products.scss';
-
+import { Link } from 'react-router-dom';
 import EN_STRINGS from 'util/en_strings';
 import { Product } from 'models/product';
+
+import './home-products.scss';
 
 type Props = {
   children?: React.ReactNode;
@@ -14,7 +15,9 @@ const NewArrivals: React.FC<Props> = ({ product }) => {
     <div className='c-new-arrivals'>
       {product.map((item, index: number) => (
         <div className='c-item' key={index}>
-          <img src={item.imageURL[0]} alt='Product' />
+          <Link to={`/shop/${item.id}`}>
+            <img src={item.imageURL[0]} alt='Product' />
+          </Link>
           <h3>{item.name}</h3>
           <p>
             {EN_STRINGS['HomeProducts.StartFrom']} {<span>${item.price}</span>}

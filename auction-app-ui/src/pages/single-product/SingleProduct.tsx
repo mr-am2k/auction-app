@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { GreaterIcon } from 'assets/icons';
+import { Product } from 'models/product';
 import PageContext from 'store/page-context';
 import EN_STRINGS from 'util/en_strings';
-
-import './single-product.scss';
-import { Product } from 'models/product';
 import productsService from 'services/productService';
+
+import { GreaterIcon } from 'assets/icons';
+import './single-product.scss';
 
 const SingleProduct = () => {
   const { setNavbarItems } = useContext(PageContext);
