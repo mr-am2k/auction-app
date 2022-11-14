@@ -14,7 +14,7 @@ const NewArrivals: React.FC<Props> = ({ product }) => {
     <div className='c-new-arrivals'>
       {product.map((item, index: number) => (
         <div className='c-item' key={index}>
-          <img src={item.imageURL} alt='Product' />
+          <img src={item.imageURL[0]} alt='Product' />
           <h3>{item.name}</h3>
           <p>
             {EN_STRINGS['HomeProducts.StartFrom']} {<span>${item.price}</span>}

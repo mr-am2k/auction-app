@@ -4,15 +4,15 @@
 .c-new-arrivals {
   font-family: $fontFamily;
   padding-top: 3rem;
-  display: grid;
+  display: flex;
   width: 100%;
-  grid-template-columns: auto auto auto auto;
-  gap: 50px 24px;
+  // grid-template-columns: auto auto auto auto;
+  gap: 50px 23px;
+  flex-wrap: wrap;
 
   .c-item {
-    width: 100%;
     img {
-      width: 100%;
+      width: 362px;
       height: 362px;
     }
 

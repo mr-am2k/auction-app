@@ -94,7 +94,7 @@ const Home = () => {
               </button>
             </div>
 
-            <img src={randomProduct?.imageURL} alt='Highlighted product' />
+            <img src={randomProduct?.imageURL[0]} alt='Highlighted product' />
           </div>
         )}
       </div>

@@ -8,6 +8,7 @@
     @include flexDisplay(space-between, center);
     flex-direction: row;
     padding: 0 12rem;
+    gap: 2rem;
     background-color: $lightGreyColor;
 
     .c-categories {
@@ -100,7 +101,7 @@
       }
 
       .c-focus {
-        border-bottom: 5px solid $purpleColor;
+        border-bottom: 2px solid $purpleColor;
       }
       p:hover {
         cursor: pointer;
