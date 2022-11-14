@@ -19,6 +19,14 @@ const en_strings = {
   'Home.NewArrivalFetch': 'new-arrival',
   'Home.LastChanceFetch': 'last-chance',
   'Shop.SingleProduct': 'Single Product',
+  'SingleProduct.StartsFrom': 'Starts from:',
+  'SingleProduct.HighestBid': 'Highest bid: ',
+  'SingleProduct.NumberOfBids': 'Number of bids: ',
+  'SingleProduct.TimeLeft': 'Time left: ',
+  'SingleProduct.Details': 'Details',
+  'SingleProduct.SellerInformation': 'Seller information',
+  'SingleProduct.CustomReviews': 'Custom reviews',
+  'SingleProduct.PlaceBid': 'PLACE BID',
 };
 
 export default en_strings;
