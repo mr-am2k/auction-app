@@ -1,26 +1,17 @@
 package com.internship.auctionapp.DAO;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.UUID;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BidDAO {
 
     private double bidPrice;
 
     private UUID productId;
-    
-    public double getBidPrice() {
-        return bidPrice;
-    }
-
-    public void setBidPrice(double bidPrice) {
-        this.bidPrice = bidPrice;
-    }
-
-    public UUID getProductId() {
-        return productId;
-    }
-
-    public void setProductId(UUID productId) {
-        this.productId = productId;
-    }
 }

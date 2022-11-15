@@ -36,8 +36,8 @@ public class Bid {
     @Column(name = "bid_creation_date_time", nullable = false)
     private LocalDateTime bidCreationDateTime;
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
-    private Product product;*/
-
+    public Bid(double bidPrice, LocalDateTime bidCreationDateTime) {
+        this.bidPrice = bidPrice;
+        this.bidCreationDateTime = bidCreationDateTime;
+    }
 }

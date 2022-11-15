@@ -14,37 +14,33 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class DefaultBidService implements BidService{
+public class DefaultBidService implements BidService {
 
     private final BidRepository bidRepository;
 
     private final ProductService productService;
 
-    private final ProductRepository productRepository;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
 
-    public DefaultBidService(BidRepository bidRepository, ProductService productService, ProductRepository productRepository) {
+    public DefaultBidService(BidRepository bidRepository, ProductService productService) {
         this.bidRepository = bidRepository;
         this.productService = productService;
-        this.productRepository = productRepository;
     }
 
     @Override
     public Bid addBid(BidDAO bid) {
-        try{
-            Product targetedProduct = productService.getSingleProduct(bid.getProductId());
-            Bid newBid = new Bid();
-            newBid.setBidPrice(bid.getBidPrice());
-            newBid.setBidCreationDateTime(LocalDateTime.now());
-            Bid savedBid = bidRepository.save(newBid);
-            targetedProduct.getBids().add(savedBid);
-            productService.addProduct(targetedProduct);
-            LOGGER.info("Successfully saved bid={}", savedBid);
-            return savedBid;
-        }catch (Exception ex){
-            throw new RuntimeException(ex.getMessage());
+        Product targetedProduct = productService.getSingleProduct(bid.getProductId());
+
+        if (bid.getBidPrice() < targetedProduct.getPrice()) {
+            throw new IllegalArgumentException("Bid price can't be lower than product price");
         }
+
+        Bid newBid = new Bid(bid.getBidPrice(), LocalDateTime.now());
+        Bid savedBid = bidRepository.save(newBid);
+        targetedProduct.getBids().add(savedBid);
+        productService.addProduct(targetedProduct);
+        LOGGER.info("Successfully saved bid={}", savedBid);
+        return savedBid;
     }
 
     @Override
