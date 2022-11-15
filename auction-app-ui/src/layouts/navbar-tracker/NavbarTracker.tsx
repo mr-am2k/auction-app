@@ -1,11 +1,10 @@
-import { useContext } from 'react';
-import PageContext from 'store/page-context/page-context';
+import { usePage } from 'hooks/usePage';
 
 import { ArrowIcon } from 'assets/icons';
 import './navbar-tracker.scss';
 
 const NavbarTracker = () => {
-  const { navbarItems } = useContext(PageContext);
+  const { navbarItems } = usePage();
 
   if (!navbarItems.length) {
     return <div className='c-empty-div'></div>;

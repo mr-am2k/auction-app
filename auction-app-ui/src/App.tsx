@@ -7,25 +7,24 @@ import {
 } from './pages';
 import { Routes, Route } from 'react-router-dom';
 import ROUTES from './util/routes';
+import { PageProvider, UserProvider } from 'store/index';
 
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
-import {PageProvider, UserProvider} from 'store/index'
 import './app.scss';
 
 const App = () => {
   return (
     <PageProvider>
       <UserProvider>
+        <Header />
         <div className='c-page-wrapper'>
           <Routes>
             <Route
               path='/*'
               element={
                 <>
-                  <Header />
                   <Navbar />
                   <NavbarTracker />
-
                   <main>
                     <Routes>
                       <Route
@@ -41,13 +40,12 @@ const App = () => {
                       <Route path='/shop/:id' element={<SingleProduct />} />
                     </Routes>
                   </main>
-
-                  <Footer />
                 </>
               }
             />
           </Routes>
         </div>
+        <Footer />
       </UserProvider>
     </PageProvider>
   );

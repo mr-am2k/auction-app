@@ -1,11 +1,11 @@
-import { useContext, useEffect } from 'react';
-import PageContext from 'store/page-context/page-context';
+import { usePage } from 'hooks/usePage';
+import { useEffect } from 'react';
 import EN_STRINGS from 'util/en_strings';
 
 import './privacy-and-policy.scss';
 
 const PrivacyAndPolicy = () => {
-  const { setNavbarItems } = useContext(PageContext);
+  const { setNavbarItems } = usePage();
 
   useEffect(() => {
     setNavbarItems([

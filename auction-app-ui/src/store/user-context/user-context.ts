@@ -1,13 +1,16 @@
-import { createContext} from "react";
+import { createContext } from 'react';
+import { User } from 'models/user';
 
-interface AppContextInterface{
-  loggedInUser: string | null,
-  setLoggedInUser: (newUser: string) => void
+interface AppContextInterface {
+  loggedInUser: User | {};
+  setLoggedInUser: (newUser: User) => void;
+  isUserLoggedIn: () => boolean;
 }
 
 const UserContext = createContext<AppContextInterface>({
-  loggedInUser: null,
-  setLoggedInUser: (newUser: string) => {}
+  loggedInUser: {},
+  setLoggedInUser: (newUser: User) => {},
+  isUserLoggedIn: () => false,
 });
 
 export default UserContext;

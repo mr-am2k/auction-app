@@ -1,30 +1,31 @@
-import { Product } from 'models/product';
 import { useState } from 'react';
 import './image-picker.scss';
 
 type Props = {
   children?: React.ReactNode;
-  singleProduct: Product;
+  images: string[];
 };
 
-const ImagePicker:React.FC<Props> = ({singleProduct}) => {
-    const [mainImageIndex, setMainImageIndex] = useState(0);
-    
-    const otherImages = singleProduct?.imageURL.map((image, index: number) =>
-    index !== mainImageIndex ? (
+const ImagePicker: React.FC<Props> = ({ images }) => {
+  const [selectedImage, setSelectedImage] = useState(0);
+
+  const otherImages = images?.map((image, index: number) =>
+    index !== selectedImage ? (
       <img
         src={image}
-        alt='slika'
+        alt='Product'
         key={index}
-        onClick={() => setMainImageIndex(index)}
+        onClick={() => setSelectedImage(index)}
       />
-    ) : ('')
+    ) : (
+      ''
+    )
   );
 
   return (
     <div className='c-images'>
       <div className='c-main-image'>
-        <img src={singleProduct?.imageURL[mainImageIndex]} alt='Main' />
+        <img src={images[selectedImage]} alt='Main' />
       </div>
 
       <div className='c-other-images'>{otherImages}</div>

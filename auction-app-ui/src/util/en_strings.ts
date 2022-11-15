@@ -27,6 +27,8 @@ const en_strings = {
   'SingleProduct.SellerInformation': 'Seller information',
   'SingleProduct.CustomReviews': 'Custom reviews',
   'SingleProduct.PlaceBid': 'PLACE BID',
+  'SingleProduct.NoBidMessage': 'Be first to bid for this product',
+  'SingleProduct.InputPlaceholder': 'Enter $56 or higher',
 };
 
 export default en_strings;

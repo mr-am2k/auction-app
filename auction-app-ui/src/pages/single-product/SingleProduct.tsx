@@ -1,20 +1,20 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Product } from 'models/product';
-import PageContext from 'store/page-context/page-context';
 import EN_STRINGS from 'util/en_strings';
 import productsService from 'services/productService';
+import { usePage } from 'hooks/usePage';
+import { useUser } from 'hooks/useUser';
+import { Bid } from 'models/bid';
 
 import { GreaterIcon } from 'assets/icons';
 import { Loading } from 'components';
-import './single-product.scss';
-import UserContext from 'store/user-context/user-context';
 import ImagePicker from 'components/image-picker/ImagePicker';
-import { Bid } from 'models/bid';
+import './single-product.scss';
 
 const SingleProduct = () => {
-  const { setNavbarItems } = useContext(PageContext);
-  const { loggedInUser } = useContext(UserContext);
+  const { setNavbarItems } = usePage();
+  const { loggedInUser, isUserLoggedIn } = useUser();
   const { id } = useParams();
   const [singleProduct, setSingleProduct] = useState<Product>();
   const [highestBid, setHighestBid] = useState<Bid | null>();
@@ -22,14 +22,14 @@ const SingleProduct = () => {
   const fetchSingleProduct = (productId: string) => {
     productsService
       .getSingleProduct(productId)
-      .then((data) => {
-        setSingleProduct(data);
+      .then((product) => {
+        setSingleProduct(product);
         setNavbarItems([
-          data.name,
+          product.name,
           EN_STRINGS['Navbar.Shop'],
           EN_STRINGS['Shop.SingleProduct'],
         ]);
-        setHighestBid(getHighestBid(data));
+        setHighestBid(getHighestBid(product));
       })
       .catch((error) => console.log(error));
   };
@@ -54,9 +54,11 @@ const SingleProduct = () => {
     return <Loading />;
   }
 
+  console.log(loggedInUser);
+  console.log(isUserLoggedIn());
   return (
     <div className='c-single-product'>
-      <ImagePicker singleProduct={singleProduct} />
+      <ImagePicker images={singleProduct.imageURL} />
 
       <div className='c-product-info'>
         <h1>{singleProduct?.name}</h1>
@@ -82,15 +84,15 @@ const SingleProduct = () => {
             </div>
           )}
 
-          {!highestBid && <h3>Be first to bid for this product</h3>}
+          {!highestBid && <h3>{EN_STRINGS['SingleProduct.NoBidMessage']}</h3>}
 
           <div className='c-send-bid'>
             <input
               type='number'
-              placeholder='Enter $56 or higher'
-              disabled={!loggedInUser}
+              placeholder={EN_STRINGS['SingleProduct.InputPlaceholder']}
+              disabled={!isUserLoggedIn()}
             />
-            <button disabled={!loggedInUser}>
+            <button disabled={!isUserLoggedIn()}>
               {EN_STRINGS['SingleProduct.PlaceBid']} <GreaterIcon />
             </button>
           </div>
