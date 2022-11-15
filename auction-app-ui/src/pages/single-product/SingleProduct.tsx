@@ -10,12 +10,14 @@ import { Loading } from 'components';
 import './single-product.scss';
 import UserContext from 'store/user-context/user-context';
 import ImagePicker from 'components/image-picker/ImagePicker';
+import { Bid } from 'models/bid';
 
 const SingleProduct = () => {
   const { setNavbarItems } = useContext(PageContext);
   const { loggedInUser } = useContext(UserContext);
   const { id } = useParams();
   const [singleProduct, setSingleProduct] = useState<Product>();
+  const [highestBid, setHighestBid] = useState<Bid | null>();
 
   const fetchSingleProduct = (productId: string) => {
     productsService
@@ -27,8 +29,21 @@ const SingleProduct = () => {
           EN_STRINGS['Navbar.Shop'],
           EN_STRINGS['Shop.SingleProduct'],
         ]);
+        setHighestBid(getHighestBid(data));
       })
       .catch((error) => console.log(error));
+  };
+
+  const getHighestBid = (product: Product) => {
+    let minPrice = 0;
+    let highestBid: Bid | null = null;
+    product?.bids.forEach((bid) => {
+      if (bid.bidPrice > minPrice) {
+        highestBid = bid;
+        minPrice = bid.bidPrice;
+      }
+    });
+    return highestBid;
   };
 
   useEffect(() => {
@@ -51,18 +66,23 @@ const SingleProduct = () => {
         </p>
 
         <div className='c-bid-container'>
-          <div className='c-bid-info'>
-            <p>
-              {EN_STRINGS['SingleProduct.HighestBid']} <span>$55</span>
-            </p>
-            <p>
-              {EN_STRINGS['SingleProduct.NumberOfBids']} <span>1</span>
-            </p>
-            <p>
-              {EN_STRINGS['SingleProduct.TimeLeft']}{' '}
-              <span>10 days 6 weeks</span>
-            </p>
-          </div>
+          {highestBid && (
+            <div className='c-bid-info'>
+              <p>
+                {EN_STRINGS['SingleProduct.HighestBid']}{' '}
+                <span>${highestBid?.bidPrice}</span>
+              </p>
+              <p>
+                {EN_STRINGS['SingleProduct.NumberOfBids']}{' '}
+                <span>{singleProduct.bids.length}</span>
+              </p>
+              <p>
+                {EN_STRINGS['SingleProduct.TimeLeft']} <span>{}</span>
+              </p>
+            </div>
+          )}
+
+          {!highestBid && <h3>Be first to bid for this product</h3>}
 
           <div className='c-send-bid'>
             <input
@@ -88,7 +108,7 @@ const SingleProduct = () => {
               {EN_STRINGS['SingleProduct.CustomReviews']}
             </p>
           </div>
-          
+
           <div className='c-details-description'>
             <p>{singleProduct?.description}</p>
           </div>

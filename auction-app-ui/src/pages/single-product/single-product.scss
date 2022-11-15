@@ -65,6 +65,10 @@
         width: fit-content;
       }
 
+      h3{
+        color: $purpleColor;
+      }
+
       .c-send-bid {
         margin-top: 4rem;
         @include flexDisplay(space-between, flex-start);
