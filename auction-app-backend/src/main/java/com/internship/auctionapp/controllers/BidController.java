@@ -1,5 +1,6 @@
 package com.internship.auctionapp.controllers;
 
+import com.internship.auctionapp.DAO.BidDAO;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.services.BidService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -29,7 +30,7 @@ public class BidController {
     }
 
     @PostMapping()
-    public Bid addBid(@RequestBody Bid bid){
+    public Bid addBid(@RequestBody BidDAO bid){
         return bidService.addBid(bid);
     }
 
