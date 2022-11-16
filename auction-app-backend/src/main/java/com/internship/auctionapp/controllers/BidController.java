@@ -1,6 +1,6 @@
 package com.internship.auctionapp.controllers;
 
-import com.internship.auctionapp.DAO.BidDAO;
+import com.internship.auctionapp.DAO.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.services.BidService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,13 +29,18 @@ public class BidController {
     }
 
     @PostMapping()
-    public Bid addBid(@RequestBody BidDAO bid){
+    public Bid addBid(@RequestBody CreateBidRequest bid){
         return bidService.addBid(bid);
     }
 
     @GetMapping()
     public List<Bid> getAllBids() {
         return bidService.getAllBids();
+    }
+
+    @GetMapping("/{productId}")
+    public double getHighestBid(@PathVariable("productId") UUID productId) {
+        return bidService.getHighestBid(productId);
     }
 
     @DeleteMapping("/{id}")

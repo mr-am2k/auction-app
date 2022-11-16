@@ -9,7 +9,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BidDAO {
+public class CreateBidRequest {
 
     private double bidPrice;
 

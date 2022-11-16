@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,7 +36,7 @@ public class Product {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = false, columnDefinition="varchar(1000)")
+    @Column(name = "description", nullable = false, columnDefinition = "varchar(1000)")
     private String description;
 
     @ElementCollection
@@ -54,7 +54,8 @@ public class Product {
     private LocalDateTime expirationDateTime;
 
     @OneToMany(
-            cascade = CascadeType.ALL
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
     )
     @JoinColumn(
             name = "product_id",
