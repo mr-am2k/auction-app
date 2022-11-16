@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
-import ROUTES from 'util/routes';
+
 import PageContext from './page-context';
+import ROUTES from 'util/routes';
 
 type Props = {
   children?: React.ReactNode;

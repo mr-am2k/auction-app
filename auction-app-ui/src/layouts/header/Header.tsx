@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
 import EN_STRINGS from 'util/en_strings';
 import ROUTES from 'util/routes';
 
-import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
 import './header.scss';
 
 const Header = () => {

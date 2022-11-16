@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
+
+import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
 import EN_STRINGS from '../../util/en_strings';
 import CONSTANTS from 'util/constants';
 
-import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
 import './footer.scss';
 
 const Footer = () => {
@@ -22,7 +23,7 @@ const Footer = () => {
       <div className='c-contact-part'>
         <p className='c-title'>{EN_STRINGS['Footer.GetInTouch']}</p>
         <p>
-          {EN_STRINGS['Footer.CallUs']} {CONSTANTS.PHONE_NUMBER}
+          {EN_STRINGS['Footer.CallUs']}: {CONSTANTS.PHONE_NUMBER}
         </p>
         <p>{CONSTANTS.EMAIL}</p>
         <div className='c-footer-icons'>

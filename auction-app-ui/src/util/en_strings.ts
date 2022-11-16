@@ -1,4 +1,4 @@
-const en_strings = {
+const EN_STRINGS = {
   'Footer.AboutUs': 'About Us',
   'Footer.TermsAndConditions': 'Terms and Conditions',
   'Footer.PrivacyAndPolicy': 'Privacy and policy',
@@ -10,25 +10,25 @@ const en_strings = {
   'Header.Login': 'Login',
   'Header.CreateAccount': 'Create Account',
   'Navbar.InputPlaceholder': 'Try enter: Shoes',
-  'Footer.CallUs': 'Call us at: ',
+  'Footer.CallUs': 'Call us at',
   'Home.Categories': 'CATEGORIES',
   'Home.BidNow': 'Bid now',
   'Home.NewArrivals': 'New Arrivals',
   'Home.LastChance': 'Last Chance',
-  'HomeProducts.StartFrom' : 'Start from:',
-  'Home.NewArrivalFetch': 'new-arrival',
-  'Home.LastChanceFetch': 'last-chance',
+  'Home.HighlightedProduct': 'Highlighted product',
+  'HomeProducts.StartFrom' : 'Start from',
   'Shop.SingleProduct': 'Single Product',
-  'SingleProduct.StartsFrom': 'Starts from:',
-  'SingleProduct.HighestBid': 'Highest bid: ',
-  'SingleProduct.NumberOfBids': 'Number of bids: ',
-  'SingleProduct.TimeLeft': 'Time left: ',
+  'SingleProduct.StartsFrom': 'Starts from',
+  'SingleProduct.HighestBid': 'Highest bid',
+  'SingleProduct.NumberOfBids': 'Number of bids',
+  'SingleProduct.TimeLeft': 'Time left',
   'SingleProduct.Details': 'Details',
   'SingleProduct.SellerInformation': 'Seller information',
   'SingleProduct.CustomReviews': 'Custom reviews',
   'SingleProduct.PlaceBid': 'PLACE BID',
   'SingleProduct.NoBidMessage': 'Be first to bid for this product',
   'SingleProduct.InputPlaceholder': 'Enter $56 or higher',
+  'ImagePicker.FocusedImage': 'Focused',
 };
 
-export default en_strings;
+export default EN_STRINGS;

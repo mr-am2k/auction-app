@@ -1,10 +1,11 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
+
+import { SearchIcon, CloseIcon } from 'assets/icons';
+import auctionAppLogo from 'assets/logo/auction-app-logo.svg';
 import EN_STRINGS from 'util/en_strings';
 import ROUTES from 'util/routes';
 
-import auctionAppLogo from 'assets/logo/auction-app-logo.svg';
-import { SearchIcon, CloseIcon } from 'assets/icons';
 import './navbar.scss';
 
 const Navbar = () => {

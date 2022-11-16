@@ -77,5 +77,5 @@ export const dateDiff = (expirationDate: Date) => {
       : dateDiffInSeconds + ' seconds';
   }
 
-  return 'Auction finished'
+  return -1
 };

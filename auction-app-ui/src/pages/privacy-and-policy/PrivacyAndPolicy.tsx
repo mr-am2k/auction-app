@@ -1,5 +1,7 @@
-import { usePage } from 'hooks/usePage';
 import { useEffect } from 'react';
+
+import { usePage } from 'hooks/usePage';
+
 import EN_STRINGS from 'util/en_strings';
 
 import './privacy-and-policy.scss';
@@ -13,6 +15,7 @@ const PrivacyAndPolicy = () => {
       EN_STRINGS['Navbar.Home'],
       EN_STRINGS['Footer.PrivacyAndPolicy'],
     ]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

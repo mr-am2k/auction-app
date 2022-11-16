@@ -1,14 +1,19 @@
 import { useState, useEffect } from 'react';
-import { GreaterIcon } from 'assets/icons';
-import { Category, HomeProducts, Loading } from 'components';
-import EN_STRINGS from 'util/en_strings';
-
-import './home.scss';
-import { Product } from 'models/product';
-import productsService from 'services/productService';
 import { Link } from 'react-router-dom';
+
 import { usePage } from 'hooks/usePage';
 import { useUser } from 'hooks/useUser';
+
+import productsService from 'services/productService';
+
+import { Category, HomeProducts, Loading } from 'components';
+import { Product } from 'models/product';
+import { GreaterIcon } from 'assets/icons';
+import EN_STRINGS from 'util/en_strings';
+import CONSTANTS from 'util/constants';
+import ROUTES from 'util/routes';
+
+import './home.scss';
 
 const DUMMY_CATEGORIES = [
   'Fashion',
@@ -61,18 +66,20 @@ const Home = () => {
   const handleLastChanceOnClick = () => {
     setLastChanceActive(true);
     setNewArrivalsActive(false);
-    fetchLastChanceProducts(EN_STRINGS['Home.LastChanceFetch']);
+    fetchLastChanceProducts(CONSTANTS.LAST_CHANCE);
   };
 
   useEffect(() => {
     setNavbarItems([]);
     fetchSingleProduct();
-    fetchNewArrivalProducts(EN_STRINGS['Home.NewArrivalFetch']);
+    fetchNewArrivalProducts(CONSTANTS.NEW_ARRIVAL);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //used for demonstration, because user login/registration is not yet implemented
   useEffect(() => {
     setLoggedInUser({ name: 'Muamer' });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -100,15 +107,15 @@ const Home = () => {
 
               <p>{randomProduct?.description}</p>
 
-              <Link to={`/shop/${randomProduct.id}`}>
+              <Link to={`/${ROUTES.PRODUCT}/${randomProduct.id}`}>
                 <button>
                   {EN_STRINGS['Home.BidNow']} <GreaterIcon />
                 </button>
               </Link>
             </div>
 
-            <Link to={`/shop/${randomProduct.id}`}>
-              <img src={randomProduct?.imageURL[0]} alt='Highlighted product' />
+            <Link to={`/${ROUTES.PRODUCT}/${randomProduct.id}`}>
+              <img src={randomProduct?.imageURL[0]} alt={EN_STRINGS['Home.HighlightedProduct']} />
             </Link>
           </div>
         )}

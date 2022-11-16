@@ -1,5 +1,7 @@
-import { usePage } from 'hooks/usePage';
 import { useEffect } from 'react';
+
+import { usePage } from 'hooks/usePage';
+
 import EN_STRINGS from 'util/en_strings';
 
 import './terms-and-conditions.scss';

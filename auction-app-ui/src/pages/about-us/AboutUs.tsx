@@ -1,5 +1,7 @@
-import { usePage } from 'hooks/usePage';
 import { useEffect } from 'react';
+
+import { usePage } from 'hooks/usePage';
+
 import EN_STRINGS from 'util/en_strings';
 
 import './about-us.scss';
@@ -13,6 +15,7 @@ const AboutUs = () => {
       EN_STRINGS['Navbar.Home'],
       EN_STRINGS['Footer.AboutUs'],
     ]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -1,24 +1,28 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { Product } from 'models/product';
-import EN_STRINGS from 'util/en_strings';
-import productsService from 'services/productService';
+
 import { usePage } from 'hooks/usePage';
 import { useUser } from 'hooks/useUser';
-import { dateDiff } from 'util/date_diff';
 
-import { GreaterIcon } from 'assets/icons';
-import { Loading } from 'components';
-import ImagePicker from 'components/image-picker/ImagePicker';
-import './single-product.scss';
+import productsService from 'services/productService';
 import bidService from 'services/bidService';
+
+import { Loading, ImagePicker } from 'components';
+import { GreaterIcon } from 'assets/icons';
+import { Product } from 'models/product';
+import { dateDiff } from 'util/date_diff';
+import EN_STRINGS from 'util/en_strings';
+
+import './single-product.scss';
 
 const SingleProduct = () => {
   const { setNavbarItems } = usePage();
   const { isUserLoggedIn } = useUser();
   const { id } = useParams();
   const [singleProduct, setSingleProduct] = useState<Product>();
-  const [bidExpirationTime, setBidExpirationTime] = useState<string>(' ');
+  const [bidExpirationTime, setBidExpirationTime] = useState<string | number>(
+    ' '
+  );
   const [highestBid, setHighestBid] = useState<any>();
 
   const fetchSingleProduct = (productId: string) => {
@@ -34,14 +38,14 @@ const SingleProduct = () => {
         bidService
           .getHighestBid(product.id)
           .then((topBid) => setHighestBid(topBid));
-          setBidExpirationTime(dateDiff(product.expirationDateTime))
+        setBidExpirationTime(dateDiff(product.expirationDateTime));
       })
       .catch((error) => console.log(error));
   };
 
   useEffect(() => {
     fetchSingleProduct(id!);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!singleProduct) {
@@ -55,7 +59,7 @@ const SingleProduct = () => {
       <div className='c-product-info'>
         <h1>{singleProduct?.name}</h1>
         <p>
-          {EN_STRINGS['SingleProduct.StartsFrom']}{' '}
+          {EN_STRINGS['SingleProduct.StartsFrom']}:{' '}
           <span>${singleProduct?.price}</span>
         </p>
 
@@ -63,15 +67,15 @@ const SingleProduct = () => {
           {highestBid ? (
             <div className='c-bid-info'>
               <p>
-                {EN_STRINGS['SingleProduct.HighestBid']}{' '}
+                {EN_STRINGS['SingleProduct.HighestBid']}:{' '}
                 <span>${highestBid}</span>
               </p>
               <p>
-                {EN_STRINGS['SingleProduct.NumberOfBids']}{' '}
+                {EN_STRINGS['SingleProduct.NumberOfBids']}:{' '}
                 <span>{singleProduct.bids.length}</span>
               </p>
               <p>
-                {EN_STRINGS['SingleProduct.TimeLeft']}{' '}
+                {EN_STRINGS['SingleProduct.TimeLeft']}:{' '}
                 <span>{bidExpirationTime}</span>
               </p>
             </div>

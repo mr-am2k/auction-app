@@ -1,6 +1,7 @@
-import { User } from 'models/user';
 import { useState } from 'react';
+
 import UserContext from './user-context';
+import { User } from 'models/user';
 
 type Props = {
   children?: React.ReactNode;
