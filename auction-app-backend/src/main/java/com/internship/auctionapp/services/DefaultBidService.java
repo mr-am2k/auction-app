@@ -2,6 +2,7 @@ package com.internship.auctionapp.services;
 
 import com.internship.auctionapp.DAO.CreateBidRequest;
 import com.internship.auctionapp.DTO.BidDTO;
+import com.internship.auctionapp.middleware.exception.IllegalBidPriceException;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.repositories.BidRepository;
@@ -29,14 +30,14 @@ public class DefaultBidService implements BidService {
     }
 
     @Override
-    public String addBid(CreateBidRequest bid) {
-        Product targetedProduct = productService.getSingleProduct(bid.getProductId());
+    public String addBid(CreateBidRequest createBidRequest) {
+        Product targetedProduct = productService.getSingleProduct(createBidRequest.getProductId());
 
-        if (bid.getBidPrice() < targetedProduct.getPrice()) {
-            throw new IllegalArgumentException("Bid price can't be lower than product price");
+        if (createBidRequest.getBidPrice() < targetedProduct.getPrice()) {
+            throw new IllegalBidPriceException();
         }
 
-        Bid newBid = new Bid(bid.getBidPrice(), LocalDateTime.now(), targetedProduct);
+        Bid newBid = new Bid(createBidRequest.getBidPrice(), LocalDateTime.now(), targetedProduct);
         targetedProduct.getBids().add(newBid);
         productRepository.save(targetedProduct);
         return "Added new bid";
