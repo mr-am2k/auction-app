@@ -10,8 +10,8 @@
 
     img {
       object-fit: contain;
-      width: 450px;
-      height: 620px;
+      max-width: 450px;
+      max-height: 620px;
     }
   }
 
@@ -24,6 +24,8 @@
     img {
       width: 70px;
       height: 100px;
+      border: 1px solid $greyColor;
+      padding: 1rem 0.5rem;
 
       &:hover {
         cursor: pointer;

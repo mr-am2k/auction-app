@@ -16,15 +16,17 @@ const App = () => {
   return (
     <PageProvider>
       <UserProvider>
+
         <Header />
+        <Navbar />
+        <NavbarTracker />
+        
         <div className='c-page-wrapper'>
           <Routes>
             <Route
               path='/*'
               element={
                 <>
-                  <Navbar />
-                  <NavbarTracker />
                   <main>
                     <Routes>
                       <Route
