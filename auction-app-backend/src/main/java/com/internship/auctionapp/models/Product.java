@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,14 +55,12 @@ public class Product {
     private LocalDateTime expirationDateTime;
 
     @OneToMany(
+            mappedBy = "product",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
     )
-    @JoinColumn(
-            name = "product_id",
-            referencedColumnName = "id"
-    )
-    private List<Bid> bids;
+    private List<Bid> bids = new ArrayList<>();
 
     public Product(String name, String description, List<String> imageURL, Double price, LocalDateTime creationDateTime, LocalDateTime expirationDateTime) {
         this.name = name;
