@@ -4,8 +4,6 @@ import com.internship.auctionapp.DAO.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.repositories.BidRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,8 +16,6 @@ public class DefaultBidService implements BidService {
     private final BidRepository bidRepository;
 
     private final ProductService productService;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
 
     public DefaultBidService(BidRepository bidRepository, ProductService productService) {
         this.bidRepository = bidRepository;
