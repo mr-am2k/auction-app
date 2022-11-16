@@ -5,6 +5,7 @@ import EN_STRINGS from 'util/en_strings';
 import productsService from 'services/productService';
 import { usePage } from 'hooks/usePage';
 import { useUser } from 'hooks/useUser';
+import { dateDiff } from 'util/date_diff';
 
 import { GreaterIcon } from 'assets/icons';
 import { Loading } from 'components';
@@ -14,10 +15,11 @@ import bidService from 'services/bidService';
 
 const SingleProduct = () => {
   const { setNavbarItems } = usePage();
-  const { loggedInUser, isUserLoggedIn } = useUser();
+  const { isUserLoggedIn } = useUser();
   const { id } = useParams();
   const [singleProduct, setSingleProduct] = useState<Product>();
-  const [highestBid, setHighestBid] = useState<number>();
+  const [bidExpirationTime, setBidExpirationTime] = useState<string>(' ');
+  const [highestBid, setHighestBid] = useState<any>();
 
   const fetchSingleProduct = (productId: string) => {
     productsService
@@ -32,20 +34,20 @@ const SingleProduct = () => {
         bidService
           .getHighestBid(product.id)
           .then((topBid) => setHighestBid(topBid));
+          setBidExpirationTime(dateDiff(product.expirationDateTime))
       })
       .catch((error) => console.log(error));
   };
 
   useEffect(() => {
     fetchSingleProduct(id!);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!singleProduct) {
     return <Loading />;
   }
 
-  console.log(loggedInUser);
-  console.log(isUserLoggedIn());
   return (
     <div className='c-single-product'>
       <ImagePicker images={singleProduct.imageURL} />
@@ -69,7 +71,8 @@ const SingleProduct = () => {
                 <span>{singleProduct.bids.length}</span>
               </p>
               <p>
-                {EN_STRINGS['SingleProduct.TimeLeft']} <span>{}</span>
+                {EN_STRINGS['SingleProduct.TimeLeft']}{' '}
+                <span>{bidExpirationTime}</span>
               </p>
             </div>
           ) : (
