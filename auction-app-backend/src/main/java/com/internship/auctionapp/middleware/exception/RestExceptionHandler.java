@@ -58,7 +58,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 "Bid price can't be lower than product price."));
     }
 
-
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
     }
