@@ -62,9 +62,8 @@ public class DateUtils {
         return "-1";
     }
 
-    public static boolean isInPast(LocalDateTime firstDate){
-        if(firstDate.isBefore(LocalDateTime.now())) return true;
-
+    public static boolean isInPast(LocalDateTime dateTime){
+        if(dateTime.isBefore(LocalDateTime.now())) return true;
         return false;
     }
 }
