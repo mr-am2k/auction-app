@@ -1,11 +1,11 @@
 import { createContext } from 'react';
 
-interface AppContextInterface {
+interface PageContextInterface {
   navbarItems: string[];
   setNavbarItems: (listOfNavbarItems: string[]) => void;
 }
 
-const PageContext = createContext<AppContextInterface>({
+const PageContext = createContext<PageContextInterface>({
   navbarItems: [],
   setNavbarItems: (listOfNavbarItems: string[]) => {},
 });

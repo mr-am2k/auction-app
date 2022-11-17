@@ -15,6 +15,7 @@ const TermsAndConditions = () => {
       EN_STRINGS['Navbar.Home'],
       EN_STRINGS['Footer.TermsAndConditions'],
     ]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

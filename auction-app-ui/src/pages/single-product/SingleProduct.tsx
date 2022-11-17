@@ -20,9 +20,7 @@ const SingleProduct = () => {
   const { isUserLoggedIn } = useUser();
   const { id } = useParams();
   const [singleProduct, setSingleProduct] = useState<Product>();
-  const [bidExpirationTime, setBidExpirationTime] = useState<string | number>(
-    ' '
-  );
+  const [bidExpirationTime, setBidExpirationTime] = useState<string | number>();
   const [highestBid, setHighestBid] = useState<any>();
 
   const fetchSingleProduct = (productId: string) => {
