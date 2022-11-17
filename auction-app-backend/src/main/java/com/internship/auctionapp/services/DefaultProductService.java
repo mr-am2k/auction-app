@@ -1,8 +1,10 @@
 package com.internship.auctionapp.services;
 
+import com.internship.auctionapp.domainmodels.Product;
 import com.internship.auctionapp.middleware.exception.ProductExpirationDateException;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.ProductRepository;
+import com.internship.auctionapp.requests.CreateProductRequest;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +14,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class DefaultProductService implements ProductService {
@@ -34,25 +38,32 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<ProductEntity> getAllProducts() {
+    public List<Product> getAllProducts() {
         LOGGER.info("Fetched products from the database.");
-        return productRepository.findAll();
+        return productRepository.findAll().stream().map(productEntity -> productEntity.toDomainModel())
+                .collect(Collectors.toList());
     }
 
     @Override
-    public ProductEntity addProduct(ProductEntity product) {
-        if (product.getExpirationDateTime().isBefore(product.getCreationDateTime())) {
-            LOGGER.error("Product expiration date is before product creation date. Product={}", product);
+    public Product addProduct(CreateProductRequest createProductRequest) {
+        if (createProductRequest.getExpirationDateTime().isBefore(LocalDateTime.now())) {
+            LOGGER.error("Product expiration date is before product creation date. Product={}", createProductRequest);
             throw new ProductExpirationDateException();
         }
-        LOGGER.info("Successfully added product={} to the database.", product);
-        return productRepository.save(product);
+
+        ProductEntity productEntity = new ProductEntity(createProductRequest.getName(),
+                createProductRequest.getDescription(), createProductRequest.getImageURL(), createProductRequest.getPrice(),
+                LocalDateTime.now(), createProductRequest.getExpirationDateTime());
+        Product respondProduct = productRepository.save(productEntity).toDomainModel();
+
+        LOGGER.info("Successfully added product={} to the database.", respondProduct);
+        return respondProduct;
     }
 
     @Override
-    public ProductEntity getSingleProduct(UUID id) {
+    public Product getSingleProduct(UUID id) {
         LOGGER.info("Fetched product from the database with the id={} ", id);
-        return productRepository.findById(id).get();
+        return productRepository.findById(id).get().toDomainModel();
     }
 
     @Override
@@ -71,9 +82,9 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public ProductEntity getRandomProduct() {
+    public Product getRandomProduct() {
         LOGGER.info("Fetched random product from the database.");
-        return productRepository.getRandomProduct();
+        return productRepository.getRandomProduct().toDomainModel();
     }
 
     @Override
@@ -81,6 +92,7 @@ public class DefaultProductService implements ProductService {
         final Pageable page = PageRequest.of(0, DEFAULT_ELEMENTS_PER_PAGE, criteria.equalsIgnoreCase(LAST_CHANCE) ?
                 Sort.by(EXPIRATION_DATE_TIME).ascending() :
                 Sort.by(CREATION_DATE_TIME).descending());
+
         LOGGER.info("Fetched page of 8 products from the database, based on criteria={} ", criteria);
         return productRepository.findAll(page);
     }

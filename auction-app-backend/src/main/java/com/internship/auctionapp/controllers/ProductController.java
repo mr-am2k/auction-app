@@ -1,6 +1,8 @@
 package com.internship.auctionapp.controllers;
 
+import com.internship.auctionapp.domainmodels.Product;
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.services.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
@@ -22,17 +24,17 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ProductEntity addProduct(@Valid @RequestBody ProductEntity product) {
-        return productService.addProduct(product);
+    public Product addProduct(@Valid @RequestBody CreateProductRequest createProductRequest) {
+        return productService.addProduct(createProductRequest);
     }
 
     @GetMapping()
-    public List<ProductEntity> getAllProducts() throws Exception {
+    public List<Product> getAllProducts() throws Exception {
         return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    public ProductEntity getSingleProduct(@PathVariable("id") UUID id) {
+    public Product getSingleProduct(@PathVariable("id") UUID id) {
         return productService.getSingleProduct(id);
     }
 
@@ -47,7 +49,7 @@ public class ProductController {
     }
 
     @GetMapping("/random")
-    public ProductEntity getRandomProduct() {
+    public Product getRandomProduct() {
         return productService.getRandomProduct();
     }
 

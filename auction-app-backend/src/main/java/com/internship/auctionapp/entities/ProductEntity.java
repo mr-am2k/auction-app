@@ -1,5 +1,7 @@
 package com.internship.auctionapp.entities;
 
+import com.internship.auctionapp.domainmodels.Product;
+import com.internship.auctionapp.util.DateDifference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -67,5 +69,13 @@ public class ProductEntity {
         this.price = price;
         this.creationDateTime = creationDateTime;
         this.expirationDateTime = expirationDateTime;
+    }
+
+    public Product toDomainModel() {
+        DateDifference dateDifference = new DateDifference();
+        Product newProduct = new Product(this.id, this.name, this.description, this.imageURL, this.price,
+                this.creationDateTime, this.expirationDateTime, this.bidEntities,
+                dateDifference.calculateDateDiff(this.expirationDateTime));
+        return newProduct;
     }
 }

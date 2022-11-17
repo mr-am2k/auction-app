@@ -1,7 +1,10 @@
 package com.internship.auctionapp.controllers;
 
+import com.internship.auctionapp.domainmodels.Product;
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.services.ProductService;
+import com.internship.auctionapp.util.DateDifference;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -32,6 +35,10 @@ class ProductControllerTest {
     @MockBean
     private ProductService productService;
 
+    private CreateProductRequest SEND_PRODUCT;
+
+    private Product RETURN_PRODUCT;
+
     private ProductEntity PRODUCT_1;
 
     private ProductEntity PRODUCT_2;
@@ -47,8 +54,30 @@ class ProductControllerTest {
 
     private static final UUID PRODUCT_ID = UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6");
 
+    private DateDifference dateDifference = new DateDifference();
+
     @BeforeEach
     void setUp() {
+        SEND_PRODUCT = CreateProductRequest.builder().
+                name("Shirt")
+                .description("Black shirt")
+                .imageURL(IMAGES)
+                .price(52.20)
+                .expirationDateTime(LocalDateTime.now())
+                .build();
+
+        RETURN_PRODUCT = Product.builder()
+                .id(PRODUCT_ID)
+                .name("Shirt")
+                .description("Black shirt")
+                .imageURL(IMAGES)
+                .price(52.20)
+                .creationDateTime(LocalDateTime.now())
+                .expirationDateTime(LocalDateTime.now())
+                .bids(new ArrayList<>())
+                .remainingTime("expired")
+                .build();
+
         PRODUCT_1 = ProductEntity.builder()
                 .id(PRODUCT_ID)
                 .name("Shirt")
@@ -72,7 +101,7 @@ class ProductControllerTest {
 
     @Test
     void addProduct() throws Exception {
-        Mockito.when(productService.addProduct(PRODUCT_1)).thenReturn(PRODUCT_1);
+        Mockito.when(productService.addProduct(SEND_PRODUCT)).thenReturn(PRODUCT_1.toDomainModel());
 
         mockMvc.perform(post("/api/v1/products")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -94,7 +123,7 @@ class ProductControllerTest {
     @Test
     void getSingleProduct() throws Exception {
         Mockito.when(productService.getSingleProduct(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6")))
-                .thenReturn(PRODUCT_1);
+                .thenReturn(RETURN_PRODUCT);
         mockMvc.perform(get("/api/v1/products/3fa85f64-5717-4562-b3fc-2c963f66afa6")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -103,7 +132,7 @@ class ProductControllerTest {
 
     @Test
     void getRandomProduct() throws Exception {
-        Mockito.when(productService.getRandomProduct()).thenReturn(PRODUCT_1);
+        Mockito.when(productService.getRandomProduct()).thenReturn(RETURN_PRODUCT);
         mockMvc.perform(get("/api/v1/products/random")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

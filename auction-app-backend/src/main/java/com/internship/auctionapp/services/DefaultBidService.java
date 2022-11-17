@@ -31,7 +31,7 @@ public class DefaultBidService implements BidService {
 
     @Override
     public Bid addBid(CreateBidRequest createBidRequest) {
-        ProductEntity targetedProduct = productService.getSingleProduct(createBidRequest.getProductId());
+        ProductEntity targetedProduct = productRepository.findById(createBidRequest.getProductId()).get();
 
         if (createBidRequest.getBidPrice() <= targetedProduct.getPrice()) {
             throw new IllegalBidPriceException();

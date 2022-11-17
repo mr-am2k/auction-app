@@ -1,23 +1,25 @@
 package com.internship.auctionapp.services;
 
+import com.internship.auctionapp.domainmodels.Product;
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.requests.CreateProductRequest;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface ProductService {
-    List<ProductEntity> getAllProducts() throws Exception;
+    List<Product> getAllProducts() throws Exception;
 
-    ProductEntity addProduct(ProductEntity product);
+    Product addProduct(CreateProductRequest createProductRequest);
 
-    ProductEntity getSingleProduct(UUID id);
+    Product getSingleProduct(UUID id);
 
     ProductEntity updateProduct(UUID id, ProductEntity product);
 
     void deleteProduct(UUID id);
 
-    ProductEntity getRandomProduct();
+    Product getRandomProduct();
 
     Page<ProductEntity> getProductsByCriteria(String criteria);
 }

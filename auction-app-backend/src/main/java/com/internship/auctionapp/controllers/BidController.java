@@ -1,6 +1,5 @@
 package com.internship.auctionapp.controllers;
 
-import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.requests.CreateBidRequest;
 import com.internship.auctionapp.domainmodels.Bid;
 import com.internship.auctionapp.services.BidService;
