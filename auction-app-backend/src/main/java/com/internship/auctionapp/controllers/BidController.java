@@ -1,7 +1,8 @@
 package com.internship.auctionapp.controllers;
 
-import com.internship.auctionapp.DAO.CreateBidRequest;
-import com.internship.auctionapp.DTO.BidDTO;
+import com.internship.auctionapp.entities.BidEntity;
+import com.internship.auctionapp.requests.CreateBidRequest;
+import com.internship.auctionapp.domainmodels.Bid;
 import com.internship.auctionapp.services.BidService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,16 +30,16 @@ public class BidController {
     }
 
     @PostMapping()
-    public String addBid(@RequestBody CreateBidRequest createBidRequest){
+    public Bid addBid(@RequestBody CreateBidRequest createBidRequest){
         return bidService.addBid(createBidRequest);
     }
 
     @GetMapping()
-    public List<BidDTO> getAllBids() {
+    public List<Bid> getAllBids() {
         return bidService.getAllBids();
     }
 
-    @GetMapping("/{productId}")
+    @GetMapping("/product/{productId}")
     public double getHighestBid(@PathVariable("productId") UUID productId) {
         return bidService.getHighestBid(productId);
     }

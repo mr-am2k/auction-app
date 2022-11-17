@@ -1,4 +1,4 @@
-package com.internship.auctionapp.DAO;
+package com.internship.auctionapp.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

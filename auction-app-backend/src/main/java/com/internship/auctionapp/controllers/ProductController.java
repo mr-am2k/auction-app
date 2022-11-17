@@ -1,6 +1,6 @@
 package com.internship.auctionapp.controllers;
 
-import com.internship.auctionapp.models.Product;
+import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.services.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
@@ -22,22 +22,22 @@ public class ProductController {
     }
 
     @PostMapping()
-    public Product addProduct(@Valid @RequestBody Product product) {
+    public ProductEntity addProduct(@Valid @RequestBody ProductEntity product) {
         return productService.addProduct(product);
     }
 
     @GetMapping()
-    public List<Product> getAllProducts() throws Exception {
+    public List<ProductEntity> getAllProducts() throws Exception {
         return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    public Product getSingleProduct(@PathVariable("id") UUID id) {
+    public ProductEntity getSingleProduct(@PathVariable("id") UUID id) {
         return productService.getSingleProduct(id);
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable("id") UUID id, @RequestBody Product product) {
+    public ProductEntity updateProduct(@PathVariable("id") UUID id, @RequestBody ProductEntity product) {
         return productService.updateProduct(id, product);
     }
 
@@ -47,12 +47,12 @@ public class ProductController {
     }
 
     @GetMapping("/random")
-    public Product getRandomProduct() {
+    public ProductEntity getRandomProduct() {
         return productService.getRandomProduct();
     }
 
     @GetMapping("/search")
-    public Page<Product> getProductsByCriteria(@RequestParam(required = false) String criteria) {
+    public Page<ProductEntity> getProductsByCriteria(@RequestParam(required = false) String criteria) {
         return productService.getProductsByCriteria(criteria);
     }
 }

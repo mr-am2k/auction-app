@@ -1,6 +1,6 @@
 package com.internship.auctionapp.services;
 
-import com.internship.auctionapp.models.Product;
+import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ class DefaultProductServiceTest {
 
     @BeforeEach
     void setUp() {
-        Product product = Product.builder()
+        ProductEntity product = ProductEntity.builder()
                 .id(PRODUCT_ID)
                 .name("Shirt")
                 .description("Black shirt")
@@ -57,7 +57,7 @@ class DefaultProductServiceTest {
         String description = "Black shirt";
         Double price = 52.20;
 
-        Product wantedProduct = productService.getSingleProduct(PRODUCT_ID);
+        ProductEntity wantedProduct = productService.getSingleProduct(PRODUCT_ID);
 
         assertEquals(PRODUCT_ID, wantedProduct.getId());
         assertEquals(name, wantedProduct.getName());
@@ -73,7 +73,7 @@ class DefaultProductServiceTest {
         String description = "Black shirt";
         Double price = 52.20;
 
-        Product wantedProduct = productService.getRandomProduct();
+        ProductEntity wantedProduct = productService.getRandomProduct();
 
         assertEquals(PRODUCT_ID, wantedProduct.getId());
         assertEquals(name, wantedProduct.getName());

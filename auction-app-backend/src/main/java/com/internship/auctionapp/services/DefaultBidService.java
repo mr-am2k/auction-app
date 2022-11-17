@@ -1,18 +1,18 @@
 package com.internship.auctionapp.services;
 
-import com.internship.auctionapp.DAO.CreateBidRequest;
-import com.internship.auctionapp.DTO.BidDTO;
+import com.internship.auctionapp.requests.CreateBidRequest;
+import com.internship.auctionapp.domainmodels.Bid;
 import com.internship.auctionapp.middleware.exception.IllegalBidPriceException;
-import com.internship.auctionapp.models.Bid;
-import com.internship.auctionapp.models.Product;
+import com.internship.auctionapp.entities.BidEntity;
+import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.BidRepository;
 import com.internship.auctionapp.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class DefaultBidService implements BidService {
@@ -30,31 +30,20 @@ public class DefaultBidService implements BidService {
     }
 
     @Override
-    public String addBid(CreateBidRequest createBidRequest) {
-        Product targetedProduct = productService.getSingleProduct(createBidRequest.getProductId());
+    public Bid addBid(CreateBidRequest createBidRequest) {
+        ProductEntity targetedProduct = productService.getSingleProduct(createBidRequest.getProductId());
 
-        if (createBidRequest.getBidPrice() < targetedProduct.getPrice()) {
+        if (createBidRequest.getBidPrice() <= targetedProduct.getPrice()) {
             throw new IllegalBidPriceException();
         }
 
-        Bid newBid = new Bid(createBidRequest.getBidPrice(), LocalDateTime.now(), targetedProduct);
-        targetedProduct.getBids().add(newBid);
-        productRepository.save(targetedProduct);
-        return "Added new bid";
+        BidEntity newBidEntity = new BidEntity(createBidRequest.getBidPrice(), LocalDateTime.now(), targetedProduct);
+        return bidRepository.save(newBidEntity).toDomainModel();
     }
 
     @Override
-    public List<BidDTO> getAllBids() {
-        List<Bid> bids = bidRepository.findAll();
-        List<BidDTO> bidDTOs = new ArrayList<>();
-        for (Bid b :
-                bids) {
-            BidDTO tempBid = new BidDTO(b.getId(), b.getBidPrice(),
-                    b.getBidCreationDateTime(), b.getProduct().getId());
-            bidDTOs.add(tempBid);
-        }
-
-        return bidDTOs;
+    public List<Bid> getAllBids() {
+        return bidRepository.findAll().stream().map(bidEntity -> bidEntity.toDomainModel()).collect(Collectors.toList());
     }
 
     @Override
@@ -64,14 +53,6 @@ public class DefaultBidService implements BidService {
 
     @Override
     public double getHighestBid(UUID productId) {
-        List<Bid> bids = bidRepository.getBidsByProductId(productId);
-        double min = 0;
-        for (Bid b :
-                bids) {
-            if (b.getBidPrice() > min) {
-                min = b.getBidPrice();
-            }
-        }
-        return min;
+        return bidRepository.highestBid(productId);
     }
 }

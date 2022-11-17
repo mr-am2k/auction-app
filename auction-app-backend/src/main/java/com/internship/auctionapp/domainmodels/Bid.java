@@ -1,4 +1,4 @@
-package com.internship.auctionapp.DTO;
+package com.internship.auctionapp.domainmodels;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BidDTO {
+public class Bid {
 
     private UUID id;
 

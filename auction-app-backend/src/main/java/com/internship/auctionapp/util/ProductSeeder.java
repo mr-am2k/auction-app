@@ -1,6 +1,6 @@
 package com.internship.auctionapp.util;
 
-import com.internship.auctionapp.models.Product;
+import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -30,7 +30,7 @@ public class ProductSeeder implements CommandLineRunner {
     public void seedData() {
         System.out.println(productRepository.count());
         if (productRepository.count() == 0) {
-            Product product1 = new Product("Running Shoes",
+            ProductEntity product1 = new ProductEntity("Running Shoes",
                     productDescription,
                     List.of("https://media.cntraveler.com/photos/62e7cbd7af14e65bfedc7cd0/master/w_2100,h_1500,c_limit/" +
                                     "Best%20Running%20Shoes-2022_Hoka%20Rincon%203%20Men.jpg",
@@ -41,7 +41,7 @@ public class ProductSeeder implements CommandLineRunner {
                     LocalDateTime.now(),
                     LocalDateTime.of(2023, 12, 12, 19, 30, 40));
 
-            Product product2 = new Product("Black shirt",
+            ProductEntity product2 = new ProductEntity("Black shirt",
                     productDescription,
                     List.of("https://pyxis.nymag.com/v1/imgs/a88/914/1abfe54a4c29e33a6a86c7cb386644d71c-7----.2x." +
                                     "rhorizontal.w600.jpg",
@@ -54,7 +54,7 @@ public class ProductSeeder implements CommandLineRunner {
                     LocalDateTime.now(),
                     LocalDateTime.of(2023, 05, 11, 11, 20, 23));
 
-            Product product3 = new Product("Nike Air Force",
+            ProductEntity product3 = new ProductEntity("Nike Air Force",
                     productDescription,
                     List.of("https://images.complex.com/complex/images/c_scale,f_auto,q_auto,w_1920/fl_lossy," +
                                     "pg_1/iot1dbjmzr7z6kfkoxrb/nike-air-force-1-lead-1?fimg-ssr-default",
@@ -67,7 +67,7 @@ public class ProductSeeder implements CommandLineRunner {
                     LocalDateTime.now(),
                     LocalDateTime.of(2022, 12, 12, 15, 15, 15));
 
-            Product product4 = new Product("Coat",
+            ProductEntity product4 = new ProductEntity("Coat",
                     productDescription,
                     List.of("https://i.pinimg.com/originals/2b/71/37/2b7137b29ac5414cb148894dddc0fdc2.jpg",
                             "https://images.express.com/is/image/expressfashion/0037_06215332_2834?" +
@@ -81,7 +81,7 @@ public class ProductSeeder implements CommandLineRunner {
                     LocalDateTime.now(),
                     LocalDateTime.of(2023, 4, 9, 21, 14, 44));
 
-            Product product5 = new Product("Summer shirt",
+            ProductEntity product5 = new ProductEntity("Summer shirt",
                     productDescription,
                     List.of(
                             "https://static.footshop.com/755008-full_product/222031.jpg",
@@ -93,7 +93,7 @@ public class ProductSeeder implements CommandLineRunner {
                     LocalDateTime.now(),
                     LocalDateTime.of(2024, 12, 12, 12, 12, 12));
 
-            Product product6 = new Product("Shorts",
+            ProductEntity product6 = new ProductEntity("Shorts",
                     productDescription,
                     List.of("https://underarmour.scene7.com/is/image/Underarmour/PS1306443-001_HF?rp=" +
                                     "standard-0pad|pdpMainDesktop&scl=1&fmt=jpg&qlt=85&resMode=sharp2&" +
@@ -107,7 +107,7 @@ public class ProductSeeder implements CommandLineRunner {
                     LocalDateTime.now(),
                     LocalDateTime.of(2024, 9, 12, 9, 45, 11));
 
-            Product product7 = new Product("Jacket",
+            ProductEntity product7 = new ProductEntity("Jacket",
                     productDescription,
                     List.of("https://cdn.shopify.com/s/files/1/0419/1525/products/1024x1024-" +
                                     "Men-Moto-Tobacco-050322-1.jpg?v=1652112663",
@@ -120,7 +120,7 @@ public class ProductSeeder implements CommandLineRunner {
                     LocalDateTime.now(),
                     LocalDateTime.of(2023, 3, 3, 3, 3, 3));
 
-            Product product8 = new Product("Simpson Socks",
+            ProductEntity product8 = new ProductEntity("Simpson Socks",
                     productDescription,
                     List.of("https://www.stance.com/dw/image/v2/BGWC_PRD/on/demandware.static/-/" +
                                     "Sites-GlobalProductCatalog/default/dwd153fd50/images/" +
@@ -135,7 +135,7 @@ public class ProductSeeder implements CommandLineRunner {
                     LocalDateTime.now(),
                     LocalDateTime.of(2023, 11, 11, 12, 12, 11));
 
-            Product product9 = new Product("Ring",
+            ProductEntity product9 = new ProductEntity("Ring",
                     productDescription,
                     List.of("https://upload.wikimedia.org/wikipedia/commons/d/d4/One_Ring_Blender_Render.png",
                             "https://www.wetanz.com/media/catalog/product/cache/" +
@@ -146,7 +146,7 @@ public class ProductSeeder implements CommandLineRunner {
                     LocalDateTime.now(),
                     LocalDateTime.of(2025, 12, 12, 7, 23, 12));
 
-            Product product10 = new Product("Watch",
+            ProductEntity product10 = new ProductEntity("Watch",
                     productDescription,
                     List.of("https://m.media-amazon.com/images/I/71C3rHLQItL._AC_UL1347_.jpg",
                             "https://5.imimg.com/data5/OJ/VU/MY-10732933/hand-watch-500x500.jpg",

@@ -1,4 +1,4 @@
-package com.internship.auctionapp.models;
+package com.internship.auctionapp.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +26,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Table(name = "Product")
-public class Product {
+public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
@@ -58,9 +58,9 @@ public class Product {
             fetch = FetchType.LAZY,
             orphanRemoval = true
     )
-    private List<Bid> bids;
+    private List<BidEntity> bidEntities;
 
-    public Product(String name, String description, List<String> imageURL, Double price, LocalDateTime creationDateTime, LocalDateTime expirationDateTime) {
+    public ProductEntity(String name, String description, List<String> imageURL, Double price, LocalDateTime creationDateTime, LocalDateTime expirationDateTime) {
         this.name = name;
         this.description = description;
         this.imageURL = imageURL;

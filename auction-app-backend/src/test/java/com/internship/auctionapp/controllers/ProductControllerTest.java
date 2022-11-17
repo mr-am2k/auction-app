@@ -1,6 +1,6 @@
 package com.internship.auctionapp.controllers;
 
-import com.internship.auctionapp.models.Product;
+import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.services.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,9 +32,9 @@ class ProductControllerTest {
     @MockBean
     private ProductService productService;
 
-    private Product PRODUCT_1;
+    private ProductEntity PRODUCT_1;
 
-    private Product PRODUCT_2;
+    private ProductEntity PRODUCT_2;
 
     private List<String> IMAGES = List.of("https://underarmour.scene7.com/is/image/Underarmour/PS1306443-001_HF?rp=" +
                     "standard-0pad|pdpMainDesktop&scl=1&fmt=jpg&qlt=85&resMode=sharp2&" +
@@ -49,7 +49,7 @@ class ProductControllerTest {
 
     @BeforeEach
     void setUp() {
-        PRODUCT_1 = Product.builder()
+        PRODUCT_1 = ProductEntity.builder()
                 .id(PRODUCT_ID)
                 .name("Shirt")
                 .description("Black shirt")
@@ -59,7 +59,7 @@ class ProductControllerTest {
                 .expirationDateTime(LocalDateTime.now())
                 .build();
 
-        PRODUCT_2 = Product.builder()
+        PRODUCT_2 = ProductEntity.builder()
                 .id(PRODUCT_ID)
                 .name("Shoes")
                 .description("Black shoes")
@@ -112,10 +112,10 @@ class ProductControllerTest {
 
     @Test
     void getProductsByCriteria() throws Exception {
-        List<Product> products = new ArrayList<>();
+        List<ProductEntity> products = new ArrayList<>();
         products.add(PRODUCT_1);
         products.add(PRODUCT_2);
-        Page<Product> page = new PageImpl<Product>(products);
+        Page<ProductEntity> page = new PageImpl<ProductEntity>(products);
         Mockito.when(productService.getProductsByCriteria("last-chance")).thenReturn(page);
         mockMvc.perform(get("/api/v1/products/search?criteria=last-chance").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

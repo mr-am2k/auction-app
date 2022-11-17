@@ -1,6 +1,7 @@
-package com.internship.auctionapp.models;
+package com.internship.auctionapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.internship.auctionapp.domainmodels.Bid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,7 +24,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Table(name = "Bid")
-public class Bid {
+public class BidEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,11 +40,16 @@ public class Bid {
     @ManyToOne
     @JoinColumn(name = "product_id")
     @JsonIgnore
-    private Product product;
+    private ProductEntity product;
 
-    public Bid(double bidPrice, LocalDateTime bidCreationDateTime, Product product) {
+    public BidEntity(double bidPrice, LocalDateTime bidCreationDateTime, ProductEntity product) {
         this.bidPrice = bidPrice;
         this.bidCreationDateTime = bidCreationDateTime;
         this.product = product;
+    }
+
+    public Bid toDomainModel() {
+        Bid newBid = new Bid(this.id, this.bidPrice, this.bidCreationDateTime, this.product.getId());
+        return newBid;
     }
 }

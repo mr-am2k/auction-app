@@ -1,7 +1,7 @@
 package com.internship.auctionapp.services;
 
 import com.internship.auctionapp.middleware.exception.ProductExpirationDateException;
-import com.internship.auctionapp.models.Product;
+import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -34,13 +34,13 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() {
+    public List<ProductEntity> getAllProducts() {
         LOGGER.info("Fetched products from the database.");
         return productRepository.findAll();
     }
 
     @Override
-    public Product addProduct(Product product) {
+    public ProductEntity addProduct(ProductEntity product) {
         if (product.getExpirationDateTime().isBefore(product.getCreationDateTime())) {
             LOGGER.error("Product expiration date is before product creation date. Product={}", product);
             throw new ProductExpirationDateException();
@@ -50,14 +50,14 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Product getSingleProduct(UUID id) {
+    public ProductEntity getSingleProduct(UUID id) {
         LOGGER.info("Fetched product from the database with the id={} ", id);
         return productRepository.findById(id).get();
     }
 
     @Override
-    public Product updateProduct(UUID id, Product product) {
-        Product productForUpdate = productRepository.findById(id).get();
+    public ProductEntity updateProduct(UUID id, ProductEntity product) {
+        ProductEntity productForUpdate = productRepository.findById(id).get();
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.map(product, productForUpdate);
         LOGGER.info("Product with the id={} has been updated.", id);
@@ -71,13 +71,13 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Product getRandomProduct() {
+    public ProductEntity getRandomProduct() {
         LOGGER.info("Fetched random product from the database.");
         return productRepository.getRandomProduct();
     }
 
     @Override
-    public Page<Product> getProductsByCriteria(String criteria) {
+    public Page<ProductEntity> getProductsByCriteria(String criteria) {
         final Pageable page = PageRequest.of(0, DEFAULT_ELEMENTS_PER_PAGE, criteria.equalsIgnoreCase(LAST_CHANCE) ?
                 Sort.by(EXPIRATION_DATE_TIME).ascending() :
                 Sort.by(CREATION_DATE_TIME).descending());
