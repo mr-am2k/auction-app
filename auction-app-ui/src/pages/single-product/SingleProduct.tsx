@@ -21,7 +21,8 @@ const SingleProduct = () => {
   const [singleProduct, setSingleProduct] = useState<Product>();
   const [highestBid, setHighestBid] = useState<number>();
 
-  const fetchSingleProduct = (productId: string) => {
+  //Modify this into 2 single methods
+  const initProduct = (productId: string) => {
     productsService
       .getSingleProduct(productId)
       .then((product) => {
@@ -33,13 +34,14 @@ const SingleProduct = () => {
         ]);
         bidService
           .getHighestBid(product.id)
-          .then((topBid) => setHighestBid(topBid));
+          .then((highestBid) => setHighestBid(highestBid))
+          .catch((error) => console.log(error));
       })
       .catch((error) => console.log(error));
   };
 
   useEffect(() => {
-    fetchSingleProduct(id!);
+    initProduct(id!);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -1,7 +1,10 @@
 import agent from 'lib/agent';
 
-const bidService = {
-    getHighestBid: (productId:string) => agent.get<number>(`/bid/product/${productId}`)
-  };
+const BASE_URL = '/bids';
 
-export default bidService
+const bidService = {
+  getHighestBid: (productId: string) =>
+    agent.get<number>(`${BASE_URL}/product/${productId}`),
+};
+
+export default bidService;

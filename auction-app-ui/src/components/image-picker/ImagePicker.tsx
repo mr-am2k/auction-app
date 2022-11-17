@@ -16,7 +16,7 @@ const ImagePicker: React.FC<Props> = ({ images }) => {
     index !== selectedImageIndex ? (
       <img
         src={image}
-        alt='Product'
+        alt='Image'
         key={index}
         onClick={() => setSelectedImageIndex(index)}
       />

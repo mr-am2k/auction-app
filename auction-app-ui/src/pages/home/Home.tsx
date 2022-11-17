@@ -10,7 +10,7 @@ import { Category, HomeProducts, Loading } from 'components';
 import { Product } from 'models/product';
 import { GreaterIcon } from 'assets/icons';
 import EN_STRINGS from 'util/en_strings';
-import CONSTANTS from 'util/constants';
+import { LAST_CHANCE, NEW_ARRIVAL } from 'util/constants';
 import ROUTES from 'util/routes';
 
 import './home.scss';
@@ -66,20 +66,20 @@ const Home = () => {
   const handleLastChanceOnClick = () => {
     setLastChanceActive(true);
     setNewArrivalsActive(false);
-    fetchLastChanceProducts(CONSTANTS.LAST_CHANCE);
+    fetchLastChanceProducts(LAST_CHANCE);
   };
 
   useEffect(() => {
     setNavbarItems([]);
     fetchSingleProduct();
-    fetchNewArrivalProducts(CONSTANTS.NEW_ARRIVAL);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchNewArrivalProducts(NEW_ARRIVAL);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //used for demonstration, because user login/registration is not yet implemented
   useEffect(() => {
     setLoggedInUser({ name: 'Muamer' });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -115,7 +115,10 @@ const Home = () => {
             </div>
 
             <Link to={`/${ROUTES.PRODUCT}/${randomProduct.id}`}>
-              <img src={randomProduct?.imageURL[0]} alt={EN_STRINGS['Home.HighlightedProduct']} />
+              <img
+                src={randomProduct?.imageURL[0]}
+                alt={EN_STRINGS['Home.HighlightedProduct']}
+              />
             </Link>
           </div>
         )}

@@ -1,8 +1,4 @@
-const CONSTANTS = {
-  PHONE_NUMBER: '+123 797-567-2535',
-  EMAIL: 'support@auction.com',
-  NEW_ARRIVAL: 'new-arrival',
-  LAST_CHANCE: 'last-chance',
-};
-
-export default CONSTANTS
+export const PHONE_NUMBER = '+123 797-567-2535';
+export const EMAIL = 'support@auction.com';
+export const NEW_ARRIVAL = 'new-arrival';
+export const LAST_CHANCE = 'last-chance';
