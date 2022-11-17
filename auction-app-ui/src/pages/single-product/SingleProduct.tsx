@@ -21,27 +21,36 @@ const SingleProduct = () => {
   const [singleProduct, setSingleProduct] = useState<Product>();
   const [highestBid, setHighestBid] = useState<number>();
 
-  //Modify this into 2 single methods
-  const initProduct = (productId: string) => {
-    productsService
-      .getSingleProduct(productId)
-      .then((product) => {
-        setSingleProduct(product);
-        setNavbarItems([
-          product.name,
-          EN_STRINGS['Navbar.Shop'],
-          EN_STRINGS['Shop.SingleProduct'],
-        ]);
-        bidService
-          .getHighestBid(product.id)
-          .then((highestBid) => setHighestBid(highestBid))
-          .catch((error) => console.log(error));
-      })
-      .catch((error) => console.log(error));
+  const fetchSingleProduct = async (productId: string) => {
+    try {
+      const product = await productsService.getSingleProduct(productId);
+      setNavbarItems([
+        product.name,
+        EN_STRINGS['Navbar.Shop'],
+        EN_STRINGS['Shop.SingleProduct'],
+      ]);
+      setSingleProduct(product);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchHighestBid = async (productId: string) => {
+    try {
+      const highestBid = await bidService.getHighestBid(productId);
+      setHighestBid(highestBid);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const initialLoad = async () => {
+    fetchSingleProduct(id!);
+    fetchHighestBid(id!);
   };
 
   useEffect(() => {
-    initProduct(id!);
+    initialLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
