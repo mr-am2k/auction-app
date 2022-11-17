@@ -10,7 +10,6 @@ import bidService from 'services/bidService';
 import { Loading, ImagePicker } from 'components';
 import { GreaterIcon } from 'assets/icons';
 import { Product } from 'models/product';
-import { dateDiff } from 'util/date_diff';
 import EN_STRINGS from 'util/en_strings';
 
 import './single-product.scss';
@@ -20,8 +19,7 @@ const SingleProduct = () => {
   const { isUserLoggedIn } = useUser();
   const { id } = useParams();
   const [singleProduct, setSingleProduct] = useState<Product>();
-  const [bidExpirationTime, setBidExpirationTime] = useState<string | number>();
-  const [highestBid, setHighestBid] = useState<any>();
+  const [highestBid, setHighestBid] = useState<number>();
 
   const fetchSingleProduct = (productId: string) => {
     productsService
@@ -36,7 +34,6 @@ const SingleProduct = () => {
         bidService
           .getHighestBid(product.id)
           .then((topBid) => setHighestBid(topBid));
-        setBidExpirationTime(dateDiff(product.expirationDateTime));
       })
       .catch((error) => console.log(error));
   };
@@ -74,7 +71,7 @@ const SingleProduct = () => {
               </p>
               <p>
                 {EN_STRINGS['SingleProduct.TimeLeft']}:{' '}
-                <span>{bidExpirationTime}</span>
+                <span>{singleProduct.remainingTime}</span>
               </p>
             </div>
           ) : (

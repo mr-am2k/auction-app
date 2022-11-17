@@ -9,5 +9,6 @@ export type Product = {
     creationDateTime: Date;
     expirationDateTime: Date;
     bids: Bid[];
+    remainingTime: string
 }
 

@@ -16,8 +16,10 @@
 
     img {
       object-fit: cover;
-      width: 362px;
-      height: 362px;
+      min-width: 362px;
+      max-width: 362px;
+      min-height: 362px;
+      max-height: 362px;
     }
 
     h3 {
