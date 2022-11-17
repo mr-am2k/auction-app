@@ -3,6 +3,7 @@ package com.internship.auctionapp.entities;
 import com.internship.auctionapp.domainmodels.Bid;
 import com.internship.auctionapp.domainmodels.Product;
 import com.internship.auctionapp.util.DateUtils;
+import com.sun.xml.bind.v2.TODO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -77,11 +79,12 @@ public class ProductEntity {
     public Product toDomainModel() {
         List<Bid> bidEntities = this.bidEntities != null ?
                 this.bidEntities.stream()
-                        .map(bidEntity -> bidEntity.toDomainModel()).toList() : new ArrayList<>();
+                        .map(bidEntity -> bidEntity.toDomainModel()).collect(Collectors.toList()) : new ArrayList<>();
         Product newProduct = new Product(this.id, this.name, this.description, this.imageURL, this.price,
-                this.creationDateTime, this.expirationDateTime,
-                bidEntities,
-                DateUtils.calculateDateDiffVerbose(this.expirationDateTime));
+                this.creationDateTime, this.expirationDateTime, bidEntities,
+                DateUtils.calculateDateDiffVerbose(this.expirationDateTime)
+        );
+
         return newProduct;
     }
 }

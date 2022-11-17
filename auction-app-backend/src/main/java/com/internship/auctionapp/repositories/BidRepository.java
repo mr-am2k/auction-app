@@ -12,9 +12,9 @@ import java.util.UUID;
 public interface BidRepository extends JpaRepository<BidEntity, UUID> {
 
     @Query(
-            value = "SELECT bid_price FROM bid b " +
+            value = "SELECT price FROM bid b " +
                     "WHERE b.product_id = :productId " +
-                    "ORDER BY b.bid_price DESC " +
+                    "ORDER BY b.price DESC " +
                     "LIMIT 1",
             nativeQuery = true
     )

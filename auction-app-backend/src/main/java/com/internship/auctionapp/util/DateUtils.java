@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class DateUtils {
+    public static LocalDateTime currentDateTime = LocalDateTime.now();
+
     //#TODO improve this in the future
     public static String calculateDateDiffVerbose(LocalDateTime expirationDateTime) {
-        LocalDateTime currentDateTime = LocalDateTime.now();
+
         long dateDiffInDays = ChronoUnit.DAYS.between(currentDateTime, expirationDateTime);
         long dateDiffInHours = ChronoUnit.HOURS.between(currentDateTime, expirationDateTime);
         long dateDiffInMinutes = ChronoUnit.MINUTES.between(currentDateTime, expirationDateTime);
@@ -51,7 +53,7 @@ public class DateUtils {
             long remainingSeconds = dateDiffInSeconds % 60;
             return dateDiffInMinutes == 1 ? dateDiffInMinutes + " minute " +
                     remainingSeconds + (remainingSeconds == 1 ? " second" : " seconds") :
-                    dateDiffInMinutes + " minute " + remainingSeconds + (remainingSeconds == 1 ? " second" : " seconds");
+                    dateDiffInMinutes + " minutes " + remainingSeconds + (remainingSeconds == 1 ? " second" : " seconds");
         }
 
         //return seconds
@@ -63,7 +65,6 @@ public class DateUtils {
     }
 
     public static boolean isInPast(LocalDateTime dateTime){
-        if(dateTime.isBefore(LocalDateTime.now())) return true;
-        return false;
+        return dateTime.isBefore(currentDateTime);
     }
 }

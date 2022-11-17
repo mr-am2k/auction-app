@@ -28,7 +28,6 @@ public class DefaultBidService implements BidService {
         this.productRepository = productRepository;
     }
 
-    //#TODO remove repository actions to the higher level
     @Override
     public Bid addBid(CreateBidRequest createBidRequest) {
         ProductEntity targetedProduct = productRepository.findById(createBidRequest.getProductId()).get();

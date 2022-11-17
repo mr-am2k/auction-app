@@ -55,6 +55,7 @@ public class DefaultProductService implements ProductService {
         ProductEntity productEntity = new ProductEntity(createProductRequest.getName(),
                 createProductRequest.getDescription(), createProductRequest.getImageURL(),
                 createProductRequest.getPrice(), createProductRequest.getExpirationDateTime());
+
         Product respondProduct = productRepository.save(productEntity).toDomainModel();
 
         LOGGER.info("Successfully added product={} to the database.", respondProduct);
