@@ -29,6 +29,7 @@ public class DefaultBidService implements BidService {
         this.productRepository = productRepository;
     }
 
+    //#TODO remove repository actions to the higher level
     @Override
     public Bid addBid(CreateBidRequest createBidRequest) {
         ProductEntity targetedProduct = productRepository.findById(createBidRequest.getProductId()).get();
@@ -37,7 +38,7 @@ public class DefaultBidService implements BidService {
             throw new IllegalBidPriceException();
         }
 
-        BidEntity newBidEntity = new BidEntity(createBidRequest.getBidPrice(), LocalDateTime.now(), targetedProduct);
+        BidEntity newBidEntity = new BidEntity(createBidRequest.getBidPrice(), targetedProduct);
         return bidRepository.save(newBidEntity).toDomainModel();
     }
 

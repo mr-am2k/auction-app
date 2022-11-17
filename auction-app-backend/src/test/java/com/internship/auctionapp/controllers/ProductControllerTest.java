@@ -4,7 +4,7 @@ import com.internship.auctionapp.domainmodels.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.services.ProductService;
-import com.internship.auctionapp.util.DateDifference;
+import com.internship.auctionapp.util.DateUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -54,7 +54,7 @@ class ProductControllerTest {
 
     private static final UUID PRODUCT_ID = UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6");
 
-    private DateDifference dateDifference = new DateDifference();
+    private DateUtils dateDifference = new DateUtils();
 
     @BeforeEach
     void setUp() {
@@ -137,22 +137,5 @@ class ProductControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(PRODUCT_1.getName()));
-    }
-
-    @Test
-    void getProductsByCriteria() throws Exception {
-        List<ProductEntity> products = new ArrayList<>();
-        products.add(PRODUCT_1);
-        products.add(PRODUCT_2);
-        Page<ProductEntity> page = new PageImpl<ProductEntity>(products);
-        Mockito.when(productService.getProductsByCriteria("last-chance")).thenReturn(page);
-        mockMvc.perform(get("/api/v1/products/search?criteria=last-chance").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.numberOfElements").value(page.getNumberOfElements()));
-
-        Mockito.when(productService.getProductsByCriteria("new-arrival")).thenReturn(page);
-        mockMvc.perform(get("/api/v1/products/search?criteria=new-arrival").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.numberOfElements").value(page.getNumberOfElements()));
     }
 }

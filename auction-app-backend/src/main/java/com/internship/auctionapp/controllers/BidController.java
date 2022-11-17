@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/v1/bid/")
+@RequestMapping("api/v1/bids")
 @CrossOrigin
 @Tag(name = "Bids")
 public class BidController {

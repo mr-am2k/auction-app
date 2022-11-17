@@ -21,5 +21,5 @@ public interface ProductService {
 
     Product getRandomProduct();
 
-    Page<ProductEntity> getProductsByCriteria(String criteria);
+    Page<Product> getProductsByCriteria(String criteria);
 }

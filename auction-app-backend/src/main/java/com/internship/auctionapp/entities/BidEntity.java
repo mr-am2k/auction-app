@@ -42,9 +42,9 @@ public class BidEntity {
     @JsonIgnore
     private ProductEntity product;
 
-    public BidEntity(double bidPrice, LocalDateTime bidCreationDateTime, ProductEntity product) {
+    public BidEntity(double bidPrice, ProductEntity product) {
         this.bidPrice = bidPrice;
-        this.bidCreationDateTime = bidCreationDateTime;
+        this.bidCreationDateTime = LocalDateTime.now();
         this.product = product;
     }
 

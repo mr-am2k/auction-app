@@ -29,7 +29,7 @@ public class Product {
 
     private LocalDateTime expirationDateTime;
 
-    private List<BidEntity> bids;
+    private List<Bid> bids;
 
     private String remainingTime;
 }

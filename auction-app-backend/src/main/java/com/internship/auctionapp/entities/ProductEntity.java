@@ -1,7 +1,8 @@
 package com.internship.auctionapp.entities;
 
+import com.internship.auctionapp.domainmodels.Bid;
 import com.internship.auctionapp.domainmodels.Product;
-import com.internship.auctionapp.util.DateDifference;
+import com.internship.auctionapp.util.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,20 +64,24 @@ public class ProductEntity {
     )
     private List<BidEntity> bidEntities;
 
-    public ProductEntity(String name, String description, List<String> imageURL, Double price, LocalDateTime creationDateTime, LocalDateTime expirationDateTime) {
+    public ProductEntity(String name, String description, List<String> imageURL, Double price,
+                         LocalDateTime expirationDateTime) {
         this.name = name;
         this.description = description;
         this.imageURL = imageURL;
         this.price = price;
-        this.creationDateTime = creationDateTime;
+        this.creationDateTime = LocalDateTime.now();
         this.expirationDateTime = expirationDateTime;
     }
 
     public Product toDomainModel() {
-        DateDifference dateDifference = new DateDifference();
+        List<Bid> bidEntities = this.bidEntities != null ?
+                this.bidEntities.stream()
+                        .map(bidEntity -> bidEntity.toDomainModel()).toList() : new ArrayList<>();
         Product newProduct = new Product(this.id, this.name, this.description, this.imageURL, this.price,
-                this.creationDateTime, this.expirationDateTime, this.bidEntities,
-                dateDifference.calculateDateDiff(this.expirationDateTime));
+                this.creationDateTime, this.expirationDateTime,
+                bidEntities,
+                DateUtils.calculateDateDiffVerbose(this.expirationDateTime));
         return newProduct;
     }
 }

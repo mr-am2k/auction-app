@@ -54,7 +54,7 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public Page<ProductEntity> getProductsByCriteria(@RequestParam(required = false) String criteria) {
+    public Page<Product> getProductsByCriteria(@RequestParam(required = false) String criteria) {
         return productService.getProductsByCriteria(criteria);
     }
 }

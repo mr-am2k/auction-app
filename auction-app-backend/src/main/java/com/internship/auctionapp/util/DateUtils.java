@@ -3,8 +3,9 @@ package com.internship.auctionapp.util;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public class DateDifference {
-    public String calculateDateDiff(LocalDateTime expirationDateTime) {
+public class DateUtils {
+    //#TODO improve this in the future
+    public static String calculateDateDiffVerbose(LocalDateTime expirationDateTime) {
         LocalDateTime currentDateTime = LocalDateTime.now();
         long dateDiffInDays = ChronoUnit.DAYS.between(currentDateTime, expirationDateTime);
         long dateDiffInHours = ChronoUnit.HOURS.between(currentDateTime, expirationDateTime);
@@ -58,6 +59,12 @@ public class DateDifference {
             return dateDiffInSeconds == 1 ? dateDiffInSeconds + " second" : dateDiffInSeconds + " seconds";
         }
 
-        return "expired";
+        return "-1";
+    }
+
+    public static boolean isInPast(LocalDateTime firstDate){
+        if(firstDate.isBefore(LocalDateTime.now())) return true;
+
+        return false;
     }
 }
