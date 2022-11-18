@@ -3,16 +3,12 @@ package com.internship.auctionapp.services;
 import com.internship.auctionapp.domainmodels.Product;
 import com.internship.auctionapp.middleware.exception.ProductExpirationDateException;
 import com.internship.auctionapp.entities.ProductEntity;
-import com.internship.auctionapp.repositories.ProductRepository;
+import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.util.DateUtils;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,24 +20,16 @@ public class DefaultProductService implements ProductService {
     private final ProductRepository productRepository;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
-    
-    private static final int DEFAULT_ELEMENTS_PER_PAGE = 8;
 
-    private static final String LAST_CHANCE = "last-chance";
-
-    private static final String EXPIRATION_DATE_TIME = "expirationDateTime";
-
-    private static final String CREATION_DATE_TIME = "creationDateTime";
-
-    public DefaultProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public DefaultProductService(ProductRepository productCRUDRepository) {
+        this.productRepository = productCRUDRepository;
     }
 
     @Override
-    public List<Product> getAllProducts() {
+    public List<Product> getAllProducts() throws Exception {
         LOGGER.info("Fetched products from the database.");
-        return productRepository.findAll().stream()
-                .map(productEntity -> productEntity.toDomainModel())
+        return productRepository.getAllProducts().stream()
+                .map(bidEntity -> bidEntity.toDomainModel())
                 .collect(Collectors.toList());
     }
 
@@ -52,50 +40,31 @@ public class DefaultProductService implements ProductService {
             throw new ProductExpirationDateException();
         }
 
-        ProductEntity productEntity = new ProductEntity(createProductRequest.getName(),
-                createProductRequest.getDescription(), createProductRequest.getImageURL(),
-                createProductRequest.getPrice(), createProductRequest.getExpirationDateTime());
-
-        Product respondProduct = productRepository.save(productEntity).toDomainModel();
-
-        LOGGER.info("Successfully added product={} to the database.", respondProduct);
-        return respondProduct;
+        return productRepository.addProduct(createProductRequest).toDomainModel();
     }
 
     @Override
     public Product getSingleProduct(UUID id) {
-        LOGGER.info("Fetched product from the database with the id={} ", id);
-        return productRepository.findById(id).get().toDomainModel();
+        return productRepository.getSingleProduct(id).toDomainModel();
     }
 
     @Override
     public ProductEntity updateProduct(UUID id, ProductEntity product) {
-        ProductEntity productForUpdate = productRepository.findById(id).get();
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.map(product, productForUpdate);
-        LOGGER.info("Product with the id={} has been updated.", id);
-        return productRepository.save(productForUpdate);
+        return productRepository.updateProduct(id, product);
     }
 
     @Override
     public void deleteProduct(UUID id) {
-        LOGGER.info("Successfully deleted product with the id={}", id);
-        productRepository.deleteById(id);
+        productRepository.deleteProduct(id);
     }
 
     @Override
     public Product getRandomProduct() {
-        LOGGER.info("Fetched random product from the database.");
         return productRepository.getRandomProduct().toDomainModel();
     }
 
     @Override
     public Page<Product> getProductsByCriteria(String criteria) {
-        final Pageable page = PageRequest.of(0, DEFAULT_ELEMENTS_PER_PAGE, criteria.equalsIgnoreCase(LAST_CHANCE) ?
-                Sort.by(EXPIRATION_DATE_TIME).ascending() :
-                Sort.by(CREATION_DATE_TIME).descending());
-
-        LOGGER.info("Fetched page of 8 products from the database, based on criteria={} ", criteria);
-        return productRepository.findAll(page).map(productEntity -> productEntity.toDomainModel());
+        return productRepository.getProductsByCriteria(criteria).map(productEntity -> productEntity.toDomainModel());
     }
 }

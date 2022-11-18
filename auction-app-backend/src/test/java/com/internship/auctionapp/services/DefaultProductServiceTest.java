@@ -2,7 +2,7 @@ package com.internship.auctionapp.services;
 
 import com.internship.auctionapp.domainmodels.Product;
 import com.internship.auctionapp.entities.ProductEntity;
-import com.internship.auctionapp.repositories.ProductRepository;
+import com.internship.auctionapp.repositories.product.ProductJPARepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -23,7 +23,7 @@ class DefaultProductServiceTest {
     private ProductService productService;
 
     @MockBean
-    private ProductRepository productRepository;
+    private ProductJPARepository productJPARepository;
 
     private List<String> IMAGES = List.of("https://underarmour.scene7.com/is/image/Underarmour/PS1306443-001_HF?rp=" +
                     "standard-0pad|pdpMainDesktop&scl=1&fmt=jpg&qlt=85&resMode=sharp2&" +
@@ -46,8 +46,8 @@ class DefaultProductServiceTest {
                 .creationDateTime(LocalDateTime.now())
                 .expirationDateTime(LocalDateTime.now())
                 .build();
-        Mockito.when(productRepository.findById(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).thenReturn(Optional.of(product));
-        Mockito.when(productRepository.getRandomProduct()).thenReturn(product);
+        Mockito.when(productJPARepository.findById(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).thenReturn(Optional.of(product));
+        Mockito.when(productJPARepository.getRandomProduct()).thenReturn(product);
     }
 
     @Test

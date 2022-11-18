@@ -1,4 +1,4 @@
-package com.internship.auctionapp.repositories;
+package com.internship.auctionapp.repositories.bid;
 
 import com.internship.auctionapp.entities.BidEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface BidRepository extends JpaRepository<BidEntity, UUID> {
+public interface BidJPARepository extends JpaRepository<BidEntity, UUID> {
 
     @Query(
             value = "SELECT price FROM bid b " +

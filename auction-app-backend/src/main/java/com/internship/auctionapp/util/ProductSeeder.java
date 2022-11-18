@@ -1,7 +1,7 @@
 package com.internship.auctionapp.util;
 
 import com.internship.auctionapp.entities.ProductEntity;
-import com.internship.auctionapp.repositories.ProductRepository;
+import com.internship.auctionapp.repositories.product.ProductJPARepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -11,14 +11,14 @@ import java.util.List;
 @Component
 public class ProductSeeder implements CommandLineRunner {
 
-    final ProductRepository productRepository;
+    final ProductJPARepository productRepository;
 
     String productDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
             "Vestibulum hendrerit odio a erat lobortis auctor. " +
             "Curabitur sodales pharetra placerat. Aenean auctor luctus tempus. Cras laoreet et magna in dignissim. " +
             "Nam et tincidunt augue. Vivamus quis malesuada velit. In hac habitasse platea dictumst. ";
 
-    public ProductSeeder(ProductRepository productRepository) {
+    public ProductSeeder(ProductJPARepository productRepository) {
         this.productRepository = productRepository;
     }
 
