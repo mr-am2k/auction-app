@@ -4,31 +4,29 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class DateUtils {
-    public static LocalDateTime currentDateTime = LocalDateTime.now();
-
     //#TODO improve this in the future
-    public static String calculateDateDiffVerbose(LocalDateTime expirationDateTime) {
+    public static String calculateDateDiffVerbose(LocalDateTime dateFrom, LocalDateTime dateTo) {
 
-        long dateDiffInDays = ChronoUnit.DAYS.between(currentDateTime, expirationDateTime);
-        long dateDiffInHours = ChronoUnit.HOURS.between(currentDateTime, expirationDateTime);
-        long dateDiffInMinutes = ChronoUnit.MINUTES.between(currentDateTime, expirationDateTime);
-        long dateDiffInSeconds = ChronoUnit.SECONDS.between(currentDateTime, expirationDateTime);
+        long dateDiffInDays = ChronoUnit.DAYS.between(dateFrom, dateTo);
+        long dateDiffInHours = ChronoUnit.HOURS.between(dateFrom, dateTo);
+        long dateDiffInMinutes = ChronoUnit.MINUTES.between(dateFrom, dateTo);
+        long dateDiffInSeconds = ChronoUnit.SECONDS.between(dateFrom, dateTo);
 
         //return years
         if (dateDiffInDays > 364) {
-            long yearsDiff = ChronoUnit.YEARS.between(currentDateTime, expirationDateTime);
+            long yearsDiff = ChronoUnit.YEARS.between(dateFrom, dateTo);
             return yearsDiff == 1 ? yearsDiff + " year" : yearsDiff + " years";
         }
 
         //return months
         if (dateDiffInDays >= 30) {
-            long monthsDiff = ChronoUnit.MONTHS.between(currentDateTime, expirationDateTime);
+            long monthsDiff = ChronoUnit.MONTHS.between(dateFrom, dateTo);
             return monthsDiff == 1 ? monthsDiff + " month" : monthsDiff + " months";
         }
 
         //return weeks + days
         if (dateDiffInDays > 7) {
-            long weeksDiff = ChronoUnit.WEEKS.between(currentDateTime, expirationDateTime);
+            long weeksDiff = ChronoUnit.WEEKS.between(dateFrom, dateTo);
             long numberOfDays = dateDiffInDays % 7;
             return weeksDiff == 1 ? weeksDiff + " week " +
                     numberOfDays + (numberOfDays == 1 ? " day" : " days") :
@@ -64,7 +62,15 @@ public class DateUtils {
         return "-1";
     }
 
-    public static boolean isInPast(LocalDateTime dateTime){
-        return dateTime.isBefore(currentDateTime);
+    public static String calculateDateDiffVerbose(LocalDateTime dateTo) {
+        return calculateDateDiffVerbose(LocalDateTime.now(), dateTo);
+    }
+
+    public static boolean isInPast(LocalDateTime dateFrom, LocalDateTime dateTo) {
+        return dateTo.isBefore(dateFrom);
+    }
+
+    public static boolean isInPast(LocalDateTime dateTime) {
+        return isInPast(LocalDateTime.now(), dateTime);
     }
 }
