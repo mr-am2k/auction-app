@@ -30,25 +30,32 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<Object> handleNullPointerException(HttpServletRequest req, NullPointerException ex){
+    public ResponseEntity<Object> handleNullPointerException(HttpServletRequest req, NullPointerException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 
     @ExceptionHandler(NoSuchParameterException.class)
-    public ResponseEntity<Object> handleNoSuchParameterException(HttpServletRequest req, NoSuchParameterException ex){
+    public ResponseEntity<Object> handleNoSuchParameterException(HttpServletRequest req, NoSuchParameterException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Object> handleIllegalArgumentException(HttpServletRequest req, IllegalArgumentException ex){
+    public ResponseEntity<Object> handleIllegalArgumentException(HttpServletRequest req, IllegalArgumentException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 
     @ExceptionHandler(ProductExpirationDateException.class)
-    public ResponseEntity<Object> handleIllegalArgumentException(HttpServletRequest req,
-                                                                 ProductExpirationDateException ex){
+    public ResponseEntity<Object> handleProductExpirationDateException(HttpServletRequest req,
+                                                                 ProductExpirationDateException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST,
                 "Expiration date has to be after creation date."));
+    }
+
+    @ExceptionHandler(IllegalBidPriceException.class)
+    public ResponseEntity<Object> handleIllegalBidPriceException(HttpServletRequest req,
+                                                                 ProductExpirationDateException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST,
+                "Bid price can't be lower than product price."));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {

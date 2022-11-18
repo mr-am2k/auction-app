@@ -1,15 +1,14 @@
-import axios from 'axios';
 import { Product } from 'models/product';
 import agent from 'lib/agent';
 
-axios.defaults.baseURL = 'http://localhost:8080/api/v1/products';
+const BASE_URL = '/products';
 
 const productsService = {
-    getAll: () => agent.get<Product[]>('/'),
-    getSingleProduct: (id: string) => agent.get<Product>(`/${id}`),
-    getRandomProduct: () => agent.get<Product>('/random'),
-    search: (queryParam: string) =>
-      agent.get<any>(`/search?criteria=${queryParam}`),
-  };
+  getAll: () => agent.get<Product[]>(BASE_URL),
+  getSingleProduct: (id: string) => agent.get<Product>(`${BASE_URL}/${id}`),
+  getRandomProduct: () => agent.get<Product>(`${BASE_URL}/random`),
+  search: (queryParam: string) =>
+    agent.get<any>(`${BASE_URL}/search?criteria=${queryParam}`),
+};
 
-export default productsService
+export default productsService;

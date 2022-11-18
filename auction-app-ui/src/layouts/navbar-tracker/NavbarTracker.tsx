@@ -1,11 +1,11 @@
-import { useContext } from 'react';
-import PageContext from 'store/page-context';
+import { usePage } from 'hooks/usePage';
 
 import { ArrowIcon } from 'assets/icons';
+
 import './navbar-tracker.scss';
 
 const NavbarTracker = () => {
-  const { navbarItems } = useContext(PageContext);
+  const { navbarItems } = usePage();
 
   if (!navbarItems.length) {
     return <div className='c-empty-div'></div>;
@@ -22,7 +22,7 @@ const NavbarTracker = () => {
       );
     }
 
-    if (index > 0 && index < navbarItems.length) {
+    if (index > 1 && index < navbarItems.length) {
       return (
         <span key={index} className='c-path-item'>
           <ArrowIcon />
@@ -37,7 +37,7 @@ const NavbarTracker = () => {
       <div className='c-current-page'>{navbarItems[0]}</div>
       <div className='c-page-path'>
         <>
-          <span className='c-path-item'>{navbarItems[0]}</span>
+          <span className='c-path-item'>{navbarItems[1]}</span>
           {listOfPaths}
         </>
       </div>

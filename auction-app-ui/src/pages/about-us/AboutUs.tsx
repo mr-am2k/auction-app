@@ -1,14 +1,21 @@
-import { useContext, useEffect } from 'react';
-import PageContext from 'store/page-context';
+import { useEffect } from 'react';
+
+import { usePage } from 'hooks/usePage';
+
 import EN_STRINGS from 'util/en_strings';
 
 import './about-us.scss';
 
 const AboutUs = () => {
-  const { setNavbarItems } = useContext(PageContext);
+  const { setNavbarItems } = usePage();
 
   useEffect(() => {
-    setNavbarItems([EN_STRINGS['Navbar.Home'], EN_STRINGS['Footer.AboutUs']]);
+    setNavbarItems([
+      EN_STRINGS['Navbar.Home'],
+      EN_STRINGS['Navbar.Home'],
+      EN_STRINGS['Footer.AboutUs'],
+    ]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

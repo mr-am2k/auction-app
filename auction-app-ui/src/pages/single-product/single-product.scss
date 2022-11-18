@@ -1,0 +1,171 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
+
+.c-single-product {
+  padding: 1rem 12rem 0;
+  @include flexDisplay(space-between, flex-start);
+  font-family: $fontFamily;
+
+  .c-images {
+    width: 50%;
+
+    .c-main-image {
+      @include flexDisplay(center, center);
+      padding: 2rem 1rem;
+
+      img {
+        object-fit: contain;
+        width: 450px;
+        height: 620px;
+      }
+    }
+
+    .c-other-images {
+      margin-top: 2rem;
+      @include flexDisplay(center, center);
+      flex-wrap: wrap;
+      gap: 2rem;
+
+      img {
+        width: 70px;
+        height: 100px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .c-product-info {
+    width: 50%;
+
+    h1 {
+      color: $darkBlackColor;
+    }
+
+    p {
+      font-weight: $mediumFontWeight;
+      line-height: $paragraphLineHeight;
+      font-size: $fontSize;
+      color: $greyColor;
+
+      span {
+        color: $purpleColor;
+        font-weight: $highFontWeight;
+      }
+    }
+
+    .c-bid-container {
+      margin-top: 2rem;
+
+      .c-bid-info {
+        padding: 1rem 2.5rem;
+        border: 1px solid $borderWhiteColor;
+        width: fit-content;
+      }
+
+      h3 {
+        color: $purpleColor;
+      }
+
+      .c-send-bid {
+        margin-top: 4rem;
+        @include flexDisplay(space-between, flex-start);
+
+        input {
+          box-sizing: border-box;
+          width: 25rem;
+          height: 3.2rem;
+          background: $whiteColor;
+          border: 1px solid $borderWhiteColor;
+          padding-left: 2.5rem;
+          font-family: $fontFamily;
+
+          &::placeholder {
+            font-weight: 300;
+            font-size: $fontSize;
+            line-height: 19px;
+            color: $greyColor;
+          }
+
+          &:focus {
+            outline: 2px solid $purpleColor;
+          }
+
+          &::-webkit-outer-spin-button,
+          &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+          }
+
+          &:disabled {
+            background-color: $smokeWhiteColor;
+            opacity: 0.8;
+          }
+        }
+
+        button {
+          background-color: transparent;
+          padding: 0.7rem 2rem;
+          width: 13rem;
+          border: 2px solid $purpleColor;
+          font-weight: $highFontWeight;
+          font-size: 18px;
+          line-height: 27px;
+          letter-spacing: 0.63px;
+          color: $blackColor;
+          @include flexDisplay(space-around, center);
+
+          &:hover {
+            background-color: $purpleColor;
+            cursor: pointer;
+          }
+
+          &:disabled {
+            background-color: $smokeWhiteColor;
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+
+    .c-details {
+      margin-top: 3rem;
+
+      .c-navbar {
+        @include flexDisplay(space-between, flex-start);
+        border-bottom: 2px solid $greyColor;
+        padding: 0;
+        gap: 2rem;
+        width: 100%;
+
+        .c-navbar-item {
+          font-weight: $mediumFontWeight;
+          font-size: $fontSize;
+          line-height: 19px;
+          letter-spacing: $letterSpacing;
+          color: $greyColor;
+          margin: 0;
+          padding: 0 2rem 1rem;
+          position: relative;
+          top: 2px;
+        }
+
+        .c-focus {
+          border-bottom: 2px solid $purpleColor;
+          color: $purpleColor;
+          font-weight: $highFontWeight;
+        }
+        p:hover {
+          cursor: pointer;
+        }
+      }
+
+      .c-details-description {
+        inline-size: 540px;
+        text-align: left;
+        word-break: break-word;
+      }
+    }
+  }
+}

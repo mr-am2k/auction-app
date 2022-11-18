@@ -1,0 +1,35 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
+
+.c-images {
+  width: 50%;
+
+  .c-main-image {
+    @include flexDisplay(center, center);
+    padding: 2rem 1rem;
+
+    img {
+      object-fit: contain;
+      max-width: 450px;
+      max-height: 620px;
+    }
+  }
+
+  .c-other-images {
+    margin-top: 2rem;
+    @include flexDisplay(center, center);
+    flex-wrap: wrap;
+    gap: 2rem;
+
+    img {
+      width: 70px;
+      height: 100px;
+      border: 1px solid $greyColor;
+      padding: 1rem 0.5rem;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

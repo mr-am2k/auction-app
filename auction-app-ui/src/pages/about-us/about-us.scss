@@ -16,6 +16,7 @@
   .c-page-wrapper {
     @include flexDisplay('center', space-between);
     flex-direction: row;
+    gap: 2rem;
 
     .c-content {
       width: 45rem;
@@ -30,10 +31,14 @@
     }
 
     .c-images {
+      @include flexDisplay(flex-start, center);
+      flex-direction: column;
+      
       .c-main-image {
         background-image: url('~/src/assets/images/about-us-image-1.png');
         width: 548px;
         height: 381px;
+        background-size: cover;
       }
 
       .c-other-images {
