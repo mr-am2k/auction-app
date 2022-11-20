@@ -23,14 +23,14 @@ public class DefaultBidRepository implements BidRepository{
     }
 
     @Override
-    public Bid addBid(UUID id, double price) {
-        ProductEntity targetedProduct = productRepository.getSingleProduct(id);
+    public Bid addBid(UUID productId, double price, UUID userId) {
+        ProductEntity targetedProduct = productRepository.getSingleProduct(productId);
 
         if (price <= targetedProduct.getPrice()) {
             throw new IllegalBidPriceException();
         }
 
-        BidEntity newBidEntity = new BidEntity(price, targetedProduct);
+        BidEntity newBidEntity = new BidEntity(price, targetedProduct, userId);
         return bidJPARepository.save(newBidEntity).toDomainModel();
     }
 

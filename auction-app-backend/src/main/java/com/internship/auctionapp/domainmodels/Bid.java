@@ -19,4 +19,6 @@ public class Bid {
     private LocalDateTime bidCreationDateTime;
 
     private UUID productId;
+
+    private UUID userId;
 }

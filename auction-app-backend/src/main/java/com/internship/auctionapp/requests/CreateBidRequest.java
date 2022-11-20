@@ -14,4 +14,6 @@ public class CreateBidRequest {
     private double bidPrice;
 
     private UUID productId;
+
+    private UUID userId;
 }

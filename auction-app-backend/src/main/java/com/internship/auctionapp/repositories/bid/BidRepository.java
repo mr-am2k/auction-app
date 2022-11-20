@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface BidRepository {
-    Bid addBid(UUID id, double price);
+    Bid addBid(UUID productId, double price, UUID userId);
 
     List<BidEntity> getAllBids();
 

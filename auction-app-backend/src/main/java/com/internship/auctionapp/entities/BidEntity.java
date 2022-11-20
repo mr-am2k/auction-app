@@ -42,13 +42,16 @@ public class BidEntity {
     @JsonIgnore
     private ProductEntity product;
 
-    public BidEntity(double price, ProductEntity product) {
+    private UUID userId;
+
+    public BidEntity(double price, ProductEntity product, UUID userId) {
         this.price = price;
         this.creationDateTime = LocalDateTime.now();
         this.product = product;
+        this.userId = userId;
     }
 
     public Bid toDomainModel() {
-        return new Bid(this.id, this.price, this.creationDateTime, this.product.getId());
+        return new Bid(this.id, this.price, this.creationDateTime, this.product.getId(), this.getUserId());
     }
 }
