@@ -4,9 +4,7 @@ import com.internship.auctionapp.domainmodels.Bid;
 import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.middleware.exception.IllegalBidPriceException;
-import com.internship.auctionapp.repositories.product.ProductJPARepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
-import com.internship.auctionapp.requests.CreateBidRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

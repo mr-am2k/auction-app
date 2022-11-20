@@ -3,7 +3,6 @@ package com.internship.auctionapp.entities;
 import com.internship.auctionapp.domainmodels.Bid;
 import com.internship.auctionapp.domainmodels.Product;
 import com.internship.auctionapp.util.DateUtils;
-import com.sun.xml.bind.v2.TODO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -66,14 +65,19 @@ public class ProductEntity {
     )
     private List<BidEntity> bidEntities;
 
+    //this will be updated in the future to the user entity when we create it
+    @Column(name = "user_id", nullable = false)
+    private UUID userId;
+
     public ProductEntity(String name, String description, List<String> imageURL, Double price,
-                         LocalDateTime expirationDateTime) {
+                         LocalDateTime expirationDateTime, UUID userId) {
         this.name = name;
         this.description = description;
         this.imageURL = imageURL;
         this.price = price;
         this.creationDateTime = LocalDateTime.now();
         this.expirationDateTime = expirationDateTime;
+        this.userId = userId;
     }
 
     public Product toDomainModel() {
@@ -82,7 +86,7 @@ public class ProductEntity {
                         .map(bidEntity -> bidEntity.toDomainModel()).collect(Collectors.toList()) : new ArrayList<>();
         Product newProduct = new Product(this.id, this.name, this.description, this.imageURL, this.price,
                 this.creationDateTime, this.expirationDateTime, bidEntities,
-                DateUtils.calculateDateDiffVerbose(this.expirationDateTime)
+                DateUtils.calculateDateDiffVerbose(this.expirationDateTime), this.userId
         );
 
         return newProduct;

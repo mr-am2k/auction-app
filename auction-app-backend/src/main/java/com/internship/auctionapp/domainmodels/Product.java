@@ -32,4 +32,6 @@ public class Product {
     private List<Bid> bids;
 
     private String remainingTime;
+
+    private UUID userId;
 }

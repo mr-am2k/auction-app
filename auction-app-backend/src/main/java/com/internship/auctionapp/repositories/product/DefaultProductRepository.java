@@ -42,7 +42,8 @@ public class DefaultProductRepository implements ProductRepository {
     public ProductEntity addProduct(CreateProductRequest createProductRequest) {
         ProductEntity productEntity = new ProductEntity(createProductRequest.getName(),
                 createProductRequest.getDescription(), createProductRequest.getImageURL(),
-                createProductRequest.getPrice(), createProductRequest.getExpirationDateTime());
+                createProductRequest.getPrice(), createProductRequest.getExpirationDateTime(),
+                createProductRequest.getUserId());
 
         LOGGER.info("Successfully added product={} to the database.", productEntity);
         return productJPARepository.save(productEntity);
