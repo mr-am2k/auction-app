@@ -1,5 +1,6 @@
 package com.internship.auctionapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.internship.auctionapp.domainmodels.Bid;
 import com.internship.auctionapp.domainmodels.Product;
 import com.internship.auctionapp.util.DateUtils;
@@ -64,6 +65,15 @@ public class ProductEntity {
             orphanRemoval = true
     )
     private List<BidEntity> bidEntities;
+
+    @OneToMany(
+            mappedBy = "product",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    @JsonIgnore
+    private List<NotificationEntity> notifications;
 
     //this will be updated in the future to the user entity when we create it
     @Column(name = "user_id", nullable = false)
