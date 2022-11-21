@@ -9,7 +9,7 @@ import bidService from 'services/bidService';
 import notificationService from 'services/notificationService';
 
 import { Loading, ImagePicker, NotificationBar } from 'components';
-import { requestBid } from 'requestModels/requestBid';
+import { createBidRequest } from 'requestModels/createBidRequest';
 import { Notification } from 'models/notification';
 import { GreaterIcon } from 'assets/icons';
 import { Product } from 'models/product';
@@ -17,12 +17,6 @@ import EN_STRINGS from 'util/en_strings';
 
 import './single-product.scss';
 
-enum notificationMessage {
-  HIGHEST_BIDDER,
-  OUTBIDDED,
-  YOU_WON,
-  YOU_LOST
-}
 const SingleProduct = () => {
   const { setNavbarItems } = usePage();
   const { loggedInUser, isUserLoggedIn } = useUser();
@@ -31,7 +25,9 @@ const SingleProduct = () => {
   const [singleProduct, setSingleProduct] = useState<Product>();
   const [highestBid, setHighestBid] = useState<number>();
   const [bidInputError, setBidInputError] = useState<string>();
-  const [latestNotification, setLatestNotification] = useState<Notification | undefined>();
+  const [latestNotification, setLatestNotification] = useState<
+    Notification | undefined
+  >();
 
   const fetchSingleProduct = async (productId: string) => {
     try {
@@ -64,7 +60,7 @@ const SingleProduct = () => {
       return;
     }
 
-    const createBidRequest: requestBid = {
+    const createBidRequest: createBidRequest = {
       price: Number(bidInputPrice),
       productId: singleProduct!.id,
       userId: loggedInUser!.id,
@@ -85,7 +81,7 @@ const SingleProduct = () => {
       productId
     );
     setLatestNotification(notification);
-    console.log(notification.notificationMessage)
+    console.log(notification.notificationMessage);
   };
 
   const initialLoad = async () => {
@@ -111,77 +107,80 @@ const SingleProduct = () => {
 
   return (
     <>
-    <NotificationBar notificationMessage={latestNotification?.notificationMessage}/>
-    <div className='c-single-product'>
-      <ImagePicker images={singleProduct.imageURL} />
+      <NotificationBar
+        notificationMessage={latestNotification?.notificationMessage}
+      />
 
-      <div className='c-product-info'>
-        <h1>{singleProduct?.name}</h1>
-        <p>
-          {EN_STRINGS['SingleProduct.StartsFrom']}:{' '}
-          <span>${singleProduct?.price}</span>
-        </p>
+      <div className='c-single-product'>
+        <ImagePicker images={singleProduct.imageURL} />
 
-        <div className='c-bid-container'>
-          {highestBid ? (
-            <div className='c-bid-info'>
-              <p>
-                {EN_STRINGS['SingleProduct.HighestBid']}:{' '}
-                <span>${highestBid}</span>
-              </p>
-              <p>
-                {EN_STRINGS['SingleProduct.NumberOfBids']}:{' '}
-                <span>{singleProduct.bids.length}</span>
-              </p>
-              <p>
-                {EN_STRINGS['SingleProduct.TimeLeft']}:{' '}
-                <span>{singleProduct.remainingTime}</span>
-              </p>
+        <div className='c-product-info'>
+          <h1>{singleProduct?.name}</h1>
+          <p>
+            {EN_STRINGS['SingleProduct.StartsFrom']}:{' '}
+            <span>${singleProduct?.price}</span>
+          </p>
+
+          <div className='c-bid-container'>
+            {highestBid ? (
+              <div className='c-bid-info'>
+                <p>
+                  {EN_STRINGS['SingleProduct.HighestBid']}:{' '}
+                  <span>${highestBid}</span>
+                </p>
+                <p>
+                  {EN_STRINGS['SingleProduct.NumberOfBids']}:{' '}
+                  <span>{singleProduct.bids.length}</span>
+                </p>
+                <p>
+                  {EN_STRINGS['SingleProduct.TimeLeft']}:{' '}
+                  <span>{singleProduct.remainingTime}</span>
+                </p>
+              </div>
+            ) : (
+              <h3>{EN_STRINGS['SingleProduct.NoBidMessage']}</h3>
+            )}
+
+            <div className='c-send-bid'>
+              <input
+                ref={bidInputRef}
+                type='number'
+                placeholder={EN_STRINGS['SingleProduct.InputPlaceholder']}
+                disabled={!isUserLoggedIn()}
+              />
+              <button disabled={!isUserLoggedIn()} onClick={sendBid}>
+                {EN_STRINGS['SingleProduct.PlaceBid']} <GreaterIcon />
+              </button>
             </div>
-          ) : (
-            <h3>{EN_STRINGS['SingleProduct.NoBidMessage']}</h3>
-          )}
 
-          <div className='c-send-bid'>
-            <input
-              ref={bidInputRef}
-              type='number'
-              placeholder={EN_STRINGS['SingleProduct.InputPlaceholder']}
-              disabled={!isUserLoggedIn()}
-            />
-            <button disabled={!isUserLoggedIn()} onClick={sendBid}>
-              {EN_STRINGS['SingleProduct.PlaceBid']} <GreaterIcon />
-            </button>
+            {bidInputError?.length ? (
+              <div className='c-bid-error'>
+                <p>{bidInputError}</p>
+              </div>
+            ) : (
+              ''
+            )}
           </div>
 
-          {bidInputError?.length ? (
-            <div className='c-bid-error'>
-              <p>{bidInputError}</p>
+          <div className='c-details'>
+            <div className='c-navbar'>
+              <p className='c-navbar-item c-focus'>
+                {EN_STRINGS['SingleProduct.Details']}
+              </p>
+              <p className='c-navbar-item'>
+                {EN_STRINGS['SingleProduct.SellerInformation']}
+              </p>
+              <p className='c-navbar-item'>
+                {EN_STRINGS['SingleProduct.CustomReviews']}
+              </p>
             </div>
-          ) : (
-            ''
-          )}
-        </div>
 
-        <div className='c-details'>
-          <div className='c-navbar'>
-            <p className='c-navbar-item c-focus'>
-              {EN_STRINGS['SingleProduct.Details']}
-            </p>
-            <p className='c-navbar-item'>
-              {EN_STRINGS['SingleProduct.SellerInformation']}
-            </p>
-            <p className='c-navbar-item'>
-              {EN_STRINGS['SingleProduct.CustomReviews']}
-            </p>
-          </div>
-
-          <div className='c-details-description'>
-            <p>{singleProduct?.description}</p>
+            <div className='c-details-description'>
+              <p>{singleProduct?.description}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

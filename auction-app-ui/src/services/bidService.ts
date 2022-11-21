@@ -1,4 +1,4 @@
-import { requestBid } from 'requestModels/requestBid';
+import { createBidRequest } from 'requestModels/createBidRequest';
 
 import agent from 'lib/agent';
 
@@ -7,7 +7,7 @@ const BASE_URL = '/bids';
 const bidService = {
   getHighestBid: (productId: string) =>
     agent.get<number>(`${BASE_URL}/product/${productId}`),
-  addBid: (createBidRequest: requestBid) =>
+  addBid: (createBidRequest: createBidRequest) =>
     agent.post(BASE_URL, createBidRequest),
 };
 
