@@ -14,7 +14,7 @@ public interface NotificationJPARepository extends JpaRepository<NotificationEnt
     @Query(value = "SELECT DISTINCT ON(n.user_id) " +
             "n.id, n.creation_date_time, n.notification_message, n.user_id, n.product_id " +
             "FROM notification n " +
-            "WHERE n.product_id = :productId AND n.user_id != :userId ",
+            "WHERE n.product_id = :productId AND n.user_id != :userId",
             nativeQuery = true
     )
     List<NotificationEntity> getNotificationEntityByUserIdAndProductId(@Param("productId") UUID productId,

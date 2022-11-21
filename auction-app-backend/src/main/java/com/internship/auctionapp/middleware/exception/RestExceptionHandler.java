@@ -65,6 +65,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_GATEWAY, ex.getMessage()));
     }
 
+    @ExceptionHandler(SQLCustomException.class)
+    public ResponseEntity<Object> handleInvalidDataAccessResourceUsageException(HttpServletRequest req,
+                                                                                SQLCustomException ex){
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_GATEWAY, ex.getMessage()));
+    }
+
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
     }
