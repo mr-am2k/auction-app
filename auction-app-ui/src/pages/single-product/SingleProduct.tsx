@@ -15,14 +15,9 @@ import EN_STRINGS from 'util/en_strings';
 
 import './single-product.scss';
 
-//used for testing, will be removed when we create real users
-const USER_ID_1 = '94dd5b8d-49eb-4c92-827f-022a2dfb868f';
-
-const USER_ID_2 = '16065605-eca3-4d16-8eb0-93368fbf5841';
-
 const SingleProduct = () => {
   const { setNavbarItems } = usePage();
-  const { isUserLoggedIn } = useUser();
+  const { loggedInUser, isUserLoggedIn } = useUser();
   const { id } = useParams();
   const bidInputRef = useRef<HTMLInputElement>(null);
   const [singleProduct, setSingleProduct] = useState<Product>();
@@ -63,7 +58,7 @@ const SingleProduct = () => {
     const createBidRequest: requestBid = {
       price: Number(bidInputPrice),
       productId: singleProduct!.id,
-      userId: USER_ID_2,
+      userId: loggedInUser!.id,
     };
     bidService
       .addBid(createBidRequest)
