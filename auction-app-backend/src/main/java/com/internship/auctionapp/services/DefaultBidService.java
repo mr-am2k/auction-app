@@ -20,7 +20,7 @@ public class DefaultBidService implements BidService {
 
     @Override
     public Bid addBid(CreateBidRequest createBidRequest) {
-        return bidRepository.addBid(createBidRequest.getProductId(), createBidRequest.getBidPrice(),
+        return bidRepository.addBid(createBidRequest.getProductId(), createBidRequest.getPrice(),
                 createBidRequest.getUserId());
     }
 

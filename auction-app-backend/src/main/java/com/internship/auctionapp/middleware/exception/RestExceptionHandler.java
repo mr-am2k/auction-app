@@ -55,8 +55,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(IllegalBidPriceException.class)
     public ResponseEntity<Object> handleIllegalBidPriceException(HttpServletRequest req,
                                                                  IllegalBidPriceException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST,
-                "Bid price can't be lower than product price."));
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 
     @ExceptionHandler(InvalidDataAccessResourceUsageException.class)

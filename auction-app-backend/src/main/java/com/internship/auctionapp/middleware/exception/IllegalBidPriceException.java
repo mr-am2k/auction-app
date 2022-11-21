@@ -1,5 +1,8 @@
 package com.internship.auctionapp.middleware.exception;
 
 public class IllegalBidPriceException extends RuntimeException {
-    public IllegalBidPriceException() {}
+
+    public IllegalBidPriceException(String message) {
+        super(message);
+    }
 }
