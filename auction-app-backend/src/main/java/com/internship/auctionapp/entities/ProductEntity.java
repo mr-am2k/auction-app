@@ -66,15 +66,6 @@ public class ProductEntity {
     )
     private List<BidEntity> bidEntities;
 
-    @OneToMany(
-            mappedBy = "product",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
-    )
-    @JsonIgnore
-    private List<NotificationEntity> notifications;
-
     //this will be updated in the future to the user entity when we create it
     @Column(name = "user_id", nullable = false)
     private UUID userId;

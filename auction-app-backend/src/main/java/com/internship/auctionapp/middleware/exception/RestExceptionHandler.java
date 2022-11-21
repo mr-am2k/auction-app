@@ -4,6 +4,7 @@ import org.hibernate.PropertyValueException;
 import org.hibernate.procedure.NoSuchParameterException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -53,9 +54,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IllegalBidPriceException.class)
     public ResponseEntity<Object> handleIllegalBidPriceException(HttpServletRequest req,
-                                                                 ProductExpirationDateException ex) {
+                                                                 IllegalBidPriceException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST,
                 "Bid price can't be lower than product price."));
+    }
+
+    @ExceptionHandler(InvalidDataAccessResourceUsageException.class)
+    public ResponseEntity<Object> handleInvalidDataAccessResourceUsageException(HttpServletRequest req,
+                                                                                InvalidDataAccessResourceUsageException ex){
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_GATEWAY, ex.getMessage()));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {

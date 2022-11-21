@@ -30,7 +30,7 @@ public class NotificationController {
     }
 
     @PostMapping()
-    public Notification addNotification(@RequestBody CreateNotificationRequest createNotificationRequest){
+    public Notification addNotification(@RequestBody CreateNotificationRequest createNotificationRequest) throws Exception {
         return notificationService.addNotification(createNotificationRequest);
     }
 }
