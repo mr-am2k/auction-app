@@ -18,7 +18,7 @@ public class Notification {
 
     private LocalDateTime creationDateTime;
 
-    private NotificationMessage notificationMessage;
+    private int notificationMessage;
 
     private UUID userId;
 

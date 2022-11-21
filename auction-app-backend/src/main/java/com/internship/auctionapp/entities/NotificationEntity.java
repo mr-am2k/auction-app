@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,6 +36,7 @@ public class NotificationEntity {
     @Column(name = "creation_date_time", nullable = false)
     private LocalDateTime creationDateTime;
 
+    @Column(name = "notification_message", nullable = false)
     private NotificationMessage notificationMessage;
 
     @Column(name = "user_id", nullable = false)
@@ -53,7 +56,7 @@ public class NotificationEntity {
     }
 
     public Notification toDomainModel(){
-        return new Notification(this.getId(), this.getCreationDateTime(), this.getNotificationMessage(),
+        return new Notification(this.getId(), this.getCreationDateTime(), this.getNotificationMessage().ordinal(),
                 this.getUserId(), this.getProduct().getId());
     }
 }
