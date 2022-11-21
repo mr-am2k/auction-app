@@ -1,0 +1,14 @@
+@import '/src/scss/mixin';
+@import '/src/scss/variables';
+
+.c-highest-bid {
+  @include notificationBar(#f0f3ee, #417505);
+}
+
+.c-outbidded {
+  @include notificationBar(#f6f2e5, #ab944e);
+}
+
+.c-final-result {
+  @include notificationBar(#f1effa, $purpleColor);
+}

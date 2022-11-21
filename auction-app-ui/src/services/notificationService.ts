@@ -1,3 +1,5 @@
+import { Notification } from 'models/notification';
+
 import agent from 'lib/agent';
 
 const BASE_URL = '/notifications';

@@ -6,16 +6,23 @@ import { useUser } from 'hooks/useUser';
 
 import productsService from 'services/productService';
 import bidService from 'services/bidService';
+import notificationService from 'services/notificationService';
 
-import { Loading, ImagePicker } from 'components';
+import { Loading, ImagePicker, NotificationBar } from 'components';
 import { requestBid } from 'requestModels/requestBid';
+import { Notification } from 'models/notification';
 import { GreaterIcon } from 'assets/icons';
 import { Product } from 'models/product';
 import EN_STRINGS from 'util/en_strings';
 
 import './single-product.scss';
-import notificationService from 'services/notificationService';
 
+enum notificationMessage {
+  HIGHEST_BIDDER,
+  OUTBIDDED,
+  YOU_WON,
+  YOU_LOST
+}
 const SingleProduct = () => {
   const { setNavbarItems } = usePage();
   const { loggedInUser, isUserLoggedIn } = useUser();
@@ -24,6 +31,7 @@ const SingleProduct = () => {
   const [singleProduct, setSingleProduct] = useState<Product>();
   const [highestBid, setHighestBid] = useState<number>();
   const [bidInputError, setBidInputError] = useState<string>();
+  const [latestNotification, setLatestNotification] = useState<Notification | undefined>();
 
   const fetchSingleProduct = async (productId: string) => {
     try {
@@ -76,7 +84,8 @@ const SingleProduct = () => {
       userId,
       productId
     );
-    console.log(notification);
+    setLatestNotification(notification);
+    console.log(notification.notificationMessage)
   };
 
   const initialLoad = async () => {
@@ -101,6 +110,8 @@ const SingleProduct = () => {
   }
 
   return (
+    <>
+    <NotificationBar notificationMessage={latestNotification?.notificationMessage}/>
     <div className='c-single-product'>
       <ImagePicker images={singleProduct.imageURL} />
 
@@ -171,6 +182,7 @@ const SingleProduct = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
