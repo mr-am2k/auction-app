@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { usePage } from 'hooks/usePage';
-import { useUser } from 'hooks/useUser';
 
 import productsService from 'services/productService';
 
@@ -29,7 +28,6 @@ const DUMMY_CATEGORIES = [
 ];
 
 const Home = () => {
-  const { setLoggedInUser } = useUser();
   const { setNavbarItems } = usePage();
   const [randomProduct, setRandomProduct] = useState<Product>();
   const [lastChanceProducts, setLastChanceProducts] = useState<Product[]>([]);

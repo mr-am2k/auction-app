@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import { useUser } from 'hooks/useUser';
 
-import { PageProvider, UserProvider } from 'store/index';
+import { PageProvider} from 'store/index';
 
 import {
   PrivacyAndPolicy,

@@ -14,6 +14,7 @@ import { Product } from 'models/product';
 import EN_STRINGS from 'util/en_strings';
 
 import './single-product.scss';
+import notificationService from 'services/notificationService';
 
 const SingleProduct = () => {
   const { setNavbarItems } = usePage();
@@ -63,9 +64,19 @@ const SingleProduct = () => {
     bidService
       .addBid(createBidRequest)
       .then(() => setBidInputError(''))
-      .catch((error) => { console.log(error) 
+      .catch((error) => {
+        console.log(error);
         console.log(createBidRequest);
-        setBidInputError(error.response.data.message)});
+        setBidInputError(error.response.data.message);
+      });
+  };
+
+  const getLatestNotification = async (userId: string, productId: string) => {
+    const notification = await notificationService.getLatestNotification(
+      userId,
+      productId
+    );
+    console.log(notification);
   };
 
   const initialLoad = async () => {
@@ -77,6 +88,13 @@ const SingleProduct = () => {
     initialLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (loggedInUser) {
+      getLatestNotification(loggedInUser!.id, id!);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedInUser]);
 
   if (!singleProduct) {
     return <Loading />;
