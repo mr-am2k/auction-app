@@ -10,5 +10,6 @@ export type Product = {
     expirationDateTime: Date;
     bids: Bid[];
     remainingTime: string
+    userId: string;
 }
 

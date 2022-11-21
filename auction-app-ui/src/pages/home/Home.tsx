@@ -78,7 +78,10 @@ const Home = () => {
 
   //used for demonstration, because user login/registration is not yet implemented
   useEffect(() => {
-    setLoggedInUser({ name: 'Muamer' });
+    setLoggedInUser({
+      id: '94dd5b8d-49eb-4c92-827f-022a2dfb868f',
+      name: 'Muamer',
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

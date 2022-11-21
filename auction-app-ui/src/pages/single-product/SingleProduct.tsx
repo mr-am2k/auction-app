@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { usePage } from 'hooks/usePage';
@@ -8,18 +8,26 @@ import productsService from 'services/productService';
 import bidService from 'services/bidService';
 
 import { Loading, ImagePicker } from 'components';
+import { requestBid } from 'requestModels/requestBid';
 import { GreaterIcon } from 'assets/icons';
 import { Product } from 'models/product';
 import EN_STRINGS from 'util/en_strings';
 
 import './single-product.scss';
 
+//used for testing, will be removed when we create real users
+const USER_ID_1 = '94dd5b8d-49eb-4c92-827f-022a2dfb868f';
+
+const USER_ID_2 = '16065605-eca3-4d16-8eb0-93368fbf5841';
+
 const SingleProduct = () => {
   const { setNavbarItems } = usePage();
   const { isUserLoggedIn } = useUser();
   const { id } = useParams();
+  const bidInputRef = useRef<HTMLInputElement>(null);
   const [singleProduct, setSingleProduct] = useState<Product>();
   const [highestBid, setHighestBid] = useState<number>();
+  const [bidInputError, setBidInputError] = useState<string>();
 
   const fetchSingleProduct = async (productId: string) => {
     try {
@@ -42,6 +50,27 @@ const SingleProduct = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const sendBid = () => {
+    const bidInputPrice = bidInputRef.current!.value;
+
+    if (!bidInputPrice) {
+      setBidInputError('You must enter price first');
+      return;
+    }
+
+    const createBidRequest: requestBid = {
+      price: Number(bidInputPrice),
+      productId: singleProduct!.id,
+      userId: USER_ID_2,
+    };
+    bidService
+      .addBid(createBidRequest)
+      .then(() => setBidInputError(''))
+      .catch((error) => { console.log(error) 
+        console.log(createBidRequest);
+        setBidInputError(error.response.data.message)});
   };
 
   const initialLoad = async () => {
@@ -91,14 +120,23 @@ const SingleProduct = () => {
 
           <div className='c-send-bid'>
             <input
+              ref={bidInputRef}
               type='number'
               placeholder={EN_STRINGS['SingleProduct.InputPlaceholder']}
               disabled={!isUserLoggedIn()}
             />
-            <button disabled={!isUserLoggedIn()}>
+            <button disabled={!isUserLoggedIn()} onClick={sendBid}>
               {EN_STRINGS['SingleProduct.PlaceBid']} <GreaterIcon />
             </button>
           </div>
+
+          {bidInputError?.length ? (
+            <div className='c-bid-error'>
+              <p>{bidInputError}</p>
+            </div>
+          ) : (
+            ''
+          )}
         </div>
 
         <div className='c-details'>
