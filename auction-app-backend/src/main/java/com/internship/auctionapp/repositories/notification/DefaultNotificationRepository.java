@@ -61,6 +61,11 @@ public class DefaultNotificationRepository implements NotificationRepository {
         return newNotification;
     }
 
+    @Override
+    public NotificationEntity getNotificationForUserOrderedByDate(UUID userId, UUID productId) {
+        return notificationJPARepository.getNotificationForUserOrderedByDate(userId, productId);
+    }
+
     private List<NotificationEntity> getNotificationEntityByUserIdAndProductId(UUID productId, UUID userId) {
         return notificationJPARepository.getNotificationEntityByUserIdAndProductId(productId, userId);
     }

@@ -19,4 +19,14 @@ public interface NotificationJPARepository extends JpaRepository<NotificationEnt
     )
     List<NotificationEntity> getNotificationEntityByUserIdAndProductId(@Param("productId") UUID productId,
                                                                        @Param("userId") UUID userId);
+
+    @Query(
+            value = "SELECT * FROM notification n " +
+                    "WHERE  n.user_id = :userId AND n.product_id = :productId " +
+                    "ORDER BY n.creation_date_time DESC " +
+                    "LIMIT 1",
+            nativeQuery = true
+    )
+    NotificationEntity getNotificationForUserOrderedByDate(@Param("userId") UUID userId,
+                                                            @Param("productId") UUID productId);
 }

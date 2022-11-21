@@ -9,9 +9,7 @@ import com.internship.auctionapp.middleware.exception.SQLCustomException;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
-import com.internship.auctionapp.services.DefaultProductService;
 import com.internship.auctionapp.util.NotificationMessage;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -37,13 +35,15 @@ public class DefaultBidRepository implements BidRepository {
     @Transactional
     public Bid addBid(UUID productId, double price, UUID userId) {
         ProductEntity targetedProduct = productRepository.getSingleProduct(productId);
-        double targetedBid = bidJPARepository.highestBid(productId);
         if (price <= targetedProduct.getPrice()) {
             throw new IllegalBidPriceException("Bid price can't be lower than product price.");
         }
 
-        if (price <= targetedBid) {
-            throw new IllegalBidPriceException("Bid price can't be lower than current bid price.");
+        if(bidJPARepository.getBidEntitiesByProduct(targetedProduct).size() > 0){
+            double targetedBid = bidJPARepository.highestBid(productId);
+            if (price <= targetedBid) {
+                throw new IllegalBidPriceException("Bid price can't be lower than current bid price.");
+            }
         }
 
         try {

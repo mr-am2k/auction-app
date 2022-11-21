@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/notifications")
@@ -25,7 +27,7 @@ public class NotificationController {
     }
 
     @GetMapping()
-    public List<Notification> getAllNotifications(){
+    public List<Notification> getAllNotifications() {
         return notificationService.getAllNotifications();
     }
 
@@ -33,4 +35,10 @@ public class NotificationController {
     public Notification addNotification(@RequestBody CreateNotificationRequest createNotificationRequest) throws Exception {
         return notificationService.addNotification(createNotificationRequest);
     }
+
+    @GetMapping("/ordered")
+    public Notification getNotificationOrderedByDate(@RequestParam UUID userId, @RequestParam UUID productId) {
+        return notificationService.getNotificationForUserOrderedByDate(userId, productId);
+    }
+
 }
