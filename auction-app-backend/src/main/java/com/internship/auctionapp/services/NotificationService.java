@@ -11,5 +11,5 @@ public interface NotificationService {
 
     Notification createNotification(CreateNotificationRequest createNotificationRequest);
 
-    Notification getNotificationForUserOrderedByDate(UUID userId, UUID productId);
+    List<Notification> searchNotifications(UUID userId, UUID productId);
 }

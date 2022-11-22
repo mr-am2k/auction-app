@@ -6,10 +6,14 @@ import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanHighestBidPriceException;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanProductPriceException;
 import com.internship.auctionapp.middleware.exception.SQLCustomException;
+import com.internship.auctionapp.models.Notification;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
 import com.internship.auctionapp.repositories.product.ProductJPARepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
+import com.internship.auctionapp.services.DefaultProductService;
 import com.internship.auctionapp.util.NotificationMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -26,6 +30,8 @@ public class DefaultBidRepository implements BidRepository {
 
     private final NotificationRepository notificationRepository;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidRepository.class);
+
     public DefaultBidRepository(
             ProductJPARepository productJPARepository,
             BidJPARepository bidJPARepository,
@@ -37,27 +43,30 @@ public class DefaultBidRepository implements BidRepository {
     }
 
     @Override
-    @Transactional
     public Bid addBid(UUID productId, double price, UUID userId) {
         ProductEntity targetedProduct = productJPARepository.findById(productId).get();
-
         if (price <= targetedProduct.getPrice()) {
             throw new BidPriceLowerThanProductPriceException();
         }
 
-        if(price <= bidJPARepository.highestBidPrice(productId).get(0)) {
-            throw new BidPriceLowerThanHighestBidPriceException();
+        List<Double> targetedBid = bidJPARepository.highestBidPrice(productId);
+
+        if (targetedBid.size() > 0) {
+            if (price <= targetedBid.get(0).doubleValue()) {
+                throw new BidPriceLowerThanHighestBidPriceException();
+            }
+
         }
 
         try {
             BidEntity newBidEntity = new BidEntity(price, targetedProduct, userId);
-
             notificationRepository.createNotification(new CreateNotificationRequest(
                     NotificationMessage.HIGHEST_BID_PLACED,
-                    userId, productId)
-            );
-
+                    userId,
+                    productId
+            ));
             return bidJPARepository.save(newBidEntity).toDomainModel();
+
         } catch (SQLCustomException ex) {
             throw new SQLCustomException(ex.getMessage());
         }
@@ -78,10 +87,5 @@ public class DefaultBidRepository implements BidRepository {
     @Override
     public List<Double> getHighestBidPrice(UUID productId) {
         return bidJPARepository.highestBidPrice(productId);
-    }
-
-    @Override
-    public Bid getHighestBid(UUID productId) {
-        return bidJPARepository.getHighestBid(productId).toDomainModel();
     }
 }

@@ -13,13 +13,13 @@ public interface ProductRepository {
 
     Product addProduct(CreateProductRequest createProductRequest);
 
-    Product getSingleProduct(UUID id);
+    List<Product> getSingleProduct(UUID id);
 
     Product updateProduct(UUID id, ProductEntity product);
 
     void deleteProduct(UUID id);
 
-    Product getRandomProduct();
+    List<Product> getRandomProduct();
 
     Page<Product> getProductsByCriteria(String criteria);
 }

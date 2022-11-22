@@ -15,8 +15,10 @@ public interface NotificationJPARepository extends JpaRepository<NotificationEnt
             "WHERE n.user_id != :userId AND n.product_id = :productId ",
             nativeQuery = true
     )
-    List<NotificationEntity> getNotificationsByProductIdForAllUsersExcept(@Param("userId") UUID userId,
-                                                                       @Param("productId") UUID productId);
+    List<NotificationEntity> getNotificationsByProductIdForAllUsersExcept(
+            @Param("userId") UUID userId,
+            @Param("productId") UUID productId
+    );
 
     @Query(
             value = "SELECT * FROM notifications n " +
@@ -25,6 +27,8 @@ public interface NotificationJPARepository extends JpaRepository<NotificationEnt
                     "LIMIT 1",
             nativeQuery = true
     )
-    List<NotificationEntity> getNotificationForUserOrderedByDate(@Param("userId") UUID userId,
-                                                            @Param("productId") UUID productId);
+    List<NotificationEntity> searchNotifications(
+            @Param("userId") UUID userId,
+            @Param("productId") UUID productId
+    );
 }

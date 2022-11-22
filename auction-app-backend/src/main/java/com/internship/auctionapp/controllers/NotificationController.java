@@ -32,13 +32,13 @@ public class NotificationController {
     }
 
     @PostMapping()
-    public Notification createNotification(@RequestBody CreateNotificationRequest createNotificationRequest) throws Exception {
+    public Notification createNotification(@RequestBody CreateNotificationRequest createNotificationRequest) {
         return notificationService.createNotification(createNotificationRequest);
     }
 
-    @GetMapping("/ordered")
-    public Notification getNotificationOrderedByDate(@RequestParam UUID userId, @RequestParam UUID productId) {
-        return notificationService.getNotificationForUserOrderedByDate(userId, productId);
+    @GetMapping("/search")
+    public List<Notification> searchNotifications(@RequestParam UUID userId, @RequestParam UUID productId) {
+        return notificationService.searchNotifications(userId, productId);
     }
 
 }

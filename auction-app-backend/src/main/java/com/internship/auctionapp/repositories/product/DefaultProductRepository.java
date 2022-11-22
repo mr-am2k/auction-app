@@ -59,9 +59,11 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public Product getSingleProduct(UUID id) {
+    public List<Product> getSingleProduct(UUID id) {
         LOGGER.info("Fetched product from the database with the id={} ", id);
-        return productJPARepository.findById(id).get().toDomainModel();
+        return productJPARepository.findById(id).stream()
+                .map(product -> product.toDomainModel())
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -82,9 +84,11 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public Product getRandomProduct() {
+    public List<Product> getRandomProduct() {
         LOGGER.info("Fetched random product from the database.");
-        return productJPARepository.getRandomProduct().toDomainModel();
+        return productJPARepository.getRandomProduct().stream()
+                .map(product -> product.toDomainModel())
+                .collect(Collectors.toList());
     }
 
     @Override

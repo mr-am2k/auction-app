@@ -59,7 +59,7 @@ class ProductControllerTest {
         SEND_PRODUCT = CreateProductRequest.builder().
                 name("Shirt")
                 .description("Black shirt")
-                .imageURL(IMAGES)
+                .imageURLs(IMAGES)
                 .price(52.20)
                 .expirationDateTime(LocalDateTime.now())
                 .build();
@@ -68,7 +68,7 @@ class ProductControllerTest {
                 .id(PRODUCT_ID)
                 .name("Shirt")
                 .description("Black shirt")
-                .imageURL(IMAGES)
+                .imageURLs(IMAGES)
                 .price(52.20)
                 .creationDateTime(LocalDateTime.now())
                 .expirationDateTime(LocalDateTime.now())
@@ -80,7 +80,7 @@ class ProductControllerTest {
                 .id(PRODUCT_ID)
                 .name("Shirt")
                 .description("Black shirt")
-                .imageURL(IMAGES)
+                .imageURLs(IMAGES)
                 .price(52.20)
                 .creationDateTime(LocalDateTime.now())
                 .expirationDateTime(LocalDateTime.now())
@@ -90,7 +90,7 @@ class ProductControllerTest {
                 .id(PRODUCT_ID)
                 .name("Shoes")
                 .description("Black shoes")
-                .imageURL(IMAGES)
+                .imageURLs(IMAGES)
                 .price(75.20)
                 .creationDateTime(LocalDateTime.of(2022, 12, 12, 12, 12, 12))
                 .expirationDateTime(LocalDateTime.of(2023, 1, 1, 1, 1, 1))
@@ -121,7 +121,7 @@ class ProductControllerTest {
     @Test
     void getSingleProduct() throws Exception {
         Mockito.when(productService.getSingleProduct(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6")))
-                .thenReturn(RETURN_PRODUCT);
+                .thenReturn(List.of(RETURN_PRODUCT));
         mockMvc.perform(get("/api/v1/products/3fa85f64-5717-4562-b3fc-2c963f66afa6")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -130,7 +130,7 @@ class ProductControllerTest {
 
     @Test
     void getRandomProduct() throws Exception {
-        Mockito.when(productService.getRandomProduct()).thenReturn(RETURN_PRODUCT);
+        Mockito.when(productService.getRandomProduct()).thenReturn(List.of(RETURN_PRODUCT));
         mockMvc.perform(get("/api/v1/products/random")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

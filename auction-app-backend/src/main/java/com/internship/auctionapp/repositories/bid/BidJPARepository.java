@@ -23,13 +23,6 @@ public interface BidJPARepository extends JpaRepository<BidEntity, UUID> {
 
     @Query(
             value = "SELECT * FROM bids b " +
-                    "WHERE b.product_id = :productId ",
-            nativeQuery = true
-    )
-    List<BidEntity> getBidsByProductId(@Param("productId") UUID productId);
-
-    @Query(
-            value = "SELECT * FROM bids b " +
                     "WHERE b.product_id = :productId " +
                     "ORDER BY b.price DESC " +
                     "LIMIT 1",

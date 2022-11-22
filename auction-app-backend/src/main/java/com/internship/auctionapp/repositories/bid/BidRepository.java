@@ -13,6 +13,4 @@ public interface BidRepository {
     void deleteBid(UUID id);
 
     List<Double> getHighestBidPrice(UUID productId);
-
-    Bid getHighestBid(UUID productId);
 }

@@ -41,13 +41,13 @@ class DefaultProductServiceTest {
                 .id(PRODUCT_ID)
                 .name("Shirt")
                 .description("Black shirt")
-                .imageURL(IMAGES)
+                .imageURLs(IMAGES)
                 .price(52.20)
                 .creationDateTime(LocalDateTime.now())
                 .expirationDateTime(LocalDateTime.now())
                 .build();
         Mockito.when(productJPARepository.findById(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).thenReturn(Optional.of(product));
-        Mockito.when(productJPARepository.getRandomProduct()).thenReturn(product);
+        Mockito.when(productJPARepository.getRandomProduct()).thenReturn(List.of(product));
     }
 
     @Test
@@ -57,12 +57,12 @@ class DefaultProductServiceTest {
         String description = "Black shirt";
         Double price = 52.20;
 
-        Product wantedProduct = productService.getSingleProduct(PRODUCT_ID);
+        Product wantedProduct = productService.getSingleProduct(PRODUCT_ID).get(0);
 
         assertEquals(PRODUCT_ID, wantedProduct.getId());
         assertEquals(name, wantedProduct.getName());
         assertEquals(description, wantedProduct.getDescription());
-        assertEquals(imageURL, wantedProduct.getImageURL());
+        assertEquals(imageURL, wantedProduct.getImageURLs());
         assertEquals(price, wantedProduct.getPrice());
     }
 
@@ -73,12 +73,12 @@ class DefaultProductServiceTest {
         String description = "Black shirt";
         Double price = 52.20;
 
-        Product wantedProduct = productService.getRandomProduct();
+        Product wantedProduct = productService.getRandomProduct().get(0);
 
         assertEquals(PRODUCT_ID, wantedProduct.getId());
         assertEquals(name, wantedProduct.getName());
         assertEquals(description, wantedProduct.getDescription());
-        assertEquals(imageURL, wantedProduct.getImageURL());
+        assertEquals(imageURL, wantedProduct.getImageURLs());
         assertEquals(price, wantedProduct.getPrice());
     }
 }

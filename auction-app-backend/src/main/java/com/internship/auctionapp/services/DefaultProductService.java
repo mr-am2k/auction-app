@@ -42,7 +42,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Product getSingleProduct(UUID id) {
+    public List<Product> getSingleProduct(UUID id) {
         return productRepository.getSingleProduct(id);
     }
 
@@ -57,7 +57,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Product getRandomProduct() {
+    public List<Product> getRandomProduct() {
         return productRepository.getRandomProduct();
     }
 

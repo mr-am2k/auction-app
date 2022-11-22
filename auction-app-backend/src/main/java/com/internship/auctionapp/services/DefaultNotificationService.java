@@ -27,7 +27,7 @@ public class DefaultNotificationService implements NotificationService {
     }
 
     @Override
-    public Notification getNotificationForUserOrderedByDate(UUID userId, UUID productId) {
-        return notificationRepository.getNotificationForUserOrderedByDate(userId, productId);
+    public List<Notification> searchNotifications(UUID userId, UUID productId) {
+        return notificationRepository.searchNotifications(userId, productId);
     }
 }
