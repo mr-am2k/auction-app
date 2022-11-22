@@ -1,34 +1,48 @@
+import EN_STRINGS from 'util/en_strings';
 import './notification-bar.scss';
+
+const NOTIFICATION_OPTIONS = {
+  HIGHEST_BID_PLACED: 'HIGHEST_BID_PLACED',
+  OUTBIDDED: 'OUTBIDDED',
+  AUCTION_WON: 'AUCTION_WON',
+  AUCTION_LOST: 'AUCTION_LOST',
+};
+
+const NOTIFICATION_CLASSES = {
+  HIGHEST_BID_PLACED: 'c-highest-bid',
+  OUTBIDDED: 'c-outbidded',
+  AUCTION_FINISHED: 'c-final-result',
+};
 
 type Props = {
   children?: React.ReactNode;
-  notificationMessage: number | undefined;
+  notificationMessage: string | undefined;
 };
 
 const NotificationBar: React.FC<Props> = ({ notificationMessage }) => {
   return (
     <>
-      {notificationMessage === 0 && (
-        <div className='c-highest-bid'>
-          <p>Congrats! You are the highest bider!</p>
+      {notificationMessage === NOTIFICATION_OPTIONS.HIGHEST_BID_PLACED && (
+        <div className={NOTIFICATION_CLASSES.HIGHEST_BID_PLACED}>
+          <p>{EN_STRINGS['NotificationBar.HighestBidPlaced']}</p>
         </div>
       )}
 
-      {notificationMessage === 1 && (
-        <div className='c-outbidded'>
-          <p> There are higher bids than yours. You could give a second try!</p>
+      {notificationMessage === NOTIFICATION_OPTIONS.OUTBIDDED && (
+        <div className={NOTIFICATION_CLASSES.OUTBIDDED}>
+          <p>{EN_STRINGS['NotificationBar.Outbidded']}</p>
         </div>
       )}
 
-      {notificationMessage === 2 && (
-        <div className='c-final-result'>
-          <p>Congratulations! You outbid the competition.</p>
+      {notificationMessage === NOTIFICATION_OPTIONS.AUCTION_WON && (
+        <div className={NOTIFICATION_CLASSES.AUCTION_FINISHED}>
+          <p>{EN_STRINGS['NotificationBar.AuctionWon']}</p>
         </div>
       )}
 
-      {notificationMessage === 3 && (
-        <div className='c-final-result'>
-          <p>Unfortunately you have been outbidded!</p>
+      {notificationMessage === NOTIFICATION_OPTIONS.AUCTION_LOST && (
+        <div className={NOTIFICATION_CLASSES.AUCTION_FINISHED}>
+          <p>{EN_STRINGS['NotificationBar.AuctionLost']}</p>
         </div>
       )}
     </>

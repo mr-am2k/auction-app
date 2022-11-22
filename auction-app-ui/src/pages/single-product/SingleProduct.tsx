@@ -33,11 +33,11 @@ const SingleProduct = () => {
     try {
       const product = await productsService.getSingleProduct(productId);
       setNavbarItems([
-        product.name,
+        product[0].name,
         EN_STRINGS['Navbar.Shop'],
         EN_STRINGS['Shop.SingleProduct'],
       ]);
-      setSingleProduct(product);
+      setSingleProduct(product[0]);
     } catch (error) {
       console.log(error);
     }
@@ -46,7 +46,7 @@ const SingleProduct = () => {
   const fetchHighestBid = async (productId: string) => {
     try {
       const highestBid = await bidService.getHighestBid(productId);
-      setHighestBid(highestBid);
+      setHighestBid(highestBid[0]);
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +56,7 @@ const SingleProduct = () => {
     const bidInputPrice = bidInputRef.current!.value;
 
     if (!bidInputPrice) {
-      setBidInputError('You must enter price first');
+      setBidInputError(EN_STRINGS['SingleProduct.InputBidError']);
       return;
     }
 
@@ -65,12 +65,16 @@ const SingleProduct = () => {
       productId: singleProduct!.id,
       userId: loggedInUser!.id,
     };
+
+    setBidInputError('');
+
     bidService
       .addBid(createBidRequest)
-      .then(() => setBidInputError(''))
+      .then(() => {
+        bidInputRef.current!.value = '';
+        fetchSingleProduct(id!);
+      })
       .catch((error) => {
-        console.log(error);
-        console.log(createBidRequest);
         setBidInputError(error.response.data.message);
       });
   };
@@ -80,8 +84,7 @@ const SingleProduct = () => {
       userId,
       productId
     );
-    setLatestNotification(notification);
-    console.log(notification.notificationMessage);
+    setLatestNotification(notification[0]);
   };
 
   const initialLoad = async () => {
@@ -99,7 +102,7 @@ const SingleProduct = () => {
       getLatestNotification(loggedInUser!.id, id!);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loggedInUser]);
+  }, [loggedInUser, singleProduct]);
 
   if (!singleProduct) {
     return <Loading />;
@@ -112,7 +115,7 @@ const SingleProduct = () => {
       />
 
       <div className='c-single-product'>
-        <ImagePicker images={singleProduct.imageURL} />
+        <ImagePicker images={singleProduct.imageURLs} />
 
         <div className='c-product-info'>
           <h1>{singleProduct?.name}</h1>

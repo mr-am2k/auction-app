@@ -18,7 +18,7 @@ const HomeProducts: React.FC<Props> = ({ product }) => {
       {product.map((item, index: number) => (
         <div className='c-item' key={index}>
           <Link to={`/${ROUTES.PRODUCT}/${item.id}`}>
-            <img src={item.imageURL[0]} alt={item.name} />
+            <img src={item.imageURLs[0]} alt={item.name} />
           </Link>
           <Link to={`/${ROUTES.PRODUCT}/${item.id}`}>
             <h3>{item.name}</h3>

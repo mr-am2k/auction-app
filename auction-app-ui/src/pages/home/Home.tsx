@@ -29,7 +29,7 @@ const DUMMY_CATEGORIES = [
 
 const Home = () => {
   const { setNavbarItems } = usePage();
-  const [randomProduct, setRandomProduct] = useState<Product>();
+  const [randomProduct, setRandomProduct] = useState<Product[]>();
   const [lastChanceProducts, setLastChanceProducts] = useState<Product[]>([]);
   const [newArrivalProducts, setNewArrivalProducts] = useState<Product[]>([]);
   const [newArrivalsActive, setNewArrivalsActive] = useState(true);
@@ -92,23 +92,23 @@ const Home = () => {
         {randomProduct && (
           <div className='c-main-product'>
             <div className='c-info'>
-              <h1>{randomProduct?.name}</h1>
+              <h1>{randomProduct[0]?.name}</h1>
               <h1 className='c-price'>
-                {EN_STRINGS['HomeProducts.StartFrom']} ${randomProduct?.price}
+                {EN_STRINGS['HomeProducts.StartFrom']} ${randomProduct[0]?.price}
               </h1>
 
-              <p>{randomProduct?.description}</p>
+              <p>{randomProduct[0]?.description}</p>
 
-              <Link to={`/${ROUTES.PRODUCT}/${randomProduct.id}`}>
+              <Link to={`/${ROUTES.PRODUCT}/${randomProduct[0].id}`}>
                 <button>
                   {EN_STRINGS['Home.BidNow']} <GreaterIcon />
                 </button>
               </Link>
             </div>
 
-            <Link to={`/${ROUTES.PRODUCT}/${randomProduct.id}`}>
+            <Link to={`/${ROUTES.PRODUCT}/${randomProduct[0].id}`}>
               <img
-                src={randomProduct?.imageURL[0]}
+                src={randomProduct[0]?.imageURLs[0]}
                 alt={EN_STRINGS['Home.HighlightedProduct']}
               />
             </Link>

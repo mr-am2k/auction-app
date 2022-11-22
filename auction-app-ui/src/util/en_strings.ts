@@ -16,7 +16,7 @@ const EN_STRINGS = {
   'Home.NewArrivals': 'New Arrivals',
   'Home.LastChance': 'Last Chance',
   'Home.HighlightedProduct': 'Highlighted product',
-  'HomeProducts.StartFrom' : 'Start from',
+  'HomeProducts.StartFrom': 'Start from',
   'Shop.SingleProduct': 'Single Product',
   'SingleProduct.StartsFrom': 'Starts from',
   'SingleProduct.HighestBid': 'Highest bid',
@@ -28,7 +28,13 @@ const EN_STRINGS = {
   'SingleProduct.PlaceBid': 'PLACE BID',
   'SingleProduct.NoBidMessage': 'Be first to bid for this product',
   'SingleProduct.InputPlaceholder': 'Enter $56 or higher',
+  'SingleProduct.InputBidError': 'You must enter price first',
   'ImagePicker.FocusedImage': 'Focused',
+  'NotificationBar.HighestBidPlaced': 'Congrats! You are the highest bider!',
+  'NotificationBar.Outbidded':
+    'There are higher bids than yours. You could give a second try!',
+  'NotificationBar.AuctionWon': 'Congratulations! You outbid the competition.',
+  'NotificationBar.AuctionLost': 'Unfortunately you have been outbidded!',
 };
 
 export default EN_STRINGS;
