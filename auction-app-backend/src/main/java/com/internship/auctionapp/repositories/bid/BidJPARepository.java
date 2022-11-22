@@ -1,7 +1,6 @@
 package com.internship.auctionapp.repositories.bid;
 
 import com.internship.auctionapp.entities.BidEntity;
-import com.internship.auctionapp.entities.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,7 +19,7 @@ public interface BidJPARepository extends JpaRepository<BidEntity, UUID> {
                     "LIMIT 1",
             nativeQuery = true
     )
-    double highestBidPrice(@Param("productId") UUID productId);
+    List<Double> highestBidPrice(@Param("productId") UUID productId);
 
     @Query(
             value = "SELECT * FROM bids b " +

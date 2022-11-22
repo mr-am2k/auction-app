@@ -1,7 +1,7 @@
 package com.internship.auctionapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.internship.auctionapp.domainmodels.Notification;
+import com.internship.auctionapp.models.Notification;
 import com.internship.auctionapp.util.NotificationMessage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,15 +10,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -51,15 +48,21 @@ public class NotificationEntity {
     public NotificationEntity(
             NotificationMessage notificationMessage,
             UUID userId,
-            ProductEntity product) {
+            ProductEntity product
+    ) {
         this.notificationMessage = notificationMessage;
         this.userId = userId;
         this.product = product;
     }
 
     public Notification toDomainModel() {
-        return new Notification(this.getId(), this.getCreationDateTime(), this.getNotificationMessage().toString(),
-                this.getUserId(), this.getProduct().getId());
+        return new Notification(
+                this.getId(),
+                this.getCreationDateTime(),
+                this.getNotificationMessage().toString(),
+                this.getUserId(),
+                this.getProduct().getId()
+        );
     }
 }
 

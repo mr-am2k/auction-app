@@ -1,6 +1,6 @@
 package com.internship.auctionapp.services;
 
-import com.internship.auctionapp.domainmodels.Product;
+import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.middleware.exception.ProductExpirationDateException;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.product.ProductRepository;
@@ -47,7 +47,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public ProductEntity updateProduct(UUID id, ProductEntity product) {
+    public Product updateProduct(UUID id, ProductEntity product) {
         return productRepository.updateProduct(id, product);
     }
 

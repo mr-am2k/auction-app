@@ -1,4 +1,4 @@
-package com.internship.auctionapp.domainmodels;
+package com.internship.auctionapp.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

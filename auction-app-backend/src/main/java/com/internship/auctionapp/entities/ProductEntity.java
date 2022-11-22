@@ -1,8 +1,7 @@
 package com.internship.auctionapp.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.internship.auctionapp.domainmodels.Bid;
-import com.internship.auctionapp.domainmodels.Product;
+import com.internship.auctionapp.models.Bid;
+import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.util.DateUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -100,13 +99,6 @@ public class ProductEntity {
                 bids,
                 DateUtils.calculateDateDiffVerbose(this.expirationDateTime)
         );
-
-
-
-        /*Product newProduct = new Product(this.id, this.name, this.description, this.imageURLs, this.price,
-                this.creationDateTime, this.expirationDateTime, bidEntities,
-                DateUtils.calculateDateDiffVerbose(this.expirationDateTime), this.userId
-        )*/
 
         return product;
     }

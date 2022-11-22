@@ -1,6 +1,6 @@
 package com.internship.auctionapp.repositories.product;
 
-import com.internship.auctionapp.domainmodels.Product;
+import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.services.DefaultProductService;
@@ -44,10 +44,14 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public Product addProduct(CreateProductRequest createProductRequest) {
-        ProductEntity productEntity = new ProductEntity(createProductRequest.getName(),
-                createProductRequest.getDescription(), createProductRequest.getImageURL(),
-                createProductRequest.getPrice(), createProductRequest.getExpirationDateTime(),
-                createProductRequest.getUserId());
+        ProductEntity productEntity = new ProductEntity();
+
+        productEntity.setName(createProductRequest.getName());
+        productEntity.setDescription(productEntity.getDescription());
+        productEntity.setImageURLs(createProductRequest.getImageURLs());
+        productEntity.setPrice(createProductRequest.getPrice());
+        productEntity.setExpirationDateTime(createProductRequest.getExpirationDateTime());
+        productEntity.setUserId(createProductRequest.getUserId());
 
         productJPARepository.save(productEntity);
         LOGGER.info("Successfully added product={} to the database.", productEntity);
@@ -61,14 +65,14 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public ProductEntity updateProduct(UUID id, ProductEntity product) {
+    public Product updateProduct(UUID id, ProductEntity product) {
         ProductEntity productForUpdate = productJPARepository.findById(id).get();
 
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.map(product, productForUpdate);
 
         LOGGER.info("Product with the id={} has been updated.", id);
-        return productJPARepository.save(productForUpdate);
+        return productJPARepository.save(productForUpdate).toDomainModel();
     }
 
     @Override

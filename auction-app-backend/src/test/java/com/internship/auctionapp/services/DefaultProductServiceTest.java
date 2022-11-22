@@ -1,6 +1,6 @@
 package com.internship.auctionapp.services;
 
-import com.internship.auctionapp.domainmodels.Product;
+import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.product.ProductJPARepository;
 import org.junit.jupiter.api.BeforeEach;

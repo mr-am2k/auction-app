@@ -18,7 +18,7 @@ public class CreateProductRequest {
 
     private String description;
 
-    private List<String> imageURL;
+    private List<String> imageURLs;
 
     private double price;
 

@@ -1,7 +1,7 @@
 package com.internship.auctionapp.controllers;
 
 import com.internship.auctionapp.requests.CreateBidRequest;
-import com.internship.auctionapp.domainmodels.Bid;
+import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.services.BidService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,7 +39,7 @@ public class BidController {
     }
 
     @GetMapping("/product/{productId}")
-    public double getHighestBid(@PathVariable("productId") UUID productId) {
+    public List<Double> getHighestBid(@PathVariable("productId") UUID productId) {
         return bidService.getHighestBidPrice(productId);
     }
 

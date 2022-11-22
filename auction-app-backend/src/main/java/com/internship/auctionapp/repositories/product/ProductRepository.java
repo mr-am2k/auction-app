@@ -1,6 +1,6 @@
 package com.internship.auctionapp.repositories.product;
 
-import com.internship.auctionapp.domainmodels.Product;
+import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import org.springframework.data.domain.Page;
@@ -15,7 +15,7 @@ public interface ProductRepository {
 
     Product getSingleProduct(UUID id);
 
-    ProductEntity updateProduct(UUID id, ProductEntity product);
+    Product updateProduct(UUID id, ProductEntity product);
 
     void deleteProduct(UUID id);
 

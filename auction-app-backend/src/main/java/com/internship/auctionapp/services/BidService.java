@@ -1,7 +1,7 @@
 package com.internship.auctionapp.services;
 
 import com.internship.auctionapp.requests.CreateBidRequest;
-import com.internship.auctionapp.domainmodels.Bid;
+import com.internship.auctionapp.models.Bid;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,5 +13,5 @@ public interface BidService {
 
     void deleteBid(UUID id);
 
-    double getHighestBidPrice(UUID productId);
+    List<Double> getHighestBidPrice(UUID productId);
 }

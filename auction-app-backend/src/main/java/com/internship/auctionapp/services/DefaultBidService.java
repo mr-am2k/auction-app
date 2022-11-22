@@ -2,7 +2,7 @@ package com.internship.auctionapp.services;
 
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.requests.CreateBidRequest;
-import com.internship.auctionapp.domainmodels.Bid;
+import com.internship.auctionapp.models.Bid;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +19,11 @@ public class DefaultBidService implements BidService {
 
     @Override
     public Bid addBid(CreateBidRequest createBidRequest) {
-        return bidRepository.addBid(createBidRequest.getProductId(), createBidRequest.getPrice(),
-                createBidRequest.getUserId());
+        return bidRepository.addBid(
+                createBidRequest.getProductId(),
+                createBidRequest.getPrice(),
+                createBidRequest.getUserId()
+        );
     }
 
     @Override
@@ -34,7 +37,7 @@ public class DefaultBidService implements BidService {
     }
 
     @Override
-    public double getHighestBidPrice(UUID productId) {
+    public List<Double> getHighestBidPrice(UUID productId) {
         return bidRepository.getHighestBidPrice(productId);
     }
 }

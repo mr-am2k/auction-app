@@ -1,6 +1,6 @@
 package com.internship.auctionapp.services;
 
-import com.internship.auctionapp.domainmodels.Notification;
+import com.internship.auctionapp.models.Notification;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import org.springframework.stereotype.Service;

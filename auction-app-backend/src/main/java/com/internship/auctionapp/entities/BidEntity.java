@@ -1,7 +1,7 @@
 package com.internship.auctionapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.internship.auctionapp.domainmodels.Bid;
+import com.internship.auctionapp.models.Bid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

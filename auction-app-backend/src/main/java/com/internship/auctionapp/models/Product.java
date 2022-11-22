@@ -1,6 +1,5 @@
-package com.internship.auctionapp.domainmodels;
+package com.internship.auctionapp.models;
 
-import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +35,7 @@ public class Product {
 
     private UUID userId;
 
-    public Product(UUID productId,ProductEntity productEntity, List<Bid> bids, String remainingTime){
+    public Product(UUID productId, ProductEntity productEntity, List<Bid> bids, String remainingTime){
         this.id = productId;
         this.name = productEntity.getName();
         this.description = productEntity.getDescription();
