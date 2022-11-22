@@ -1,13 +1,13 @@
 package com.internship.auctionapp.repositories.bid;
 
-import ch.qos.logback.classic.Logger;
 import com.internship.auctionapp.domainmodels.Bid;
 import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.entities.ProductEntity;
-import com.internship.auctionapp.middleware.exception.IllegalBidPriceException;
+import com.internship.auctionapp.middleware.exception.BidPriceLowerThanHighestBidPriceException;
+import com.internship.auctionapp.middleware.exception.BidPriceLowerThanProductPriceException;
 import com.internship.auctionapp.middleware.exception.SQLCustomException;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
-import com.internship.auctionapp.repositories.product.ProductRepository;
+import com.internship.auctionapp.repositories.product.ProductJPARepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.util.NotificationMessage;
 import org.springframework.stereotype.Repository;
@@ -15,18 +15,19 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Repository
 public class DefaultBidRepository implements BidRepository {
 
-    private final ProductRepository productRepository;
+    private final ProductJPARepository productJPARepository;
 
     private final BidJPARepository bidJPARepository;
 
     private final NotificationRepository notificationRepository;
 
-    public DefaultBidRepository(ProductRepository productRepository, BidJPARepository bidJPARepository, NotificationRepository notificationRepository) {
-        this.productRepository = productRepository;
+    public DefaultBidRepository(ProductJPARepository productJPARepository, BidJPARepository bidJPARepository, NotificationRepository notificationRepository) {
+        this.productJPARepository = productJPARepository;
         this.bidJPARepository = bidJPARepository;
         this.notificationRepository = notificationRepository;
     }
@@ -34,22 +35,23 @@ public class DefaultBidRepository implements BidRepository {
     @Override
     @Transactional
     public Bid addBid(UUID productId, double price, UUID userId) {
-        ProductEntity targetedProduct = productRepository.getSingleProduct(productId);
+        ProductEntity targetedProduct = productJPARepository.findById(productId).get();
+
         if (price <= targetedProduct.getPrice()) {
-            throw new IllegalBidPriceException("Bid price can't be lower than product price.");
+            throw new BidPriceLowerThanProductPriceException();
         }
 
-        if(bidJPARepository.getBidEntitiesByProduct(targetedProduct).size() > 0){
-            double targetedBid = bidJPARepository.highestBid(productId);
+        if(bidJPARepository.getBidsByProductId(targetedProduct.getId()).size() > 0){
+            double targetedBid = bidJPARepository.highestBidPrice(productId);
             if (price <= targetedBid) {
-                throw new IllegalBidPriceException("Bid price can't be lower than current bid price.");
+                throw new BidPriceLowerThanHighestBidPriceException();
             }
         }
 
         try {
             BidEntity newBidEntity = new BidEntity(price, targetedProduct, userId);
 
-            notificationRepository.addNotification(new CreateNotificationRequest(NotificationMessage.HIGHEST_BIDDER,
+            notificationRepository.createNotification(new CreateNotificationRequest(NotificationMessage.HIGHEST_BIDDER,
                     userId, productId));
 
             return bidJPARepository.save(newBidEntity).toDomainModel();
@@ -59,8 +61,10 @@ public class DefaultBidRepository implements BidRepository {
     }
 
     @Override
-    public List<BidEntity> getAllBids() {
-        return bidJPARepository.findAll();
+    public List<Bid> getAllBids() {
+        return bidJPARepository.findAll().stream()
+                .map(bidEntity -> bidEntity.toDomainModel())
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -69,7 +73,12 @@ public class DefaultBidRepository implements BidRepository {
     }
 
     @Override
-    public double getHighestBid(UUID productId) {
-        return bidJPARepository.highestBid(productId);
+    public double getHighestBidPrice(UUID productId) {
+        return bidJPARepository.highestBidPrice(productId);
+    }
+
+    @Override
+    public Bid getHighestBid(UUID productId) {
+        return bidJPARepository.getHighestBid(productId).toDomainModel();
     }
 }

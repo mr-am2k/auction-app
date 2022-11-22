@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class DefaultProductService implements ProductService {
@@ -26,11 +25,10 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() throws Exception {
+    public List<Product> getAllProducts() {
         LOGGER.info("Fetched products from the database.");
-        return productRepository.getAllProducts().stream()
-                .map(bidEntity -> bidEntity.toDomainModel())
-                .collect(Collectors.toList());
+        return productRepository.getAllProducts();
+
     }
 
     @Override
@@ -40,12 +38,12 @@ public class DefaultProductService implements ProductService {
             throw new ProductExpirationDateException();
         }
 
-        return productRepository.addProduct(createProductRequest).toDomainModel();
+        return productRepository.addProduct(createProductRequest);
     }
 
     @Override
     public Product getSingleProduct(UUID id) {
-        return productRepository.getSingleProduct(id).toDomainModel();
+        return productRepository.getSingleProduct(id);
     }
 
     @Override
@@ -60,11 +58,11 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public Product getRandomProduct() {
-        return productRepository.getRandomProduct().toDomainModel();
+        return productRepository.getRandomProduct();
     }
 
     @Override
     public Page<Product> getProductsByCriteria(String criteria) {
-        return productRepository.getProductsByCriteria(criteria).map(productEntity -> productEntity.toDomainModel());
+        return productRepository.getProductsByCriteria(criteria);
     }
 }

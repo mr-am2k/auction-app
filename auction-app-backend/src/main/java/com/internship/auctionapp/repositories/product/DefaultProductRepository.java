@@ -1,5 +1,6 @@
 package com.internship.auctionapp.repositories.product;
 
+import com.internship.auctionapp.domainmodels.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.services.DefaultProductService;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Repository
 public class DefaultProductRepository implements ProductRepository {
@@ -34,25 +36,28 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public List<ProductEntity> getAllProducts() throws Exception {
-        return productJPARepository.findAll();
+    public List<Product> getAllProducts(){
+        return productJPARepository.findAll().stream()
+                .map(product -> product.toDomainModel())
+                .collect(Collectors.toList());
     }
 
     @Override
-    public ProductEntity addProduct(CreateProductRequest createProductRequest) {
+    public Product addProduct(CreateProductRequest createProductRequest) {
         ProductEntity productEntity = new ProductEntity(createProductRequest.getName(),
                 createProductRequest.getDescription(), createProductRequest.getImageURL(),
                 createProductRequest.getPrice(), createProductRequest.getExpirationDateTime(),
                 createProductRequest.getUserId());
 
+        productJPARepository.save(productEntity);
         LOGGER.info("Successfully added product={} to the database.", productEntity);
-        return productJPARepository.save(productEntity);
+        return productEntity.toDomainModel();
     }
 
     @Override
-    public ProductEntity getSingleProduct(UUID id) {
+    public Product getSingleProduct(UUID id) {
         LOGGER.info("Fetched product from the database with the id={} ", id);
-        return productJPARepository.findById(id).get();
+        return productJPARepository.findById(id).get().toDomainModel();
     }
 
     @Override
@@ -73,18 +78,18 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public ProductEntity getRandomProduct() {
+    public Product getRandomProduct() {
         LOGGER.info("Fetched random product from the database.");
-        return productJPARepository.getRandomProduct();
+        return productJPARepository.getRandomProduct().toDomainModel();
     }
 
     @Override
-    public Page<ProductEntity> getProductsByCriteria(String criteria) {
+    public Page<Product> getProductsByCriteria(String criteria) {
         final Pageable page = PageRequest.of(0, DEFAULT_ELEMENTS_PER_PAGE, criteria.equalsIgnoreCase(LAST_CHANCE) ?
                 Sort.by(EXPIRATION_DATE_TIME).ascending() :
                 Sort.by(CREATION_DATE_TIME).descending());
 
         LOGGER.info("Fetched page of 8 products from the database, based on criteria={} ", criteria);
-        return productJPARepository.findAll(page);
+        return productJPARepository.findAll(page).map(productEntity -> productEntity.toDomainModel());
     }
 }

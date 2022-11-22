@@ -13,5 +13,5 @@ public interface BidService {
 
     void deleteBid(UUID id);
 
-    double getHighestBid(UUID productId);
+    double getHighestBidPrice(UUID productId);
 }

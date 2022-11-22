@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ProductService {
-    List<Product> getAllProducts() throws Exception;
+    List<Product> getAllProducts();
 
     Product addProduct(CreateProductRequest createProductRequest);
 

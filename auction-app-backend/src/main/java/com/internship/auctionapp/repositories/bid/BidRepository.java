@@ -1,8 +1,6 @@
 package com.internship.auctionapp.repositories.bid;
 
 import com.internship.auctionapp.domainmodels.Bid;
-import com.internship.auctionapp.entities.BidEntity;
-import com.internship.auctionapp.requests.CreateBidRequest;
 
 import java.util.List;
 import java.util.UUID;
@@ -10,9 +8,11 @@ import java.util.UUID;
 public interface BidRepository {
     Bid addBid(UUID productId, double price, UUID userId);
 
-    List<BidEntity> getAllBids();
+    List<Bid> getAllBids();
 
     void deleteBid(UUID id);
 
-    double getHighestBid(UUID productId);
+    double getHighestBidPrice(UUID productId);
+
+    Bid getHighestBid(UUID productId);
 }

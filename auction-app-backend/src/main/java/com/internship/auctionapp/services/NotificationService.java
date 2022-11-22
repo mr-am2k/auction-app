@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface NotificationService {
     List<Notification> getAllNotifications();
 
-    Notification addNotification(CreateNotificationRequest createNotificationRequest);
+    Notification createNotification(CreateNotificationRequest createNotificationRequest);
 
     Notification getNotificationForUserOrderedByDate(UUID userId, UUID productId);
 }

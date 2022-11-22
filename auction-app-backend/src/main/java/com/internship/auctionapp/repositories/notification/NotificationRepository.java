@@ -1,15 +1,15 @@
 package com.internship.auctionapp.repositories.notification;
 
-import com.internship.auctionapp.entities.NotificationEntity;
+import com.internship.auctionapp.domainmodels.Notification;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface NotificationRepository {
-    List<NotificationEntity> getAllNotifications();
+    List<Notification> getAllNotifications();
 
-    NotificationEntity addNotification(CreateNotificationRequest createNotificationRequest);
+    Notification createNotification(CreateNotificationRequest createNotificationRequest);
 
-    NotificationEntity getNotificationForUserOrderedByDate(UUID userId, UUID productId);
+    Notification getNotificationForUserOrderedByDate(UUID userId, UUID productId);
 }

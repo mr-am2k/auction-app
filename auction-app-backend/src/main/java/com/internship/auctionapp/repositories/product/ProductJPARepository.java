@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface ProductJPARepository extends JpaRepository<ProductEntity, UUID> {
 
     @Query(
-            value = "SELECT * FROM Product ORDER BY random() LIMIT 1",
+            value = "SELECT * FROM products ORDER BY random() LIMIT 1",
             nativeQuery = true
     )
     ProductEntity getRandomProduct();

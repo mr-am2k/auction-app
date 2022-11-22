@@ -1,6 +1,7 @@
 package com.internship.auctionapp.domainmodels;
 
 import com.internship.auctionapp.entities.BidEntity;
+import com.internship.auctionapp.entities.ProductEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class Product {
 
     private String description;
 
-    private List<String> imageURL;
+    private List<String> imageURLs;
 
     private double price;
 
@@ -34,4 +35,17 @@ public class Product {
     private String remainingTime;
 
     private UUID userId;
+
+    public Product(UUID productId,ProductEntity productEntity, List<Bid> bids, String remainingTime){
+        this.id = productId;
+        this.name = productEntity.getName();
+        this.description = productEntity.getDescription();
+        this.imageURLs = productEntity.getImageURLs();
+        this.price = productEntity.getPrice();
+        this.creationDateTime = productEntity.getCreationDateTime();
+        this.expirationDateTime = productEntity.getExpirationDateTime();
+        this.bids = bids;
+        this.remainingTime = remainingTime;
+        this.userId = productEntity.getUserId();
+    }
 }

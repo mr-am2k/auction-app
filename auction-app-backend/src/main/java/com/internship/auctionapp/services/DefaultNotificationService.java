@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class DefaultNotificationService implements NotificationService {
@@ -19,18 +18,16 @@ public class DefaultNotificationService implements NotificationService {
 
     @Override
     public List<Notification> getAllNotifications() {
-        return notificationRepository.getAllNotifications().stream()
-                .map(notificationEntity -> notificationEntity.toDomainModel())
-                .collect(Collectors.toList());
+        return notificationRepository.getAllNotifications();
     }
 
     @Override
-    public Notification addNotification(CreateNotificationRequest createNotificationRequest) {
-        return notificationRepository.addNotification(createNotificationRequest).toDomainModel();
+    public Notification createNotification(CreateNotificationRequest createNotificationRequest) {
+        return notificationRepository.createNotification(createNotificationRequest);
     }
 
     @Override
     public Notification getNotificationForUserOrderedByDate(UUID userId, UUID productId) {
-        return notificationRepository.getNotificationForUserOrderedByDate(userId, productId).toDomainModel();
+        return notificationRepository.getNotificationForUserOrderedByDate(userId, productId);
     }
 }

@@ -32,8 +32,8 @@ public class NotificationController {
     }
 
     @PostMapping()
-    public Notification addNotification(@RequestBody CreateNotificationRequest createNotificationRequest) throws Exception {
-        return notificationService.addNotification(createNotificationRequest);
+    public Notification createNotification(@RequestBody CreateNotificationRequest createNotificationRequest) throws Exception {
+        return notificationService.createNotification(createNotificationRequest);
     }
 
     @GetMapping("/ordered")

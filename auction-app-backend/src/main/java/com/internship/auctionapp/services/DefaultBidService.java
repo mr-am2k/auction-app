@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class DefaultBidService implements BidService {
@@ -26,7 +25,7 @@ public class DefaultBidService implements BidService {
 
     @Override
     public List<Bid> getAllBids() {
-        return bidRepository.getAllBids().stream().map(bidEntity -> bidEntity.toDomainModel()).collect(Collectors.toList());
+        return bidRepository.getAllBids();
     }
 
     @Override
@@ -35,7 +34,7 @@ public class DefaultBidService implements BidService {
     }
 
     @Override
-    public double getHighestBid(UUID productId) {
-        return bidRepository.getHighestBid(productId);
+    public double getHighestBidPrice(UUID productId) {
+        return bidRepository.getHighestBidPrice(productId);
     }
 }

@@ -1,14 +1,11 @@
 package com.internship.auctionapp.domainmodels;
 
-import com.internship.auctionapp.util.NotificationMessage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
-
 
 @Data
 @NoArgsConstructor
@@ -18,7 +15,7 @@ public class Notification {
 
     private LocalDateTime creationDateTime;
 
-    private int notificationMessage;
+    private String notificationMessage;
 
     private UUID userId;
 

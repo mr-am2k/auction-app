@@ -46,27 +46,23 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ProductExpirationDateException.class)
-    public ResponseEntity<Object> handleProductExpirationDateException(HttpServletRequest req,
-                                                                 ProductExpirationDateException ex) {
+    public ResponseEntity<Object> handleProductExpirationDateException(HttpServletRequest req, ProductExpirationDateException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST,
                 "Expiration date has to be after creation date."));
     }
 
-    @ExceptionHandler(IllegalBidPriceException.class)
-    public ResponseEntity<Object> handleIllegalBidPriceException(HttpServletRequest req,
-                                                                 IllegalBidPriceException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
+    @ExceptionHandler(BidPriceLowerThanProductPriceException.class)
+    public ResponseEntity<Object> handleBidPriceLowerThanProductPriceException(HttpServletRequest req, BidPriceLowerThanProductPriceException ex){
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Bid price can't be lower than product price."));
     }
 
-    @ExceptionHandler(InvalidDataAccessResourceUsageException.class)
-    public ResponseEntity<Object> handleInvalidDataAccessResourceUsageException(HttpServletRequest req,
-                                                                                InvalidDataAccessResourceUsageException ex){
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_GATEWAY, ex.getMessage()));
+    @ExceptionHandler(BidPriceLowerThanHighestBidPriceException.class)
+    public ResponseEntity<Object> handleBidPriceLowerThanHighestBidPriceException(HttpServletRequest req, BidPriceLowerThanHighestBidPriceException ex){
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Bid price can't be lower or equal to the highest bid price."));
     }
 
     @ExceptionHandler(SQLCustomException.class)
-    public ResponseEntity<Object> handleInvalidDataAccessResourceUsageException(HttpServletRequest req,
-                                                                                SQLCustomException ex){
+    public ResponseEntity<Object> handleInvalidDataAccessResourceUsageException(HttpServletRequest req, SQLCustomException ex){
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_GATEWAY, ex.getMessage()));
     }
 

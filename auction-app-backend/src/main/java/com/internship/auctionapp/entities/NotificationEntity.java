@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "Notification")
+@Table(name = "notifications")
 public class NotificationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,9 +35,9 @@ public class NotificationEntity {
     private UUID id;
 
     @Column(name = "creation_date_time", nullable = false)
-    private LocalDateTime creationDateTime;
+    private LocalDateTime creationDateTime = LocalDateTime.now();
 
-    @Column(name = "notification_message", nullable = false)
+    @Column(name = "message", nullable = false)
     private NotificationMessage notificationMessage;
 
     @Column(name = "user_id", nullable = false)
@@ -47,16 +48,17 @@ public class NotificationEntity {
     @JsonIgnore
     private ProductEntity product;
 
-    public NotificationEntity(NotificationMessage notificationMessage, UUID userId,
-                              ProductEntity product) {
-        this.creationDateTime = LocalDateTime.now();
+    public NotificationEntity(
+            NotificationMessage notificationMessage,
+            UUID userId,
+            ProductEntity product) {
         this.notificationMessage = notificationMessage;
         this.userId = userId;
         this.product = product;
     }
 
-    public Notification toDomainModel(){
-        return new Notification(this.getId(), this.getCreationDateTime(), this.getNotificationMessage().ordinal(),
+    public Notification toDomainModel() {
+        return new Notification(this.getId(), this.getCreationDateTime(), this.getNotificationMessage().toString(),
                 this.getUserId(), this.getProduct().getId());
     }
 }

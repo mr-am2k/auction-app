@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "Product")
+@Table(name = "products")
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,15 +45,15 @@ public class ProductEntity {
     private String description;
 
     @ElementCollection
-    @Column(name = "imageURL", nullable = false)
-    private List<String> imageURL;
+    @Column(name = "imageURLs", nullable = false)
+    private List<String> imageURLs;
 
     @Column(name = "price", nullable = false)
     @DecimalMin("0.5")
     private Double price;
 
     @Column(name = "creationDateTime", nullable = false)
-    private LocalDateTime creationDateTime;
+    private LocalDateTime creationDateTime = LocalDateTime.now();
 
     @Column(name = "expirationDateTime", nullable = false)
     private LocalDateTime expirationDateTime;
@@ -66,30 +66,48 @@ public class ProductEntity {
     )
     private List<BidEntity> bidEntities;
 
-    //this will be updated in the future to the user entity when we create it
+    //#TODO this will be updated in the future to the user entity when we create it
     @Column(name = "user_id", nullable = false)
     private UUID userId;
 
-    public ProductEntity(String name, String description, List<String> imageURL, Double price,
+    public ProductEntity(String name, String description, List<String> imageURLs, Double price,
                          LocalDateTime expirationDateTime, UUID userId) {
         this.name = name;
         this.description = description;
-        this.imageURL = imageURL;
+        this.imageURLs = imageURLs;
         this.price = price;
-        this.creationDateTime = LocalDateTime.now();
         this.expirationDateTime = expirationDateTime;
         this.userId = userId;
     }
 
     public Product toDomainModel() {
-        List<Bid> bidEntities = this.bidEntities != null ?
+        List<Bid> bids = this.bidEntities != null ?
                 this.bidEntities.stream()
                         .map(bidEntity -> bidEntity.toDomainModel()).collect(Collectors.toList()) : new ArrayList<>();
-        Product newProduct = new Product(this.id, this.name, this.description, this.imageURL, this.price,
-                this.creationDateTime, this.expirationDateTime, bidEntities,
-                DateUtils.calculateDateDiffVerbose(this.expirationDateTime), this.userId
+
+        ProductEntity productEntity = new ProductEntity(
+                this.name,
+                this.description,
+                this.imageURLs,
+                this.price,
+                this.expirationDateTime,
+                this.userId
         );
 
-        return newProduct;
+        Product product = new Product(
+                this.id,
+                productEntity,
+                bids,
+                DateUtils.calculateDateDiffVerbose(this.expirationDateTime)
+        );
+
+
+
+        /*Product newProduct = new Product(this.id, this.name, this.description, this.imageURLs, this.price,
+                this.creationDateTime, this.expirationDateTime, bidEntities,
+                DateUtils.calculateDateDiffVerbose(this.expirationDateTime), this.userId
+        )*/
+
+        return product;
     }
 }

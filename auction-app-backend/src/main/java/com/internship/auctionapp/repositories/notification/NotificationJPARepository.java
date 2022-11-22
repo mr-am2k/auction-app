@@ -9,11 +9,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface NotificationJPARepository extends JpaRepository<NotificationEntity, UUID> {
-    //DISTINCT ON is used, because one user is able to have 50 bids, and if we return without distinct, we will create
-    // 50 new notifications for him just to say that he is outbidded
     @Query(value = "SELECT DISTINCT ON(n.user_id) " +
-            "n.id, n.creation_date_time, n.notification_message, n.user_id, n.product_id " +
-            "FROM notification n " +
+            "n.id, n.creation_date_time, n.message, n.user_id, n.product_id " +
+            "FROM notifications n " +
             "WHERE n.product_id = :productId AND n.user_id != :userId",
             nativeQuery = true
     )
@@ -21,7 +19,7 @@ public interface NotificationJPARepository extends JpaRepository<NotificationEnt
                                                                        @Param("userId") UUID userId);
 
     @Query(
-            value = "SELECT * FROM notification n " +
+            value = "SELECT * FROM notifications n " +
                     "WHERE  n.user_id = :userId AND n.product_id = :productId " +
                     "ORDER BY n.creation_date_time DESC " +
                     "LIMIT 1",

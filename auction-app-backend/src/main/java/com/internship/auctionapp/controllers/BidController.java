@@ -40,7 +40,7 @@ public class BidController {
 
     @GetMapping("/product/{productId}")
     public double getHighestBid(@PathVariable("productId") UUID productId) {
-        return bidService.getHighestBid(productId);
+        return bidService.getHighestBidPrice(productId);
     }
 
     @DeleteMapping("/{id}")
