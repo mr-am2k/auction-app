@@ -15,6 +15,7 @@ const PrivacyAndPolicy = () => {
       EN_STRINGS['Navbar.Home'],
       EN_STRINGS['Footer.PrivacyAndPolicy'],
     ]);
+    window.scrollTo(0,0);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
