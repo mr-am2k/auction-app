@@ -1,5 +1,6 @@
 package com.internship.auctionapp.repositories.product;
 
+import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductRequest;
@@ -13,6 +14,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -47,7 +52,7 @@ public class DefaultProductRepository implements ProductRepository {
         ProductEntity productEntity = new ProductEntity();
 
         productEntity.setName(createProductRequest.getName());
-        productEntity.setDescription(productEntity.getDescription());
+        productEntity.setDescription(createProductRequest.getDescription());
         productEntity.setImageURLs(createProductRequest.getImageURLs());
         productEntity.setPrice(createProductRequest.getPrice());
         productEntity.setExpirationDateTime(createProductRequest.getExpirationDateTime());
@@ -99,5 +104,12 @@ public class DefaultProductRepository implements ProductRepository {
 
         LOGGER.info("Fetched page of 8 products from the database, based on criteria={} ", criteria);
         return productJPARepository.findAll(page).map(productEntity -> productEntity.toDomainModel());
+    }
+
+    @Override
+    public List<Product> getProductsBetweenTwoDates(LocalDateTime startDate, LocalDateTime endDate) {
+        return productJPARepository.findAllByExpirationDateTimeBetween(startDate, endDate).stream()
+                .map(productEntity -> productEntity.toDomainModel())
+                .collect(Collectors.toList());
     }
 }

@@ -60,7 +60,7 @@ public class ProductEntity {
     @OneToMany(
             mappedBy = "product",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             orphanRemoval = true
     )
     private List<BidEntity> bidEntities;

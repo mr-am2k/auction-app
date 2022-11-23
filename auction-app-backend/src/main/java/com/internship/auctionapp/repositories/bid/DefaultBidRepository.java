@@ -88,4 +88,9 @@ public class DefaultBidRepository implements BidRepository {
     public List<Double> getHighestBidPrice(UUID productId) {
         return bidJPARepository.highestBidPrice(productId);
     }
+
+    @Override
+    public BidEntity getHighestBid(UUID productId) {
+        return bidJPARepository.getHighestBid(productId);
+    }
 }

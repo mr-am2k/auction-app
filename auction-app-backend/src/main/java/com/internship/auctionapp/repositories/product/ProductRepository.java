@@ -5,6 +5,7 @@ import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,4 +23,6 @@ public interface ProductRepository {
     List<Product> getRandomProduct();
 
     Page<Product> getProductsByCriteria(String criteria);
+
+    List<Product> getProductsBetweenTwoDates(LocalDateTime startDate, LocalDateTime endDate);
 }

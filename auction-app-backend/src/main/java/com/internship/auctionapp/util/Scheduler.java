@@ -1,13 +1,20 @@
 package com.internship.auctionapp.util;
 
+import com.internship.auctionapp.entities.BidEntity;
+import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
+import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.services.DefaultProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @EnableScheduling
@@ -28,22 +35,21 @@ public class Scheduler {
     }
 
 
-    /*@Scheduled(cron = "* * * * * *")
+    @Scheduled(fixedRate = 300000L)
     public void sendYouWonNotification() throws Exception {
-        final List<ProductEntity> products = productRepository.getAllProducts();
-        final LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime currentTime = LocalDateTime.now();
+        List<Product> products = productRepository.getProductsBetweenTwoDates(currentTime.minusMinutes(5), currentTime);
+        if (products.isEmpty()) {
+            return;
+        }
+        products.stream()
+                .forEach(product -> {
+                    BidEntity bid = bidRepository.getHighestBid(product.getId());
 
-        products.stream().forEach(product -> {
-            if(product.getExpirationDateTime().truncatedTo(ChronoUnit.SECONDS).
-                    isEqual(currentTime.truncatedTo(ChronoUnit.SECONDS))){
+                    CreateNotificationRequest notificationForWinner =
+                            new CreateNotificationRequest(NotificationMessage.AUCTION_WON, bid.getUserId(), product.getId());
 
-                BidEntity bid = bidRepository.getHighestBid(product.getId());
-
-                CreateNotificationRequest notificationForWinner =
-                        new CreateNotificationRequest(NotificationMessage.AUCTION_WON, bid.getUserId(), product.getId());
-
-                notificationRepository.createNotification(notificationForWinner);
-            }
-        });
-    }*/
+                    notificationRepository.createNotification(notificationForWinner);
+                });
+    }
 }
