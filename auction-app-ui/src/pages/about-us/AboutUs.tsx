@@ -11,9 +11,9 @@ const AboutUs = () => {
 
   useEffect(() => {
     setNavbarItems([
-      EN_STRINGS['Navbar.Home'],
-      EN_STRINGS['Navbar.Home'],
-      EN_STRINGS['Footer.AboutUs'],
+      EN_STRINGS.NAVBAR.HOME,
+      EN_STRINGS.NAVBAR.HOME,
+      EN_STRINGS.FOOTER.ABOUT_US
     ]);
     window.scrollTo(0,0);
   // eslint-disable-next-line react-hooks/exhaustive-deps

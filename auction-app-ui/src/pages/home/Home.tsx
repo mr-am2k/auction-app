@@ -29,7 +29,7 @@ const DUMMY_CATEGORIES = [
 
 const Home = () => {
   const { setNavbarItems } = usePage();
-  const [randomProduct, setRandomProduct] = useState<Product[]>();
+  const [randomProduct, setRandomProduct] = useState<Product>();
   const [lastChanceProducts, setLastChanceProducts] = useState<Product[]>([]);
   const [newArrivalProducts, setNewArrivalProducts] = useState<Product[]>([]);
   const [newArrivalsActive, setNewArrivalsActive] = useState(true);
@@ -78,7 +78,7 @@ const Home = () => {
     <div className='c-home-wrapper'>
       <div className='c-top-part'>
         <div className='c-categories'>
-          <p className='c-category-heading'>{EN_STRINGS['Home.Categories']}</p>
+          <p className='c-category-heading'>P{EN_STRINGS.HOME.CATEGORIES}</p>
           {DUMMY_CATEGORIES.map((item, index: number) => (
             <Category categoryName={item} key={index} />
           ))}
@@ -92,24 +92,24 @@ const Home = () => {
         {randomProduct && (
           <div className='c-main-product'>
             <div className='c-info'>
-              <h1>{randomProduct[0]?.name}</h1>
+              <h1>{randomProduct?.name}</h1>
               <h1 className='c-price'>
-                {EN_STRINGS['HomeProducts.StartFrom']} ${randomProduct[0]?.price}
+                {EN_STRINGS.HOME.START_FROM} ${randomProduct?.price}
               </h1>
 
-              <p>{randomProduct[0]?.description}</p>
+              <p>{randomProduct?.description}</p>
 
-              <Link to={`/${ROUTES.PRODUCT}/${randomProduct[0].id}`}>
+              <Link to={`/${ROUTES.PRODUCT}/${randomProduct.id}`}>
                 <button>
-                  {EN_STRINGS['Home.BidNow']} <GreaterIcon />
+                  {EN_STRINGS.HOME.BID_NOW} <GreaterIcon />
                 </button>
               </Link>
             </div>
 
-            <Link to={`/${ROUTES.PRODUCT}/${randomProduct[0].id}`}>
+            <Link to={`/${ROUTES.PRODUCT}/${randomProduct.id}`}>
               <img
-                src={randomProduct[0]?.imageURLs[0]}
-                alt={EN_STRINGS['Home.HighlightedProduct']}
+                src={randomProduct?.imageURLs[0]}
+                alt={EN_STRINGS.HOME.HIGHLIGHTED_PRODUCT}
               />
             </Link>
           </div>
@@ -127,7 +127,7 @@ const Home = () => {
               setLastChanceActive(false);
             }}
           >
-            {EN_STRINGS['Home.NewArrivals']}
+            {EN_STRINGS.HOME.NEW_ARRIVALS}
           </p>
 
           <p
@@ -136,7 +136,7 @@ const Home = () => {
             }`}
             onClick={handleLastChanceOnClick}
           >
-            {EN_STRINGS['Home.LastChance']}
+            {EN_STRINGS.HOME.LAST_CHANCE}
           </p>
         </div>
 

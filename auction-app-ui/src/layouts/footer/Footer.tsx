@@ -10,20 +10,20 @@ const Footer = () => {
   return (
     <div className='c-footer'>
       <div className='c-auction-part'>
-        <p className='c-title'>{EN_STRINGS['Footer.Auction']}</p>
-        <Link to='/about-us'>{EN_STRINGS['Footer.AboutUs']}</Link>
+        <p className='c-title'>{EN_STRINGS.FOOTER.AUCTION}</p>
+        <Link to='/about-us'>{EN_STRINGS.FOOTER.ABOUT_US}</Link>
         <Link to='/terms-and-conditions'>
-          {EN_STRINGS['Footer.TermsAndConditions']}
+          {EN_STRINGS.FOOTER.TERMS_AND_CONDITIONS}
         </Link>
         <Link to='/privacy-and-policy'>
-          {EN_STRINGS['Footer.PrivacyAndPolicy']}
+          {EN_STRINGS.FOOTER.PRIVACY_AND_POLICY}
         </Link>
       </div>
 
       <div className='c-contact-part'>
-        <p className='c-title'>{EN_STRINGS['Footer.GetInTouch']}</p>
+        <p className='c-title'>{EN_STRINGS.FOOTER.GET_IN_TOUCH}</p>
         <p>
-          {EN_STRINGS['Footer.CallUs']}: {PHONE_NUMBER}
+          {EN_STRINGS.FOOTER.CALL_US}: {PHONE_NUMBER}
         </p>
         <p>{EMAIL}</p>
         <div className='c-footer-icons'>

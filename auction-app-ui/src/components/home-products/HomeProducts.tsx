@@ -24,7 +24,7 @@ const HomeProducts: React.FC<Props> = ({ product }) => {
             <h3>{item.name}</h3>
           </Link>
           <p>
-            {EN_STRINGS['HomeProducts.StartFrom']}: {<span>${item.price}</span>}
+            {EN_STRINGS.HOME.START_FROM}: {<span>${item.price}</span>}
           </p>
         </div>
       ))}

@@ -33,11 +33,11 @@ const SingleProduct = () => {
     try {
       const product = await productsService.getSingleProduct(productId);
       setNavbarItems([
-        product[0].name,
-        EN_STRINGS['Navbar.Shop'],
-        EN_STRINGS['Shop.SingleProduct'],
+        product.name,
+        EN_STRINGS.NAVBAR.SHOP,
+        EN_STRINGS.SHOP.SINGLE_PRODUCT
       ]);
-      setSingleProduct(product[0]);
+      setSingleProduct(product);
     } catch (error) {
       console.log(error);
     }
@@ -46,7 +46,7 @@ const SingleProduct = () => {
   const fetchHighestBid = async (productId: string) => {
     try {
       const highestBid = await bidService.getHighestBid(productId);
-      setHighestBid(highestBid[0]);
+      setHighestBid(highestBid);
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +56,7 @@ const SingleProduct = () => {
     const bidInputPrice = bidInputRef.current!.value;
 
     if (!bidInputPrice) {
-      setBidInputError(EN_STRINGS['SingleProduct.InputBidError']);
+      setBidInputError(EN_STRINGS.SINGLE_PRODUCT.INPUT_BID_ERROR);
       return;
     }
 
@@ -73,6 +73,7 @@ const SingleProduct = () => {
       .then(() => {
         bidInputRef.current!.value = '';
         fetchSingleProduct(id!);
+        fetchHighestBid(id!);
       })
       .catch((error) => {
         setBidInputError(error.response.data.message);
@@ -84,7 +85,7 @@ const SingleProduct = () => {
       userId,
       productId
     );
-    setLatestNotification(notification[0]);
+    setLatestNotification(notification);
   };
 
   const initialLoad = async () => {
@@ -112,7 +113,7 @@ const SingleProduct = () => {
   return (
     <>
       <NotificationBar
-        notificationMessage={latestNotification?.notificationMessage}
+        notificationMessage={latestNotification?.notificationType}
       />
 
       <div className='c-single-product'>
@@ -121,7 +122,7 @@ const SingleProduct = () => {
         <div className='c-product-info'>
           <h1>{singleProduct?.name}</h1>
           <p>
-            {EN_STRINGS['SingleProduct.StartsFrom']}:{' '}
+            {EN_STRINGS.SINGLE_PRODUCT.STARTS_FROM}:{' '}
             <span>${singleProduct?.price}</span>
           </p>
 
@@ -129,31 +130,31 @@ const SingleProduct = () => {
             {highestBid ? (
               <div className='c-bid-info'>
                 <p>
-                  {EN_STRINGS['SingleProduct.HighestBid']}:{' '}
+                  {EN_STRINGS.SINGLE_PRODUCT.HIGHEST_BID}:{' '}
                   <span>${highestBid}</span>
                 </p>
                 <p>
-                  {EN_STRINGS['SingleProduct.NumberOfBids']}:{' '}
+                  {EN_STRINGS.SINGLE_PRODUCT.NUMBER_OF_BIDS}:{' '}
                   <span>{singleProduct.bids.length}</span>
                 </p>
                 <p>
-                  {EN_STRINGS['SingleProduct.TimeLeft']}:{' '}
+                  {EN_STRINGS.SINGLE_PRODUCT.TIME_LEFT}:{' '}
                   <span>{singleProduct.remainingTime}</span>
                 </p>
               </div>
             ) : (
-              <h3>{EN_STRINGS['SingleProduct.NoBidMessage']}</h3>
+              <h3>{EN_STRINGS.SINGLE_PRODUCT.NO_BID_MESSAGE}</h3>
             )}
 
             <div className='c-send-bid'>
               <input
                 ref={bidInputRef}
                 type='number'
-                placeholder={EN_STRINGS['SingleProduct.InputPlaceholder']}
+                placeholder={EN_STRINGS.SINGLE_PRODUCT.INPUT_PLACEHOLDER}
                 disabled={!isUserLoggedIn()}
               />
               <button disabled={!isUserLoggedIn()} onClick={sendBid}>
-                {EN_STRINGS['SingleProduct.PlaceBid']} <GreaterIcon />
+                {EN_STRINGS.SINGLE_PRODUCT.PLACE_BID} <GreaterIcon />
               </button>
             </div>
 
@@ -169,13 +170,13 @@ const SingleProduct = () => {
           <div className='c-details'>
             <div className='c-navbar'>
               <p className='c-navbar-item c-focus'>
-                {EN_STRINGS['SingleProduct.Details']}
+                {EN_STRINGS.SINGLE_PRODUCT.DETAILS}
               </p>
               <p className='c-navbar-item'>
-                {EN_STRINGS['SingleProduct.SellerInformation']}
+                {EN_STRINGS.SINGLE_PRODUCT.SELLER_INFORMATION}
               </p>
               <p className='c-navbar-item'>
-                {EN_STRINGS['SingleProduct.CustomReviews']}
+                {EN_STRINGS.SINGLE_PRODUCT.CUSTOM_REVIEWS}
               </p>
             </div>
 

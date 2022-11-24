@@ -6,7 +6,7 @@ const BASE_URL = '/bids';
 
 const bidService = {
   getHighestBid: (productId: string) =>
-    agent.get<number[]>(`${BASE_URL}/product/${productId}`),
+    agent.get<number>(`${BASE_URL}/product/${productId}`),
   addBid: (createBidRequest: createBidRequest) =>
     agent.post(BASE_URL, createBidRequest),
 };

@@ -11,9 +11,9 @@ const TermsAndConditions = () => {
 
   useEffect(() => {
     setNavbarItems([
-      EN_STRINGS['Navbar.Home'],
-      EN_STRINGS['Navbar.Home'],
-      EN_STRINGS['Footer.TermsAndConditions'],
+      EN_STRINGS.NAVBAR.HOME,
+      EN_STRINGS.NAVBAR.HOME,
+      EN_STRINGS.FOOTER.TERMS_AND_CONDITIONS
     ]);
     window.scrollTo(0,0);
   // eslint-disable-next-line react-hooks/exhaustive-deps
