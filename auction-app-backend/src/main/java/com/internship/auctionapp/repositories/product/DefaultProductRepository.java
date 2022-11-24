@@ -34,7 +34,7 @@ public class DefaultProductRepository implements ProductRepository {
 
     private final NotificationRepository notificationRepository;
 
-    private static final int DEFAULT_ELEMENTS_PER_PAGE = 8;
+    private static final Integer DEFAULT_ELEMENTS_PER_PAGE = 8;
 
     private static final String LAST_CHANCE = "last-chance";
 
@@ -82,7 +82,7 @@ public class DefaultProductRepository implements ProductRepository {
     @Override
     public Product getSingleProduct(UUID id) {
         Product product = productJPARepository.findById(id).get().toDomainModel();
-        LOGGER.info("Fetched product={}", product, " from the database with the id={} ", id);
+        LOGGER.info("Fetched product={} from the databse with the id={}", product, id);
 
         return product;
     }
@@ -137,14 +137,9 @@ public class DefaultProductRepository implements ProductRepository {
     @Override
     public void createNotificationsAfterProductExpires() {
         ZonedDateTime currentTime = ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
-        List<Product> products = productJPARepository.findAllByExpirationDateTimeBetween(
-                        currentTime.minusMinutes(5), currentTime).stream()
+        List<Product> products = productJPARepository.findAllByExpirationDateTimeBetween(currentTime.minusMinutes(5), currentTime).stream()
                 .map(productEntity -> productEntity.toDomainModel())
                 .collect(Collectors.toList());
-
-        if (products.isEmpty()) {
-            return;
-        }
 
         products.stream()
                 .forEach(product -> {

@@ -1,5 +1,6 @@
 package com.internship.auctionapp.models;
 
+import com.internship.auctionapp.entities.NotificationEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,12 @@ public class Notification {
     private UUID userId;
 
     private UUID productId;
+
+    public Notification(NotificationEntity notificationEntity){
+        this.id = notificationEntity.getId();
+        this.creationDateTime = notificationEntity.getCreationDateTime();
+        this.notificationType = String.valueOf(notificationEntity.getNotificationType());
+        this.userId = notificationEntity.getUserId();
+        this.productId = notificationEntity.getProduct().getId();
+    }
 }

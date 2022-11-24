@@ -1,5 +1,6 @@
 package com.internship.auctionapp.models;
 
+import com.internship.auctionapp.entities.BidEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,12 @@ public class Bid {
     private UUID productId;
 
     private UUID userId;
+
+    public Bid(BidEntity bidEntity) {
+        this.id = bidEntity.getId();
+        this.bidPrice = bidEntity.getPrice();
+        this.bidCreationDateTime = bidEntity.getCreationDateTime();
+        this.productId = bidEntity.getProduct().getId();
+        this.userId = bidEntity.getUserId();
+    }
 }

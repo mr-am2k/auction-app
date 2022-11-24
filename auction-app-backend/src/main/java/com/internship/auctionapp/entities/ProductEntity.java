@@ -45,7 +45,7 @@ public class ProductEntity {
     private String description;
 
     @ElementCollection
-    @Column(name = "imageURLs", nullable = false)
+    @Column(name = "image_urls", nullable = false)
     private List<String> imageURLs;
 
     @Column(name = "start_price", nullable = false)
@@ -61,7 +61,7 @@ public class ProductEntity {
     @OneToMany(
             mappedBy = "product",
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             orphanRemoval = true
     )
     private List<BidEntity> bidEntities;

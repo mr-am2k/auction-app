@@ -9,6 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface BidJPARepository extends JpaRepository<BidEntity, UUID> {
-
     BidEntity findTopByProductIdOrderByPriceDesc(@Param("productId") UUID productId);
 }

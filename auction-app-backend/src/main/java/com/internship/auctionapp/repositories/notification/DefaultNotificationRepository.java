@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class DefaultNotificationRepository implements NotificationRepository {
+
     private final NotificationJPARepository notificationJPARepository;
 
     private final ProductJPARepository productJPARepository;
@@ -42,8 +43,8 @@ public class DefaultNotificationRepository implements NotificationRepository {
 
     @Override
     public Notification createNotification(CreateNotificationRequest createNotificationRequest) {
-        ProductEntity product = productJPARepository.findById(createNotificationRequest.getProductId()).get();
-        NotificationEntity notification = new NotificationEntity(
+        final ProductEntity product = productJPARepository.findById(createNotificationRequest.getProductId()).get();
+        final NotificationEntity notification = new NotificationEntity(
                 createNotificationRequest.getNotificationType(),
                 createNotificationRequest.getUserId(),
                 product
@@ -55,7 +56,7 @@ public class DefaultNotificationRepository implements NotificationRepository {
         if (notification.getNotificationType() == NotificationType.HIGHEST_BID_PLACED) {
             getNotificationsByProductIdForAllUsersExcept(createNotificationRequest.getUserId(), product.getId()).stream()
                     .forEach(notificationEntity -> {
-                        Notification latestNotificationForUser = notificationJPARepository.findTopByUserIdAndProductIdOrderByCreationDateTimeDesc(
+                        final Notification latestNotificationForUser = notificationJPARepository.findTopByUserIdAndProductIdOrderByCreationDateTimeDesc(
                                 notificationEntity.getUserId(),
                                 product.getId()
                         ).toDomainModel();
@@ -63,8 +64,8 @@ public class DefaultNotificationRepository implements NotificationRepository {
                         if (latestNotificationForUser.getNotificationType().equals(String.valueOf(NotificationType.HIGHEST_BID_PLACED))) {
                             NotificationEntity outBidded = new NotificationEntity(NotificationType.OUTBIDDED, notificationEntity.getUserId(), product);
                             notificationJPARepository.save(outBidded);
-                            LOGGER.info("Successfully saved notification={}", outBidded, " for user with id={}",
-                                    outBidded.getUserId(), "that says that he is outbidded");
+                            LOGGER.info("Successfully saved notification={} doe user with id={} that says he is outbidded.",
+                                    outBidded, outBidded.getUserId());
                         }
                     });
         }
@@ -74,19 +75,18 @@ public class DefaultNotificationRepository implements NotificationRepository {
 
     @Override
     public Notification getNotifications(UUID userId, UUID productId) {
-        Notification latestNotification = notificationJPARepository.findTopByUserIdAndProductIdOrderByCreationDateTimeDesc(userId, productId).toDomainModel();
+        final Notification latestNotification = notificationJPARepository.findTopByUserIdAndProductIdOrderByCreationDateTimeDesc(userId, productId).toDomainModel();
 
-        LOGGER.info("Fetched latest notification={}", latestNotification, " for user={}", userId, " and product={}", productId);
+        LOGGER.info("Fetched latest notification={} for user={} and product={}", latestNotification, userId, productId);
         return latestNotification;
     }
 
     public List<Notification> getNotificationsByProductIdForAllUsersExcept(UUID userId, UUID productId) {
-        List<Notification> notificationsForAllUsersExceptOne =  notificationJPARepository.
-                findDistinctByUserIdNotAndProductId(userId, productId).stream()
+        final List<Notification> notificationsForAllUsersExceptOne = notificationJPARepository.findDistinctByUserIdNotAndProductId(userId, productId).stream()
                 .map(notificationEntity -> notificationEntity.toDomainModel())
                 .collect(Collectors.toList());
 
-        LOGGER.info("Fetched notifications={}", notificationsForAllUsersExceptOne, " for all users except user={}", userId);
+        LOGGER.info("Fetched notifications={} for all users except user with userId={}", notificationsForAllUsersExceptOne, userId);
 
         return notificationsForAllUsersExceptOne;
     }

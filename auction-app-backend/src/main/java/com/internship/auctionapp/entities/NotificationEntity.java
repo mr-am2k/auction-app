@@ -58,13 +58,15 @@ public class NotificationEntity {
     }
 
     public Notification toDomainModel() {
-        return new Notification(
-                this.getId(),
-                this.getCreationDateTime(),
-                this.getNotificationType().toString(),
-                this.getUserId(),
-                this.getProduct().getId()
+        NotificationEntity notificationEntity = new NotificationEntity(
+          this.id,
+          this.creationDateTime,
+          this.notificationType,
+          this.userId,
+          this.product
         );
+
+        return new Notification(notificationEntity);
     }
 }
 

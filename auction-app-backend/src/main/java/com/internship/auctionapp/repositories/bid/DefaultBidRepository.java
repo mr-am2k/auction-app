@@ -49,10 +49,13 @@ public class DefaultBidRepository implements BidRepository {
             throw new BidPriceLowerThanProductPriceException();
         }
 
-        if (bidJPARepository.findTopByProductIdOrderByPriceDesc(productId) != null) {
-            Double highestBidPrice = bidJPARepository.findTopByProductIdOrderByPriceDesc(productId).getPrice();
+        if (targetedProduct.getBidEntities().size() > 0) {
+            Double highestBidPrice;
+
+            highestBidPrice = bidJPARepository.findTopByProductIdOrderByPriceDesc(productId).getPrice();
+
             if (price <= highestBidPrice) {
-                LOGGER.info("Price user entered is lower than product highest bid price.");
+                LOGGER.info("Price user entered={} is lower than product highest bid price={}.", price, highestBidPrice);
                 throw new BidPriceLowerThanHighestBidPriceException();
             }
         }
@@ -89,7 +92,7 @@ public class DefaultBidRepository implements BidRepository {
     public void deleteBid(UUID id) {
         try {
             bidJPARepository.deleteById(id);
-            LOGGER.info("Bid with id={}", id, " deleted");
+            LOGGER.info("Bid with id={} delete", id);
         } catch (RuntimeException ex) {
             throw new DeleteElementException(ex.getMessage());
         }
