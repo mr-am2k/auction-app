@@ -1,9 +1,12 @@
 package com.internship.auctionapp.repositories.notification;
 
+import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.models.Notification;
 import com.internship.auctionapp.entities.NotificationEntity;
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.repositories.product.ProductJPARepository;
+import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.services.DefaultProductService;
 import com.internship.auctionapp.util.NotificationMessage;
@@ -12,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -21,8 +25,6 @@ public class DefaultNotificationRepository implements NotificationRepository {
     private final NotificationJPARepository notificationJPARepository;
 
     private final ProductJPARepository productJPARepository;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
 
     public DefaultNotificationRepository(
             NotificationJPARepository notificationJPARepository,
@@ -60,7 +62,7 @@ public class DefaultNotificationRepository implements NotificationRepository {
                                 .map(n -> n.toDomainModel()).collect(Collectors.toList());
 
                         if(latestNotificationForUser.get(0).getNotificationMessage().equals(String.valueOf(NotificationMessage.HIGHEST_BID_PLACED))) {
-                            NotificationEntity outBidded = new NotificationEntity(NotificationMessage.OUTBIDDED, notificationEntity.getUserId(), notificationEntity.getProduct());
+                            NotificationEntity outBidded = new NotificationEntity(NotificationMessage.OUTBIDDED, notificationEntity.getUserId(), product);
                             notificationJPARepository.save(outBidded);
                         }
                     });
@@ -76,7 +78,9 @@ public class DefaultNotificationRepository implements NotificationRepository {
                 .collect(Collectors.toList());
     }
 
-    private List<NotificationEntity> getNotificationsByProductIdForAllUsersExcept(UUID userId, UUID productId) {
-        return notificationJPARepository.getNotificationsByProductIdForAllUsersExcept(userId, productId);
+    public List<Notification> getNotificationsByProductIdForAllUsersExcept(UUID userId, UUID productId) {
+        return notificationJPARepository.getNotificationsByProductIdForAllUsersExcept(userId, productId).stream()
+                .map(notificationEntity -> notificationEntity.toDomainModel())
+                .collect(Collectors.toList());
     }
 }

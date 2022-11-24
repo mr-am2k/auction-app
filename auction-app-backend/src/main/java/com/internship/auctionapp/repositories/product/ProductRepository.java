@@ -25,4 +25,6 @@ public interface ProductRepository {
     Page<Product> getProductsByCriteria(String criteria);
 
     List<Product> getProductsBetweenTwoDates(LocalDateTime startDate, LocalDateTime endDate);
+
+    void createNotificationsAfterProductExpires();
 }

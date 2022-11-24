@@ -3,8 +3,12 @@ package com.internship.auctionapp.repositories.product;
 import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.repositories.bid.BidRepository;
+import com.internship.auctionapp.repositories.notification.NotificationRepository;
+import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.services.DefaultProductService;
+import com.internship.auctionapp.util.NotificationMessage;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,6 +26,10 @@ import java.util.stream.Collectors;
 @Repository
 public class DefaultProductRepository implements ProductRepository {
     private final ProductJPARepository productJPARepository;
+
+    private final BidRepository bidRepository;
+
+    private final NotificationRepository notificationRepository;
 
     private static final int DEFAULT_ELEMENTS_PER_PAGE = 8;
 
@@ -36,12 +41,14 @@ public class DefaultProductRepository implements ProductRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
 
-    public DefaultProductRepository(ProductJPARepository productJPARepository) {
+    public DefaultProductRepository(ProductJPARepository productJPARepository, BidRepository bidRepository, NotificationRepository notificationRepository) {
         this.productJPARepository = productJPARepository;
+        this.bidRepository = bidRepository;
+        this.notificationRepository = notificationRepository;
     }
 
     @Override
-    public List<Product> getAllProducts(){
+    public List<Product> getAllProducts() {
         return productJPARepository.findAll().stream()
                 .map(product -> product.toDomainModel())
                 .collect(Collectors.toList());
@@ -111,5 +118,45 @@ public class DefaultProductRepository implements ProductRepository {
         return productJPARepository.findAllByExpirationDateTimeBetween(startDate, endDate).stream()
                 .map(productEntity -> productEntity.toDomainModel())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void createNotificationsAfterProductExpires() {
+        LocalDateTime currentTime = LocalDateTime.now();
+        List<Product> products = productJPARepository.findAllByExpirationDateTimeBetween(
+                        currentTime.minusMinutes(5), currentTime).stream()
+                .map(productEntity -> productEntity.toDomainModel())
+                .collect(Collectors.toList());
+
+        if (products.isEmpty()) {
+            return;
+        }
+
+        products.stream()
+                .forEach(product -> {
+                    BidEntity bid = bidRepository.getHighestBid(product.getId());
+
+                    CreateNotificationRequest notificationForWinner =
+                            new CreateNotificationRequest(
+                                    NotificationMessage.AUCTION_WON,
+                                    bid.getUserId(),
+                                    product.getId()
+                            );
+
+                    notificationRepository.createNotification(notificationForWinner);
+
+                    notificationRepository.getNotificationsByProductIdForAllUsersExcept(bid.getUserId(), product.getId())
+                            .stream()
+                            .forEach(notification -> {
+                                CreateNotificationRequest notificationForLoser =
+                                        new CreateNotificationRequest(
+                                                NotificationMessage.AUCTION_LOST,
+                                                notification.getUserId(),
+                                                product.getId()
+                                        );
+
+                                notificationRepository.createNotification(notificationForLoser);
+                            });
+                });
     }
 }
