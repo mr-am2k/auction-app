@@ -16,7 +16,7 @@ public class Notification {
 
     private ZonedDateTime creationDateTime;
 
-    private String notificationMessage;
+    private String notificationType;
 
     private UUID userId;
 

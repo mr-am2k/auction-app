@@ -44,7 +44,7 @@ public class DefaultNotificationRepository implements NotificationRepository {
     public Notification createNotification(CreateNotificationRequest createNotificationRequest) {
         ProductEntity product = productJPARepository.findById(createNotificationRequest.getProductId()).get();
         NotificationEntity notification = new NotificationEntity(
-                createNotificationRequest.getNotificationMessage(),
+                createNotificationRequest.getNotificationType(),
                 createNotificationRequest.getUserId(),
                 product
         );
@@ -60,7 +60,7 @@ public class DefaultNotificationRepository implements NotificationRepository {
                                 product.getId()
                         ).toDomainModel();
 
-                        if (latestNotificationForUser.getNotificationMessage().equals(String.valueOf(NotificationType.HIGHEST_BID_PLACED))) {
+                        if (latestNotificationForUser.getNotificationType().equals(String.valueOf(NotificationType.HIGHEST_BID_PLACED))) {
                             NotificationEntity outBidded = new NotificationEntity(NotificationType.OUTBIDDED, notificationEntity.getUserId(), product);
                             notificationJPARepository.save(outBidded);
                             LOGGER.info("Successfully saved notification={}", outBidded, " for user with id={}",
