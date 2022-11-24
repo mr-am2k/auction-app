@@ -26,7 +26,6 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        LOGGER.info("Fetched products from the database.");
         return productRepository.getAllProducts();
 
     }
@@ -42,7 +41,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<Product> getSingleProduct(UUID id) {
+    public Product getSingleProduct(UUID id) {
         return productRepository.getSingleProduct(id);
     }
 
@@ -57,7 +56,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<Product> getRandomProduct() {
+    public Product getRandomProduct() {
         return productRepository.getRandomProduct();
     }
 

@@ -15,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -60,7 +62,7 @@ class ProductControllerTest {
                 name("Shirt")
                 .description("Black shirt")
                 .imageURLs(IMAGES)
-                .price(52.20)
+                .startPrice(52.20)
                 .expirationDateTime(LocalDateTime.now())
                 .build();
 
@@ -70,8 +72,8 @@ class ProductControllerTest {
                 .description("Black shirt")
                 .imageURLs(IMAGES)
                 .price(52.20)
-                .creationDateTime(LocalDateTime.now())
-                .expirationDateTime(LocalDateTime.now())
+                .creationDateTime(ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC))
+                .expirationDateTime(ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC))
                 .bids(new ArrayList<>())
                 .remainingTime("expired")
                 .build();
@@ -81,9 +83,9 @@ class ProductControllerTest {
                 .name("Shirt")
                 .description("Black shirt")
                 .imageURLs(IMAGES)
-                .price(52.20)
-                .creationDateTime(LocalDateTime.now())
-                .expirationDateTime(LocalDateTime.now())
+                .startPrice(52.20)
+                .creationDateTime(ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC))
+                .expirationDateTime(ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC))
                 .build();
 
         PRODUCT_2 = ProductEntity.builder()
@@ -91,9 +93,11 @@ class ProductControllerTest {
                 .name("Shoes")
                 .description("Black shoes")
                 .imageURLs(IMAGES)
-                .price(75.20)
-                .creationDateTime(LocalDateTime.of(2022, 12, 12, 12, 12, 12))
-                .expirationDateTime(LocalDateTime.of(2023, 1, 1, 1, 1, 1))
+                .startPrice(75.20)
+                .creationDateTime(ZonedDateTime.of(
+                        LocalDateTime.of(2022, 12, 12, 12, 12, 12), ZoneOffset.UTC))
+                .expirationDateTime(ZonedDateTime.of(
+                        LocalDateTime.of(2023, 1, 1, 1, 1, 1), ZoneOffset.UTC))
                 .build();
     }
 
@@ -121,7 +125,7 @@ class ProductControllerTest {
     @Test
     void getSingleProduct() throws Exception {
         Mockito.when(productService.getSingleProduct(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6")))
-                .thenReturn(List.of(RETURN_PRODUCT));
+                .thenReturn(RETURN_PRODUCT);
         mockMvc.perform(get("/api/v1/products/3fa85f64-5717-4562-b3fc-2c963f66afa6")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -130,7 +134,7 @@ class ProductControllerTest {
 
     @Test
     void getRandomProduct() throws Exception {
-        Mockito.when(productService.getRandomProduct()).thenReturn(List.of(RETURN_PRODUCT));
+        Mockito.when(productService.getRandomProduct()).thenReturn(RETURN_PRODUCT);
         mockMvc.perform(get("/api/v1/products/random")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

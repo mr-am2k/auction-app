@@ -34,7 +34,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public List<Product> getSingleProduct(@PathVariable("id") UUID id) {
+    public Product getSingleProduct(@PathVariable("id") UUID id) {
         return productService.getSingleProduct(id);
     }
 
@@ -49,7 +49,7 @@ public class ProductController {
     }
 
     @GetMapping("/random")
-    public List<Product> getRandomProduct() {
+    public Product getRandomProduct() {
         return productService.getRandomProduct();
     }
 

@@ -11,7 +11,7 @@ public interface NotificationRepository {
 
     Notification createNotification(CreateNotificationRequest createNotificationRequest);
 
-    List<Notification> searchNotifications(UUID userId, UUID productId);
+    Notification getNotifications(UUID userId, UUID productId);
 
     List<Notification> getNotificationsByProductIdForAllUsersExcept(UUID userId, UUID productId);
 }

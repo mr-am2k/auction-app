@@ -4,7 +4,6 @@ import org.hibernate.PropertyValueException;
 import org.hibernate.procedure.NoSuchParameterException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -63,6 +62,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(SQLCustomException.class)
     public ResponseEntity<Object> handleInvalidDataAccessResourceUsageException(HttpServletRequest req, SQLCustomException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_GATEWAY, ex.getMessage()));
+    }
+
+    @ExceptionHandler(DeleteElementException.class)
+    public ResponseEntity<Object> handleDeleteElementException(HttpServletRequest req, DeleteElementException ex){
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {

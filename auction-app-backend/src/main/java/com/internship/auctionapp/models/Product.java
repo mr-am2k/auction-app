@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,9 +26,9 @@ public class Product {
 
     private double price;
 
-    private LocalDateTime creationDateTime;
+    private ZonedDateTime creationDateTime;
 
-    private LocalDateTime expirationDateTime;
+    private ZonedDateTime expirationDateTime;
 
     private List<Bid> bids;
 
@@ -40,7 +41,7 @@ public class Product {
         this.name = productEntity.getName();
         this.description = productEntity.getDescription();
         this.imageURLs = productEntity.getImageURLs();
-        this.price = productEntity.getPrice();
+        this.price = productEntity.getStartPrice();
         this.creationDateTime = productEntity.getCreationDateTime();
         this.expirationDateTime = productEntity.getExpirationDateTime();
         this.bids = bids;

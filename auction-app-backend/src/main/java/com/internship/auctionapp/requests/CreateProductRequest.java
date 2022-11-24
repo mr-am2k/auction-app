@@ -20,7 +20,7 @@ public class CreateProductRequest {
 
     private List<String> imageURLs;
 
-    private double price;
+    private double startPrice;
 
     private LocalDateTime expirationDateTime;
 

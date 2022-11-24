@@ -19,7 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
-import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -47,15 +48,15 @@ public class ProductEntity {
     @Column(name = "imageURLs", nullable = false)
     private List<String> imageURLs;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "start_price", nullable = false)
     @DecimalMin("0.5")
-    private Double price;
+    private Double startPrice;
 
-    @Column(name = "creationDateTime", nullable = false)
-    private LocalDateTime creationDateTime = LocalDateTime.now();
+    @Column(name = "creation_date_time", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private ZonedDateTime creationDateTime = ZonedDateTime.now(ZoneOffset.UTC);
 
-    @Column(name = "expirationDateTime", nullable = false)
-    private LocalDateTime expirationDateTime;
+    @Column(name = "expiration_date_time", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private ZonedDateTime expirationDateTime;
 
     @OneToMany(
             mappedBy = "product",
@@ -65,16 +66,34 @@ public class ProductEntity {
     )
     private List<BidEntity> bidEntities;
 
-    //#TODO this will be updated in the future to the user entity when we create it
+    // TODO: this will be updated in the future to the user entity when we create it
     @Column(name = "user_id", nullable = false)
     private UUID userId;
 
-    public ProductEntity(String name, String description, List<String> imageURLs, Double price,
-                         LocalDateTime expirationDateTime, UUID userId) {
+    public ProductEntity(String name, String description, List<String> imageURLs, Double startPrice,
+                         ZonedDateTime expirationDateTime, UUID userId) {
         this.name = name;
         this.description = description;
         this.imageURLs = imageURLs;
-        this.price = price;
+        this.startPrice = startPrice;
+        this.expirationDateTime = expirationDateTime;
+        this.userId = userId;
+    }
+
+    public ProductEntity(
+            String name,
+            String description,
+            List<String> imageURLs,
+            Double startPrice,
+            ZonedDateTime creationDateTime,
+            ZonedDateTime expirationDateTime,
+            UUID userId
+    ) {
+        this.name = name;
+        this.description = description;
+        this.imageURLs = imageURLs;
+        this.startPrice = startPrice;
+        this.creationDateTime = creationDateTime;
         this.expirationDateTime = expirationDateTime;
         this.userId = userId;
     }
@@ -88,7 +107,8 @@ public class ProductEntity {
                 this.name,
                 this.description,
                 this.imageURLs,
-                this.price,
+                this.startPrice,
+                this.creationDateTime,
                 this.expirationDateTime,
                 this.userId
         );

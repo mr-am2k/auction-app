@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Data
@@ -13,7 +14,7 @@ import java.util.UUID;
 public class Notification {
     private UUID id;
 
-    private LocalDateTime creationDateTime;
+    private ZonedDateTime creationDateTime;
 
     private String notificationMessage;
 

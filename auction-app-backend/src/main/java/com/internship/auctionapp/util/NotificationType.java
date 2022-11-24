@@ -1,6 +1,6 @@
 package com.internship.auctionapp.util;
 
-public enum NotificationMessage {
+public enum NotificationType {
     HIGHEST_BID_PLACED,
     OUTBIDDED,
     AUCTION_WON,

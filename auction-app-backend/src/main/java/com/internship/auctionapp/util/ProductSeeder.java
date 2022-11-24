@@ -6,6 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,7 +45,7 @@ public class ProductSeeder implements CommandLineRunner {
                             "https://hips.hearstapps.com/hmg-prod/images/" +
                                     "run-flat-footed-runningshoes-1642804867.jpg"),
                     55.50,
-                    LocalDateTime.of(2023, 12, 12, 19, 30, 40),
+                    ZonedDateTime.of(LocalDateTime.of(2023, 12, 12, 19, 30, 40),ZoneOffset.UTC),
                     UUID.fromString(USER_1_ID));
 
             ProductEntity product2 = new ProductEntity("Black shirt",
@@ -56,7 +58,7 @@ public class ProductSeeder implements CommandLineRunner {
                                     "w_2000,h_1334,c_limit/sunspel.jpg"
                     ),
                     25.25,
-                    LocalDateTime.of(2023, 05, 11, 11, 20, 23),
+                    ZonedDateTime.of(LocalDateTime.of(2023, 05, 11, 11, 20, 23), ZoneOffset.UTC),
                     UUID.fromString(USER_1_ID));
 
             ProductEntity product3 = new ProductEntity("Nike Air Force",
@@ -69,7 +71,7 @@ public class ProductSeeder implements CommandLineRunner {
                                     "crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838"
                     ),
                     125.50,
-                    LocalDateTime.of(2022, 12, 12, 15, 15, 15),
+                    ZonedDateTime.of(LocalDateTime.of(2022, 12, 12, 15, 15, 15), ZoneOffset.UTC),
                     UUID.fromString(USER_1_ID));
 
             ProductEntity product4 = new ProductEntity("Coat",
@@ -83,7 +85,7 @@ public class ProductSeeder implements CommandLineRunner {
                                     "Sztori-Plus-Size-Men-Grey-Melange-Solid-Regular-Fit-Casual-D-1.jpg"
                     ),
                     91.99,
-                    LocalDateTime.of(2023, 4, 9, 21, 14, 44),
+                    ZonedDateTime.of(LocalDateTime.of(2023, 4, 9, 21, 14, 44), ZoneOffset.UTC),
                     UUID.fromString(USER_2_ID));
 
             ProductEntity product5 = new ProductEntity("Summer shirt",
@@ -95,7 +97,7 @@ public class ProductSeeder implements CommandLineRunner {
                                     "q=tbn:ANd9GcRbB04TMVGpXE-ehT9imIF5ElfdrS6T6tHdVA&usqp=CAU"
                     ),
                     15.50,
-                    LocalDateTime.of(2024, 12, 12, 12, 12, 12),
+                    ZonedDateTime.of(LocalDateTime.of(2024, 12, 12, 12, 12, 12), ZoneOffset.UTC),
                     UUID.fromString(USER_2_ID));
 
             ProductEntity product6 = new ProductEntity("Shorts",
@@ -109,7 +111,7 @@ public class ProductSeeder implements CommandLineRunner {
                                     "9890eac9b882d8eab76fc4de618372e9/A/V/AV8HN_BLK_EE_1.jpg"
                     ),
                     25.25,
-                    LocalDateTime.of(2024, 9, 12, 9, 45, 11),
+                    ZonedDateTime.of(LocalDateTime.of(2024, 9, 12, 9, 45, 11), ZoneOffset.UTC),
                     UUID.fromString(USER_2_ID));
 
             ProductEntity product7 = new ProductEntity("Jacket",
@@ -122,7 +124,7 @@ public class ProductSeeder implements CommandLineRunner {
                                     "Mens-Jacket-Keanu-BlackMatte-091721-FrontZipped.jpg?v=1632508562"
                     ),
                     75.50,
-                    LocalDateTime.of(2023, 3, 3, 3, 3, 3),
+                    ZonedDateTime.of(LocalDateTime.of(2023, 3, 3, 3, 3, 3), ZoneOffset.UTC),
                     UUID.fromString(USER_1_ID));
 
             ProductEntity product8 = new ProductEntity("Simpson Socks",
@@ -137,7 +139,7 @@ public class ProductSeeder implements CommandLineRunner {
                                     "the-simpsonstm-gender-neutral-socks-for-adults.jpg"
                     ),
                     9.50,
-                    LocalDateTime.of(2023, 11, 11, 12, 12, 11),
+                    ZonedDateTime.of(LocalDateTime.of(2023, 11, 11, 12, 12, 11), ZoneOffset.UTC),
                     UUID.fromString(USER_2_ID));
 
             ProductEntity product9 = new ProductEntity("Ring",
@@ -148,7 +150,7 @@ public class ProductSeeder implements CommandLineRunner {
                             "https://i.insider.com/5c9df52092c88634ba266b74?width=1000&format=jpeg&auto=webp"
                     ),
                     12.45,
-                    LocalDateTime.of(2025, 12, 12, 7, 23, 12),
+                    LocalDateTime.of(2025, 12, 12, 7, 23, 12).atZone(ZoneOffset.UTC),
                     UUID.fromString(USER_1_ID));
 
             ProductEntity product10 = new ProductEntity("Watch",
@@ -158,7 +160,7 @@ public class ProductSeeder implements CommandLineRunner {
                             "https://5.imimg.com/data5/FN/FI/MY-34063937/mens-hand-watch-500x500.jpg"
                     ),
                     85.50,
-                    LocalDateTime.of(2024, 7, 12, 14, 12, 9),
+                    ZonedDateTime.of(LocalDateTime.of(2024, 7, 12, 14, 12, 9), ZoneOffset.UTC),
                     UUID.fromString(USER_2_ID));
 
             productRepository.save(product1);

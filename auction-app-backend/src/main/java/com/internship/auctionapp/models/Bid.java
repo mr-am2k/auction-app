@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Data
@@ -16,7 +17,7 @@ public class Bid {
 
     private double bidPrice;
 
-    private LocalDateTime bidCreationDateTime;
+    private ZonedDateTime bidCreationDateTime;
 
     private UUID productId;
 

@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,12 +44,12 @@ class DefaultProductServiceTest {
                 .name("Shirt")
                 .description("Black shirt")
                 .imageURLs(IMAGES)
-                .price(52.20)
-                .creationDateTime(LocalDateTime.now())
-                .expirationDateTime(LocalDateTime.now())
+                .startPrice(52.20)
+                .creationDateTime(ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC))
+                .expirationDateTime(ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC))
                 .build();
         Mockito.when(productJPARepository.findById(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).thenReturn(Optional.of(product));
-        Mockito.when(productJPARepository.getRandomProduct()).thenReturn(List.of(product));
+        Mockito.when(productJPARepository.getRandomProduct()).thenReturn(product);
     }
 
     @Test
@@ -57,7 +59,7 @@ class DefaultProductServiceTest {
         String description = "Black shirt";
         Double price = 52.20;
 
-        Product wantedProduct = productService.getSingleProduct(PRODUCT_ID).get(0);
+        Product wantedProduct = productService.getSingleProduct(PRODUCT_ID);
 
         assertEquals(PRODUCT_ID, wantedProduct.getId());
         assertEquals(name, wantedProduct.getName());
@@ -73,7 +75,7 @@ class DefaultProductServiceTest {
         String description = "Black shirt";
         Double price = 52.20;
 
-        Product wantedProduct = productService.getRandomProduct().get(0);
+        Product wantedProduct = productService.getRandomProduct();
 
         assertEquals(PRODUCT_ID, wantedProduct.getId());
         assertEquals(name, wantedProduct.getName());

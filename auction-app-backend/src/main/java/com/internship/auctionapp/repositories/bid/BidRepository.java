@@ -1,6 +1,5 @@
 package com.internship.auctionapp.repositories.bid;
 
-import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.models.Bid;
 
 import java.util.List;
@@ -13,7 +12,5 @@ public interface BidRepository {
 
     void deleteBid(UUID id);
 
-    List<Double> getHighestBidPrice(UUID productId);
-
-    BidEntity getHighestBid(UUID productId);
+    Bid getHighestBid(UUID productId);
 }

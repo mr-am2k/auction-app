@@ -2,7 +2,7 @@ package com.internship.auctionapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.internship.auctionapp.models.Notification;
-import com.internship.auctionapp.util.NotificationMessage;
+import com.internship.auctionapp.util.NotificationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Entity
@@ -31,11 +33,11 @@ public class NotificationEntity {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "creation_date_time", nullable = false)
-    private LocalDateTime creationDateTime = LocalDateTime.now();
+    @Column(name = "creation_date_time", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private ZonedDateTime creationDateTime = ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
 
     @Column(name = "message", nullable = false)
-    private NotificationMessage notificationMessage;
+    private NotificationType notificationType;
 
     @Column(name = "user_id", nullable = false)
     private UUID userId;
@@ -46,11 +48,11 @@ public class NotificationEntity {
     private ProductEntity product;
 
     public NotificationEntity(
-            NotificationMessage notificationMessage,
+            NotificationType notificationType,
             UUID userId,
             ProductEntity product
     ) {
-        this.notificationMessage = notificationMessage;
+        this.notificationType = notificationType;
         this.userId = userId;
         this.product = product;
     }
@@ -59,7 +61,7 @@ public class NotificationEntity {
         return new Notification(
                 this.getId(),
                 this.getCreationDateTime(),
-                this.getNotificationMessage().toString(),
+                this.getNotificationType().toString(),
                 this.getUserId(),
                 this.getProduct().getId()
         );

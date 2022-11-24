@@ -37,8 +37,8 @@ public class NotificationController {
     }
 
     @GetMapping("/search")
-    public List<Notification> searchNotifications(@RequestParam UUID userId, @RequestParam UUID productId) {
-        return notificationService.searchNotifications(userId, productId);
+    public Notification getNotifications(@RequestParam UUID userId, @RequestParam UUID productId) {
+        return notificationService.getNotifications(userId, productId);
     }
 
 }

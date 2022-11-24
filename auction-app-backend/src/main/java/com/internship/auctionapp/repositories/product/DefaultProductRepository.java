@@ -1,6 +1,7 @@
 package com.internship.auctionapp.repositories.product;
 
-import com.internship.auctionapp.entities.BidEntity;
+import com.internship.auctionapp.middleware.exception.DeleteElementException;
+import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.bid.BidRepository;
@@ -8,7 +9,7 @@ import com.internship.auctionapp.repositories.notification.NotificationRepositor
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.services.DefaultProductService;
-import com.internship.auctionapp.util.NotificationMessage;
+import com.internship.auctionapp.util.NotificationType;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -49,9 +52,13 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public List<Product> getAllProducts() {
-        return productJPARepository.findAll().stream()
+        List<Product> products = productJPARepository.findAll().stream()
                 .map(product -> product.toDomainModel())
                 .collect(Collectors.toList());
+
+        LOGGER.info("Fetched all products={}", products);
+
+        return products;
     }
 
     @Override
@@ -61,21 +68,23 @@ public class DefaultProductRepository implements ProductRepository {
         productEntity.setName(createProductRequest.getName());
         productEntity.setDescription(createProductRequest.getDescription());
         productEntity.setImageURLs(createProductRequest.getImageURLs());
-        productEntity.setPrice(createProductRequest.getPrice());
-        productEntity.setExpirationDateTime(createProductRequest.getExpirationDateTime());
+        productEntity.setStartPrice(createProductRequest.getStartPrice());
+        productEntity.setExpirationDateTime(createProductRequest.getExpirationDateTime().atZone(ZoneOffset.UTC));
         productEntity.setUserId(createProductRequest.getUserId());
 
         productJPARepository.save(productEntity);
+
         LOGGER.info("Successfully added product={} to the database.", productEntity);
+
         return productEntity.toDomainModel();
     }
 
     @Override
-    public List<Product> getSingleProduct(UUID id) {
-        LOGGER.info("Fetched product from the database with the id={} ", id);
-        return productJPARepository.findById(id).stream()
-                .map(product -> product.toDomainModel())
-                .collect(Collectors.toList());
+    public Product getSingleProduct(UUID id) {
+        Product product = productJPARepository.findById(id).get().toDomainModel();
+        LOGGER.info("Fetched product={}", product, " from the database with the id={} ", id);
+
+        return product;
     }
 
     @Override
@@ -91,16 +100,21 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public void deleteProduct(UUID id) {
-        LOGGER.info("Successfully deleted product with the id={}", id);
-        productJPARepository.deleteById(id);
+        try {
+            productJPARepository.deleteById(id);
+            LOGGER.info("Successfully deleted product with the id={}", id);
+        } catch (RuntimeException e) {
+            throw new DeleteElementException(e.getMessage());
+        }
     }
 
     @Override
-    public List<Product> getRandomProduct() {
-        LOGGER.info("Fetched random product from the database.");
-        return productJPARepository.getRandomProduct().stream()
-                .map(product -> product.toDomainModel())
-                .collect(Collectors.toList());
+    public Product getRandomProduct() {
+        Product randomProduct =  productJPARepository.getRandomProduct().toDomainModel();
+
+        LOGGER.info("Fetched random product={}", randomProduct);
+
+        return randomProduct;
     }
 
     @Override
@@ -114,7 +128,7 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public List<Product> getProductsBetweenTwoDates(LocalDateTime startDate, LocalDateTime endDate) {
+    public List<Product> getProductsBetweenTwoDates(ZonedDateTime startDate, ZonedDateTime endDate) {
         return productJPARepository.findAllByExpirationDateTimeBetween(startDate, endDate).stream()
                 .map(productEntity -> productEntity.toDomainModel())
                 .collect(Collectors.toList());
@@ -122,7 +136,7 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public void createNotificationsAfterProductExpires() {
-        LocalDateTime currentTime = LocalDateTime.now();
+        ZonedDateTime currentTime = ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
         List<Product> products = productJPARepository.findAllByExpirationDateTimeBetween(
                         currentTime.minusMinutes(5), currentTime).stream()
                 .map(productEntity -> productEntity.toDomainModel())
@@ -134,28 +148,28 @@ public class DefaultProductRepository implements ProductRepository {
 
         products.stream()
                 .forEach(product -> {
-                    BidEntity bid = bidRepository.getHighestBid(product.getId());
+                    Bid bid = bidRepository.getHighestBid(product.getId());
 
-                    CreateNotificationRequest notificationForWinner =
+                    CreateNotificationRequest auctionWonNotification =
                             new CreateNotificationRequest(
-                                    NotificationMessage.AUCTION_WON,
+                                    NotificationType.AUCTION_WON,
                                     bid.getUserId(),
                                     product.getId()
                             );
 
-                    notificationRepository.createNotification(notificationForWinner);
+                    notificationRepository.createNotification(auctionWonNotification);
 
                     notificationRepository.getNotificationsByProductIdForAllUsersExcept(bid.getUserId(), product.getId())
                             .stream()
                             .forEach(notification -> {
-                                CreateNotificationRequest notificationForLoser =
+                                CreateNotificationRequest auctionLostNotification =
                                         new CreateNotificationRequest(
-                                                NotificationMessage.AUCTION_LOST,
+                                                NotificationType.AUCTION_LOST,
                                                 notification.getUserId(),
                                                 product.getId()
                                         );
 
-                                notificationRepository.createNotification(notificationForLoser);
+                                notificationRepository.createNotification(auctionLostNotification);
                             });
                 });
     }

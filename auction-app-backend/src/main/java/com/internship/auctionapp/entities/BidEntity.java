@@ -16,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Entity
@@ -33,8 +35,8 @@ public class BidEntity {
     @Column(name = "price", nullable = false)
     private double price;
 
-    @Column(name = "creation_date_time", nullable = false)
-    private LocalDateTime creationDateTime = LocalDateTime.now();
+    @Column(name = "creation_date_time", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private ZonedDateTime creationDateTime = ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
 
     @ManyToOne
     @JoinColumn(name = "product_id")

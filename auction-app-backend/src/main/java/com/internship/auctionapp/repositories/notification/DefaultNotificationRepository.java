@@ -1,21 +1,15 @@
 package com.internship.auctionapp.repositories.notification;
 
-import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.models.Notification;
 import com.internship.auctionapp.entities.NotificationEntity;
 import com.internship.auctionapp.entities.ProductEntity;
-import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.repositories.product.ProductJPARepository;
-import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
-import com.internship.auctionapp.services.DefaultProductService;
-import com.internship.auctionapp.util.NotificationMessage;
+import com.internship.auctionapp.util.NotificationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,6 +19,8 @@ public class DefaultNotificationRepository implements NotificationRepository {
     private final NotificationJPARepository notificationJPARepository;
 
     private final ProductJPARepository productJPARepository;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultNotificationRepository.class);
 
     public DefaultNotificationRepository(
             NotificationJPARepository notificationJPARepository,
@@ -36,9 +32,12 @@ public class DefaultNotificationRepository implements NotificationRepository {
 
     @Override
     public List<Notification> getAllNotifications() {
-        return notificationJPARepository.findAll().stream()
+        List<Notification> notifications = notificationJPARepository.findAll().stream()
                 .map(notificationEntity -> notificationEntity.toDomainModel())
                 .collect(Collectors.toList());
+
+        LOGGER.info("Fetched all notifications={}", notifications);
+        return notifications;
     }
 
     @Override
@@ -51,19 +50,21 @@ public class DefaultNotificationRepository implements NotificationRepository {
         );
 
         notificationJPARepository.save(notification).toDomainModel();
+        LOGGER.info("Successfully saved notification={}", notification);
 
-        if(notification.getNotificationMessage() == NotificationMessage.HIGHEST_BID_PLACED) {
+        if (notification.getNotificationType() == NotificationType.HIGHEST_BID_PLACED) {
             getNotificationsByProductIdForAllUsersExcept(createNotificationRequest.getUserId(), product.getId()).stream()
                     .forEach(notificationEntity -> {
-                        List<Notification> latestNotificationForUser = notificationJPARepository.searchNotifications(
+                        Notification latestNotificationForUser = notificationJPARepository.findTopByUserIdAndProductIdOrderByCreationDateTimeDesc(
                                 notificationEntity.getUserId(),
                                 product.getId()
-                        ).stream()
-                                .map(n -> n.toDomainModel()).collect(Collectors.toList());
+                        ).toDomainModel();
 
-                        if(latestNotificationForUser.get(0).getNotificationMessage().equals(String.valueOf(NotificationMessage.HIGHEST_BID_PLACED))) {
-                            NotificationEntity outBidded = new NotificationEntity(NotificationMessage.OUTBIDDED, notificationEntity.getUserId(), product);
+                        if (latestNotificationForUser.getNotificationMessage().equals(String.valueOf(NotificationType.HIGHEST_BID_PLACED))) {
+                            NotificationEntity outBidded = new NotificationEntity(NotificationType.OUTBIDDED, notificationEntity.getUserId(), product);
                             notificationJPARepository.save(outBidded);
+                            LOGGER.info("Successfully saved notification={}", outBidded, " for user with id={}",
+                                    outBidded.getUserId(), "that says that he is outbidded");
                         }
                     });
         }
@@ -72,15 +73,21 @@ public class DefaultNotificationRepository implements NotificationRepository {
     }
 
     @Override
-    public List<Notification> searchNotifications(UUID userId, UUID productId) {
-        return notificationJPARepository.searchNotifications(userId, productId).stream()
-                .map(notificationEntity -> notificationEntity.toDomainModel())
-                .collect(Collectors.toList());
+    public Notification getNotifications(UUID userId, UUID productId) {
+        Notification latestNotification = notificationJPARepository.findTopByUserIdAndProductIdOrderByCreationDateTimeDesc(userId, productId).toDomainModel();
+
+        LOGGER.info("Fetched latest notification={}", latestNotification, " for user={}", userId, " and product={}", productId);
+        return latestNotification;
     }
 
     public List<Notification> getNotificationsByProductIdForAllUsersExcept(UUID userId, UUID productId) {
-        return notificationJPARepository.getNotificationsByProductIdForAllUsersExcept(userId, productId).stream()
+        List<Notification> notificationsForAllUsersExceptOne =  notificationJPARepository.
+                findDistinctByUserIdNotAndProductId(userId, productId).stream()
                 .map(notificationEntity -> notificationEntity.toDomainModel())
                 .collect(Collectors.toList());
+
+        LOGGER.info("Fetched notifications={}", notificationsForAllUsersExceptOne, " for all users except user={}", userId);
+
+        return notificationsForAllUsersExceptOne;
     }
 }

@@ -39,7 +39,7 @@ public class BidController {
     }
 
     @GetMapping("/product/{productId}")
-    public List<Double> getHighestBid(@PathVariable("productId") UUID productId) {
+    public Double getHighestBid(@PathVariable("productId") UUID productId) {
         return bidService.getHighestBidPrice(productId);
     }
 

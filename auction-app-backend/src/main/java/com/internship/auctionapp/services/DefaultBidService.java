@@ -1,11 +1,8 @@
 package com.internship.auctionapp.services;
 
 import com.internship.auctionapp.repositories.bid.BidRepository;
-import com.internship.auctionapp.repositories.bid.DefaultBidRepository;
 import com.internship.auctionapp.requests.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +12,6 @@ import java.util.UUID;
 public class DefaultBidService implements BidService {
 
     private final BidRepository bidRepository;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidRepository.class);
 
     public DefaultBidService(BidRepository bidRepository) {
         this.bidRepository = bidRepository;
@@ -42,7 +37,7 @@ public class DefaultBidService implements BidService {
     }
 
     @Override
-    public List<Double> getHighestBidPrice(UUID productId) {
-        return bidRepository.getHighestBidPrice(productId);
+    public Double getHighestBidPrice(UUID productId) {
+        return bidRepository.getHighestBid(productId).getBidPrice();
     }
 }

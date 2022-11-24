@@ -5,7 +5,7 @@ import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import org.springframework.data.domain.Page;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,17 +14,17 @@ public interface ProductRepository {
 
     Product addProduct(CreateProductRequest createProductRequest);
 
-    List<Product> getSingleProduct(UUID id);
+    Product getSingleProduct(UUID id);
 
     Product updateProduct(UUID id, ProductEntity product);
 
     void deleteProduct(UUID id);
 
-    List<Product> getRandomProduct();
+    Product getRandomProduct();
 
     Page<Product> getProductsByCriteria(String criteria);
 
-    List<Product> getProductsBetweenTwoDates(LocalDateTime startDate, LocalDateTime endDate);
+    List<Product> getProductsBetweenTwoDates(ZonedDateTime startDate, ZonedDateTime endDate);
 
     void createNotificationsAfterProductExpires();
 }

@@ -1,22 +1,20 @@
 package com.internship.auctionapp.repositories.bid;
 
+import com.internship.auctionapp.middleware.exception.DeleteElementException;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanHighestBidPriceException;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanProductPriceException;
 import com.internship.auctionapp.middleware.exception.SQLCustomException;
-import com.internship.auctionapp.models.Notification;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
 import com.internship.auctionapp.repositories.product.ProductJPARepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
-import com.internship.auctionapp.services.DefaultProductService;
-import com.internship.auctionapp.util.NotificationMessage;
+import com.internship.auctionapp.util.NotificationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -45,28 +43,32 @@ public class DefaultBidRepository implements BidRepository {
     @Override
     public Bid addBid(UUID productId, double price, UUID userId) {
         ProductEntity targetedProduct = productJPARepository.findById(productId).get();
-        if (price <= targetedProduct.getPrice()) {
+
+        if (price <= targetedProduct.getStartPrice()) {
+            LOGGER.info("Price user entered is lower than product start price.");
             throw new BidPriceLowerThanProductPriceException();
         }
 
-        List<Double> targetedBid = bidJPARepository.highestBidPrice(productId);
-
-        if (targetedBid.size() > 0) {
-            if (price <= targetedBid.get(0).doubleValue()) {
+        if (bidJPARepository.findTopByProductIdOrderByPriceDesc(productId) != null) {
+            Double highestBidPrice = bidJPARepository.findTopByProductIdOrderByPriceDesc(productId).getPrice();
+            if (price <= highestBidPrice) {
+                LOGGER.info("Price user entered is lower than product highest bid price.");
                 throw new BidPriceLowerThanHighestBidPriceException();
             }
-
         }
 
         try {
             BidEntity newBidEntity = new BidEntity(price, targetedProduct, userId);
             notificationRepository.createNotification(new CreateNotificationRequest(
-                    NotificationMessage.HIGHEST_BID_PLACED,
+                    NotificationType.HIGHEST_BID_PLACED,
                     userId,
                     productId
             ));
-            return bidJPARepository.save(newBidEntity).toDomainModel();
+            Bid bid = bidJPARepository.save(newBidEntity).toDomainModel();
 
+            LOGGER.info("Successfully added bid={}", bid);
+
+            return bid;
         } catch (SQLCustomException ex) {
             throw new SQLCustomException(ex.getMessage());
         }
@@ -74,23 +76,29 @@ public class DefaultBidRepository implements BidRepository {
 
     @Override
     public List<Bid> getAllBids() {
-        return bidJPARepository.findAll().stream()
+        List<Bid> bids = bidJPARepository.findAll().stream()
                 .map(bidEntity -> bidEntity.toDomainModel())
                 .collect(Collectors.toList());
+
+        LOGGER.info("Fetched bids={}", bids);
+
+        return bids;
     }
 
     @Override
     public void deleteBid(UUID id) {
-        bidJPARepository.deleteById(id);
+        try {
+            bidJPARepository.deleteById(id);
+            LOGGER.info("Bid with id={}", id, " deleted");
+        } catch (RuntimeException ex) {
+            throw new DeleteElementException(ex.getMessage());
+        }
     }
 
     @Override
-    public List<Double> getHighestBidPrice(UUID productId) {
-        return bidJPARepository.highestBidPrice(productId);
-    }
-
-    @Override
-    public BidEntity getHighestBid(UUID productId) {
-        return bidJPARepository.getHighestBid(productId);
+    public Bid getHighestBid(UUID productId) {
+        Bid highestBid = bidJPARepository.findTopByProductIdOrderByPriceDesc(productId).toDomainModel();
+        LOGGER.info("Highest bid={}", highestBid);
+        return highestBid;
     }
 }

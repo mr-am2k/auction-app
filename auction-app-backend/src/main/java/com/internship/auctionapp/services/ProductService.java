@@ -13,13 +13,13 @@ public interface ProductService {
 
     Product addProduct(CreateProductRequest createProductRequest);
 
-    List<Product> getSingleProduct(UUID id);
+    Product getSingleProduct(UUID id);
 
     Product updateProduct(UUID id, ProductEntity product);
 
     void deleteProduct(UUID id);
 
-    List<Product> getRandomProduct();
+    Product getRandomProduct();
 
     Page<Product> getProductsByCriteria(String criteria);
 }
