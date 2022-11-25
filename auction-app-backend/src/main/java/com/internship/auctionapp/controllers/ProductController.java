@@ -29,7 +29,7 @@ public class ProductController {
     }
 
     @GetMapping()
-    public List<Product> getAllProducts() throws Exception {
+    public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
 

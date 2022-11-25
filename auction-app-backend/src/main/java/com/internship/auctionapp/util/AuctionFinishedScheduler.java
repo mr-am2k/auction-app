@@ -19,7 +19,6 @@ public class AuctionFinishedScheduler {
 
     private final ProductRepository productRepository;
 
-
     public AuctionFinishedScheduler(ProductRepository productRepository){
         this.productRepository = productRepository;
     }

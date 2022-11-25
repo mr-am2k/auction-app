@@ -18,5 +18,8 @@ public interface ProductJPARepository extends JpaRepository<ProductEntity, UUID>
     )
     ProductEntity getRandomProduct();
 
-    List<ProductEntity> findAllByExpirationDateTimeBetween(ZonedDateTime startDate, ZonedDateTime endDate);
+    List<ProductEntity> findAllByExpirationDateTimeBetween(
+            ZonedDateTime startDate,
+            ZonedDateTime endDate
+    );
 }

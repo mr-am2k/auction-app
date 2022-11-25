@@ -34,6 +34,7 @@ public class DefaultProductService implements ProductService {
     public Product addProduct(CreateProductRequest createProductRequest) {
         if (DateUtils.isInPast(createProductRequest.getExpirationDateTime())) {
             LOGGER.error("Product expiration date is before product creation date. Product={}", createProductRequest);
+
             throw new ProductExpirationDateException();
         }
 

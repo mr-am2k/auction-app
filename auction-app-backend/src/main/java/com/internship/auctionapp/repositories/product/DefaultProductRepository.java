@@ -52,7 +52,7 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public List<Product> getAllProducts() {
-        List<Product> products = productJPARepository.findAll().stream()
+        final List<Product> products = productJPARepository.findAll().stream()
                 .map(product -> product.toDomainModel())
                 .collect(Collectors.toList());
 
@@ -81,8 +81,9 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public Product getSingleProduct(UUID id) {
-        Product product = productJPARepository.findById(id).get().toDomainModel();
-        LOGGER.info("Fetched product={} from the databse with the id={}", product, id);
+        final Product product = productJPARepository.findById(id).get().toDomainModel();
+
+        LOGGER.info("Fetched product={} from the databse with the product_id={}", product, id);
 
         return product;
     }
@@ -94,7 +95,7 @@ public class DefaultProductRepository implements ProductRepository {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.map(product, productForUpdate);
 
-        LOGGER.info("Product with the id={} has been updated.", id);
+        LOGGER.info("Product with the product_id={} has been updated.", id);
         return productJPARepository.save(productForUpdate).toDomainModel();
     }
 
@@ -102,7 +103,7 @@ public class DefaultProductRepository implements ProductRepository {
     public void deleteProduct(UUID id) {
         try {
             productJPARepository.deleteById(id);
-            LOGGER.info("Successfully deleted product with the id={}", id);
+            LOGGER.info("Successfully deleted product with the product_id={}", id);
         } catch (RuntimeException e) {
             throw new DeleteElementException(e.getMessage());
         }
@@ -110,7 +111,7 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public Product getRandomProduct() {
-        Product randomProduct =  productJPARepository.getRandomProduct().toDomainModel();
+        final Product randomProduct =  productJPARepository.getRandomProduct().toDomainModel();
 
         LOGGER.info("Fetched random product={}", randomProduct);
 
@@ -136,14 +137,14 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public void createNotificationsAfterProductExpires() {
-        ZonedDateTime currentTime = ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
+        final ZonedDateTime currentTime = ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
         List<Product> products = productJPARepository.findAllByExpirationDateTimeBetween(currentTime.minusMinutes(5), currentTime).stream()
                 .map(productEntity -> productEntity.toDomainModel())
                 .collect(Collectors.toList());
 
         products.stream()
                 .forEach(product -> {
-                    Bid bid = bidRepository.getHighestBid(product.getId());
+                    final Bid bid = bidRepository.getHighestBid(product.getId());
 
                     CreateNotificationRequest auctionWonNotification =
                             new CreateNotificationRequest(

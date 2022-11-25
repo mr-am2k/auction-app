@@ -42,44 +42,44 @@ public class DefaultBidRepository implements BidRepository {
 
     @Override
     public Bid addBid(UUID productId, double price, UUID userId) {
-        ProductEntity targetedProduct = productJPARepository.findById(productId).get();
+        final ProductEntity targetedProduct = productJPARepository.findById(productId).get();
 
         if (price <= targetedProduct.getStartPrice()) {
-            LOGGER.info("Price user entered is lower than product start price.");
+            LOGGER.info("Price user entered={} is lower than product start price={}.", price, targetedProduct.getStartPrice());
             throw new BidPriceLowerThanProductPriceException();
         }
 
         if (targetedProduct.getBidEntities().size() > 0) {
-            Double highestBidPrice;
-
-            highestBidPrice = bidJPARepository.findTopByProductIdOrderByPriceDesc(productId).getPrice();
+            final Double highestBidPrice = bidJPARepository.findTopByProductIdOrderByPriceDesc(productId).getPrice();
 
             if (price <= highestBidPrice) {
-                LOGGER.info("Price user entered={} is lower than product highest bid price={}.", price, highestBidPrice);
+                LOGGER.info("Price user entered={} is lower than product highest bid price={}", price, highestBidPrice);
                 throw new BidPriceLowerThanHighestBidPriceException();
             }
         }
 
         try {
-            BidEntity newBidEntity = new BidEntity(price, targetedProduct, userId);
+            final BidEntity newBidEntity = new BidEntity(price, targetedProduct, userId);
+
             notificationRepository.createNotification(new CreateNotificationRequest(
                     NotificationType.HIGHEST_BID_PLACED,
                     userId,
                     productId
             ));
-            Bid bid = bidJPARepository.save(newBidEntity).toDomainModel();
+
+            final Bid bid = bidJPARepository.save(newBidEntity).toDomainModel();
 
             LOGGER.info("Successfully added bid={}", bid);
 
             return bid;
-        } catch (SQLCustomException ex) {
+        } catch (RuntimeException ex) {
             throw new SQLCustomException(ex.getMessage());
         }
     }
 
     @Override
     public List<Bid> getAllBids() {
-        List<Bid> bids = bidJPARepository.findAll().stream()
+        final List<Bid> bids = bidJPARepository.findAll().stream()
                 .map(bidEntity -> bidEntity.toDomainModel())
                 .collect(Collectors.toList());
 
@@ -92,7 +92,8 @@ public class DefaultBidRepository implements BidRepository {
     public void deleteBid(UUID id) {
         try {
             bidJPARepository.deleteById(id);
-            LOGGER.info("Bid with id={} delete", id);
+
+            LOGGER.info("Bid with bid_id={} deleted.", id);
         } catch (RuntimeException ex) {
             throw new DeleteElementException(ex.getMessage());
         }
@@ -100,8 +101,10 @@ public class DefaultBidRepository implements BidRepository {
 
     @Override
     public Bid getHighestBid(UUID productId) {
-        Bid highestBid = bidJPARepository.findTopByProductIdOrderByPriceDesc(productId).toDomainModel();
-        LOGGER.info("Highest bid={}", highestBid);
+        final Bid highestBid = bidJPARepository.findTopByProductIdOrderByPriceDesc(productId).toDomainModel();
+
+        LOGGER.info("Bid with the highest price, bid={}", highestBid);
+
         return highestBid;
     }
 }
