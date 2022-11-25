@@ -35,7 +35,7 @@ const SingleProduct = () => {
       setNavbarItems([
         product.name,
         EN_STRINGS.NAVBAR.SHOP,
-        EN_STRINGS.SHOP.SINGLE_PRODUCT
+        EN_STRINGS.SHOP.SINGLE_PRODUCT,
       ]);
       setSingleProduct(product);
     } catch (error) {
@@ -95,7 +95,7 @@ const SingleProduct = () => {
 
   useEffect(() => {
     initialLoad();
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -112,9 +112,11 @@ const SingleProduct = () => {
 
   return (
     <>
-      <NotificationBar
-        notificationMessage={latestNotification?.notificationType}
-      />
+      {latestNotification && (
+        <NotificationBar
+          notificationMessage={latestNotification!.notificationType}
+        />
+      )}
 
       <div className='c-single-product'>
         <ImagePicker images={singleProduct.imageURLs} />
