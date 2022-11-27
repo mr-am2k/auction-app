@@ -33,7 +33,7 @@ public class NotificationEntity {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "creation_date_time", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name = "creation_date_time", nullable = false, columnDefinition = "timestamp with time zone")
     private ZonedDateTime creationDateTime = ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
 
     @Column(name = "message", nullable = false)

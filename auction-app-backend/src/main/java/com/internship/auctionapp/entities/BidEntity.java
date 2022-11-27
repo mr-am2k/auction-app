@@ -35,7 +35,7 @@ public class BidEntity {
     @Column(name = "price", nullable = false)
     private double price;
 
-    @Column(name = "creation_date_time", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name = "creation_date_time", nullable = false, columnDefinition = "timestamp with time zone")
     private ZonedDateTime creationDateTime = ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
 
     @ManyToOne

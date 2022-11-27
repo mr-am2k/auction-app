@@ -52,10 +52,10 @@ public class ProductEntity {
     @DecimalMin("0.5")
     private Double startPrice;
 
-    @Column(name = "creation_date_time", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name = "creation_date_time", nullable = false, columnDefinition = "timestamp with time zone")
     private ZonedDateTime creationDateTime = ZonedDateTime.now(ZoneOffset.UTC);
 
-    @Column(name = "expiration_date_time", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name = "expiration_date_time", nullable = false, columnDefinition = "timestamp with time zone")
     private ZonedDateTime expirationDateTime;
 
     @OneToMany(

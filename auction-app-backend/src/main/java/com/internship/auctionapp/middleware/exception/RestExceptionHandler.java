@@ -59,9 +59,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Bid price can't be lower or equal to the highest bid price."));
     }
 
-    @ExceptionHandler(SQLCustomException.class)
-    public ResponseEntity<Object> handleInvalidDataAccessResourceUsageException(HttpServletRequest req, SQLCustomException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_GATEWAY, ex.getMessage()));
+    @ExceptionHandler(CreateBidException.class)
+    public ResponseEntity<Object> handleCreateBidException(HttpServletRequest req, CreateBidException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_GATEWAY, "The error occurred while trying to save new bid and notification for it."));
     }
 
     @ExceptionHandler(DeleteElementException.class)

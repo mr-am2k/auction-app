@@ -6,7 +6,7 @@ import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanHighestBidPriceException;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanProductPriceException;
-import com.internship.auctionapp.middleware.exception.SQLCustomException;
+import com.internship.auctionapp.middleware.exception.CreateBidException;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
 import com.internship.auctionapp.repositories.product.ProductJPARepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
@@ -73,7 +73,7 @@ public class DefaultBidRepository implements BidRepository {
 
             return bid;
         } catch (RuntimeException ex) {
-            throw new SQLCustomException(ex.getMessage());
+            throw new CreateBidException();
         }
     }
 
