@@ -7,16 +7,16 @@ import EN_STRINGS from 'util/en_strings';
 import './terms-and-conditions.scss';
 
 const TermsAndConditions = () => {
-  const { setNavbarItems } = usePage();
+  const { setNavbarTitle, setNavbarItems } = usePage();
 
   useEffect(() => {
+    setNavbarTitle(EN_STRINGS.NAVBAR.HOME);
     setNavbarItems([
       EN_STRINGS.NAVBAR.HOME,
-      EN_STRINGS.NAVBAR.HOME,
-      EN_STRINGS.FOOTER.TERMS_AND_CONDITIONS
+      EN_STRINGS.FOOTER.TERMS_AND_CONDITIONS,
     ]);
-    window.scrollTo(0,0);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    window.scrollTo(0, 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

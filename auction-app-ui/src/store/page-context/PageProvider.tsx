@@ -10,6 +10,7 @@ type Props = {
 
 const PageProvider: React.FC<Props> = ({ children }) => {
   const location = useLocation();
+  const [navbarTitle, setNavbarTitle] = useState<string>('');
   const [navbarItems, setNavbarItems] = useState<string[]>([]);
 
   //those are three routes that shouldn't have navbar tracker, and since there is no components for them, navbarItems will be set to empty array here, later will be moved to the components, useEffect added to avoid unnecessary re-renders
@@ -23,7 +24,7 @@ const PageProvider: React.FC<Props> = ({ children }) => {
   }, [location.pathname]);
 
   return (
-    <PageContext.Provider value={{ navbarItems, setNavbarItems }}>
+    <PageContext.Provider value={{ navbarTitle, navbarItems, setNavbarTitle, setNavbarItems }}>
       {children}
     </PageContext.Provider>
   );

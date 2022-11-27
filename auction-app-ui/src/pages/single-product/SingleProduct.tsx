@@ -18,7 +18,7 @@ import EN_STRINGS from 'util/en_strings';
 import './single-product.scss';
 
 const SingleProduct = () => {
-  const { setNavbarItems } = usePage();
+  const { setNavbarTitle, setNavbarItems } = usePage();
   const { loggedInUser, isUserLoggedIn } = useUser();
   const { id } = useParams();
   const bidInputRef = useRef<HTMLInputElement>(null);
@@ -32,11 +32,8 @@ const SingleProduct = () => {
   const fetchSingleProduct = async (productId: string) => {
     try {
       const product = await productsService.getSingleProduct(productId);
-      setNavbarItems([
-        product.name,
-        EN_STRINGS.NAVBAR.SHOP,
-        EN_STRINGS.SHOP.SINGLE_PRODUCT,
-      ]);
+      setNavbarTitle(product.name);
+      setNavbarItems([EN_STRINGS.NAVBAR.SHOP, EN_STRINGS.SHOP.SINGLE_PRODUCT]);
       setSingleProduct(product);
     } catch (error) {
       console.log(error);

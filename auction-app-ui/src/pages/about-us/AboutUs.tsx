@@ -7,16 +7,13 @@ import EN_STRINGS from 'util/en_strings';
 import './about-us.scss';
 
 const AboutUs = () => {
-  const { setNavbarItems } = usePage();
+  const { setNavbarTitle, setNavbarItems } = usePage();
 
   useEffect(() => {
-    setNavbarItems([
-      EN_STRINGS.NAVBAR.HOME,
-      EN_STRINGS.NAVBAR.HOME,
-      EN_STRINGS.FOOTER.ABOUT_US
-    ]);
-    window.scrollTo(0,0);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    setNavbarTitle(EN_STRINGS.NAVBAR.HOME);
+    setNavbarItems([EN_STRINGS.NAVBAR.HOME, EN_STRINGS.FOOTER.ABOUT_US]);
+    window.scrollTo(0, 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
