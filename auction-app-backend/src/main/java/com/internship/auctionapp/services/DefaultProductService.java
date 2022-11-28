@@ -1,6 +1,6 @@
 package com.internship.auctionapp.services;
 
-import com.internship.auctionapp.middleware.exception.NoProductWithIdException;
+import com.internship.auctionapp.middleware.exception.ProductNotFoundException;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.middleware.exception.ProductExpirationDateException;
@@ -102,8 +102,8 @@ public class DefaultProductService implements ProductService {
             productRepository.deleteProduct(id);
 
             LOGGER.info("Successfully deleted product with the product_id={}", id);
-        } catch (RuntimeException e) {
-            throw new NoProductWithIdException(e.getMessage());
+        } catch (RuntimeException ex) {
+            throw new ProductNotFoundException(String.valueOf(id));
         }
     }
 
@@ -132,9 +132,9 @@ public class DefaultProductService implements ProductService {
     @Override
     public void createNotificationsAfterProductExpires() {
         final ZonedDateTime currentTime = ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
-        List<Product> products = productRepository.getProductsBetweenTwoDates(currentTime.minusMinutes(5), currentTime);
+        final List<Product> expiredProductInLastFiveMinutes = productRepository.getProductsBetweenTwoDates(currentTime.minusMinutes(5), currentTime);
 
-        products.stream()
+        expiredProductInLastFiveMinutes.stream()
                 .forEach(product -> {
                     final Bid bid = bidRepository.getHighestBid(product.getId());
 

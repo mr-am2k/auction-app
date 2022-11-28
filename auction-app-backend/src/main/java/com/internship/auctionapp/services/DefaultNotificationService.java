@@ -36,18 +36,18 @@ public class DefaultNotificationService implements NotificationService {
 
         LOGGER.info("Successfully saved notification={}", savedNotification);
 
-        if(savedNotification.getNotificationType().equalsIgnoreCase(String.valueOf(NotificationType.HIGHEST_BID_PLACED))){
+        if (NotificationType.valueOf(savedNotification.getType()) == NotificationType.HIGHEST_BID_PLACED) {
             notificationRepository.getNotificationsByProductIdForAllUsersExcept(
-                    savedNotification.getUserId(),
-                    savedNotification.getProductId()
-            ).stream()
+                            savedNotification.getUserId(),
+                            savedNotification.getProductId()
+                    ).stream()
                     .forEach(notification -> {
                         final Notification latestNotificationForUser = notificationRepository.getNotifications(
                                 notification.getUserId(),
                                 notification.getProductId()
                         );
 
-                        if(latestNotificationForUser.getNotificationType().equals(String.valueOf(NotificationType.HIGHEST_BID_PLACED))){
+                        if (NotificationType.valueOf(latestNotificationForUser.getType()) == NotificationType.HIGHEST_BID_PLACED) {
                             final CreateNotificationRequest outbidded = new CreateNotificationRequest(
                                     NotificationType.OUTBIDDED,
                                     notification.getUserId(),

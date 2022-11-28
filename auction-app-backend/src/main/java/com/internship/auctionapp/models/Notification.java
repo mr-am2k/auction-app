@@ -16,7 +16,7 @@ public class Notification {
 
     private ZonedDateTime creationDateTime;
 
-    private String notificationType;
+    private String type;
 
     private UUID userId;
 
@@ -25,7 +25,7 @@ public class Notification {
     public Notification(NotificationEntity notificationEntity){
         this.id = notificationEntity.getId();
         this.creationDateTime = notificationEntity.getCreationDateTime();
-        this.notificationType = String.valueOf(notificationEntity.getNotificationType());
+        this.type = String.valueOf(notificationEntity.getType());
         this.userId = notificationEntity.getUserId();
         this.productId = notificationEntity.getProduct().getId();
     }

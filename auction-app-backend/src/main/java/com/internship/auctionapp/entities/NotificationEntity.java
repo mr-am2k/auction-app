@@ -37,7 +37,7 @@ public class NotificationEntity {
     private ZonedDateTime creationDateTime = ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
 
     @Column(name = "message", nullable = false)
-    private NotificationType notificationType;
+    private NotificationType type;
 
     @Column(name = "user_id", nullable = false)
     private UUID userId;
@@ -48,11 +48,11 @@ public class NotificationEntity {
     private ProductEntity product;
 
     public NotificationEntity(
-            NotificationType notificationType,
+            NotificationType type,
             UUID userId,
             ProductEntity product
     ) {
-        this.notificationType = notificationType;
+        this.type = type;
         this.userId = userId;
         this.product = product;
     }
@@ -61,7 +61,7 @@ public class NotificationEntity {
         NotificationEntity notificationEntity = new NotificationEntity(
           this.id,
           this.creationDateTime,
-          this.notificationType,
+          this.type,
           this.userId,
           this.product
         );

@@ -38,7 +38,7 @@ public class DefaultNotificationRepository implements NotificationRepository {
         final ProductEntity product = productJpaRepository.findById(createNotificationRequest.getProductId()).get();
 
         final NotificationEntity notification = new NotificationEntity(
-                createNotificationRequest.getNotificationType(),
+                createNotificationRequest.getType(),
                 createNotificationRequest.getUserId(),
                 product
         );

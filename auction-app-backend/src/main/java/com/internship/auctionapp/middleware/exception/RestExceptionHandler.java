@@ -64,14 +64,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_GATEWAY, "The error occurred while trying to save new bid and notification for it."));
     }
 
-    @ExceptionHandler(NoBidWithIdException.class)
-    public ResponseEntity<Object> handleNoBidWithIdException(HttpServletRequest req, NoBidWithIdException ex){
-        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage()));
+    @ExceptionHandler(BidNotFoundException.class)
+    public ResponseEntity<Object> handleBidNotFoundException(HttpServletRequest req, BidNotFoundException ex){
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no bid with id: " + ex.getMessage()));
     }
 
-    @ExceptionHandler(NoProductWithIdException.class)
-    public ResponseEntity<Object> handleNoProductWithIdException(HttpServletRequest req, NoProductWithIdException ex){
-        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage()));
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<Object> handleProductNoFound(HttpServletRequest req, ProductNotFoundException ex){
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no product with id:" + ex.getMessage()));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {

@@ -3,7 +3,7 @@ package com.internship.auctionapp.services;
 import com.internship.auctionapp.middleware.exception.BidCreationFailedException;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanHighestBidPriceException;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanProductPriceException;
-import com.internship.auctionapp.middleware.exception.NoBidWithIdException;
+import com.internship.auctionapp.middleware.exception.BidNotFoundException;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
@@ -26,18 +26,17 @@ public class DefaultBidService implements BidService {
 
     private final ProductRepository productRepository;
 
-    private final NotificationRepository notificationRepository;
+    private final NotificationService notificationService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
 
     public DefaultBidService(
             BidRepository bidRepository,
             ProductRepository productRepository,
-            NotificationRepository notificationRepository
-    ) {
+            NotificationService notificationService) {
         this.bidRepository = bidRepository;
         this.productRepository = productRepository;
-        this.notificationRepository = notificationRepository;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -53,13 +52,13 @@ public class DefaultBidService implements BidService {
             final Double highestBidPrice = bidRepository.getHighestBid(createBidRequest.getProductId()).getBidPrice();
 
             if (createBidRequest.getPrice() <= highestBidPrice) {
-                LOGGER.info("Price user entered={} is lower than product highest bid price={}", createBidRequest.getPrice(), highestBidPrice);
+                LOGGER.info("Bid price={} is lower than product highest bid price={}", createBidRequest.getPrice(), highestBidPrice);
                 throw new BidPriceLowerThanHighestBidPriceException();
             }
         }
 
         try {
-            notificationRepository.createNotification(new CreateNotificationRequest(
+            notificationService.createNotification(new CreateNotificationRequest(
                     NotificationType.HIGHEST_BID_PLACED,
                     createBidRequest.getUserId(),
                     createBidRequest.getProductId()
@@ -91,7 +90,7 @@ public class DefaultBidService implements BidService {
 
             LOGGER.info("Deleted bid, with id={}", id);
         } catch (RuntimeException ex) {
-            throw new NoBidWithIdException(ex.getMessage());
+            throw new BidNotFoundException(String.valueOf(id));
         }
     }
 

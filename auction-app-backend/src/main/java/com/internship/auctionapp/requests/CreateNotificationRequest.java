@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CreateNotificationRequest {
 
-    private NotificationType notificationType;
+    private NotificationType type;
 
     private UUID userId;
 
