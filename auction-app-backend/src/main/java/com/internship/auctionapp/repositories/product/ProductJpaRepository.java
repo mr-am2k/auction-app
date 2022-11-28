@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface ProductJPARepository extends JpaRepository<ProductEntity, UUID> {
+public interface ProductJpaRepository extends JpaRepository<ProductEntity, UUID> {
 
     @Query(
             value = "SELECT * FROM products ORDER BY random() LIMIT 1",

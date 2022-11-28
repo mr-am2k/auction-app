@@ -3,7 +3,7 @@ package com.internship.auctionapp.repositories.notification;
 import com.internship.auctionapp.models.Notification;
 import com.internship.auctionapp.entities.NotificationEntity;
 import com.internship.auctionapp.entities.ProductEntity;
-import com.internship.auctionapp.repositories.product.ProductJPARepository;
+import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.util.NotificationType;
 import org.slf4j.Logger;
@@ -17,15 +17,15 @@ import java.util.stream.Collectors;
 @Repository
 public class DefaultNotificationRepository implements NotificationRepository {
 
-    private final NotificationJPARepository notificationJPARepository;
+    private final NotificationJpaRepository notificationJPARepository;
 
-    private final ProductJPARepository productJPARepository;
+    private final ProductJpaRepository productJPARepository;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultNotificationRepository.class);
 
     public DefaultNotificationRepository(
-            NotificationJPARepository notificationJPARepository,
-            ProductJPARepository productJPARepository
+            NotificationJpaRepository notificationJPARepository,
+            ProductJpaRepository productJPARepository
     ) {
         this.notificationJPARepository = notificationJPARepository;
         this.productJPARepository = productJPARepository;

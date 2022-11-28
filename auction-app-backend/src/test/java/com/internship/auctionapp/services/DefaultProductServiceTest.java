@@ -2,7 +2,7 @@ package com.internship.auctionapp.services;
 
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
-import com.internship.auctionapp.repositories.product.ProductJPARepository;
+import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -25,7 +25,7 @@ class DefaultProductServiceTest {
     private ProductService productService;
 
     @MockBean
-    private ProductJPARepository productJPARepository;
+    private ProductJpaRepository productJPARepository;
 
     private List<String> IMAGES = List.of("https://underarmour.scene7.com/is/image/Underarmour/PS1306443-001_HF?rp=" +
                     "standard-0pad|pdpMainDesktop&scl=1&fmt=jpg&qlt=85&resMode=sharp2&" +

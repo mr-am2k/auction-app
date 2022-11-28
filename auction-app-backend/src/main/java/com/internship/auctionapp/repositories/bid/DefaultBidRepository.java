@@ -1,14 +1,14 @@
 package com.internship.auctionapp.repositories.bid;
 
-import com.internship.auctionapp.middleware.exception.DeleteElementException;
+import com.internship.auctionapp.middleware.exception.NoBidWithIdException;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanHighestBidPriceException;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanProductPriceException;
-import com.internship.auctionapp.middleware.exception.CreateBidException;
+import com.internship.auctionapp.middleware.exception.BidCreationFailedException;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
-import com.internship.auctionapp.repositories.product.ProductJPARepository;
+import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.util.NotificationType;
 import org.slf4j.Logger;
@@ -22,17 +22,17 @@ import java.util.stream.Collectors;
 @Repository
 public class DefaultBidRepository implements BidRepository {
 
-    private final ProductJPARepository productJPARepository;
+    private final ProductJpaRepository productJPARepository;
 
-    private final BidJPARepository bidJPARepository;
+    private final BidJpaRepository bidJPARepository;
 
     private final NotificationRepository notificationRepository;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidRepository.class);
 
     public DefaultBidRepository(
-            ProductJPARepository productJPARepository,
-            BidJPARepository bidJPARepository,
+            ProductJpaRepository productJPARepository,
+            BidJpaRepository bidJPARepository,
             NotificationRepository notificationRepository
     ) {
         this.productJPARepository = productJPARepository;
@@ -49,7 +49,7 @@ public class DefaultBidRepository implements BidRepository {
             throw new BidPriceLowerThanProductPriceException();
         }
 
-        if (targetedProduct.getBidEntities().size() > 0) {
+        if (!targetedProduct.getBidEntities().isEmpty()) {
             final Double highestBidPrice = bidJPARepository.findTopByProductIdOrderByPriceDesc(productId).getPrice();
 
             if (price <= highestBidPrice) {
@@ -73,7 +73,7 @@ public class DefaultBidRepository implements BidRepository {
 
             return bid;
         } catch (RuntimeException ex) {
-            throw new CreateBidException();
+            throw new BidCreationFailedException();
         }
     }
 
@@ -95,7 +95,7 @@ public class DefaultBidRepository implements BidRepository {
 
             LOGGER.info("Bid with bid_id={} deleted.", id);
         } catch (RuntimeException ex) {
-            throw new DeleteElementException(ex.getMessage());
+            throw new NoBidWithIdException(String.valueOf(id));
         }
     }
 
@@ -103,7 +103,7 @@ public class DefaultBidRepository implements BidRepository {
     public Bid getHighestBid(UUID productId) {
         final Bid highestBid = bidJPARepository.findTopByProductIdOrderByPriceDesc(productId).toDomainModel();
 
-        LOGGER.info("Bid with the highest price, bid={}", highestBid);
+        LOGGER.info("Fetched bid with the highest price, bid={}", highestBid);
 
         return highestBid;
     }

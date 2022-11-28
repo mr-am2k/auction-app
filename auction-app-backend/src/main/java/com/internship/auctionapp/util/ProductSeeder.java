@@ -1,7 +1,7 @@
 package com.internship.auctionapp.util;
 
 import com.internship.auctionapp.entities.ProductEntity;
-import com.internship.auctionapp.repositories.product.ProductJPARepository;
+import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ import java.util.UUID;
 @Component
 public class ProductSeeder implements CommandLineRunner {
 
-    final ProductJPARepository productRepository;
+    final ProductJpaRepository productRepository;
 
     String PRODUCT_DESCRIPTION = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
             "Vestibulum hendrerit odio a erat lobortis auctor. " +
@@ -25,7 +25,7 @@ public class ProductSeeder implements CommandLineRunner {
 
     String USER_2_ID = "c7c99f3b-2a74-49b5-9552-8dd2d57c1234";
 
-    public ProductSeeder(ProductJPARepository productRepository) {
+    public ProductSeeder(ProductJpaRepository productRepository) {
         this.productRepository = productRepository;
     }
 

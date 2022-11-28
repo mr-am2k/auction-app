@@ -1,6 +1,7 @@
 package com.internship.auctionapp.repositories.product;
 
-import com.internship.auctionapp.middleware.exception.DeleteElementException;
+import com.internship.auctionapp.middleware.exception.NoBidWithIdException;
+import com.internship.auctionapp.middleware.exception.NoProductWithIdException;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class DefaultProductRepository implements ProductRepository {
-    private final ProductJPARepository productJPARepository;
+    private final ProductJpaRepository productJPARepository;
 
     private final BidRepository bidRepository;
 
@@ -44,7 +45,7 @@ public class DefaultProductRepository implements ProductRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
 
-    public DefaultProductRepository(ProductJPARepository productJPARepository, BidRepository bidRepository, NotificationRepository notificationRepository) {
+    public DefaultProductRepository(ProductJpaRepository productJPARepository, BidRepository bidRepository, NotificationRepository notificationRepository) {
         this.productJPARepository = productJPARepository;
         this.bidRepository = bidRepository;
         this.notificationRepository = notificationRepository;
@@ -105,7 +106,7 @@ public class DefaultProductRepository implements ProductRepository {
             productJPARepository.deleteById(id);
             LOGGER.info("Successfully deleted product with the product_id={}", id);
         } catch (RuntimeException e) {
-            throw new DeleteElementException(e.getMessage());
+            throw new NoProductWithIdException(e.getMessage());
         }
     }
 

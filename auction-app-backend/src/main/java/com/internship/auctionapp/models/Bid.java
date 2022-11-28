@@ -12,7 +12,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Bid {
-
     private UUID id;
 
     private double bidPrice;

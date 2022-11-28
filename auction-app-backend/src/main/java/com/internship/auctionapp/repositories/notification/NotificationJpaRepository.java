@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.UUID;
 
-public interface NotificationJPARepository extends JpaRepository<NotificationEntity, UUID> {
+public interface NotificationJpaRepository extends JpaRepository<NotificationEntity, UUID> {
     List<NotificationEntity> findDistinctByUserIdNotAndProductId(
             @Param("userId") UUID userId,
             @Param("productId") UUID productId

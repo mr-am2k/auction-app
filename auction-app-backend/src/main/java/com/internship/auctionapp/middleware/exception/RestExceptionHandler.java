@@ -59,14 +59,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Bid price can't be lower or equal to the highest bid price."));
     }
 
-    @ExceptionHandler(CreateBidException.class)
-    public ResponseEntity<Object> handleCreateBidException(HttpServletRequest req, CreateBidException ex) {
+    @ExceptionHandler(BidCreationFailedException.class)
+    public ResponseEntity<Object> handleCreateBidException(HttpServletRequest req, BidCreationFailedException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_GATEWAY, "The error occurred while trying to save new bid and notification for it."));
     }
 
-    @ExceptionHandler(DeleteElementException.class)
-    public ResponseEntity<Object> handleDeleteElementException(HttpServletRequest req, DeleteElementException ex){
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
+    @ExceptionHandler(NoBidWithIdException.class)
+    public ResponseEntity<Object> handleNoBidWithIdException(HttpServletRequest req, NoBidWithIdException ex){
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage()));
+    }
+
+    @ExceptionHandler(NoProductWithIdException.class)
+    public ResponseEntity<Object> handleNoProductWithIdException(HttpServletRequest req, NoProductWithIdException ex){
+        String message = "There is no product with id: " + ex.getMessage();
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage()));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
