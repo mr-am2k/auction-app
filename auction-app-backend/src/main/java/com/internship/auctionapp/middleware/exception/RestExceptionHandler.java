@@ -71,7 +71,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NoProductWithIdException.class)
     public ResponseEntity<Object> handleNoProductWithIdException(HttpServletRequest req, NoProductWithIdException ex){
-        String message = "There is no product with id: " + ex.getMessage();
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage()));
     }
 

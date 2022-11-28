@@ -23,7 +23,7 @@ public class Product {
 
     private List<String> imageURLs;
 
-    private double price;
+    private double startPrice;
 
     private ZonedDateTime creationDateTime;
 
@@ -40,7 +40,7 @@ public class Product {
         this.name = productEntity.getName();
         this.description = productEntity.getDescription();
         this.imageURLs = productEntity.getImageURLs();
-        this.price = productEntity.getStartPrice();
+        this.startPrice = productEntity.getStartPrice();
         this.creationDateTime = productEntity.getCreationDateTime();
         this.expirationDateTime = productEntity.getExpirationDateTime();
         this.bids = bids;
