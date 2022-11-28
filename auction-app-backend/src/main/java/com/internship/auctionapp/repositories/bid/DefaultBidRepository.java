@@ -14,44 +14,44 @@ import java.util.stream.Collectors;
 @Repository
 public class DefaultBidRepository implements BidRepository {
 
-    private final ProductJpaRepository productJPARepository;
+    private final ProductJpaRepository productJpaRepository;
 
-    private final BidJpaRepository bidJPARepository;
+    private final BidJpaRepository bidJpaRepository;
 
     public DefaultBidRepository(
-            ProductJpaRepository productJPARepository,
-            BidJpaRepository bidJPARepository
+            ProductJpaRepository productJpaRepository,
+            BidJpaRepository bidJpaRepository
     ) {
-        this.productJPARepository = productJPARepository;
-        this.bidJPARepository = bidJPARepository;
+        this.productJpaRepository = productJpaRepository;
+        this.bidJpaRepository = bidJpaRepository;
     }
 
     @Override
     public Bid addBid(CreateBidRequest createBidRequest) {
-        final ProductEntity targetedProduct = productJPARepository.findById(createBidRequest.getProductId()).get();
+        final ProductEntity targetedProduct = productJpaRepository.findById(createBidRequest.getProductId()).get();
         final BidEntity newBidEntity = new BidEntity(
                 createBidRequest.getPrice(),
                 targetedProduct,
                 createBidRequest.getUserId()
         );
 
-        return bidJPARepository.save(newBidEntity).toDomainModel();
+        return bidJpaRepository.save(newBidEntity).toDomainModel();
     }
 
     @Override
     public List<Bid> getAllBids() {
-        return bidJPARepository.findAll().stream()
+        return bidJpaRepository.findAll().stream()
                 .map(bidEntity -> bidEntity.toDomainModel())
                 .collect(Collectors.toList());
     }
 
     @Override
     public void deleteBid(UUID id) {
-        bidJPARepository.deleteById(id);
+        bidJpaRepository.deleteById(id);
     }
 
     @Override
     public Bid getHighestBid(UUID productId) {
-        return bidJPARepository.findTopByProductIdOrderByPriceDesc(productId).toDomainModel();
+        return bidJpaRepository.findTopByProductIdOrderByPriceDesc(productId).toDomainModel();
     }
 }

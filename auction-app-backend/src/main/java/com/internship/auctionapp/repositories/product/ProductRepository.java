@@ -4,6 +4,7 @@ import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -22,9 +23,7 @@ public interface ProductRepository {
 
     Product getRandomProduct();
 
-    Page<Product> getProductsByCriteria(String criteria);
+    Page<Product> getProductsByCriteria(Pageable page);
 
     List<Product> getProductsBetweenTwoDates(ZonedDateTime startDate, ZonedDateTime endDate);
-
-    void createNotificationsAfterProductExpires();
 }

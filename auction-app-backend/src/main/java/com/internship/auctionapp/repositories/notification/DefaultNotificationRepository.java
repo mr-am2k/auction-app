@@ -14,28 +14,28 @@ import java.util.stream.Collectors;
 @Repository
 public class DefaultNotificationRepository implements NotificationRepository {
 
-    private final NotificationJpaRepository notificationJPARepository;
+    private final NotificationJpaRepository notificationJpaRepository;
 
-    private final ProductJpaRepository productJPARepository;
+    private final ProductJpaRepository productJpaRepository;
 
     public DefaultNotificationRepository(
-            NotificationJpaRepository notificationJPARepository,
-            ProductJpaRepository productJPARepository
+            NotificationJpaRepository notificationJpaRepository,
+            ProductJpaRepository productJpaRepository
     ) {
-        this.notificationJPARepository = notificationJPARepository;
-        this.productJPARepository = productJPARepository;
+        this.notificationJpaRepository = notificationJpaRepository;
+        this.productJpaRepository = productJpaRepository;
     }
 
     @Override
     public List<Notification> getAllNotifications() {
-        return notificationJPARepository.findAll().stream()
+        return notificationJpaRepository.findAll().stream()
                 .map(notificationEntity -> notificationEntity.toDomainModel())
                 .collect(Collectors.toList());
     }
 
     @Override
     public Notification createNotification(CreateNotificationRequest createNotificationRequest) {
-        final ProductEntity product = productJPARepository.findById(createNotificationRequest.getProductId()).get();
+        final ProductEntity product = productJpaRepository.findById(createNotificationRequest.getProductId()).get();
 
         final NotificationEntity notification = new NotificationEntity(
                 createNotificationRequest.getNotificationType(),
@@ -43,16 +43,16 @@ public class DefaultNotificationRepository implements NotificationRepository {
                 product
         );
 
-        return notificationJPARepository.save(notification).toDomainModel();
+        return notificationJpaRepository.save(notification).toDomainModel();
     }
 
     @Override
     public Notification getNotifications(UUID userId, UUID productId) {
-        return notificationJPARepository.findTopByUserIdAndProductIdOrderByCreationDateTimeDesc(userId, productId).toDomainModel();
+        return notificationJpaRepository.findTopByUserIdAndProductIdOrderByCreationDateTimeDesc(userId, productId).toDomainModel();
     }
 
     public List<Notification> getNotificationsByProductIdForAllUsersExcept(UUID userId, UUID productId) {
-        return notificationJPARepository.findDistinctByUserIdNotAndProductId(userId, productId).stream()
+        return notificationJpaRepository.findDistinctByUserIdNotAndProductId(userId, productId).stream()
                 .map(notificationEntity -> notificationEntity.toDomainModel())
                 .collect(Collectors.toList());
     }

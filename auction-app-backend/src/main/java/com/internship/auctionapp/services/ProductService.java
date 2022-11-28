@@ -22,4 +22,6 @@ public interface ProductService {
     Product getRandomProduct();
 
     Page<Product> getProductsByCriteria(String criteria);
+
+    void createNotificationsAfterProductExpires();
 }
