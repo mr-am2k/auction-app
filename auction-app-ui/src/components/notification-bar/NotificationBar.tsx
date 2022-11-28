@@ -21,24 +21,6 @@ const NotificationBar: React.FC<Props> = ({ notificationMessage }) => {
       <div className={SCSS_NOTIFICATION_CLASSES[classesKey]}>
         <p>{EN_STRINGS.NOTIFICATION_BAR[enumKey]}</p>
       </div>
-
-      {/* {notificationMessage === NOTIFICATION_TYPE.OUTBIDDED && (
-        <div className={SCSS_NOTIFICATION_CLASSES.OUTBIDDED}>
-          <p>{EN_STRINGS.NOTIFICATION_BAR.OUTBIDDED}</p>
-        </div>
-      )}
-
-      {notificationMessage === NOTIFICATION_TYPE.AUCTION_WON && (
-        <div className={SCSS_NOTIFICATION_CLASSES.AUCTION_FINISHED}>
-          <p>{EN_STRINGS.NOTIFICATION_BAR.AUCTION_WON}</p>
-        </div>
-      )}
-
-      {notificationMessage === NOTIFICATION_TYPE.AUCTION_LOST && (
-        <div className={SCSS_NOTIFICATION_CLASSES.AUCTION_FINISHED}>
-          <p>{EN_STRINGS.NOTIFICATION_BAR.AUCTION_LOST}</p>
-        </div>
-      )} */}
     </>
   );
 };

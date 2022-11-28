@@ -77,12 +77,10 @@ const SingleProduct = () => {
       });
   };
 
-  const getLatestNotification = async (userId: string, productId: string) => {
-    const notification = await notificationService.getLatestNotification(
-      userId,
-      productId
-    );
-    setLatestNotification(notification);
+  const getLatestNotification = (userId: string, productId: string) => {
+    notificationService
+      .getLatestNotification(userId, productId)
+      .then((latestNotification) => setLatestNotification(latestNotification));
   };
 
   const initialLoad = async () => {
@@ -129,15 +127,15 @@ const SingleProduct = () => {
             {highestBid ? (
               <div className='c-bid-info'>
                 <p>
-                  {EN_STRINGS.SINGLE_PRODUCT.HIGHEST_BID}:{' '}
+                  {`${EN_STRINGS.SINGLE_PRODUCT.HIGHEST_BID}: `}
                   <span>${highestBid}</span>
                 </p>
                 <p>
-                  {EN_STRINGS.SINGLE_PRODUCT.NUMBER_OF_BIDS}:{' '}
+                  {`${EN_STRINGS.SINGLE_PRODUCT.NUMBER_OF_BIDS}: `}
                   <span>{singleProduct.bids.length}</span>
                 </p>
                 <p>
-                  {EN_STRINGS.SINGLE_PRODUCT.TIME_LEFT}:{' '}
+                  {`${EN_STRINGS.SINGLE_PRODUCT.TIME_LEFT}: `}
                   <span>{singleProduct.remainingTime}</span>
                 </p>
               </div>
