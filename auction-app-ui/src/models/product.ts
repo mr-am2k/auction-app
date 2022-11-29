@@ -5,7 +5,7 @@ export type Product = {
     name: string;
     description: string;
     imageURLs: string[];
-    price: number;
+    startPrice: number;
     creationDateTime: Date;
     expirationDateTime: Date;
     bids: Bid[];

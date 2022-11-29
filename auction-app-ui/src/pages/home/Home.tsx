@@ -94,7 +94,7 @@ const Home = () => {
             <div className='c-info'>
               <h1>{randomProduct?.name}</h1>
               <h1 className='c-price'>
-                {EN_STRINGS.HOME.START_FROM} ${randomProduct?.price}
+                {EN_STRINGS.HOME.START_FROM} ${randomProduct?.startPrice}
               </h1>
 
               <p>{randomProduct?.description}</p>
