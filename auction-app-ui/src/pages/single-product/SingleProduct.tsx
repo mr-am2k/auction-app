@@ -119,7 +119,7 @@ const SingleProduct = () => {
         <div className='c-product-info'>
           <h1>{singleProduct?.name}</h1>
           <p>
-            {EN_STRINGS.SINGLE_PRODUCT.STARTS_FROM}:{' '}
+            {`${EN_STRINGS.SINGLE_PRODUCT.STARTS_FROM}: `}
             <span>${singleProduct?.price}</span>
           </p>
 
@@ -159,9 +159,7 @@ const SingleProduct = () => {
               <div className='c-bid-error'>
                 <p>{bidInputError}</p>
               </div>
-            ) : (
-              ''
-            )}
+            ) : ('')}
           </div>
 
           <div className='c-details'>
