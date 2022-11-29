@@ -109,7 +109,7 @@ const SingleProduct = () => {
     <>
       {latestNotification && (
         <NotificationBar
-          notificationMessage={latestNotification!.notificationType}
+          notificationMessage={latestNotification!.type}
         />
       )}
 

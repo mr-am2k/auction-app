@@ -1,7 +1,7 @@
 export type Notification = {
     id: string;
     creationDateTime: Date;
-    notificationType: string;
+    type: string;
     userId: string;
     productId: string;
 }
