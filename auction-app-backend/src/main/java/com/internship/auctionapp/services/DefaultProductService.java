@@ -31,7 +31,8 @@ import java.util.UUID;
 @Service
 public class DefaultProductService implements ProductService {
     @Value("${scheduler.auction_finished_delay}")
-    private String delayTime;
+    private String auctionFinishedDelayTime;
+
     private final ProductRepository productRepository;
 
     private final BidRepository bidRepository;
@@ -131,12 +132,12 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public void createNotificationsAfterProductExpires() {
-        Integer startTime = Integer.valueOf(delayTime);
+        Integer startTime = Integer.valueOf(auctionFinishedDelayTime);
 
         final ZonedDateTime currentTime = ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
-        final List<Product> expiredProductInBetween = productRepository.getProductsBetweenTwoDates(currentTime.minus(Duration.ofMillis(startTime)), currentTime);
+        final List<Product> products = productRepository.getProductsBetweenTwoDates(currentTime.minus(Duration.ofMillis(startTime)), currentTime);
 
-        expiredProductInBetween.stream()
+        products.stream()
                 .forEach(product -> {
                     createNotificationOnAuctionFinish(product);
                 });
