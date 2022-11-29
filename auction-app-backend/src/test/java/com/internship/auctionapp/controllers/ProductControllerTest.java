@@ -1,6 +1,6 @@
 package com.internship.auctionapp.controllers;
 
-import com.internship.auctionapp.domainmodels.Product;
+import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.services.ProductService;
@@ -11,12 +11,12 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -61,8 +61,8 @@ class ProductControllerTest {
         SEND_PRODUCT = CreateProductRequest.builder().
                 name("Shirt")
                 .description("Black shirt")
-                .imageURL(IMAGES)
-                .price(52.20)
+                .imageURLs(IMAGES)
+                .startPrice(52.20)
                 .expirationDateTime(LocalDateTime.now())
                 .build();
 
@@ -70,10 +70,10 @@ class ProductControllerTest {
                 .id(PRODUCT_ID)
                 .name("Shirt")
                 .description("Black shirt")
-                .imageURL(IMAGES)
+                .imageURLs(IMAGES)
                 .price(52.20)
-                .creationDateTime(LocalDateTime.now())
-                .expirationDateTime(LocalDateTime.now())
+                .creationDateTime(ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC))
+                .expirationDateTime(ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC))
                 .bids(new ArrayList<>())
                 .remainingTime("expired")
                 .build();
@@ -82,20 +82,22 @@ class ProductControllerTest {
                 .id(PRODUCT_ID)
                 .name("Shirt")
                 .description("Black shirt")
-                .imageURL(IMAGES)
-                .price(52.20)
-                .creationDateTime(LocalDateTime.now())
-                .expirationDateTime(LocalDateTime.now())
+                .imageURLs(IMAGES)
+                .startPrice(52.20)
+                .creationDateTime(ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC))
+                .expirationDateTime(ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC))
                 .build();
 
         PRODUCT_2 = ProductEntity.builder()
                 .id(PRODUCT_ID)
                 .name("Shoes")
                 .description("Black shoes")
-                .imageURL(IMAGES)
-                .price(75.20)
-                .creationDateTime(LocalDateTime.of(2022, 12, 12, 12, 12, 12))
-                .expirationDateTime(LocalDateTime.of(2023, 1, 1, 1, 1, 1))
+                .imageURLs(IMAGES)
+                .startPrice(75.20)
+                .creationDateTime(ZonedDateTime.of(
+                        LocalDateTime.of(2022, 12, 12, 12, 12, 12), ZoneOffset.UTC))
+                .expirationDateTime(ZonedDateTime.of(
+                        LocalDateTime.of(2023, 1, 1, 1, 1, 1), ZoneOffset.UTC))
                 .build();
     }
 

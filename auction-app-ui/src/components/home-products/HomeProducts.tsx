@@ -18,13 +18,13 @@ const HomeProducts: React.FC<Props> = ({ product }) => {
       {product.map((item, index: number) => (
         <div className='c-item' key={index}>
           <Link to={`/${ROUTES.PRODUCT}/${item.id}`}>
-            <img src={item.imageURL[0]} alt={item.name} />
+            <img src={item.imageURLs[0]} alt={item.name} />
           </Link>
           <Link to={`/${ROUTES.PRODUCT}/${item.id}`}>
             <h3>{item.name}</h3>
           </Link>
           <p>
-            {EN_STRINGS['HomeProducts.StartFrom']}: {<span>${item.price}</span>}
+            {EN_STRINGS.HOME.START_FROM}: {<span>${item.price}</span>}
           </p>
         </div>
       ))}

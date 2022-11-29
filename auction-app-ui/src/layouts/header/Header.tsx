@@ -30,11 +30,11 @@ const Header = () => {
         {!isLoggedIn && (
           <>
             <Link to={`/${ROUTES.LOGIN}`} className='c-header-link-item'>
-              {EN_STRINGS['Header.Login']}
+              {EN_STRINGS.HEADER.LOGIN}
             </Link>
             <span>or</span>
             <Link to={`/${ROUTES.REGISTER}`} className='c-header-link-item'>
-              {EN_STRINGS['Header.CreateAccount']}
+              {EN_STRINGS.HEADER.CREATE_ACCOUNT}
             </Link>
           </>
         )}

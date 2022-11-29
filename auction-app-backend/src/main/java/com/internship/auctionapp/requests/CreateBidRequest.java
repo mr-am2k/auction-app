@@ -11,7 +11,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CreateBidRequest {
 
-    private double bidPrice;
+    private double price;
 
     private UUID productId;
+
+    private UUID userId;
 }

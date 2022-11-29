@@ -1,6 +1,6 @@
 package com.internship.auctionapp.controllers;
 
-import com.internship.auctionapp.domainmodels.Product;
+import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.services.ProductService;
@@ -29,7 +29,7 @@ public class ProductController {
     }
 
     @GetMapping()
-    public List<Product> getAllProducts() throws Exception {
+    public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
 
@@ -39,7 +39,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ProductEntity updateProduct(@PathVariable("id") UUID id, @RequestBody ProductEntity product) {
+    public Product updateProduct(@PathVariable("id") UUID id, @RequestBody ProductEntity product) {
         return productService.updateProduct(id, product);
     }
 

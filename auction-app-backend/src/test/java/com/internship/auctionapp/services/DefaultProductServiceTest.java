@@ -1,8 +1,8 @@
 package com.internship.auctionapp.services;
 
-import com.internship.auctionapp.domainmodels.Product;
+import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
-import com.internship.auctionapp.repositories.ProductRepository;
+import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,7 +25,7 @@ class DefaultProductServiceTest {
     private ProductService productService;
 
     @MockBean
-    private ProductRepository productRepository;
+    private ProductJpaRepository productJPARepository;
 
     private List<String> IMAGES = List.of("https://underarmour.scene7.com/is/image/Underarmour/PS1306443-001_HF?rp=" +
                     "standard-0pad|pdpMainDesktop&scl=1&fmt=jpg&qlt=85&resMode=sharp2&" +
@@ -41,13 +43,13 @@ class DefaultProductServiceTest {
                 .id(PRODUCT_ID)
                 .name("Shirt")
                 .description("Black shirt")
-                .imageURL(IMAGES)
-                .price(52.20)
-                .creationDateTime(LocalDateTime.now())
-                .expirationDateTime(LocalDateTime.now())
+                .imageURLs(IMAGES)
+                .startPrice(52.20)
+                .creationDateTime(ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC))
+                .expirationDateTime(ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC))
                 .build();
-        Mockito.when(productRepository.findById(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).thenReturn(Optional.of(product));
-        Mockito.when(productRepository.getRandomProduct()).thenReturn(product);
+        Mockito.when(productJPARepository.findById(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).thenReturn(Optional.of(product));
+        Mockito.when(productJPARepository.getRandomProduct()).thenReturn(product);
     }
 
     @Test
@@ -62,7 +64,7 @@ class DefaultProductServiceTest {
         assertEquals(PRODUCT_ID, wantedProduct.getId());
         assertEquals(name, wantedProduct.getName());
         assertEquals(description, wantedProduct.getDescription());
-        assertEquals(imageURL, wantedProduct.getImageURL());
+        assertEquals(imageURL, wantedProduct.getImageURLs());
         assertEquals(price, wantedProduct.getPrice());
     }
 
@@ -78,7 +80,7 @@ class DefaultProductServiceTest {
         assertEquals(PRODUCT_ID, wantedProduct.getId());
         assertEquals(name, wantedProduct.getName());
         assertEquals(description, wantedProduct.getDescription());
-        assertEquals(imageURL, wantedProduct.getImageURL());
+        assertEquals(imageURL, wantedProduct.getImageURLs());
         assertEquals(price, wantedProduct.getPrice());
     }
 }

@@ -2,17 +2,16 @@ import { useState } from 'react';
 
 import UserContext from './user-context';
 import { User } from 'models/user';
-import isEmptyObject from 'util/isEmptyObject';
 
 type Props = {
   children?: React.ReactNode;
 };
 
 const UserProvider: React.FC<Props> = ({ children }) => {
-  const [loggedInUser, setLoggedInUser] = useState<User | {}>({}); //used for demonstration, because logic for login/register is not yet implemented
+  const [loggedInUser, setLoggedInUser] = useState<User | undefined>(); //used for demonstration, because logic for login/register is not yet implemented
 
   const isUserLoggedIn = () => {
-    if (isEmptyObject(loggedInUser)) {
+    if (loggedInUser) {
       return true;
     }
     return false;

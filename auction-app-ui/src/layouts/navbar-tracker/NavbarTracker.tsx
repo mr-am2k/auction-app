@@ -5,7 +5,7 @@ import { ArrowIcon } from 'assets/icons';
 import './navbar-tracker.scss';
 
 const NavbarTracker = () => {
-  const { navbarItems } = usePage();
+  const { navbarTitle, navbarItems } = usePage();
 
   if (!navbarItems.length) {
     return <div className='c-empty-div'></div>;
@@ -22,7 +22,7 @@ const NavbarTracker = () => {
       );
     }
 
-    if (index > 1 && index < navbarItems.length) {
+    if (index > 0 && index < navbarItems.length) {
       return (
         <span key={index} className='c-path-item'>
           <ArrowIcon />
@@ -34,10 +34,10 @@ const NavbarTracker = () => {
 
   return (
     <div className='c-navbar-tracker'>
-      <div className='c-current-page'>{navbarItems[0]}</div>
+      <div className='c-current-page'>{navbarTitle}</div>
       <div className='c-page-path'>
         <>
-          <span className='c-path-item'>{navbarItems[1]}</span>
+          <span className='c-path-item'>{navbarItems[0]}</span>
           {listOfPaths}
         </>
       </div>

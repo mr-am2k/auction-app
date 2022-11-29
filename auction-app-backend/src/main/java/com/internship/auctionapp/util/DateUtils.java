@@ -1,11 +1,13 @@
 package com.internship.auctionapp.util;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class DateUtils {
-    //#TODO improve this in the future
-    public static String calculateDateDiffVerbose(LocalDateTime dateFrom, LocalDateTime dateTo) {
+    // TODO: improve this in the future
+    public static String calculateDateDiffVerbose(ZonedDateTime dateFrom, ZonedDateTime dateTo) {
 
         long dateDiffInDays = ChronoUnit.DAYS.between(dateFrom, dateTo);
         long dateDiffInHours = ChronoUnit.HOURS.between(dateFrom, dateTo);
@@ -62,8 +64,8 @@ public class DateUtils {
         return "-1";
     }
 
-    public static String calculateDateDiffVerbose(LocalDateTime dateTo) {
-        return calculateDateDiffVerbose(LocalDateTime.now(), dateTo);
+    public static String calculateDateDiffVerbose(ZonedDateTime dateTo) {
+        return calculateDateDiffVerbose(ZonedDateTime.now(ZoneOffset.UTC), dateTo);
     }
 
     public static boolean isInPast(LocalDateTime dateFrom, LocalDateTime dateTo) {

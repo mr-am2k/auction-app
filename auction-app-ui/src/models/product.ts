@@ -4,11 +4,12 @@ export type Product = {
     id: string;
     name: string;
     description: string;
-    imageURL: string[];
+    imageURLs: string[];
     price: number;
     creationDateTime: Date;
     expirationDateTime: Date;
     bids: Bid[];
     remainingTime: string
+    userId: string;
 }
 

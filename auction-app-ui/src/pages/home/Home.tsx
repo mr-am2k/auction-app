@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { usePage } from 'hooks/usePage';
-import { useUser } from 'hooks/useUser';
 
 import productsService from 'services/productService';
 
@@ -29,7 +28,6 @@ const DUMMY_CATEGORIES = [
 ];
 
 const Home = () => {
-  const { setLoggedInUser } = useUser();
   const { setNavbarItems } = usePage();
   const [randomProduct, setRandomProduct] = useState<Product>();
   const [lastChanceProducts, setLastChanceProducts] = useState<Product[]>([]);
@@ -76,17 +74,11 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //used for demonstration, because user login/registration is not yet implemented
-  useEffect(() => {
-    setLoggedInUser({ name: 'Muamer' });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <div className='c-home-wrapper'>
       <div className='c-top-part'>
         <div className='c-categories'>
-          <p className='c-category-heading'>{EN_STRINGS['Home.Categories']}</p>
+          <p className='c-category-heading'>P{EN_STRINGS.HOME.CATEGORIES}</p>
           {DUMMY_CATEGORIES.map((item, index: number) => (
             <Category categoryName={item} key={index} />
           ))}
@@ -102,22 +94,22 @@ const Home = () => {
             <div className='c-info'>
               <h1>{randomProduct?.name}</h1>
               <h1 className='c-price'>
-                {EN_STRINGS['HomeProducts.StartFrom']} ${randomProduct?.price}
+                {EN_STRINGS.HOME.START_FROM} ${randomProduct?.price}
               </h1>
 
               <p>{randomProduct?.description}</p>
 
               <Link to={`/${ROUTES.PRODUCT}/${randomProduct.id}`}>
                 <button>
-                  {EN_STRINGS['Home.BidNow']} <GreaterIcon />
+                  {EN_STRINGS.HOME.BID_NOW} <GreaterIcon />
                 </button>
               </Link>
             </div>
 
             <Link to={`/${ROUTES.PRODUCT}/${randomProduct.id}`}>
               <img
-                src={randomProduct?.imageURL[0]}
-                alt={EN_STRINGS['Home.HighlightedProduct']}
+                src={randomProduct?.imageURLs[0]}
+                alt={EN_STRINGS.HOME.HIGHLIGHTED_PRODUCT}
               />
             </Link>
           </div>
@@ -135,7 +127,7 @@ const Home = () => {
               setLastChanceActive(false);
             }}
           >
-            {EN_STRINGS['Home.NewArrivals']}
+            {EN_STRINGS.HOME.NEW_ARRIVALS}
           </p>
 
           <p
@@ -144,7 +136,7 @@ const Home = () => {
             }`}
             onClick={handleLastChanceOnClick}
           >
-            {EN_STRINGS['Home.LastChance']}
+            {EN_STRINGS.HOME.LAST_CHANCE}
           </p>
         </div>
 

@@ -127,6 +127,14 @@
           }
         }
       }
+
+      .c-bid-error {
+        p {
+          color: $purpleColor;
+          font-size: $fontSize;
+          font-weight: $highFontWeight;
+        }
+      }
     }
 
     .c-details {

@@ -28,7 +28,7 @@ const ImagePicker: React.FC<Props> = ({ images }) => {
   return (
     <div className='c-images'>
       <div className='c-main-image'>
-        <img src={images[selectedImageIndex]} alt={EN_STRINGS['ImagePicker.FocusedImage']}/>
+        <img src={images[selectedImageIndex]} alt={EN_STRINGS.IMAGE_PICKER.FOCUSED_IMAGED}/>
       </div>
 
       <div className='c-other-images'>{otherImages}</div>

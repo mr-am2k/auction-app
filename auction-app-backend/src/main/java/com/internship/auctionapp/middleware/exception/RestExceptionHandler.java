@@ -45,17 +45,33 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ProductExpirationDateException.class)
-    public ResponseEntity<Object> handleProductExpirationDateException(HttpServletRequest req,
-                                                                 ProductExpirationDateException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST,
-                "Expiration date has to be after creation date."));
+    public ResponseEntity<Object> handleProductExpirationDateException(HttpServletRequest req, ProductExpirationDateException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Expiration date has to be after creation date."));
     }
 
-    @ExceptionHandler(IllegalBidPriceException.class)
-    public ResponseEntity<Object> handleIllegalBidPriceException(HttpServletRequest req,
-                                                                 ProductExpirationDateException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST,
-                "Bid price can't be lower than product price."));
+    @ExceptionHandler(BidPriceLowerThanProductPriceException.class)
+    public ResponseEntity<Object> handleBidPriceLowerThanProductPriceException(HttpServletRequest req, BidPriceLowerThanProductPriceException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Bid price can't be lower than product price."));
+    }
+
+    @ExceptionHandler(BidPriceLowerThanHighestBidPriceException.class)
+    public ResponseEntity<Object> handleBidPriceLowerThanHighestBidPriceException(HttpServletRequest req, BidPriceLowerThanHighestBidPriceException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Bid price can't be lower or equal to the highest bid price."));
+    }
+
+    @ExceptionHandler(BidCreationFailedException.class)
+    public ResponseEntity<Object> handleCreateBidException(HttpServletRequest req, BidCreationFailedException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_GATEWAY, "The error occurred while trying to save new bid and notification for it."));
+    }
+
+    @ExceptionHandler(BidNotFoundException.class)
+    public ResponseEntity<Object> handleBidNotFoundException(HttpServletRequest req, BidNotFoundException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no bid with id: " + ex.getMessage()));
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<Object> handleProductNoFound(HttpServletRequest req, ProductNotFoundException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no product with id:" + ex.getMessage()));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {

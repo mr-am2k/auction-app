@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -17,9 +18,11 @@ public class CreateProductRequest {
 
     private String description;
 
-    private List<String> imageURL;
+    private List<String> imageURLs;
 
-    private double price;
+    private double startPrice;
 
     private LocalDateTime expirationDateTime;
+
+    private UUID userId;
 }

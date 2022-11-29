@@ -1,9 +1,8 @@
 package com.internship.auctionapp.entities;
 
-import com.internship.auctionapp.domainmodels.Bid;
-import com.internship.auctionapp.domainmodels.Product;
+import com.internship.auctionapp.models.Bid;
+import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.util.DateUtils;
-import com.sun.xml.bind.v2.TODO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
-import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "Product")
+@Table(name = "products")
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,46 +45,81 @@ public class ProductEntity {
     private String description;
 
     @ElementCollection
-    @Column(name = "imageURL", nullable = false)
-    private List<String> imageURL;
+    @Column(name = "image_urls", nullable = false)
+    private List<String> imageURLs;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "start_price", nullable = false)
     @DecimalMin("0.5")
-    private Double price;
+    private Double startPrice;
 
-    @Column(name = "creationDateTime", nullable = false)
-    private LocalDateTime creationDateTime;
+    @Column(name = "creation_date_time", nullable = false, columnDefinition = "timestamp with time zone")
+    private ZonedDateTime creationDateTime = ZonedDateTime.now(ZoneOffset.UTC);
 
-    @Column(name = "expirationDateTime", nullable = false)
-    private LocalDateTime expirationDateTime;
+    @Column(name = "expiration_date_time", nullable = false, columnDefinition = "timestamp with time zone")
+    private ZonedDateTime expirationDateTime;
 
     @OneToMany(
             mappedBy = "product",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             orphanRemoval = true
     )
     private List<BidEntity> bidEntities;
 
-    public ProductEntity(String name, String description, List<String> imageURL, Double price,
-                         LocalDateTime expirationDateTime) {
+    // TODO: this will be updated in the future to the user entity when we create it
+    @Column(name = "user_id", nullable = false)
+    private UUID userId;
+
+    public ProductEntity(String name, String description, List<String> imageURLs, Double startPrice,
+                         ZonedDateTime expirationDateTime, UUID userId) {
         this.name = name;
         this.description = description;
-        this.imageURL = imageURL;
-        this.price = price;
-        this.creationDateTime = LocalDateTime.now();
+        this.imageURLs = imageURLs;
+        this.startPrice = startPrice;
         this.expirationDateTime = expirationDateTime;
+        this.userId = userId;
+    }
+
+    public ProductEntity(
+            String name,
+            String description,
+            List<String> imageURLs,
+            Double startPrice,
+            ZonedDateTime creationDateTime,
+            ZonedDateTime expirationDateTime,
+            UUID userId
+    ) {
+        this.name = name;
+        this.description = description;
+        this.imageURLs = imageURLs;
+        this.startPrice = startPrice;
+        this.creationDateTime = creationDateTime;
+        this.expirationDateTime = expirationDateTime;
+        this.userId = userId;
     }
 
     public Product toDomainModel() {
-        List<Bid> bidEntities = this.bidEntities != null ?
+        List<Bid> bids = this.bidEntities != null ?
                 this.bidEntities.stream()
                         .map(bidEntity -> bidEntity.toDomainModel()).collect(Collectors.toList()) : new ArrayList<>();
-        Product newProduct = new Product(this.id, this.name, this.description, this.imageURL, this.price,
-                this.creationDateTime, this.expirationDateTime, bidEntities,
+
+        ProductEntity productEntity = new ProductEntity(
+                this.name,
+                this.description,
+                this.imageURLs,
+                this.startPrice,
+                this.creationDateTime,
+                this.expirationDateTime,
+                this.userId
+        );
+
+        Product product = new Product(
+                this.id,
+                productEntity,
+                bids,
                 DateUtils.calculateDateDiffVerbose(this.expirationDateTime)
         );
 
-        return newProduct;
+        return product;
     }
 }

@@ -11,3 +11,19 @@
   color: $whiteColor;
   opacity: 0.5;
 }
+
+@mixin notificationBar($backgroundColor, $color){
+  @include flexDisplay(column, flex-start);
+  padding: 20px 160px;
+  gap: 10px;
+  height: 59px;
+  background: $backgroundColor;
+
+  p {
+    font-family: $fontFamily;
+    font-weight: $highFontWeight;
+    font-size: $fontSize;
+    line-height: 19px;
+    color: $color;
+  }
+}
