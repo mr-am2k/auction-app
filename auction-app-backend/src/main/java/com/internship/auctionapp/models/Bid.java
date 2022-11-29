@@ -14,19 +14,11 @@ import java.util.UUID;
 public class Bid {
     private UUID id;
 
-    private double bidPrice;
+    private double price;
 
-    private ZonedDateTime bidCreationDateTime;
+    private ZonedDateTime creationDateTime;
 
     private UUID productId;
 
     private UUID userId;
-
-    public Bid(BidEntity bidEntity) {
-        this.id = bidEntity.getId();
-        this.bidPrice = bidEntity.getPrice();
-        this.bidCreationDateTime = bidEntity.getCreationDateTime();
-        this.productId = bidEntity.getProduct().getId();
-        this.userId = bidEntity.getUserId();
-    }
 }

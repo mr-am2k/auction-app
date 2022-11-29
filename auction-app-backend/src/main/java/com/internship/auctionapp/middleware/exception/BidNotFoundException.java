@@ -4,6 +4,4 @@ public class BidNotFoundException extends RuntimeException{
     public BidNotFoundException(String id) {
         super(id);
     }
-
-
 }

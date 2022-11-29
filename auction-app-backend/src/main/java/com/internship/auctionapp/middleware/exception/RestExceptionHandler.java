@@ -65,12 +65,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(BidNotFoundException.class)
-    public ResponseEntity<Object> handleBidNotFoundException(HttpServletRequest req, BidNotFoundException ex){
+    public ResponseEntity<Object> handleBidNotFoundException(HttpServletRequest req, BidNotFoundException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no bid with id: " + ex.getMessage()));
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<Object> handleProductNoFound(HttpServletRequest req, ProductNotFoundException ex){
+    public ResponseEntity<Object> handleProductNoFound(HttpServletRequest req, ProductNotFoundException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no product with id:" + ex.getMessage()));
     }
 

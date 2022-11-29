@@ -7,7 +7,6 @@ import com.internship.auctionapp.middleware.exception.ProductExpirationDateExcep
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
-import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.requests.CreateProductRequest;
@@ -15,12 +14,14 @@ import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.NotificationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -29,9 +30,9 @@ import java.util.UUID;
 
 @Service
 public class DefaultProductService implements ProductService {
+    @Value("${scheduler.auction_finished_delay}")
+    private String delayTime;
     private final ProductRepository productRepository;
-
-    private final ProductJpaRepository productJpaRepository;
 
     private final BidRepository bidRepository;
 
@@ -47,9 +48,8 @@ public class DefaultProductService implements ProductService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
 
-    public DefaultProductService(ProductRepository productCRUDRepository, ProductJpaRepository productJpaRepository, BidRepository bidRepository, NotificationRepository notificationRepository) {
+    public DefaultProductService(ProductRepository productCRUDRepository, BidRepository bidRepository, NotificationRepository notificationRepository) {
         this.productRepository = productCRUDRepository;
-        this.productJpaRepository = productJpaRepository;
         this.bidRepository = bidRepository;
         this.notificationRepository = notificationRepository;
     }
@@ -82,7 +82,7 @@ public class DefaultProductService implements ProductService {
     public Product getSingleProduct(UUID id) {
         Product product = productRepository.getSingleProduct(id);
 
-        LOGGER.info("Fetched product={} from the databse with the product_id={}", product, id);
+        LOGGER.info("Fetched product={} from the database with the product_id={}", product, id);
 
         return product;
     }
@@ -131,34 +131,40 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public void createNotificationsAfterProductExpires() {
+        Integer startTime = Integer.valueOf(delayTime);
+
         final ZonedDateTime currentTime = ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
-        final List<Product> expiredProductInLastFiveMinutes = productRepository.getProductsBetweenTwoDates(currentTime.minusMinutes(5), currentTime);
+        final List<Product> expiredProductInBetween = productRepository.getProductsBetweenTwoDates(currentTime.minus(Duration.ofMillis(startTime)), currentTime);
 
-        expiredProductInLastFiveMinutes.stream()
+        expiredProductInBetween.stream()
                 .forEach(product -> {
-                    final Bid bid = bidRepository.getHighestBid(product.getId());
+                    createNotificationOnAuctionFinish(product);
+                });
+    }
 
-                    CreateNotificationRequest auctionWonNotification =
+    private void createNotificationOnAuctionFinish(Product product) {
+        final Bid bid = bidRepository.getHighestBid(product.getId());
+
+        CreateNotificationRequest auctionWonNotification =
+                new CreateNotificationRequest(
+                        NotificationType.AUCTION_WON,
+                        bid.getUserId(),
+                        product.getId()
+                );
+
+        notificationRepository.createNotification(auctionWonNotification);
+
+        notificationRepository.getNotificationsByProductIdForAllUsersExcept(bid.getUserId(), product.getId())
+                .stream()
+                .forEach(notification -> {
+                    CreateNotificationRequest auctionLostNotification =
                             new CreateNotificationRequest(
-                                    NotificationType.AUCTION_WON,
-                                    bid.getUserId(),
+                                    NotificationType.AUCTION_LOST,
+                                    notification.getUserId(),
                                     product.getId()
                             );
 
-                    notificationRepository.createNotification(auctionWonNotification);
-
-                    notificationRepository.getNotificationsByProductIdForAllUsersExcept(bid.getUserId(), product.getId())
-                            .stream()
-                            .forEach(notification -> {
-                                CreateNotificationRequest auctionLostNotification =
-                                        new CreateNotificationRequest(
-                                                NotificationType.AUCTION_LOST,
-                                                notification.getUserId(),
-                                                product.getId()
-                                        );
-
-                                notificationRepository.createNotification(auctionLostNotification);
-                            });
+                    notificationRepository.createNotification(auctionLostNotification);
                 });
     }
 }

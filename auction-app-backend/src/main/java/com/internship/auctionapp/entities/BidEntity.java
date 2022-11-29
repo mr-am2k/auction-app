@@ -52,14 +52,14 @@ public class BidEntity {
     }
 
     public Bid toDomainModel() {
-        BidEntity bidEntity = new BidEntity(
-                this.id,
-                this.price,
-                this.creationDateTime,
-                this.product,
-                this.getUserId()
-        );
+        Bid bid = new Bid();
 
-        return new Bid(bidEntity);
+        bid.setId(this.id);
+        bid.setPrice(this.price);
+        bid.setCreationDateTime(this.creationDateTime);
+        bid.setProductId(this.product.getId());
+        bid.setUserId(this.getUserId());
+
+        return bid;
     }
 }

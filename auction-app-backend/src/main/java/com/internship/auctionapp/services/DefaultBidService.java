@@ -49,7 +49,7 @@ public class DefaultBidService implements BidService {
         }
 
         if (!product.getBids().isEmpty()) {
-            final Double highestBidPrice = bidRepository.getHighestBid(createBidRequest.getProductId()).getBidPrice();
+            final Double highestBidPrice = bidRepository.getHighestBid(createBidRequest.getProductId()).getPrice();
 
             if (createBidRequest.getPrice() <= highestBidPrice) {
                 LOGGER.info("Bid price={} is lower than product highest bid price={}", createBidRequest.getPrice(), highestBidPrice);
@@ -100,6 +100,6 @@ public class DefaultBidService implements BidService {
 
         LOGGER.info("Fetched bid with the highest price, bid={}", highestBid);
 
-        return highestBid.getBidPrice();
+        return highestBid.getPrice();
     }
 }

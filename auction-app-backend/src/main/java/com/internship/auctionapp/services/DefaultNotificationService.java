@@ -42,22 +42,22 @@ public class DefaultNotificationService implements NotificationService {
                             savedNotification.getProductId()
                     ).stream()
                     .forEach(notification -> {
-                        final Notification latestNotificationForUser = notificationRepository.getNotifications(
+                        final Notification latestUserNotifications = notificationRepository.getNotifications(
                                 notification.getUserId(),
                                 notification.getProductId()
                         );
 
-                        if (NotificationType.valueOf(latestNotificationForUser.getType()) == NotificationType.HIGHEST_BID_PLACED) {
-                            final CreateNotificationRequest outbidded = new CreateNotificationRequest(
+                        if (NotificationType.valueOf(latestUserNotifications.getType()) == NotificationType.HIGHEST_BID_PLACED) {
+                            final CreateNotificationRequest outbiddedNotificationRequest = new CreateNotificationRequest(
                                     NotificationType.OUTBIDDED,
                                     notification.getUserId(),
                                     notification.getProductId()
                             );
 
-                            final Notification savedOutbiddedNotification = notificationRepository.createNotification(outbidded);
+                            final Notification outbiddedNotification = notificationRepository.createNotification(outbiddedNotificationRequest);
 
-                            LOGGER.info("Successfully saved notification={} for user with user_id={} that says he is outbidded.",
-                                    savedOutbiddedNotification, savedOutbiddedNotification.getUserId());
+                            LOGGER.info("Successfully saved notification with type={} for user with user_id={}",
+                                    outbiddedNotification.getType(), outbiddedNotification.getUserId());
                         }
                     });
         }
