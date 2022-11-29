@@ -16,7 +16,7 @@ public class AuctionFinishedScheduler {
     }
 
     @Scheduled(fixedRateString = "${scheduler.auction_finished_delay}")
-    public void sendYouWonNotification() {
+    public void sendNotifications() {
         productService.createNotificationsAfterProductExpires();
     }
 }
