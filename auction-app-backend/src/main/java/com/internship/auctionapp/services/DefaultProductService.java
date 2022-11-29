@@ -132,10 +132,11 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public void createNotificationsAfterProductExpires() {
-        Integer startTime = Integer.valueOf(auctionFinishedDelayTime);
-
         final ZonedDateTime currentTime = ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
-        final List<Product> products = productRepository.getProductsBetweenTwoDates(currentTime.minus(Duration.ofMillis(startTime)), currentTime);
+        final List<Product> products = productRepository.getProductsBetweenTwoDates(
+                currentTime.minus(Duration.ofMillis(Integer.valueOf(auctionFinishedDelayTime))),
+                currentTime
+        );
 
         products.stream()
                 .forEach(product -> {
