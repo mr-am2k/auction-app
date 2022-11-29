@@ -65,7 +65,7 @@ class DefaultProductServiceTest {
         assertEquals(name, wantedProduct.getName());
         assertEquals(description, wantedProduct.getDescription());
         assertEquals(imageURL, wantedProduct.getImageURLs());
-        assertEquals(price, wantedProduct.getPrice());
+        assertEquals(price, wantedProduct.getStartPrice());
     }
 
     @Test
@@ -81,6 +81,6 @@ class DefaultProductServiceTest {
         assertEquals(name, wantedProduct.getName());
         assertEquals(description, wantedProduct.getDescription());
         assertEquals(imageURL, wantedProduct.getImageURLs());
-        assertEquals(price, wantedProduct.getPrice());
+        assertEquals(price, wantedProduct.getStartPrice());
     }
 }
