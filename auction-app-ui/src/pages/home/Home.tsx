@@ -78,7 +78,7 @@ const Home = () => {
     <div className='c-home-wrapper'>
       <div className='c-top-part'>
         <div className='c-categories'>
-          <p className='c-category-heading'>P{EN_STRINGS.HOME.CATEGORIES}</p>
+          <p className='c-category-heading'>{EN_STRINGS.HOME.CATEGORIES}</p>
           {DUMMY_CATEGORIES.map((item, index: number) => (
             <Category categoryName={item} key={index} />
           ))}
