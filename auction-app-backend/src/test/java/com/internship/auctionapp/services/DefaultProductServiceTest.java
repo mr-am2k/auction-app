@@ -3,6 +3,7 @@ package com.internship.auctionapp.services;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.product.ProductJpaRepository;
+import com.internship.auctionapp.services.product.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

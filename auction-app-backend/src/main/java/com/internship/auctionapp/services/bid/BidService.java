@@ -1,4 +1,4 @@
-package com.internship.auctionapp.services;
+package com.internship.auctionapp.services.bid;
 
 import com.internship.auctionapp.requests.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;

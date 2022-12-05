@@ -3,7 +3,7 @@ package com.internship.auctionapp.controllers;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductRequest;
-import com.internship.auctionapp.services.ProductService;
+import com.internship.auctionapp.services.product.ProductService;
 import com.internship.auctionapp.util.DateUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -71,7 +71,7 @@ class ProductControllerTest {
                 .name("Shirt")
                 .description("Black shirt")
                 .imageURLs(IMAGES)
-                .price(52.20)
+                .startPrice(52.20)
                 .creationDateTime(ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC))
                 .expirationDateTime(ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC))
                 .bids(new ArrayList<>())

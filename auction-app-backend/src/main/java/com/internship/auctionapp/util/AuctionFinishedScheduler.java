@@ -1,6 +1,6 @@
 package com.internship.auctionapp.util;
 
-import com.internship.auctionapp.services.ProductService;
+import com.internship.auctionapp.services.product.ProductService;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

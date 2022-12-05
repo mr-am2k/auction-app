@@ -1,4 +1,4 @@
-package com.internship.auctionapp.services;
+package com.internship.auctionapp.services.bid;
 
 import com.internship.auctionapp.middleware.exception.BidCreationFailedException;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanHighestBidPriceException;
@@ -6,11 +6,11 @@ import com.internship.auctionapp.middleware.exception.BidPriceLowerThanProductPr
 import com.internship.auctionapp.middleware.exception.BidNotFoundException;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.repositories.bid.BidRepository;
-import com.internship.auctionapp.repositories.notification.NotificationRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.requests.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
+import com.internship.auctionapp.services.notification.NotificationService;
 import com.internship.auctionapp.util.NotificationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

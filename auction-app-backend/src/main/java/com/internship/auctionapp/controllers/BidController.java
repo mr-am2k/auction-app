@@ -2,7 +2,7 @@ package com.internship.auctionapp.controllers;
 
 import com.internship.auctionapp.requests.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;
-import com.internship.auctionapp.services.BidService;
+import com.internship.auctionapp.services.bid.BidService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;

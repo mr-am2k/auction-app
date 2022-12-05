@@ -1,4 +1,4 @@
-package com.internship.auctionapp.services;
+package com.internship.auctionapp.services.notification;
 
 import com.internship.auctionapp.models.Notification;
 import com.internship.auctionapp.requests.CreateNotificationRequest;

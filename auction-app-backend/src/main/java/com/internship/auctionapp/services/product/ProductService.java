@@ -1,4 +1,4 @@
-package com.internship.auctionapp.services;
+package com.internship.auctionapp.services.product;
 
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;

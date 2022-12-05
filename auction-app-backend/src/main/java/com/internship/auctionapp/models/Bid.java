@@ -1,6 +1,5 @@
 package com.internship.auctionapp.models;
 
-import com.internship.auctionapp.entities.BidEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

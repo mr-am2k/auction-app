@@ -1,4 +1,4 @@
-package com.internship.auctionapp.services;
+package com.internship.auctionapp.services.product;
 
 import com.internship.auctionapp.middleware.exception.ProductNotFoundException;
 import com.internship.auctionapp.models.Bid;
