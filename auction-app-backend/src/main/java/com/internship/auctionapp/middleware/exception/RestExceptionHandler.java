@@ -16,7 +16,6 @@ import java.util.NoSuchElementException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice()
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-
     @ExceptionHandler(PropertyValueException.class)
     public ResponseEntity<Object> handleSqlIntegrityException(HttpServletRequest req, PropertyValueException ex) {
         String error = "Unable to submit post: " + ex.getMessage();
@@ -70,13 +69,23 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<Object> handleProductNoFound(HttpServletRequest req, ProductNotFoundException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no product with id:" + ex.getMessage()));
+    public ResponseEntity<Object> handleProductNoFoundException(HttpServletRequest req, ProductNotFoundException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no product with id: " + ex.getMessage()));
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> handleUserNotFound(HttpServletRequest req, ProductNotFoundException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no user with id:" + ex.getMessage()));
+    public ResponseEntity<Object> handleUserNotFoundException(HttpServletRequest req, UserNotFoundException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no user with email: " + ex.getMessage()));
+    }
+
+    @ExceptionHandler(UserNotFoundWithIdException.class)
+    public ResponseEntity<Object> handleUserNotFoundWithIdException(HttpServletRequest req, UserNotFoundWithIdException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no user with id: " + ex.getMessage()));
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<Object> handleUserAlreadyExistsException(HttpServletRequest req, UserAlreadyExistsException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "User already exists with email: " + ex.getMessage()));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {

@@ -31,7 +31,7 @@ public class UserEntity {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Email
+    @Email(message = "Please provide valid email address")
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
@@ -42,7 +42,7 @@ public class UserEntity {
     private String phoneNumber;
 
     @Column(name = "role", nullable = false)
-    private UserRole role;
+    private UserRole role = UserRole.ROLE_USER;
 
     public UserEntity(String firstName, String lastName, String email, String passwordHash) {
         this.firstName = firstName;
@@ -59,7 +59,7 @@ public class UserEntity {
         user.setLastName(this.lastName);
         user.setEmail(this.email);
         user.setPhoneNumber(this.phoneNumber);
-        user.setRole(String.valueOf(this.role));
+        user.setRole(this.role.getRoleToString());
 
         return user;
     }

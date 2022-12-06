@@ -10,7 +10,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateBidRequest {
-
     private double price;
 
     private UUID productId;

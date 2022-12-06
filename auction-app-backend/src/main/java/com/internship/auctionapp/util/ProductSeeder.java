@@ -13,7 +13,6 @@ import java.util.UUID;
 
 @Component
 public class ProductSeeder implements CommandLineRunner {
-
     final ProductJpaRepository productRepository;
 
     String PRODUCT_DESCRIPTION = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +

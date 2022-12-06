@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 
 @Repository
 public class DefaultBidRepository implements BidRepository {
-
     private final ProductJpaRepository productJpaRepository;
 
     private final BidJpaRepository bidJpaRepository;

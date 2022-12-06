@@ -21,7 +21,6 @@ import java.util.UUID;
 @CrossOrigin
 @Tag(name = "Bids")
 public class BidController {
-
     private final BidService bidService;
 
     public BidController(BidService bidService) {

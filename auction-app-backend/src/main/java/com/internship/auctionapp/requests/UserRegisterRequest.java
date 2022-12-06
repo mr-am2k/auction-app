@@ -20,7 +20,7 @@ public class UserRegisterRequest {
 
     @NotBlank
     @Size(max = 50)
-    @Email
+    @Email(message = "Please provide valid email address")
     private String email;
 
     @NotBlank

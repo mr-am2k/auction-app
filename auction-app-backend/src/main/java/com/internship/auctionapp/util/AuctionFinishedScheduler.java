@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 @Service
 @EnableScheduling
 public class AuctionFinishedScheduler {
-
     private final ProductService productService;
 
     public AuctionFinishedScheduler(ProductService productService) {

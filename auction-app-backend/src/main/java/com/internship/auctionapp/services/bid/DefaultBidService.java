@@ -21,7 +21,6 @@ import java.util.UUID;
 
 @Service
 public class DefaultBidService implements BidService {
-
     private final BidRepository bidRepository;
 
     private final ProductRepository productRepository;

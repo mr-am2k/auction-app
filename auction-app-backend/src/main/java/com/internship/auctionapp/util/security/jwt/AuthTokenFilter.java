@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
+    private final String AUTHORIZATION = "Authorization";
+
+    private final String BEARER = "Bearer";
     @Autowired
     private JwtUtils jwtUtils;
 
@@ -33,10 +36,10 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                String email = jwtUtils.getEmailFromJwtToken(jwt);
+                final String email = jwtUtils.getEmailFromJwtToken(jwt);
 
-                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
+                final UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                final UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
                         userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
@@ -50,10 +53,10 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     private String parseJwt(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
+        String headerAuth = request.getHeader(AUTHORIZATION);
 
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7, headerAuth.length());
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(BEARER)) {
+            return headerAuth.substring(BEARER.length());
         }
 
         return null;

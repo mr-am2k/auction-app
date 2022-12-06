@@ -1,11 +1,11 @@
-package com.internship.auctionapp.services.user;
+package com.internship.auctionapp.util.security.services;
 
 import com.internship.auctionapp.models.JwtResponse;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 import org.springframework.http.ResponseEntity;
 
-public interface UserService {
+public interface UserDetailsServiceCustom {
     JwtResponse login(UserLoginRequest loginRequest);
 
     String register(UserRegisterRequest registerRequest);

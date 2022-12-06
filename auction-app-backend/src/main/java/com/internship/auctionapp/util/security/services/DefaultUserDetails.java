@@ -29,14 +29,15 @@ public class DefaultUserDetails implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
 
     public static DefaultUserDetails build(UserEntity user) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(String.valueOf(user.getRole())));
+        final List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getRoleToString()));
 
         return new DefaultUserDetails(
                 user.getId(),
                 user.getEmail(),
                 user.getPasswordHash(),
-                authorities);
+                authorities
+        );
     }
 
     @Override

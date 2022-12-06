@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 
 @Repository
 public class DefaultNotificationRepository implements NotificationRepository {
-
     private final NotificationJpaRepository notificationJpaRepository;
 
     private final ProductJpaRepository productJpaRepository;
