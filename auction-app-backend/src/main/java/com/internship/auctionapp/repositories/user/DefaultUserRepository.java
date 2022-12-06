@@ -1,12 +1,14 @@
 package com.internship.auctionapp.repositories.user;
 
 import com.internship.auctionapp.entities.UserEntity;
+import com.internship.auctionapp.middleware.exception.UserNotFoundException;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 import com.internship.auctionapp.util.UserRole;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
@@ -50,5 +52,16 @@ public class DefaultUserRepository implements UserRepository {
         return userJpaRepository.findAll().stream()
                 .map(userEntity -> userEntity.toDomainModel())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public User getUserById(UUID id) {
+        final User singleUser = userJpaRepository.findById(id).get().toDomainModel();
+
+        if(singleUser == null){
+            throw new UserNotFoundException(String.valueOf(id));
+        }
+
+        return singleUser;
     }
 }

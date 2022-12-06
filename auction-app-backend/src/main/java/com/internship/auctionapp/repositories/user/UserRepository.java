@@ -5,6 +5,7 @@ import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface UserRepository {
     UserEntity findByEmail(String email);
@@ -14,4 +15,6 @@ public interface UserRepository {
     UserEntity addUser(UserRegisterRequest userRegisterRequest);
 
     List<User> getUsers();
+
+    User getUserById(UUID id);
 }

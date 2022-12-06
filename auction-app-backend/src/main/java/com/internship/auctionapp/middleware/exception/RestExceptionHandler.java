@@ -74,6 +74,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no product with id:" + ex.getMessage()));
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> handleUserNotFound(HttpServletRequest req, ProductNotFoundException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no user with id:" + ex.getMessage()));
+    }
+
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
     }
