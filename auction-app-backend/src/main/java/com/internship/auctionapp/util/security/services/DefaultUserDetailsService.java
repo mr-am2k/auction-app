@@ -1,8 +1,7 @@
 package com.internship.auctionapp.util.security.services;
 
 import com.internship.auctionapp.entities.UserEntity;
-import com.internship.auctionapp.repositories.user.UserJpaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.internship.auctionapp.repositories.user.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,8 +11,11 @@ import javax.transaction.Transactional;
 
 @Service
 public class DefaultUserDetailsService implements UserDetailsService {
-    @Autowired
-    UserJpaRepository userRepository;
+    private final UserRepository userRepository;
+
+    public DefaultUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     @Transactional

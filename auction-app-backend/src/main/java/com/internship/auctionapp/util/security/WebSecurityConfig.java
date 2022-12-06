@@ -3,7 +3,6 @@ package com.internship.auctionapp.util.security;
 import com.internship.auctionapp.util.security.jwt.AuthEntryPoint;
 import com.internship.auctionapp.util.security.jwt.AuthTokenFilter;
 import com.internship.auctionapp.util.security.services.DefaultUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,11 +17,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 public class WebSecurityConfig {
-    @Autowired
-    DefaultUserDetailsService userDetailsService;
+    private final DefaultUserDetailsService userDetailsService;
 
-    @Autowired
-    AuthEntryPoint unauthorizedHandler;
+
+    private final AuthEntryPoint unauthorizedHandler;
+
+    public WebSecurityConfig(DefaultUserDetailsService userDetailsService, AuthEntryPoint unauthorizedHandler) {
+        this.userDetailsService = userDetailsService;
+        this.unauthorizedHandler = unauthorizedHandler;
+    }
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
