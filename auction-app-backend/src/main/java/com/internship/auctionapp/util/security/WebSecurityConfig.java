@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class WebSecurityConfig {
     private final DefaultUserDetailsService userDetailsService;
-    
+
     private final AuthEntryPoint unauthorizedHandler;
 
     public WebSecurityConfig(DefaultUserDetailsService userDetailsService, AuthEntryPoint unauthorizedHandler) {
@@ -58,7 +58,11 @@ public class WebSecurityConfig {
                 and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests().antMatchers("/api/v1/auth/**").permitAll();
+                .authorizeRequests().antMatchers("/api/v1/auth/**").permitAll()
+                .antMatchers("/api/v1/products/").hasAnyAuthority("ROLE_USER")
+                .antMatchers("/api/v1/bids/").hasAnyAuthority("ROLE_USER")
+                .antMatchers("/api/v1/notifications/").hasAnyAuthority("ROLE_USER")
+                .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());
 
