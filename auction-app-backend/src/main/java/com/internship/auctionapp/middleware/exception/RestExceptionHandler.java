@@ -73,19 +73,29 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no product with id: " + ex.getMessage()));
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Object> handleUserNotFoundException(HttpServletRequest req, UserNotFoundException ex) {
+    @ExceptionHandler(UserNotFoundByEmailException.class)
+    public ResponseEntity<Object> handleUserNotFoundByEmailException(HttpServletRequest req, UserNotFoundByEmailException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no user with email: " + ex.getMessage()));
     }
 
-    @ExceptionHandler(UserNotFoundWithIdException.class)
-    public ResponseEntity<Object> handleUserNotFoundWithIdException(HttpServletRequest req, UserNotFoundWithIdException ex) {
+    @ExceptionHandler(UserNotFoundByIdException.class)
+    public ResponseEntity<Object> handleUserNotFoundByIdException(HttpServletRequest req, UserNotFoundByIdException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no user with id: " + ex.getMessage()));
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<Object> handleUserAlreadyExistsException(HttpServletRequest req, UserAlreadyExistsException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "User already exists with email: " + ex.getMessage()));
+    }
+
+    @ExceptionHandler(EmailNotValidException.class)
+    public ResponseEntity<Object> handleEmailNotValidException(HttpServletRequest req, EmailNotValidException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Entered email is not valid"));
+    }
+
+    @ExceptionHandler(PasswordNotValidException.class)
+    public ResponseEntity<Object> handlePasswordNotValidException(HttpServletRequest req, PasswordNotValidException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Entered password is not valid"));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {

@@ -1,6 +1,7 @@
 package com.internship.auctionapp.controllers;
 
 import com.internship.auctionapp.models.JwtResponse;
+import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 import com.internship.auctionapp.services.user.UserService;
@@ -27,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody UserRegisterRequest registerRequest) {
+    public User register(@RequestBody UserRegisterRequest registerRequest) {
         return userService.register(registerRequest);
     }
 }

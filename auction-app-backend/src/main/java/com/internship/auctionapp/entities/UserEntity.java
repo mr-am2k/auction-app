@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 import java.util.UUID;
 
 @Entity
@@ -31,7 +32,6 @@ public class UserEntity {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Email(message = "Please provide valid email address")
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
@@ -59,7 +59,7 @@ public class UserEntity {
         user.setLastName(this.lastName);
         user.setEmail(this.email);
         user.setPhoneNumber(this.phoneNumber);
-        user.setRole(this.role.getRoleToString());
+        user.setRole(this.role.getValue());
 
         return user;
     }

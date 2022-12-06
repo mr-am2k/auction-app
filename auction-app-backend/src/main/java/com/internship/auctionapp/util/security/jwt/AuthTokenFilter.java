@@ -19,8 +19,8 @@ import java.io.IOException;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
     private final String AUTHORIZATION = "Authorization";
-
     private final String BEARER = "Bearer";
+
     @Autowired
     private JwtUtils jwtUtils;
 
@@ -41,6 +41,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 final UserDetails userDetails = userDetailsService.loadUserByUsername(email);
                 final UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
                         userDetails.getAuthorities());
+
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);

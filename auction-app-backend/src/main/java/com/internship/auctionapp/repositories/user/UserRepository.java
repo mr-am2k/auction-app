@@ -12,7 +12,7 @@ public interface UserRepository {
 
     Boolean existsByEmail(String email);
 
-    UserEntity addUser(UserRegisterRequest userRegisterRequest);
+    UserEntity registerUser(UserRegisterRequest userRegisterRequest);
 
     List<User> getUsers();
 

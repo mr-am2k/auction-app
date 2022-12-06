@@ -1,7 +1,7 @@
 package com.internship.auctionapp.repositories.user;
 
 import com.internship.auctionapp.entities.UserEntity;
-import com.internship.auctionapp.middleware.exception.UserNotFoundWithIdException;
+import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 import com.internship.auctionapp.util.UserRole;
@@ -32,7 +32,7 @@ public class DefaultUserRepository implements UserRepository {
     }
 
     @Override
-    public UserEntity addUser(UserRegisterRequest userRegisterRequest) {
+    public UserEntity registerUser(UserRegisterRequest userRegisterRequest) {
         final UserEntity user = new UserEntity(
                 userRegisterRequest.getFirstName(),
                 userRegisterRequest.getLastName(),
@@ -56,12 +56,15 @@ public class DefaultUserRepository implements UserRepository {
 
     @Override
     public User getUserById(UUID id) {
-        final User singleUser = userJpaRepository.findById(id).get().toDomainModel();
+        final User user = userJpaRepository
+                .findById(id)
+                .get()
+                .toDomainModel();
 
-        if (singleUser == null) {
-            throw new UserNotFoundWithIdException(String.valueOf(id));
+        if (user == null) {
+            throw new UserNotFoundByIdException(String.valueOf(id));
         }
 
-        return singleUser;
+        return user;
     }
 }

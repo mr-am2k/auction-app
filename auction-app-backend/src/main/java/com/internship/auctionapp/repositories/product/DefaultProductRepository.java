@@ -53,7 +53,10 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public Product getSingleProduct(UUID id) {
-        return productJpaRepository.findById(id).get().toDomainModel();
+        return productJpaRepository
+                .findById(id)
+                .get()
+                .toDomainModel();
     }
 
     @Override
@@ -73,7 +76,9 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public Product getRandomProduct() {
-        return productJpaRepository.getRandomProduct().toDomainModel();
+        return productJpaRepository
+                .getRandomProduct()
+                .toDomainModel();
     }
 
     @Override

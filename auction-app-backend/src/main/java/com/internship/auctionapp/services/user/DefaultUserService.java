@@ -1,6 +1,7 @@
 package com.internship.auctionapp.services.user;
 
 import com.internship.auctionapp.models.JwtResponse;
+import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 import com.internship.auctionapp.util.security.services.UserDetailsServiceCustom;
@@ -20,7 +21,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public String register(UserRegisterRequest registerRequest) {
+    public User register(UserRegisterRequest registerRequest) {
         return userDetailsServiceCustom.register(registerRequest);
     }
 }

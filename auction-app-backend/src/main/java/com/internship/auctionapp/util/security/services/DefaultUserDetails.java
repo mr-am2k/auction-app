@@ -30,7 +30,7 @@ public class DefaultUserDetails implements UserDetails {
 
     public static DefaultUserDetails build(UserEntity user) {
         final List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole().getRoleToString()));
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getValue()));
 
         return new DefaultUserDetails(
                 user.getId(),
@@ -73,11 +73,9 @@ public class DefaultUserDetails implements UserDetails {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        DefaultUserDetails user = (DefaultUserDetails) o;
-        return Objects.equals(id, user.id);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DefaultUserDetails that = (DefaultUserDetails) o;
+        return Objects.equals(id, that.id) && Objects.equals(email, that.email);
     }
 }
