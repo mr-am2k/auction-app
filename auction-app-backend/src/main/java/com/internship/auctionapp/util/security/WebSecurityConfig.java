@@ -18,8 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class WebSecurityConfig {
     private final DefaultUserDetailsService userDetailsService;
-
-
+    
     private final AuthEntryPoint unauthorizedHandler;
 
     public WebSecurityConfig(DefaultUserDetailsService userDetailsService, AuthEntryPoint unauthorizedHandler) {

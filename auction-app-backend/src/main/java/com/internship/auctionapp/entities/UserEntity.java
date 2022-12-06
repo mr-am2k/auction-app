@@ -1,5 +1,6 @@
 package com.internship.auctionapp.entities;
 
+import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.util.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -48,5 +49,18 @@ public class UserEntity {
         this.lastName = lastName;
         this.email = email;
         this.passwordHash = passwordHash;
+    }
+
+    public User toDomainModel(){
+        User user = new User();
+
+        user.setId(this.id);
+        user.setFirstName(this.firstName);
+        user.setLastName(this.lastName);
+        user.setEmail(this.email);
+        user.setPhoneNumber(this.phoneNumber);
+        user.setRole(String.valueOf(this.role));
+
+        return user;
     }
 }

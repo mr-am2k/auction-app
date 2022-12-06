@@ -4,6 +4,7 @@ import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.models.JwtResponse;
 import com.internship.auctionapp.models.MessageResponse;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
+import com.internship.auctionapp.repositories.user.UserRepository;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 import com.internship.auctionapp.util.UserRole;
@@ -25,7 +26,7 @@ public class DefaultUserService implements UserService {
 
     private final AuthenticationManager authenticationManager;
 
-    private final UserJpaRepository userRepository;
+    private final UserRepository userRepository;
 
     private final PasswordEncoder encoder;
 
@@ -33,7 +34,7 @@ public class DefaultUserService implements UserService {
 
     public DefaultUserService(
             AuthenticationManager authenticationManager,
-            UserJpaRepository userRepository,
+            UserRepository userRepository,
             PasswordEncoder encoder,
             JwtUtils jwtUtils
     ) {
@@ -76,20 +77,9 @@ public class DefaultUserService implements UserService {
                     .body(new MessageResponse("Error: Email is already taken!"));
         }
 
-        UserEntity user = new UserEntity(
-                registerRequest.getFirstName(),
-                registerRequest.getLastName(),
-                registerRequest.getEmail(),
-                encoder.encode(registerRequest.getPassword())
-        );
+        registerRequest.setPassword(encoder.encode(registerRequest.getPassword()));
 
-        if (registerRequest.getRole().equalsIgnoreCase("admin")) {
-            user.setRole(UserRole.ROLE_ADMIN);
-        } else {
-            user.setRole(UserRole.ROLE_USER);
-        }
-
-        userRepository.save(user);
+        userRepository.addUser(registerRequest);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
