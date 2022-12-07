@@ -2,7 +2,8 @@ package com.internship.auctionapp.util.security;
 
 import com.internship.auctionapp.util.security.jwt.AuthEntryPoint;
 import com.internship.auctionapp.util.security.jwt.AuthTokenFilter;
-import com.internship.auctionapp.util.security.services.DefaultUserDetailsService;
+import com.internship.auctionapp.util.security.services.DefaultAuthService;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,11 +18,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 public class WebSecurityConfig {
-    private final DefaultUserDetailsService userDetailsService;
+    private final DefaultAuthService userDetailsService;
 
     private final AuthEntryPoint unauthorizedHandler;
 
-    public WebSecurityConfig(DefaultUserDetailsService userDetailsService, AuthEntryPoint unauthorizedHandler) {
+    public WebSecurityConfig(DefaultAuthService userDetailsService, AuthEntryPoint unauthorizedHandler) {
         this.userDetailsService = userDetailsService;
         this.unauthorizedHandler = unauthorizedHandler;
     }
@@ -33,7 +34,7 @@ public class WebSecurityConfig {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
 
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());

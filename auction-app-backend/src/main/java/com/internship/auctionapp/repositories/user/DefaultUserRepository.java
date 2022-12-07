@@ -5,6 +5,7 @@ import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 import com.internship.auctionapp.util.UserRole;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,12 +34,12 @@ public class DefaultUserRepository implements UserRepository {
 
     @Override
     public UserEntity registerUser(UserRegisterRequest userRegisterRequest) {
-        final UserEntity user = new UserEntity(
-                userRegisterRequest.getFirstName(),
-                userRegisterRequest.getLastName(),
-                userRegisterRequest.getEmail(),
-                userRegisterRequest.getPassword()
-        );
+        final UserEntity user = new UserEntity();
+
+        user.setFirstName(userRegisterRequest.getFirstName());
+        user.setLastName(userRegisterRequest.getLastName());
+        user.setEmail(userRegisterRequest.getEmail());
+        user.setPasswordHash(userRegisterRequest.getPassword());
 
         if (userRegisterRequest.getRole().equalsIgnoreCase(ADMIN)) {
             user.setRole(UserRole.ROLE_ADMIN);

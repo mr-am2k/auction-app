@@ -1,8 +1,10 @@
 package com.internship.auctionapp.util.security.jwt;
 
-import com.internship.auctionapp.util.security.services.DefaultUserDetailsService;
+import com.internship.auctionapp.util.security.services.DefaultAuthService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,17 +17,18 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
-    private final String AUTHORIZATION = "Authorization";
+    private final String AUTHORIZATION_HEADER = "Authorization";
     private final String BEARER = "Bearer";
 
     @Autowired
     private JwtUtils jwtUtils;
 
     @Autowired
-    private DefaultUserDetailsService userDetailsService;
+    private DefaultAuthService userDetailsService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthTokenFilter.class);
 
@@ -54,7 +57,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     private String parseJwt(HttpServletRequest request) {
-        String headerAuth = request.getHeader(AUTHORIZATION);
+        String headerAuth = request.getHeader(AUTHORIZATION_HEADER);
 
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(BEARER)) {
             return headerAuth.substring(BEARER.length());

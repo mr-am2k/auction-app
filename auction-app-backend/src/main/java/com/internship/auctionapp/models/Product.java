@@ -1,6 +1,7 @@
 package com.internship.auctionapp.models;
 
 import com.internship.auctionapp.entities.ProductEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

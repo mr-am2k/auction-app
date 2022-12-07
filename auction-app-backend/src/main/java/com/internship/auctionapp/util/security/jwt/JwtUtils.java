@@ -1,14 +1,17 @@
 package com.internship.auctionapp.util.security.jwt;
 
 import com.internship.auctionapp.util.security.services.DefaultUserDetails;
+
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -23,8 +26,7 @@ public class JwtUtils {
     private String jwtSecret;
 
     @Value("${app.jwtExpirationMs}")
-    private int jwtExpirationMs;
-
+    private Integer jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {
         final DefaultUserDetails userPrincipal = (DefaultUserDetails) authentication.getPrincipal();

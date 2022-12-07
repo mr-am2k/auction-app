@@ -5,13 +5,17 @@ import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateProductRequest;
+
 import org.modelmapper.ModelMapper;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Repository;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;

@@ -3,6 +3,7 @@ package com.internship.auctionapp.entities;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.util.DateUtils;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,9 +21,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import javax.validation.constraints.DecimalMin;
+
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;

@@ -4,24 +4,25 @@ import com.internship.auctionapp.models.JwtResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
-import com.internship.auctionapp.util.security.services.UserDetailsServiceCustom;
+import com.internship.auctionapp.util.security.services.AuthService;
+
 import org.springframework.stereotype.Service;
 
 @Service
 public class DefaultUserService implements UserService {
-    private final UserDetailsServiceCustom userDetailsServiceCustom;
+    private final AuthService authService;
 
-    public DefaultUserService(UserDetailsServiceCustom userDetailsServiceCustom) {
-        this.userDetailsServiceCustom = userDetailsServiceCustom;
+    public DefaultUserService(AuthService authService) {
+        this.authService = authService;
     }
 
     @Override
     public JwtResponse login(UserLoginRequest loginRequest) {
-        return userDetailsServiceCustom.login(loginRequest);
+        return authService.login(loginRequest);
     }
 
     @Override
     public User register(UserRegisterRequest registerRequest) {
-        return userDetailsServiceCustom.register(registerRequest);
+        return authService.register(registerRequest);
     }
 }

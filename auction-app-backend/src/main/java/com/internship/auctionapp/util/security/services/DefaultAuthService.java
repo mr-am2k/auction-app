@@ -10,7 +10,9 @@ import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.repositories.user.UserRepository;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
+import com.internship.auctionapp.util.RegexUtils;
 import com.internship.auctionapp.util.security.jwt.JwtUtils;
+
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,14 +24,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
-public class DefaultUserDetailsService implements UserDetailsService, UserDetailsServiceCustom {
+public class DefaultAuthService implements UserDetailsService, AuthService {
     private final UserRepository userRepository;
 
     private final AuthenticationManager authenticationManager;
@@ -38,13 +37,7 @@ public class DefaultUserDetailsService implements UserDetailsService, UserDetail
 
     private final JwtUtils jwtUtils;
 
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
-            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-
-    public static final Pattern VALID_PASSWORD_REGEX =
-            Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", Pattern.CASE_INSENSITIVE);
-
-    public DefaultUserDetailsService(
+    public DefaultAuthService(
             UserRepository userRepository,
             @Lazy AuthenticationManager authenticationManager,
             @Lazy PasswordEncoder encoder,
@@ -57,11 +50,10 @@ public class DefaultUserDetailsService implements UserDetailsService, UserDetail
     }
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         final UserEntity user = userRepository.findByEmail(email);
 
-        if(user == null){
+        if (user == null) {
             throw new UserNotFoundByEmailException(email);
         }
 
@@ -70,20 +62,9 @@ public class DefaultUserDetailsService implements UserDetailsService, UserDetail
 
     @Override
     public JwtResponse login(UserLoginRequest loginRequest) {
-        Matcher emailMatcher = VALID_EMAIL_ADDRESS_REGEX.matcher(loginRequest.getEmail());
-
-        Matcher passwordMatcher = VALID_PASSWORD_REGEX.matcher(loginRequest.getPassword());
-
-        if(!emailMatcher.find()){
-            throw new EmailNotValidException();
-        }
-
-        if(!passwordMatcher.find()){
-            throw new PasswordNotValidException();
-        }
-
         final Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+        );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -104,22 +85,16 @@ public class DefaultUserDetailsService implements UserDetailsService, UserDetail
             throw new UserAlreadyExistsException(registerRequest.getEmail());
         }
 
-        Matcher emailMatcher = VALID_EMAIL_ADDRESS_REGEX.matcher(registerRequest.getEmail());
-
-        Matcher passwordMatcher = VALID_PASSWORD_REGEX.matcher(registerRequest.getPassword());
-
-        if(!emailMatcher.find()){
+        if (!RegexUtils.validate(RegexUtils.VALID_EMAIL_ADDRESS_REGEX, registerRequest.getEmail())) {
             throw new EmailNotValidException();
         }
 
-        if(!passwordMatcher.find()){
+        if (!RegexUtils.validate(RegexUtils.VALID_PASSWORD_REGEX, registerRequest.getPassword())) {
             throw new PasswordNotValidException();
         }
 
         registerRequest.setPassword(encoder.encode(registerRequest.getPassword()));
 
-        User user = userRepository.registerUser(registerRequest).toDomainModel();
-
-        return user;
+        return userRepository.registerUser(registerRequest).toDomainModel();
     }
 }

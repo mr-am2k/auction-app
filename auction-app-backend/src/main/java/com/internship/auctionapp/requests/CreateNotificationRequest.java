@@ -1,6 +1,7 @@
 package com.internship.auctionapp.requests;
 
 import com.internship.auctionapp.util.NotificationType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

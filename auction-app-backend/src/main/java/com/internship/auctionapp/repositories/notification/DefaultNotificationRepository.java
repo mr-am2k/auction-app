@@ -7,6 +7,7 @@ import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

@@ -1,8 +1,10 @@
 package com.internship.auctionapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.util.UserRole;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -71,31 +74,6 @@ public class UserEntity {
             orphanRemoval = true
     )
     private List<NotificationEntity> notificationEntities;
-
-    public UserEntity(String firstName, String lastName, String email, String passwordHash) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.passwordHash = passwordHash;
-    }
-
-    public UserEntity(
-            UUID id,
-            String firstName,
-            String lastName,
-            String email,
-            String passwordHash,
-            String phoneNumber,
-            UserRole role
-    ) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.passwordHash = passwordHash;
-        this.phoneNumber = phoneNumber;
-        this.role = role;
-    }
 
     public User toDomainModel() {
         User user = new User();
