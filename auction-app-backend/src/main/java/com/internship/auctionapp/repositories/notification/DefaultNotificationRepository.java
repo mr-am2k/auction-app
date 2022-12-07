@@ -40,7 +40,9 @@ public class DefaultNotificationRepository implements NotificationRepository {
 
     @Override
     public Notification createNotification(CreateNotificationRequest createNotificationRequest) {
-        final UserEntity user = userJpaRepository.findById(createNotificationRequest.getUserId()).get();
+        final UserEntity user = userJpaRepository
+                .findById(createNotificationRequest.getUserId())
+                .get();
 
         final ProductEntity product = productJpaRepository
                 .findById(createNotificationRequest.getProductId())
@@ -52,7 +54,9 @@ public class DefaultNotificationRepository implements NotificationRepository {
                 product
         );
 
-        return notificationJpaRepository.save(notification).toDomainModel();
+        return notificationJpaRepository
+                .save(notification)
+                .toDomainModel();
     }
 
     @Override
@@ -63,7 +67,8 @@ public class DefaultNotificationRepository implements NotificationRepository {
     }
 
     public List<Notification> getNotificationsByProductIdForAllUsersExcept(UUID userId, UUID productId) {
-        return notificationJpaRepository.findDistinctByUserIdNotAndProductId(userId, productId).stream()
+        return notificationJpaRepository
+                .findDistinctByUserIdNotAndProductId(userId, productId).stream()
                 .map(notificationEntity -> notificationEntity.toDomainModel())
                 .collect(Collectors.toList());
     }

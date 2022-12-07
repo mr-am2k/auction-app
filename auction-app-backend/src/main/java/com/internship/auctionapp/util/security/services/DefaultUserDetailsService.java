@@ -48,7 +48,8 @@ public class DefaultUserDetailsService implements UserDetailsService, UserDetail
             UserRepository userRepository,
             @Lazy AuthenticationManager authenticationManager,
             @Lazy PasswordEncoder encoder,
-            JwtUtils jwtUtils) {
+            JwtUtils jwtUtils
+    ) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.encoder = encoder;
@@ -69,6 +70,18 @@ public class DefaultUserDetailsService implements UserDetailsService, UserDetail
 
     @Override
     public JwtResponse login(UserLoginRequest loginRequest) {
+        Matcher emailMatcher = VALID_EMAIL_ADDRESS_REGEX.matcher(loginRequest.getEmail());
+
+        Matcher passwordMatcher = VALID_PASSWORD_REGEX.matcher(loginRequest.getPassword());
+
+        if(!emailMatcher.find()){
+            throw new EmailNotValidException();
+        }
+
+        if(!passwordMatcher.find()){
+            throw new PasswordNotValidException();
+        }
+
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 

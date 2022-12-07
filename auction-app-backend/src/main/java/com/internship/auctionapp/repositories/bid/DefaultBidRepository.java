@@ -45,7 +45,9 @@ public class DefaultBidRepository implements BidRepository {
                 user
         );
 
-        return bidJpaRepository.save(newBidEntity).toDomainModel();
+        return bidJpaRepository
+                .save(newBidEntity)
+                .toDomainModel();
     }
 
     @Override

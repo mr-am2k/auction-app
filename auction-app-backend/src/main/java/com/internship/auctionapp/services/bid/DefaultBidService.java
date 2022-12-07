@@ -32,7 +32,8 @@ public class DefaultBidService implements BidService {
     public DefaultBidService(
             BidRepository bidRepository,
             ProductRepository productRepository,
-            NotificationService notificationService) {
+            NotificationService notificationService
+    ) {
         this.bidRepository = bidRepository;
         this.productRepository = productRepository;
         this.notificationService = notificationService;

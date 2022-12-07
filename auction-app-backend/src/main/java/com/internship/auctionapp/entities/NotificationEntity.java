@@ -39,7 +39,6 @@ public class NotificationEntity {
     @Column(name = "message", nullable = false)
     private NotificationType type;
 
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;

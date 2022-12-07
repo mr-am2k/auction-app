@@ -28,7 +28,7 @@ public class BidController {
     }
 
     @PostMapping()
-    public Bid addBid(@RequestBody CreateBidRequest createBidRequest){
+    public Bid addBid(@RequestBody CreateBidRequest createBidRequest) {
         return bidService.addBid(createBidRequest);
     }
 
@@ -43,7 +43,7 @@ public class BidController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBid(@PathVariable("id") UUID id){
-         bidService.deleteBid(id);
+    public void deleteBid(@PathVariable("id") UUID id) {
+        bidService.deleteBid(id);
     }
 }
