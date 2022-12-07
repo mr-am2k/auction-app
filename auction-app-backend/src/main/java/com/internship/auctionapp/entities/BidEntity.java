@@ -43,12 +43,14 @@ public class BidEntity {
     @JsonIgnore
     private ProductEntity product;
 
-    private UUID userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
-    public BidEntity(double price, ProductEntity product, UUID userId) {
+    public BidEntity(double price, ProductEntity product, UserEntity user) {
         this.price = price;
         this.product = product;
-        this.userId = userId;
+        this.user = user;
     }
 
     public Bid toDomainModel() {
@@ -58,7 +60,7 @@ public class BidEntity {
         bid.setPrice(this.price);
         bid.setCreationDateTime(this.creationDateTime);
         bid.setProductId(this.product.getId());
-        bid.setUserId(this.getUserId());
+        bid.setUserId(this.user.getId());
 
         return bid;
     }

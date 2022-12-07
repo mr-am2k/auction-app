@@ -1,19 +1,22 @@
 package com.internship.auctionapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.util.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -36,6 +39,7 @@ public class UserEntity {
     private String email;
 
     @Column(name = "password_hash", nullable = false)
+    @JsonIgnore
     private String passwordHash;
 
     @Column(name = "phone_number")
@@ -44,6 +48,30 @@ public class UserEntity {
     @Column(name = "role", nullable = false)
     private UserRole role = UserRole.ROLE_USER;
 
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    private List<ProductEntity> productEntities;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    private List<BidEntity> bidEntities;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    private List<NotificationEntity> notificationEntities;
+
     public UserEntity(String firstName, String lastName, String email, String passwordHash) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -51,7 +79,25 @@ public class UserEntity {
         this.passwordHash = passwordHash;
     }
 
-    public User toDomainModel(){
+    public UserEntity(
+            UUID id,
+            String firstName,
+            String lastName,
+            String email,
+            String passwordHash,
+            String phoneNumber,
+            UserRole role
+    ) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+    }
+
+    public User toDomainModel() {
         User user = new User();
 
         user.setId(this.id);

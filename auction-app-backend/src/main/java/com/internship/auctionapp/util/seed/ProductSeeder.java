@@ -1,7 +1,10 @@
-package com.internship.auctionapp.util;
+package com.internship.auctionapp.util.seed;
 
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.repositories.product.ProductJpaRepository;
+import com.internship.auctionapp.repositories.user.UserJpaRepository;
+import com.internship.auctionapp.util.UserRole;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -15,17 +18,18 @@ import java.util.UUID;
 public class ProductSeeder implements CommandLineRunner {
     final ProductJpaRepository productRepository;
 
+    private final UserJpaRepository userRepository;
+
     String PRODUCT_DESCRIPTION = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
             "Vestibulum hendrerit odio a erat lobortis auctor. " +
             "Curabitur sodales pharetra placerat. Aenean auctor luctus tempus. Cras laoreet et magna in dignissim. " +
             "Nam et tincidunt augue. Vivamus quis malesuada velit. In hac habitasse platea dictumst. ";
 
-    String USER_1_ID = "ccd5d47b-a868-4a3d-ba39-6e966ccaa24e";
+    String USER_ID = "ccd5d47b-a868-4a3d-ba39-6e966ccaa24e";
 
-    String USER_2_ID = "c7c99f3b-2a74-49b5-9552-8dd2d57c1234";
-
-    public ProductSeeder(ProductJpaRepository productRepository) {
+    public ProductSeeder(ProductJpaRepository productRepository, UserJpaRepository userRepository) {
         this.productRepository = productRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -35,6 +39,22 @@ public class ProductSeeder implements CommandLineRunner {
 
     public void seedData() {
         if (productRepository.count() == 0) {
+            if(userRepository.count() == 0){
+                final UserEntity user = new UserEntity(
+                        UUID.fromString(USER_ID),
+                        "Muamer",
+                        "Alickovic",
+                        "alickovicmuamer@gmail.com",
+                        "Passw)&rd",
+                        "061-061-061",
+                        UserRole.ROLE_ADMIN
+                );
+
+                userRepository.save(user);
+            }
+
+            final UserEntity user1 = userRepository.findAll().get(0);
+
             final ProductEntity product1 = new ProductEntity("Running Shoes",
                     PRODUCT_DESCRIPTION ,
                     List.of("https://media.cntraveler.com/photos/62e7cbd7af14e65bfedc7cd0/master/w_2100,h_1500,c_limit/" +
@@ -44,7 +64,7 @@ public class ProductSeeder implements CommandLineRunner {
                                     "run-flat-footed-runningshoes-1642804867.jpg"),
                     55.50,
                     ZonedDateTime.of(LocalDateTime.of(2023, 12, 12, 19, 30, 40),ZoneOffset.UTC),
-                    UUID.fromString(USER_1_ID));
+                    user1);
 
             final ProductEntity product2 = new ProductEntity("Black shirt",
                     PRODUCT_DESCRIPTION ,
@@ -57,7 +77,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     25.25,
                     ZonedDateTime.of(LocalDateTime.of(2023, 05, 11, 11, 20, 23), ZoneOffset.UTC),
-                    UUID.fromString(USER_1_ID));
+                    user1);
 
             final ProductEntity product3 = new ProductEntity("Nike Air Force",
                     PRODUCT_DESCRIPTION ,
@@ -70,7 +90,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     125.50,
                     ZonedDateTime.of(LocalDateTime.of(2022, 12, 12, 15, 15, 15), ZoneOffset.UTC),
-                    UUID.fromString(USER_1_ID));
+                    user1);
 
             final ProductEntity product4 = new ProductEntity("Coat",
                     PRODUCT_DESCRIPTION ,
@@ -84,7 +104,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     91.99,
                     ZonedDateTime.of(LocalDateTime.of(2023, 4, 9, 21, 14, 44), ZoneOffset.UTC),
-                    UUID.fromString(USER_2_ID));
+                    user1);
 
             final ProductEntity product5 = new ProductEntity("Summer shirt",
                     PRODUCT_DESCRIPTION ,
@@ -96,7 +116,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     15.50,
                     ZonedDateTime.of(LocalDateTime.of(2024, 12, 12, 12, 12, 12), ZoneOffset.UTC),
-                    UUID.fromString(USER_2_ID));
+                    user1);
 
             final ProductEntity product6 = new ProductEntity("Shorts",
                     PRODUCT_DESCRIPTION ,
@@ -110,7 +130,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     25.25,
                     ZonedDateTime.of(LocalDateTime.of(2024, 9, 12, 9, 45, 11), ZoneOffset.UTC),
-                    UUID.fromString(USER_2_ID));
+                    user1);
 
             final ProductEntity product7 = new ProductEntity("Jacket",
                     PRODUCT_DESCRIPTION ,
@@ -123,7 +143,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     75.50,
                     ZonedDateTime.of(LocalDateTime.of(2023, 3, 3, 3, 3, 3), ZoneOffset.UTC),
-                    UUID.fromString(USER_1_ID));
+                    user1);
 
             final ProductEntity product8 = new ProductEntity("Simpson Socks",
                     PRODUCT_DESCRIPTION ,
@@ -138,7 +158,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     9.50,
                     ZonedDateTime.of(LocalDateTime.of(2023, 11, 11, 12, 12, 11), ZoneOffset.UTC),
-                    UUID.fromString(USER_2_ID));
+                    user1);
 
             final ProductEntity product9 = new ProductEntity("Ring",
                     PRODUCT_DESCRIPTION ,
@@ -149,7 +169,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     12.45,
                     LocalDateTime.of(2025, 12, 12, 7, 23, 12).atZone(ZoneOffset.UTC),
-                    UUID.fromString(USER_1_ID));
+                    user1);
 
             final ProductEntity product10 = new ProductEntity("Watch",
                     PRODUCT_DESCRIPTION ,
@@ -159,7 +179,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     85.50,
                     ZonedDateTime.of(LocalDateTime.of(2024, 7, 12, 14, 12, 9), ZoneOffset.UTC),
-                    UUID.fromString(USER_2_ID));
+                    user1);
 
             productRepository.save(product1);
             productRepository.save(product2);

@@ -1,9 +1,9 @@
 package com.internship.auctionapp.repositories.product;
 
+import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
-import com.internship.auctionapp.repositories.bid.BidRepository;
-import com.internship.auctionapp.repositories.notification.NotificationRepository;
+import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -20,14 +20,11 @@ import java.util.stream.Collectors;
 public class DefaultProductRepository implements ProductRepository {
     private final ProductJpaRepository productJpaRepository;
 
-    private final BidRepository bidRepository;
+    private final UserJpaRepository userJpaRepository;
 
-    private final NotificationRepository notificationRepository;
-
-    public DefaultProductRepository(ProductJpaRepository productJpaRepository, BidRepository bidRepository, NotificationRepository notificationRepository) {
+    public DefaultProductRepository(ProductJpaRepository productJpaRepository, UserJpaRepository userJpaRepository) {
         this.productJpaRepository = productJpaRepository;
-        this.bidRepository = bidRepository;
-        this.notificationRepository = notificationRepository;
+        this.userJpaRepository = userJpaRepository;
     }
 
     @Override
@@ -46,7 +43,10 @@ public class DefaultProductRepository implements ProductRepository {
         productEntity.setImageURLs(createProductRequest.getImageURLs());
         productEntity.setStartPrice(createProductRequest.getStartPrice());
         productEntity.setExpirationDateTime(createProductRequest.getExpirationDateTime().atZone(ZoneOffset.UTC));
-        productEntity.setUserId(createProductRequest.getUserId());
+
+        UserEntity user = userJpaRepository.findById(createProductRequest.getUserId()).get();
+
+        productEntity.setUser(user);
 
         return productJpaRepository.save(productEntity).toDomainModel();
     }
