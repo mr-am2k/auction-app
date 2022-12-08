@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class DefaultUserRepository implements UserRepository {
-    private final String ADMIN = "admin";
+    private final String ROLE_ADMIN = "admin";
 
     private final UserJpaRepository userJpaRepository;
 
@@ -39,9 +39,10 @@ public class DefaultUserRepository implements UserRepository {
         user.setFirstName(userRegisterRequest.getFirstName());
         user.setLastName(userRegisterRequest.getLastName());
         user.setEmail(userRegisterRequest.getEmail());
+        user.setUsername(userRegisterRequest.getEmail());
         user.setPasswordHash(userRegisterRequest.getPassword());
 
-        if (userRegisterRequest.getRole().equalsIgnoreCase(ADMIN)) {
+        if (userRegisterRequest.getRole().equalsIgnoreCase(ROLE_ADMIN)) {
             user.setRole(UserRole.ROLE_ADMIN);
         }
 
@@ -57,10 +58,7 @@ public class DefaultUserRepository implements UserRepository {
 
     @Override
     public User getUserById(UUID id) {
-        final User user = userJpaRepository
-                .findById(id)
-                .get()
-                .toDomainModel();
+        final User user = userJpaRepository.findById(id).get().toDomainModel();
 
         if (user == null) {
             throw new UserNotFoundByIdException(String.valueOf(id));

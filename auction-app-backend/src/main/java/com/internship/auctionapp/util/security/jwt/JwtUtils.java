@@ -2,6 +2,7 @@ package com.internship.auctionapp.util.security.jwt;
 
 import com.internship.auctionapp.util.security.services.DefaultUserDetails;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -14,9 +15,16 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtUtils {
@@ -31,8 +39,13 @@ public class JwtUtils {
     public String generateJwtToken(Authentication authentication) {
         final DefaultUserDetails userPrincipal = (DefaultUserDetails) authentication.getPrincipal();
 
+        Map<String, Object> claims = new HashMap<>();
+
         return Jwts.builder()
-                .setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
+                .setIssuer("App")
+                .setClaims(claims)
+                .setSubject((userPrincipal.getUsername()))
+                .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
@@ -44,7 +57,8 @@ public class JwtUtils {
 
     public boolean validateJwtToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody();
+
             return true;
         } catch (SignatureException e) {
             logger.error("Invalid JWT signature: {}", e.getMessage());

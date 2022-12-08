@@ -9,7 +9,7 @@ public class RegexUtils {
     public static final Pattern VALID_PASSWORD_REGEX =
             Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
 
-    public static boolean validate(Pattern pattern, String toValidate) {
+    public static boolean match(Pattern pattern, String toValidate) {
         return pattern.matcher(toValidate).find();
     }
 }

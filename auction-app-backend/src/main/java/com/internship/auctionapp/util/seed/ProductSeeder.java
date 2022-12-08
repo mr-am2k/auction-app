@@ -47,6 +47,7 @@ public class ProductSeeder implements CommandLineRunner {
                 user.setId(UUID.fromString(USER_ID));
                 user.setFirstName("Muamer");
                 user.setLastName("Alickovic");
+                user.setUsername("alickovicmuamer@gmail.com");
                 user.setEmail("alickovicmuamer@gmail.com");
                 user.setPasswordHash("Passw)&rd");
                 user.setPhoneNumber("061-061-061");

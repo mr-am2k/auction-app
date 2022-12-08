@@ -1,12 +1,14 @@
 package com.internship.auctionapp.util.security.services;
 
-import com.internship.auctionapp.models.JwtResponse;
+import com.internship.auctionapp.models.AuthResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface AuthService {
-    JwtResponse login(UserLoginRequest loginRequest);
+    AuthResponse login(UserLoginRequest loginRequest);
 
     User register(UserRegisterRequest registerRequest);
 }

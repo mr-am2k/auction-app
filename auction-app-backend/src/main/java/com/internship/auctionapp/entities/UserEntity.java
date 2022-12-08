@@ -41,6 +41,9 @@ public class UserEntity {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Column(name = "username", nullable = false)
+    private String username;
+
     @Column(name = "password_hash", nullable = false)
     @JsonIgnore
     private String passwordHash;

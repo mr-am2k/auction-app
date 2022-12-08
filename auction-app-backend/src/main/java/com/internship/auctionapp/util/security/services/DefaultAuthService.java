@@ -5,14 +5,17 @@ import com.internship.auctionapp.middleware.exception.EmailNotValidException;
 import com.internship.auctionapp.middleware.exception.PasswordNotValidException;
 import com.internship.auctionapp.middleware.exception.UserAlreadyExistsException;
 import com.internship.auctionapp.middleware.exception.UserNotFoundByEmailException;
-import com.internship.auctionapp.models.JwtResponse;
+import com.internship.auctionapp.models.AuthResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.repositories.user.UserRepository;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 import com.internship.auctionapp.util.RegexUtils;
+import com.internship.auctionapp.util.security.jwt.AuthEntryPoint;
 import com.internship.auctionapp.util.security.jwt.JwtUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,11 +27,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class DefaultAuthService implements UserDetailsService, AuthService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultAuthService.class);
     private final UserRepository userRepository;
 
     private final AuthenticationManager authenticationManager;
@@ -61,9 +66,9 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
     }
 
     @Override
-    public JwtResponse login(UserLoginRequest loginRequest) {
+    public AuthResponse login(UserLoginRequest loginRequest) {
         final Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -76,7 +81,7 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return new JwtResponse(jwt, userDetails.getId(), userDetails.getEmail(), roles);
+        return new AuthResponse(jwt, userDetails.getId(), userDetails.getEmail(), roles);
     }
 
     @Override
@@ -85,11 +90,11 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
             throw new UserAlreadyExistsException(registerRequest.getEmail());
         }
 
-        if (!RegexUtils.validate(RegexUtils.VALID_EMAIL_ADDRESS_REGEX, registerRequest.getEmail())) {
+        if (!RegexUtils.match(RegexUtils.VALID_EMAIL_ADDRESS_REGEX, registerRequest.getEmail())) {
             throw new EmailNotValidException();
         }
 
-        if (!RegexUtils.validate(RegexUtils.VALID_PASSWORD_REGEX, registerRequest.getPassword())) {
+        if (!RegexUtils.match(RegexUtils.VALID_PASSWORD_REGEX, registerRequest.getPassword())) {
             throw new PasswordNotValidException();
         }
 

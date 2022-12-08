@@ -41,13 +41,9 @@ public class DefaultNotificationRepository implements NotificationRepository {
 
     @Override
     public Notification createNotification(CreateNotificationRequest createNotificationRequest) {
-        final UserEntity user = userJpaRepository
-                .findById(createNotificationRequest.getUserId())
-                .get();
+        final UserEntity user = userJpaRepository.findById(createNotificationRequest.getUserId()).get();
 
-        final ProductEntity product = productJpaRepository
-                .findById(createNotificationRequest.getProductId())
-                .get();
+        final ProductEntity product = productJpaRepository.findById(createNotificationRequest.getProductId()).get();
 
         final NotificationEntity notification = new NotificationEntity(
                 createNotificationRequest.getType(),
@@ -55,9 +51,7 @@ public class DefaultNotificationRepository implements NotificationRepository {
                 product
         );
 
-        return notificationJpaRepository
-                .save(notification)
-                .toDomainModel();
+        return notificationJpaRepository.save(notification).toDomainModel();
     }
 
     @Override

@@ -48,9 +48,7 @@ public class DefaultProductRepository implements ProductRepository {
         productEntity.setStartPrice(createProductRequest.getStartPrice());
         productEntity.setExpirationDateTime(createProductRequest.getExpirationDateTime().atZone(ZoneOffset.UTC));
 
-        UserEntity user = userJpaRepository
-                .findById(createProductRequest.getUserId())
-                .get();
+        UserEntity user = userJpaRepository.findById(createProductRequest.getUserId()).get();
 
         productEntity.setUser(user);
 
@@ -61,10 +59,7 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public Product getSingleProduct(UUID id) {
-        return productJpaRepository
-                .findById(id)
-                .get()
-                .toDomainModel();
+        return productJpaRepository.findById(id).get().toDomainModel();
     }
 
     @Override
@@ -74,9 +69,7 @@ public class DefaultProductRepository implements ProductRepository {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.map(product, productForUpdate);
 
-        return productJpaRepository
-                .save(productForUpdate)
-                .toDomainModel();
+        return productJpaRepository.save(productForUpdate).toDomainModel();
     }
 
     @Override
@@ -86,16 +79,12 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public Product getRandomProduct() {
-        return productJpaRepository
-                .getRandomProduct()
-                .toDomainModel();
+        return productJpaRepository.getRandomProduct().toDomainModel();
     }
 
     @Override
     public Page<Product> getProductsByCriteria(Pageable page) {
-        return productJpaRepository
-                .findAll(page)
-                .map(productEntity -> productEntity.toDomainModel());
+        return productJpaRepository.findAll(page).map(productEntity -> productEntity.toDomainModel());
     }
 
     @Override

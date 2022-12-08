@@ -34,9 +34,7 @@ public class DefaultBidRepository implements BidRepository {
 
     @Override
     public Bid addBid(CreateBidRequest createBidRequest) {
-        final ProductEntity targetedProduct = productJpaRepository
-                .findById(createBidRequest.getProductId())
-                .get();
+        final ProductEntity targetedProduct = productJpaRepository.findById(createBidRequest.getProductId()).get();
 
         final UserEntity user = userJpaRepository.findById(createBidRequest.getUserId()).get();
 
@@ -46,9 +44,7 @@ public class DefaultBidRepository implements BidRepository {
                 user
         );
 
-        return bidJpaRepository
-                .save(newBidEntity)
-                .toDomainModel();
+        return bidJpaRepository.save(newBidEntity).toDomainModel();
     }
 
     @Override
@@ -65,8 +61,6 @@ public class DefaultBidRepository implements BidRepository {
 
     @Override
     public Bid getHighestBid(UUID productId) {
-        return bidJpaRepository
-                .findTopByProductIdOrderByPriceDesc(productId)
-                .toDomainModel();
+        return bidJpaRepository.findTopByProductIdOrderByPriceDesc(productId).toDomainModel();
     }
 }

@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtResponse {
+public class AuthResponse {
     private String token;
 
     private String type = "Bearer";
@@ -21,7 +21,7 @@ public class JwtResponse {
 
     private List<String> roles;
 
-    public JwtResponse(String accessToken, UUID id, String email, List<String> roles) {
+    public AuthResponse(String accessToken, UUID id, String email, List<String> roles) {
         this.token = accessToken;
         this.id = id;
         this.email = email;
