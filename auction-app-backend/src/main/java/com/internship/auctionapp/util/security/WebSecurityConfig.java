@@ -6,6 +6,7 @@ import com.internship.auctionapp.util.security.services.DefaultAuthService;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -15,12 +16,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebSecurityConfig {
     private final DefaultAuthService userDetailsService;
 
     private final AuthEntryPoint unauthorizedHandler;
+
+    private final String[] SWAGGER_WHITELIST = {
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+    };
 
     public WebSecurityConfig(DefaultAuthService userDetailsService, AuthEntryPoint unauthorizedHandler) {
         this.userDetailsService = userDetailsService;
@@ -59,7 +74,9 @@ public class WebSecurityConfig {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests().antMatchers("/api/v1/auth/**").permitAll()
+                .authorizeRequests().antMatchers(SWAGGER_WHITELIST).permitAll()
+                .antMatchers("/api/v1/auth/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v1/**").permitAll()
                 .antMatchers("/api/v1/**").hasAnyAuthority("ROLE_USER")
                 .anyRequest().authenticated();
 
@@ -68,5 +85,18 @@ public class WebSecurityConfig {
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials");
+            }
+        };
     }
 }

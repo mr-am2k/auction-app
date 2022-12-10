@@ -1,7 +1,6 @@
 package com.internship.auctionapp.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -28,6 +28,6 @@ public class BlacklistedTokenEntity {
     @Column(name = "blacklisted_token", nullable = false)
     private String blacklistedToken;
 
-    @Column(name = "blacklisted_time", nullable = false)
-    private LocalDateTime blacklistedTime;
+    @Column(name = "token_expiration_time", nullable = false)
+    private LocalDateTime tokenExpirationTime;
 }

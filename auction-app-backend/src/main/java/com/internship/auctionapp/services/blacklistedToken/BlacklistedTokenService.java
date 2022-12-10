@@ -6,4 +6,6 @@ public interface BlacklistedTokenService {
     BlacklistedTokenEntity addBlacklistedToken(String token);
 
     boolean checkIfTokenIsBlacklisted(String token);
+
+    void deleteAllExpiredTokens();
 }

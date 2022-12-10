@@ -1,4 +1,4 @@
-package com.internship.auctionapp.util;
+package com.internship.auctionapp.util.events;
 
 import com.internship.auctionapp.services.product.ProductService;
 

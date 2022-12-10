@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,11 +62,17 @@ public class JwtUtils {
         blacklistedTokenService.addBlacklistedToken(token);
     }
 
+    public LocalDateTime getTokenExpirationTime(String token) {
+        Date expirationDate = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getExpiration();
+
+        return LocalDateTime.ofInstant(expirationDate.toInstant(), ZoneId.systemDefault());
+    }
+
     public boolean validateJwtToken(String authToken) {
         if (blacklistedTokenService.checkIfTokenIsBlacklisted(authToken)) {
             return false;
         }
-        
+
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody();
 
