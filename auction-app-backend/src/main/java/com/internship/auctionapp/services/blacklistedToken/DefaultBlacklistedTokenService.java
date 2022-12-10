@@ -16,4 +16,9 @@ public class DefaultBlacklistedTokenService implements BlacklistedTokenService {
     public BlacklistedTokenEntity addBlacklistedToken(String token) {
         return blacklistedTokenRepository.addBlacklistedToken(token);
     }
+
+    @Override
+    public boolean checkIfTokenIsBlacklisted(String token) {
+        return blacklistedTokenRepository.checkIfTokenIsBlacklisted(token);
+    }
 }

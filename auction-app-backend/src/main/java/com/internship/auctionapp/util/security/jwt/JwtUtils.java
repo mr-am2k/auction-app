@@ -56,11 +56,15 @@ public class JwtUtils {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public void blacklistToken(String token){
+    public void blacklistToken(String token) {
         blacklistedTokenService.addBlacklistedToken(token);
     }
 
     public boolean validateJwtToken(String authToken) {
+        if (blacklistedTokenService.checkIfTokenIsBlacklisted(authToken)) {
+            return false;
+        }
+        
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody();
 

@@ -22,4 +22,9 @@ public class DefaultBlacklistedTokenRepository implements BlacklistedTokenReposi
 
         return blacklistedTokenJpaRepository.save(blacklistedToken);
     }
+
+    @Override
+    public boolean checkIfTokenIsBlacklisted(String token) {
+        return blacklistedTokenJpaRepository.existsByBlacklistedToken(token);
+    }
 }
