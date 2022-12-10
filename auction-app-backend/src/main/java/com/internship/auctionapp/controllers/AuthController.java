@@ -37,4 +37,9 @@ public class AuthController {
     public User register(@RequestBody UserRegisterRequest registerRequest) {
         return userService.register(registerRequest);
     }
+
+    @GetMapping("/logout")
+    public void logout(HttpServletRequest request){
+        userService.logout(request);
+    }
 }

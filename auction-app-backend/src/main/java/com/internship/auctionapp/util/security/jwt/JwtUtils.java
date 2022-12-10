@@ -1,8 +1,8 @@
 package com.internship.auctionapp.util.security.jwt;
 
+import com.internship.auctionapp.services.blacklistedToken.BlacklistedTokenService;
 import com.internship.auctionapp.util.security.services.DefaultUserDetails;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -15,13 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +30,12 @@ public class JwtUtils {
 
     @Value("${app.jwtExpirationMs}")
     private Integer jwtExpirationMs;
+
+    private final BlacklistedTokenService blacklistedTokenService;
+
+    public JwtUtils(BlacklistedTokenService blacklistedTokenService) {
+        this.blacklistedTokenService = blacklistedTokenService;
+    }
 
     public String generateJwtToken(Authentication authentication) {
         final DefaultUserDetails userPrincipal = (DefaultUserDetails) authentication.getPrincipal();
@@ -53,6 +54,10 @@ public class JwtUtils {
 
     public String getEmailFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public void blacklistToken(String token){
+        blacklistedTokenService.addBlacklistedToken(token);
     }
 
     public boolean validateJwtToken(String authToken) {

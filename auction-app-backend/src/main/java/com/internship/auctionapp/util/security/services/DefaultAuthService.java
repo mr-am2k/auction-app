@@ -42,6 +42,9 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
 
     private final JwtUtils jwtUtils;
 
+    private final String AUTHORIZATION_HEADER = "Authorization";
+    private final String BEARER = "Bearer";
+
     public DefaultAuthService(
             UserRepository userRepository,
             @Lazy AuthenticationManager authenticationManager,
@@ -101,5 +104,17 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
         registerRequest.setPassword(encoder.encode(registerRequest.getPassword()));
 
         return userRepository.registerUser(registerRequest).toDomainModel();
+    }
+
+    @Override
+    public void logout(HttpServletRequest request) {
+        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
+        String token = null;
+
+        if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER)) {
+            token = requestTokenHeader.substring(BEARER.length());
+        }
+
+        jwtUtils.blacklistToken(token);
     }
 }

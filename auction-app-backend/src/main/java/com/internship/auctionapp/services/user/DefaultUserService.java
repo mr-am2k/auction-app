@@ -27,4 +27,9 @@ public class DefaultUserService implements UserService {
     public User register(UserRegisterRequest registerRequest) {
         return authService.register(registerRequest);
     }
+
+    @Override
+    public void logout(HttpServletRequest request) {
+        authService.logout(request);
+    }
 }

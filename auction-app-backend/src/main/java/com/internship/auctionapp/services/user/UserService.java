@@ -11,4 +11,6 @@ public interface UserService {
     AuthResponse login(UserLoginRequest loginRequest);
 
     User register(UserRegisterRequest registerRequest);
+
+    void logout(HttpServletRequest request);
 }
