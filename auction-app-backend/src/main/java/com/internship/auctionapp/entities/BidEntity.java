@@ -2,6 +2,7 @@ package com.internship.auctionapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.internship.auctionapp.models.Bid;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,9 +16,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+
 import java.util.UUID;
 
 @Entity
@@ -43,12 +46,14 @@ public class BidEntity {
     @JsonIgnore
     private ProductEntity product;
 
-    private UUID userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
-    public BidEntity(double price, ProductEntity product, UUID userId) {
+    public BidEntity(double price, ProductEntity product, UserEntity user) {
         this.price = price;
         this.product = product;
-        this.userId = userId;
+        this.user = user;
     }
 
     public Bid toDomainModel() {
@@ -58,7 +63,7 @@ public class BidEntity {
         bid.setPrice(this.price);
         bid.setCreationDateTime(this.creationDateTime);
         bid.setProductId(this.product.getId());
-        bid.setUserId(this.getUserId());
+        bid.setUserId(this.user.getId());
 
         return bid;
     }

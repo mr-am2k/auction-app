@@ -1,4 +1,4 @@
-package com.internship.auctionapp.services;
+package com.internship.auctionapp.services.bid;
 
 import com.internship.auctionapp.middleware.exception.BidCreationFailedException;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanHighestBidPriceException;
@@ -6,14 +6,16 @@ import com.internship.auctionapp.middleware.exception.BidPriceLowerThanProductPr
 import com.internship.auctionapp.middleware.exception.BidNotFoundException;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.repositories.bid.BidRepository;
-import com.internship.auctionapp.repositories.notification.NotificationRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.requests.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
+import com.internship.auctionapp.services.notification.NotificationService;
 import com.internship.auctionapp.util.NotificationType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +23,6 @@ import java.util.UUID;
 
 @Service
 public class DefaultBidService implements BidService {
-
     private final BidRepository bidRepository;
 
     private final ProductRepository productRepository;
@@ -33,7 +34,8 @@ public class DefaultBidService implements BidService {
     public DefaultBidService(
             BidRepository bidRepository,
             ProductRepository productRepository,
-            NotificationService notificationService) {
+            NotificationService notificationService
+    ) {
         this.bidRepository = bidRepository;
         this.productRepository = productRepository;
         this.notificationService = notificationService;

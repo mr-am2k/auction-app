@@ -1,8 +1,10 @@
 package com.internship.auctionapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.internship.auctionapp.models.Notification;
 import com.internship.auctionapp.util.NotificationType;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,9 +18,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+
 import java.util.UUID;
 
 @Entity
@@ -39,8 +43,9 @@ public class NotificationEntity {
     @Column(name = "message", nullable = false)
     private NotificationType type;
 
-    @Column(name = "user_id", nullable = false)
-    private UUID userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -49,11 +54,11 @@ public class NotificationEntity {
 
     public NotificationEntity(
             NotificationType type,
-            UUID userId,
+            UserEntity user,
             ProductEntity product
     ) {
         this.type = type;
-        this.userId = userId;
+        this.user = user;
         this.product = product;
     }
 
@@ -63,7 +68,7 @@ public class NotificationEntity {
         notification.setId(this.id);
         notification.setCreationDateTime(this.creationDateTime);
         notification.setType(String.valueOf(this.type));
-        notification.setUserId(this.getUserId());
+        notification.setUserId(this.user.getId());
         notification.setProductId(this.getProduct().getId());
 
         return notification;

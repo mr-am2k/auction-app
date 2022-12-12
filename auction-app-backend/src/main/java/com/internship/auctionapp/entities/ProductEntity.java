@@ -3,6 +3,7 @@ package com.internship.auctionapp.entities;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.util.DateUtils;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,11 +17,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import javax.validation.constraints.DecimalMin;
+
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -66,18 +72,18 @@ public class ProductEntity {
     )
     private List<BidEntity> bidEntities;
 
-    // TODO: this will be updated in the future to the user entity when we create it
-    @Column(name = "user_id", nullable = false)
-    private UUID userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     public ProductEntity(String name, String description, List<String> imageURLs, Double startPrice,
-                         ZonedDateTime expirationDateTime, UUID userId) {
+                         ZonedDateTime expirationDateTime, UserEntity user) {
         this.name = name;
         this.description = description;
         this.imageURLs = imageURLs;
         this.startPrice = startPrice;
         this.expirationDateTime = expirationDateTime;
-        this.userId = userId;
+        this.user = user;
     }
 
     public ProductEntity(
@@ -87,7 +93,7 @@ public class ProductEntity {
             Double startPrice,
             ZonedDateTime creationDateTime,
             ZonedDateTime expirationDateTime,
-            UUID userId
+            UserEntity user
     ) {
         this.name = name;
         this.description = description;
@@ -95,7 +101,7 @@ public class ProductEntity {
         this.startPrice = startPrice;
         this.creationDateTime = creationDateTime;
         this.expirationDateTime = expirationDateTime;
-        this.userId = userId;
+        this.user = user;
     }
 
     public Product toDomainModel() {
@@ -110,7 +116,7 @@ public class ProductEntity {
                 this.startPrice,
                 this.creationDateTime,
                 this.expirationDateTime,
-                this.userId
+                this.user
         );
 
         Product product = new Product(

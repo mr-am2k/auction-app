@@ -1,6 +1,7 @@
-package com.internship.auctionapp.util;
+package com.internship.auctionapp.util.events;
 
-import com.internship.auctionapp.services.ProductService;
+import com.internship.auctionapp.services.product.ProductService;
+
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 @EnableScheduling
 public class AuctionFinishedScheduler {
-
     private final ProductService productService;
 
     public AuctionFinishedScheduler(ProductService productService) {

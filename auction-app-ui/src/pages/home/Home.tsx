@@ -78,7 +78,7 @@ const Home = () => {
     <div className='c-home-wrapper'>
       <div className='c-top-part'>
         <div className='c-categories'>
-          <p className='c-category-heading'>P{EN_STRINGS.HOME.CATEGORIES}</p>
+          <p className='c-category-heading'>{EN_STRINGS.HOME.CATEGORIES}</p>
           {DUMMY_CATEGORIES.map((item, index: number) => (
             <Category categoryName={item} key={index} />
           ))}
@@ -94,7 +94,7 @@ const Home = () => {
             <div className='c-info'>
               <h1>{randomProduct?.name}</h1>
               <h1 className='c-price'>
-                {EN_STRINGS.HOME.START_FROM} ${randomProduct?.price}
+                {EN_STRINGS.HOME.START_FROM} ${randomProduct?.startPrice}
               </h1>
 
               <p>{randomProduct?.description}</p>

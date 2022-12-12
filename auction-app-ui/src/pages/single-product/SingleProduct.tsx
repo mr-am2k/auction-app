@@ -109,7 +109,7 @@ const SingleProduct = () => {
     <>
       {latestNotification && (
         <NotificationBar
-          notificationMessage={latestNotification!.notificationType}
+          notificationMessage={latestNotification!.type}
         />
       )}
 
@@ -120,7 +120,7 @@ const SingleProduct = () => {
           <h1>{singleProduct?.name}</h1>
           <p>
             {`${EN_STRINGS.SINGLE_PRODUCT.STARTS_FROM}: `}
-            <span>${singleProduct?.price}</span>
+            <span>${singleProduct?.startPrice}</span>
           </p>
 
           <div className='c-bid-container'>

@@ -1,6 +1,7 @@
 package com.internship.auctionapp.models;
 
 import com.internship.auctionapp.entities.ProductEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,7 +34,7 @@ public class Product {
 
     private String remainingTime;
 
-    private UUID userId;
+    private User user;
 
     public Product(UUID productId, ProductEntity productEntity, List<Bid> bids, String remainingTime){
         this.id = productId;
@@ -45,6 +46,6 @@ public class Product {
         this.expirationDateTime = productEntity.getExpirationDateTime();
         this.bids = bids;
         this.remainingTime = remainingTime;
-        this.userId = productEntity.getUserId();
+        this.user = productEntity.getUser().toDomainModel();
     }
 }

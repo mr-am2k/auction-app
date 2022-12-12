@@ -1,10 +1,13 @@
 package com.internship.auctionapp.repositories.notification;
 
+import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.models.Notification;
 import com.internship.auctionapp.entities.NotificationEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.product.ProductJpaRepository;
+import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,17 +16,20 @@ import java.util.stream.Collectors;
 
 @Repository
 public class DefaultNotificationRepository implements NotificationRepository {
-
     private final NotificationJpaRepository notificationJpaRepository;
 
     private final ProductJpaRepository productJpaRepository;
 
+    private final UserJpaRepository userJpaRepository;
+
     public DefaultNotificationRepository(
             NotificationJpaRepository notificationJpaRepository,
-            ProductJpaRepository productJpaRepository
+            ProductJpaRepository productJpaRepository,
+            UserJpaRepository userJpaRepository
     ) {
         this.notificationJpaRepository = notificationJpaRepository;
         this.productJpaRepository = productJpaRepository;
+        this.userJpaRepository = userJpaRepository;
     }
 
     @Override
@@ -35,11 +41,13 @@ public class DefaultNotificationRepository implements NotificationRepository {
 
     @Override
     public Notification createNotification(CreateNotificationRequest createNotificationRequest) {
+        final UserEntity user = userJpaRepository.findById(createNotificationRequest.getUserId()).get();
+
         final ProductEntity product = productJpaRepository.findById(createNotificationRequest.getProductId()).get();
 
         final NotificationEntity notification = new NotificationEntity(
                 createNotificationRequest.getType(),
-                createNotificationRequest.getUserId(),
+                user,
                 product
         );
 
@@ -48,11 +56,14 @@ public class DefaultNotificationRepository implements NotificationRepository {
 
     @Override
     public Notification getNotifications(UUID userId, UUID productId) {
-        return notificationJpaRepository.findTopByUserIdAndProductIdOrderByCreationDateTimeDesc(userId, productId).toDomainModel();
+        return notificationJpaRepository
+                .findTopByUserIdAndProductIdOrderByCreationDateTimeDesc(userId, productId)
+                .toDomainModel();
     }
 
     public List<Notification> getNotificationsByProductIdForAllUsersExcept(UUID userId, UUID productId) {
-        return notificationJpaRepository.findDistinctByUserIdNotAndProductId(userId, productId).stream()
+        return notificationJpaRepository
+                .findDistinctByUserIdNotAndProductId(userId, productId).stream()
                 .map(notificationEntity -> notificationEntity.toDomainModel())
                 .collect(Collectors.toList());
     }

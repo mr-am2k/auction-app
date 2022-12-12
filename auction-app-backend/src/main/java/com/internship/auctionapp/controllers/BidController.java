@@ -2,8 +2,10 @@ package com.internship.auctionapp.controllers;
 
 import com.internship.auctionapp.requests.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;
-import com.internship.auctionapp.services.BidService;
+import com.internship.auctionapp.services.bid.BidService;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +23,6 @@ import java.util.UUID;
 @CrossOrigin
 @Tag(name = "Bids")
 public class BidController {
-
     private final BidService bidService;
 
     public BidController(BidService bidService) {
@@ -29,7 +30,7 @@ public class BidController {
     }
 
     @PostMapping()
-    public Bid addBid(@RequestBody CreateBidRequest createBidRequest){
+    public Bid addBid(@RequestBody CreateBidRequest createBidRequest) {
         return bidService.addBid(createBidRequest);
     }
 
@@ -44,7 +45,7 @@ public class BidController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBid(@PathVariable("id") UUID id){
-         bidService.deleteBid(id);
+    public void deleteBid(@PathVariable("id") UUID id) {
+        bidService.deleteBid(id);
     }
 }

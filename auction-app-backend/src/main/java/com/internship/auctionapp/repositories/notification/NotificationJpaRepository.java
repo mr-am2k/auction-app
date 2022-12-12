@@ -1,6 +1,7 @@
 package com.internship.auctionapp.repositories.notification;
 
 import com.internship.auctionapp.entities.NotificationEntity;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 

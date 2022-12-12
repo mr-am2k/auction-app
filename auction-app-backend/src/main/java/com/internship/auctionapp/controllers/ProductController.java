@@ -3,8 +3,10 @@ package com.internship.auctionapp.controllers;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductRequest;
-import com.internship.auctionapp.services.ProductService;
+import com.internship.auctionapp.services.product.ProductService;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 

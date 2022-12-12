@@ -1,7 +1,7 @@
 export type Bid = {
     id: string;
-    bidPrice: number;
-    bidCreationDateTime: Date;
+    price: number;
+    creationDateTime: Date;
     productId: string;
     userId: string;
 }
