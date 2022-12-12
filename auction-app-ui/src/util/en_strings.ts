@@ -43,8 +43,7 @@ const EN_STRINGS = {
     CUSTOM_REVIEWS: 'Custom reviews',
     PLACE_BID: 'PLACE BID',
     NO_BID_MESSAGE: 'Be first to bid for this product',
-    INPUT_PLACEHOLDER_ENTER: 'Enter $',
-    INPUT_PLACEHOLDER_OR_HIGHER: 'or higher',
+    INPUT_PLACEHOLDER: 'Enter $56 or higher',
     INPUT_BID_ERROR: 'You must enter price first',
   },
 
