@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UserRepository {
-    UserEntity findByEmail(String email);
+    UserEntity findByUsername(String username);
 
     Boolean existsByEmail(String email);
 

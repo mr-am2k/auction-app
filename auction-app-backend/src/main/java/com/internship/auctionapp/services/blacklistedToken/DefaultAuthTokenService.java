@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class DefaultAuthTokenService implements AuthTokenService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultAuthTokenService.class);
 
-    @Value("${app.jwtExpirationMs}")
+    @Value("${app.jwt_expiration_ms}")
     private Long jwtExpiration;
 
     private final AuthTokenRepository authTokenRepository;
@@ -48,8 +48,8 @@ public class DefaultAuthTokenService implements AuthTokenService {
 
         final LocalDateTime endDate = LocalDateTime.now();
 
-        authTokenRepository.removeExpiredTokens(startDate, endDate);
-
         LOGGER.info("Removing expired tokens in time range from:{} - to:{}", startDate, endDate);
+
+        authTokenRepository.removeExpiredTokens(startDate, endDate);
     }
 }

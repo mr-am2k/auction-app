@@ -10,6 +10,10 @@ public class RegexUtils {
             Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
 
     public static boolean match(Pattern pattern, String toValidate) {
+        if(toValidate == null){
+            return false;
+        }
+
         return pattern.matcher(toValidate).find();
     }
 }

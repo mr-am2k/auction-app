@@ -1,5 +1,6 @@
 package com.internship.auctionapp.util.security;
 
+import com.internship.auctionapp.util.UserRole;
 import com.internship.auctionapp.util.security.jwt.AuthEntryPoint;
 import com.internship.auctionapp.util.security.jwt.AuthTokenFilter;
 import com.internship.auctionapp.util.security.services.DefaultAuthService;
@@ -77,7 +78,7 @@ public class WebSecurityConfig {
                 .authorizeRequests().antMatchers(SWAGGER_WHITELIST).permitAll()
                 .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/**").permitAll()
-                .antMatchers("/api/v1/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers("/api/v1/**").hasAnyAuthority(UserRole.ROLE_USER.getValue())
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());

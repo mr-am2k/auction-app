@@ -27,10 +27,10 @@ import java.util.Map;
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${app.jwtSecret}")
+    @Value("${app.jwt_secret}")
     private String jwtSecret;
 
-    @Value("${app.jwtExpirationMs}")
+    @Value("${app.jwt_expiration_ms}")
     private Integer jwtExpirationMs;
 
     private final AuthTokenService authTokenService;
@@ -38,7 +38,6 @@ public class JwtUtils {
     public JwtUtils(AuthTokenService authTokenService) {
         this.authTokenService = authTokenService;
     }
-
 
     public String generateJwtToken(Authentication authentication) {
         final DefaultUserDetails userPrincipal = (DefaultUserDetails) authentication.getPrincipal();

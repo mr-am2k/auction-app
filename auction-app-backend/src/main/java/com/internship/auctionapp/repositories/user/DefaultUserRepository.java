@@ -21,8 +21,8 @@ public class DefaultUserRepository implements UserRepository {
     }
 
     @Override
-    public UserEntity findByEmail(String email) {
-        return userJpaRepository.findByEmail(email);
+    public UserEntity findByUsername(String username) {
+        return userJpaRepository.findByUsername(username);
     }
 
     @Override

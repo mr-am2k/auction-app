@@ -4,7 +4,7 @@ import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.EmailNotValidException;
 import com.internship.auctionapp.middleware.exception.PasswordNotValidException;
 import com.internship.auctionapp.middleware.exception.UserAlreadyExistsException;
-import com.internship.auctionapp.middleware.exception.UserNotFoundByEmailException;
+import com.internship.auctionapp.middleware.exception.UserNotFoundByUsernameException;
 import com.internship.auctionapp.models.AuthResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.repositories.user.UserRepository;
@@ -58,11 +58,11 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        final UserEntity user = userRepository.findByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        final UserEntity user = userRepository.findByUsername(username);
 
         if (user == null) {
-            throw new UserNotFoundByEmailException(email);
+            throw new UserNotFoundByUsernameException(username);
         }
 
         return DefaultUserDetails.build(user);

@@ -48,7 +48,7 @@ public class DefaultProductRepository implements ProductRepository {
         productEntity.setStartPrice(createProductRequest.getStartPrice());
         productEntity.setExpirationDateTime(createProductRequest.getExpirationDateTime().atZone(ZoneOffset.UTC));
 
-        UserEntity user = userJpaRepository.findById(createProductRequest.getUserId()).get();
+        final UserEntity user = userJpaRepository.findById(createProductRequest.getUserId()).get();
 
         productEntity.setUser(user);
 
@@ -64,7 +64,7 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public Product updateProduct(UUID id, ProductEntity product) {
-        ProductEntity productForUpdate = productJpaRepository.findById(id).get();
+        final ProductEntity productForUpdate = productJpaRepository.findById(id).get();
 
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.map(product, productForUpdate);
