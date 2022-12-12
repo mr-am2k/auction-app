@@ -31,7 +31,7 @@ public class DefaultAuthTokenRepository implements AuthTokenRepository {
         authToken.setToken(token);
         authToken.setTokenExpirationTime(jwtUtils.getTokenExpirationTime(token));
 
-        if(blacklisted){
+        if (blacklisted) {
             authToken.setBlacklisted(true);
         }
 
