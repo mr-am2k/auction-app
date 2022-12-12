@@ -10,12 +10,10 @@ import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.repositories.user.UserRepository;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
+import com.internship.auctionapp.services.blacklistedToken.AuthTokenService;
 import com.internship.auctionapp.util.RegexUtils;
-import com.internship.auctionapp.util.security.jwt.AuthEntryPoint;
 import com.internship.auctionapp.util.security.jwt.JwtUtils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,7 +31,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class DefaultAuthService implements UserDetailsService, AuthService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultAuthService.class);
     private final UserRepository userRepository;
 
     private final AuthenticationManager authenticationManager;
@@ -42,6 +39,8 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
 
     private final JwtUtils jwtUtils;
 
+    private final AuthTokenService authTokenService;
+
     private final String AUTHORIZATION_HEADER = "Authorization";
     private final String BEARER = "Bearer";
 
@@ -49,12 +48,13 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
             UserRepository userRepository,
             @Lazy AuthenticationManager authenticationManager,
             @Lazy PasswordEncoder encoder,
-            JwtUtils jwtUtils
-    ) {
+            JwtUtils jwtUtils,
+            AuthTokenService authTokenService) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.encoder = encoder;
         this.jwtUtils = jwtUtils;
+        this.authTokenService = authTokenService;
     }
 
     @Override
@@ -83,6 +83,8 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
         final List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
+
+        authTokenService.addToken(jwt, false);
 
         return new AuthResponse(jwt, userDetails.getId(), userDetails.getEmail(), roles);
     }

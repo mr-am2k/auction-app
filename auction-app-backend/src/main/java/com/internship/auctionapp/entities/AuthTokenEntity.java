@@ -18,15 +18,18 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "blacklisted_tokens")
-public class BlacklistedTokenEntity {
+@Table(name = "auth_tokens")
+public class AuthTokenEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "blacklisted_token", nullable = false)
-    private String blacklistedToken;
+    @Column(name = "token", nullable = false)
+    private String token;
+
+    @Column(name = "blacklisted", nullable = false)
+    private boolean blacklisted = false;
 
     @Column(name = "token_expiration_time", nullable = false)
     private LocalDateTime tokenExpirationTime;

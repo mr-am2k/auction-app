@@ -101,9 +101,7 @@ public class ProductSeeder implements CommandLineRunner {
                             "https://images.express.com/is/image/expressfashion/0037_06215332_2834?" +
                                     "cache=on&wid=361&fmt=jpeg&qlt=75,1&resmode=sharp2&op_usm=1,1,5,0&" +
                                     "efaultImage=Photo-Coming-Soon",
-                            "https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/" +
-                                    "/14311496/2021/9/21/27c1c6be-4025-4a72-b8f8-24f5708b54381632208425681-" +
-                                    "Sztori-Plus-Size-Men-Grey-Melange-Solid-Regular-Fit-Casual-D-1.jpg"
+                            "https://media.boohoo.com/i/boohoo/m7625914198143_black_xl_1.jpeg"
                     ),
                     91.99,
                     ZonedDateTime.of(LocalDateTime.of(2023, 4, 9, 21, 14, 44), ZoneOffset.UTC),

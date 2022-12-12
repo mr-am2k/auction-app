@@ -1,6 +1,6 @@
 package com.internship.auctionapp.util.security.jwt;
 
-import com.internship.auctionapp.services.blacklistedToken.BlacklistedTokenService;
+import com.internship.auctionapp.services.blacklistedToken.AuthTokenService;
 import com.internship.auctionapp.util.security.services.DefaultUserDetails;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -33,11 +33,12 @@ public class JwtUtils {
     @Value("${app.jwtExpirationMs}")
     private Integer jwtExpirationMs;
 
-    private final BlacklistedTokenService blacklistedTokenService;
+    private final AuthTokenService authTokenService;
 
-    public JwtUtils(BlacklistedTokenService blacklistedTokenService) {
-        this.blacklistedTokenService = blacklistedTokenService;
+    public JwtUtils(AuthTokenService authTokenService) {
+        this.authTokenService = authTokenService;
     }
+
 
     public String generateJwtToken(Authentication authentication) {
         final DefaultUserDetails userPrincipal = (DefaultUserDetails) authentication.getPrincipal();
@@ -59,7 +60,7 @@ public class JwtUtils {
     }
 
     public void blacklistToken(String token) {
-        blacklistedTokenService.addBlacklistedToken(token);
+        authTokenService.addToken(token, true);
     }
 
     public LocalDateTime getTokenExpirationTime(String token) {
@@ -69,7 +70,7 @@ public class JwtUtils {
     }
 
     public boolean validateJwtToken(String authToken) {
-        if (blacklistedTokenService.checkIfTokenIsBlacklisted(authToken)) {
+        if (authTokenService.checkIfBlacklisted(authToken)) {
             return false;
         }
 
