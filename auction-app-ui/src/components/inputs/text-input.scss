@@ -1,0 +1,22 @@
+@import '/src/scss/variables';
+@import '/src/scss//mixin';
+
+.c-text-input {
+  @include flexDisplay(flex-start, flex-start);
+  flex-direction: column;
+  font-family: $fontFamily;
+  width: 500px;
+
+  input {
+    width: 500px;
+    padding: 18px 42px 18px 24px;
+    gap: 10px;
+    background: $lightGreyColor;
+    border: 1px solid $borderGreyColor;
+    outline: none;
+  }
+
+  p {
+    color: $purpleColor;
+  }
+}
