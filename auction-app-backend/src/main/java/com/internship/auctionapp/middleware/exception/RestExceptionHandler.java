@@ -78,7 +78,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(UserNotFoundByUsernameException.class)
-    public ResponseEntity<Object> handleUserNotFoundByEmailException(HttpServletRequest req, UserNotFoundByUsernameException ex) {
+    public ResponseEntity<Object> handleUserNotFoundByUsernameException(HttpServletRequest req, UserNotFoundByUsernameException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no user with email: " + ex.getMessage()));
     }
 

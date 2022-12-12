@@ -14,8 +14,8 @@ public class BlacklistedTokensRemovalScheduler {
         this.authTokenService = authTokenService;
     }
 
-    @Scheduled(fixedRateString = "${app.tokens_removal_ms}")
-    public void deleteExpiredTokens(){
+    @Scheduled(fixedRateString = "${app.tokens_removal_interval_ms}")
+    public void deleteExpiredTokens() {
         authTokenService.removeExpiredTokens();
     }
 }
