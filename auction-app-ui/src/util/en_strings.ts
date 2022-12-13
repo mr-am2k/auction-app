@@ -57,6 +57,25 @@ const EN_STRINGS = {
     AUCTION_WON: 'Congratulations! You outbid the competition.',
     AUCTION_LOST: 'Unfortunately you have been outbidded!',
   },
+
+  REGISTER: {
+    REGISTER: 'REGISTER',
+    FIRST_NAME: 'First name',
+    FIRST_NAME_PLACEHOLDER: 'John',
+    LAST_NAME: 'Last name',
+    LAST_NAME_PLACEHOLDER: 'Doe',
+    EMAIL: 'Email',
+    EMAIL_PLACEHOLDER: 'user@domain.com',
+    PASSWORD: 'Password',
+    PASSWORD_PLACEHOLDER: '*******',
+    FIELD_IS_REQUIRED: 'This field is required',
+    HAVE_ACCOUNT: 'Already have an account',
+    LOGIN: 'Login',
+  },
+
+  LOGIN: {
+    LOGIN: ''
+  }
 };
 
 export default EN_STRINGS;

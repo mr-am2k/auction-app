@@ -1,0 +1,73 @@
+@import '/src/scss/variables';
+@import '/src/scss//mixin';
+
+.c-register-page {
+  font-family: $fontFamily;
+
+  .c-header-image {
+    @include flexDisplay(center, center);
+    height: 7rem;
+    border-bottom: 1px solid $borderGreyColor;
+
+    img {
+      width: 163px;
+      height: 56px;
+    }
+  }
+
+  .c-main-page {
+    margin-top: 2rem;
+    @include flexDisplay(center, center);
+
+    .c-form {
+      width: 700px;
+      @include flexDisplay(flex-start, center);
+      flex-direction: column;
+      border: 1px solid $borderGreyColor;
+      padding: 2rem;
+
+      button {
+        @include flexDisplay(center, center);
+        width: 500px;
+        padding: 16px 56px;
+        gap: 32px;
+        height: 60px;
+        margin-top: 3rem;
+        margin-bottom: 2rem;
+        font-family: $fontFamily;
+        color: $whiteColor;
+        border: none;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 27px;
+        background: $purpleColor;
+      }
+
+      button:hover {
+        cursor: pointer;
+      }
+
+      .c-other-options {
+        @include flexDisplay(center, center);
+        gap: 20px;
+
+        p {
+          font-family: $fontFamily;
+          font-weight: $highFontWeight;
+          font-size: $fontSize;
+          line-height: 19px;
+          color: $greyColor;
+        }
+
+        a {
+          text-decoration: none;
+          font-family: $fontFamily;
+          font-weight: $highFontWeight;
+          font-size: $fontSize;
+          line-height: 19px;
+          color: $purpleColor;
+        }
+      }
+    }
+  }
+}
