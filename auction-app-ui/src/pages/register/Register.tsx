@@ -1,9 +1,12 @@
-import logo from 'assets/logo/auction-app-logo.svg';
-import { Input } from 'components';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import { Input } from 'components';
+
 import EN_STRINGS from 'util/en_strings';
+import { TEXT_TYPE, PASSWORD_TYPE, EMAIL_TYPE } from 'util/constants';
 import { checkIfStringIsEmpty } from 'util/helperFunctions';
+import logo from 'assets/logo/auction-app-logo.svg';
 
 import './register.scss';
 
@@ -58,37 +61,43 @@ const Register = () => {
         <form className='c-form'>
           <h2>{EN_STRINGS.REGISTER.REGISTER}</h2>
           <Input
-            placeholder={EN_STRINGS.REGISTER.FIRST_NAME_PLACEHOLDER}
-            name={EN_STRINGS.REGISTER.FIRST_NAME}
+            placeholder={EN_STRINGS.FORM.FIRST_NAME_PLACEHOLDER}
+            name={EN_STRINGS.FORM.FIRST_NAME}
             isEmpty={isFirstNameEmpty}
-            errorMessage={EN_STRINGS.REGISTER.FIELD_IS_REQUIRED}
+            errorMessage={EN_STRINGS.FORM.FIELD_IS_REQUIRED}
+            type={TEXT_TYPE}
             setValue={setFirstName}
           />
 
           <Input
-            placeholder={EN_STRINGS.REGISTER.LAST_NAME_PLACEHOLDER}
-            name={EN_STRINGS.REGISTER.LAST_NAME}
+            placeholder={EN_STRINGS.FORM.LAST_NAME_PLACEHOLDER}
+            name={EN_STRINGS.FORM.LAST_NAME}
             isEmpty={isLastNameEmpty}
-            errorMessage={EN_STRINGS.REGISTER.FIELD_IS_REQUIRED}
+            errorMessage={EN_STRINGS.FORM.FIELD_IS_REQUIRED}
+            type={TEXT_TYPE}
             setValue={setLastName}
           />
 
           <Input
-            placeholder={EN_STRINGS.REGISTER.EMAIL_PLACEHOLDER}
-            name={EN_STRINGS.REGISTER.EMAIL}
+            placeholder={EN_STRINGS.FORM.EMAIL_PLACEHOLDER}
+            name={EN_STRINGS.FORM.EMAIL}
             isEmpty={isEmailEmpty}
-            errorMessage={EN_STRINGS.REGISTER.FIELD_IS_REQUIRED}
+            errorMessage={EN_STRINGS.FORM.FIELD_IS_REQUIRED}
+            type={EMAIL_TYPE}
             setValue={setEmail}
           />
 
           <Input
-            placeholder={EN_STRINGS.REGISTER.PASSWORD_PLACEHOLDER}
-            name={EN_STRINGS.REGISTER.PASSWORD}
+            placeholder={EN_STRINGS.FORM.PASSWORD_PLACEHOLDER}
+            name={EN_STRINGS.FORM.PASSWORD}
             isEmpty={isPasswordEmpty}
-            errorMessage={EN_STRINGS.REGISTER.FIELD_IS_REQUIRED}
+            errorMessage={EN_STRINGS.FORM.FIELD_IS_REQUIRED}
+            type={PASSWORD_TYPE}
             setValue={setPassword}
           />
-          <button onClick={submitRegisterForm}>{EN_STRINGS.REGISTER.REGISTER}</button>
+          <button onClick={submitRegisterForm}>
+            {EN_STRINGS.REGISTER.REGISTER}
+          </button>
 
           <div className='c-other-options'>
             <p>{EN_STRINGS.REGISTER.HAVE_ACCOUNT}</p>

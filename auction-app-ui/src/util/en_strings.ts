@@ -60,6 +60,15 @@ const EN_STRINGS = {
 
   REGISTER: {
     REGISTER: 'REGISTER',
+    HAVE_ACCOUNT: 'Already have an account',
+    LOGIN: 'Login',
+  },
+
+  LOGIN: {
+    LOGIN: 'LOGIN',
+  },
+
+  FORM: {
     FIRST_NAME: 'First name',
     FIRST_NAME_PLACEHOLDER: 'John',
     LAST_NAME: 'Last name',
@@ -69,13 +78,7 @@ const EN_STRINGS = {
     PASSWORD: 'Password',
     PASSWORD_PLACEHOLDER: '*******',
     FIELD_IS_REQUIRED: 'This field is required',
-    HAVE_ACCOUNT: 'Already have an account',
-    LOGIN: 'Login',
   },
-
-  LOGIN: {
-    LOGIN: ''
-  }
 };
 
 export default EN_STRINGS;

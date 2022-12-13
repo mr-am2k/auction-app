@@ -7,6 +7,7 @@ type Props = {
   name: string;
   isEmpty: boolean;
   errorMessage: string;
+  type:string;
   setValue: Dispatch<SetStateAction<string>>;
 };
 
@@ -15,6 +16,7 @@ const Input: React.FC<Props> = ({
   name,
   isEmpty,
   errorMessage,
+  type,
   setValue,
 }) => {
   const inputFieldChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -27,7 +29,7 @@ const Input: React.FC<Props> = ({
 
       <input
         placeholder={placeholder}
-        type='text'
+        type={type}
         onChange={(e: React.FormEvent<HTMLInputElement>) => {
           inputFieldChange(e);
         }}

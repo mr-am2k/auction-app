@@ -12,6 +12,7 @@ import {
   Home,
   SingleProduct,
   Register,
+  Login,
 } from './pages';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import ROUTES from './util/routes';
@@ -55,6 +56,7 @@ const App = () => {
           <main>
             <Routes>
               <Route path={ROUTES.REGISTER} element={<Register />} />
+              <Route path={ROUTES.LOGIN} element={<Login />} />
               <Route
                 path={ROUTES.PRIVACY_AND_POLICY}
                 element={<PrivacyAndPolicy />}
