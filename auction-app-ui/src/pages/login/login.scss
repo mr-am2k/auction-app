@@ -46,6 +46,15 @@
       button:hover {
         cursor: pointer;
       }
+
+      .c-failed-login {
+        width: 500px;
+        @include flexDisplay(flex-start, center);
+        text-align: left;
+        color: $purpleColor;
+        font-weight: $highFontWeight;
+        font-size: 19px;
+      }
     }
   }
 }

@@ -2,6 +2,7 @@ import { userRegisterRequest } from 'requestModels/userRegisterRequest';
 import { userLoginRequest } from 'requestModels/userLoginRequest';
 
 import agent from 'lib/agent';
+import { authResponse } from 'models/authResponse';
 
 const BASE_URL = '/auth';
 
@@ -13,7 +14,7 @@ const authService = {
     ),
 
   login: (userLoginRequest: userLoginRequest) =>
-    agent.post<userLoginRequest>(`${BASE_URL}/login`, userLoginRequest),
+    agent.post<authResponse>(`${BASE_URL}/login`, userLoginRequest),
 };
 
 export default authService;

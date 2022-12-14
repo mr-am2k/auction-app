@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Input } from 'components';
 
-import { checkIfStringIsEmpty } from 'util/helperFunctions';
+import { checkIfStringIsEmpty, getUserFromLocalStorage } from 'util/helperFunctions';
 import { PASSWORD_TYPE, EMAIL_TYPE } from 'util/constants';
 import EN_STRINGS from 'util/en_strings';
 import logo from 'assets/logo/auction-app-logo.svg';
@@ -10,6 +10,8 @@ import logo from 'assets/logo/auction-app-logo.svg';
 import './login.scss';
 import { userLoginRequest } from 'requestModels/userLoginRequest';
 import authService from 'services/authService';
+import { useUser } from 'hooks/useUser';
+import { User } from 'models/user';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -18,6 +20,10 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
 
+  const [loginError, setLoginError] = useState('');
+
+  const { setLoggedInUser, loggedInUser } = useUser();
+
   const validateFields = () => {
     setIsEmailEmpty(checkIfStringIsEmpty(email));
     setIsPasswordEmpty(checkIfStringIsEmpty(password));
@@ -25,15 +31,31 @@ const Login = () => {
 
   const loginUser = async (userLoginRequest: userLoginRequest) => {
     try {
-      const response = await authService.login(userLoginRequest);
-      console.log(response);
+      const authResponse = await authService.login(userLoginRequest);
+      console.log(authResponse);
+
+      localStorage.setItem('token', authResponse.token);
+      localStorage.setItem('id', authResponse.id);
+      localStorage.setItem('role', authResponse.roles[0]);
+
+      if(getUserFromLocalStorage()){
+        setLoggedInUser(getUserFromLocalStorage()!);
+      }
+
+
 
       setEmail('');
       setPassword('');
+      setLoginError('');
     } catch (error: any) {
+      setLoginError(error.response.data.message);
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    console.log(loggedInUser);
+  }, [loggedInUser]);
 
   const submitLoginForm = (event: React.FormEvent) => {
     event.preventDefault();
@@ -83,6 +105,15 @@ const Login = () => {
             value={password}
             setValue={setPassword}
           />
+
+          {loginError.length ? (
+            <div className='c-failed-login'>
+              <p>{loginError}</p>
+            </div>
+          ) : (
+            ''
+          )}
+
           <button onClick={submitLoginForm}>{EN_STRINGS.LOGIN.LOGIN}</button>
         </form>
       </div>

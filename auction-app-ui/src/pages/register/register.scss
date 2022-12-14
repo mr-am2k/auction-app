@@ -47,6 +47,15 @@
         cursor: pointer;
       }
 
+      .c-failed-register {
+        width: 500px;
+        @include flexDisplay(flex-start, center);
+        text-align: left;
+        color: $purpleColor;
+        font-weight: $highFontWeight;
+        font-size: 19px;
+      }
+
       .c-other-options {
         @include flexDisplay(center, center);
         gap: 20px;

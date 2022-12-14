@@ -1,6 +1,5 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 
-
 import { PageProvider } from 'store/index';
 
 import {

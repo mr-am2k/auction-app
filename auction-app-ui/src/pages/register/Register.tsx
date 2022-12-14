@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Input } from 'components';
 
@@ -13,6 +13,8 @@ import { userRegisterRequest } from 'requestModels/userRegisterRequest';
 import authService from 'services/authService';
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const [firstName, setFirstName] = useState('');
   const [isFirstNameEmpty, setIsFirstNameEmpty] = useState(false);
 
@@ -25,6 +27,8 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
 
+  const [registerError, setRegisterError] = useState('');
+
   const validateFields = () => {
     setIsFirstNameEmpty(checkIfStringIsEmpty(firstName));
     setIsLastNameEmpty(checkIfStringIsEmpty(lastName));
@@ -32,20 +36,18 @@ const Register = () => {
     setIsPasswordEmpty(checkIfStringIsEmpty(password));
   };
 
-  const registerUser = async (
-    userRegisterRequest: userRegisterRequest
-  ) => {
+  const registerUser = async (userRegisterRequest: userRegisterRequest) => {
     try {
-      const response = await authService.register(userRegisterRequest);
+      await authService.register(userRegisterRequest);
 
       setFirstName('');
       setLastName('');
       setEmail('');
       setPassword('');
 
-      console.log(response);
-    } catch (error:any) {
-      console.log(error?.response.data.message);
+      navigate('/login')
+    } catch (error: any) {
+      setRegisterError(error.response.data.message);
     }
   };
 
@@ -64,11 +66,11 @@ const Register = () => {
       return;
     }
     const userRegisterRequest: userRegisterRequest = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
+      firstName,
+      lastName,
+      email,
       role: EN_STRINGS.REGISTER.ROLE_USER,
-      password: password,
+      password,
     };
 
     registerUser(userRegisterRequest);
@@ -127,6 +129,15 @@ const Register = () => {
             value={password}
             setValue={setPassword}
           />
+
+          {registerError.length ? (
+            <div className='c-failed-register'>
+              <p>{registerError}</p>
+            </div>
+          ) : (
+            ''
+          )}
+
           <button onClick={submitRegisterForm}>
             {EN_STRINGS.REGISTER.REGISTER}
           </button>
