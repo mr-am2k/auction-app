@@ -1,4 +1,5 @@
 import { userRegisterRequest } from 'requestModels/userRegisterRequest';
+import { userLoginRequest } from 'requestModels/userLoginRequest';
 
 import agent from 'lib/agent';
 
@@ -10,6 +11,9 @@ const authService = {
       `${BASE_URL}/register`,
       userRegisterRequest
     ),
+
+  login: (userLoginRequest: userLoginRequest) =>
+    agent.post<userLoginRequest>(`${BASE_URL}/login`, userLoginRequest),
 };
 
 export default authService;
