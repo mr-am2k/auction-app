@@ -1,15 +1,31 @@
-import { useState } from 'react';
-import { useUser } from 'hooks/useUser';
 import { Link } from 'react-router-dom';
+
+import { useUser } from 'hooks/useUser';
 
 import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
 import EN_STRINGS from 'util/en_strings';
 import ROUTES from 'util/routes';
 
 import './header.scss';
+import authService from 'services/authService';
 
 const Header = () => {
-  const {isUserLoggedIn} = useUser();
+  const { isUserLoggedIn, setLoggedInUser } = useUser();
+
+  const logoutUser = async () => {
+    try {
+      await authService.logout();
+
+      localStorage.removeItem('token');
+      localStorage.removeItem('id');
+      localStorage.removeItem('role');
+
+      setLoggedInUser(undefined);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className='c-header'>
       <div className='c-header-icons'>
@@ -25,7 +41,12 @@ const Header = () => {
       </div>
 
       <div className='c-header-message'>
-        {isUserLoggedIn() && <p>Hi, John Doe</p>}
+        {isUserLoggedIn() && (
+          <div>
+            <p>Hi, John Doe </p>
+            <button onClick={logoutUser}>Logout</button>
+          </div>
+        )}
         {/* Can happen to redirect logged in user on register page and keep this message, but in future if he redirects on register/login he will be logged out, so this won't happen */}
         {!isUserLoggedIn() && (
           <>

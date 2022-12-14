@@ -15,6 +15,9 @@ const authService = {
 
   login: (userLoginRequest: userLoginRequest) =>
     agent.post<authResponse>(`${BASE_URL}/login`, userLoginRequest),
+
+  logout: () => 
+      agent.get<any>(`${BASE_URL}/logout`)
 };
 
 export default authService;

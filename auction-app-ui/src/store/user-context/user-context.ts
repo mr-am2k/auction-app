@@ -4,13 +4,13 @@ import { User } from 'models/user';
 
 interface UserContextInterface {
   loggedInUser: User | undefined;
-  setLoggedInUser: (newUser: User) => void;
+  setLoggedInUser: (newUser: User | undefined) => void;
   isUserLoggedIn: () => boolean;
 }
 
 const UserContext = createContext<UserContextInterface>({
   loggedInUser: undefined,
-  setLoggedInUser: (newUser: User) => {},
+  setLoggedInUser: (newUser: User | undefined) => {},
   isUserLoggedIn: () => false,
 });
 
