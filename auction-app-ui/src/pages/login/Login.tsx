@@ -52,6 +52,7 @@ const Login = () => {
             isEmpty={isEmailEmpty}
             errorMessage={EN_STRINGS.FORM.FIELD_IS_REQUIRED}
             type={EMAIL_TYPE}
+            value={email}
             setValue={setEmail}
           />
 
@@ -61,6 +62,7 @@ const Login = () => {
             isEmpty={isPasswordEmpty}
             errorMessage={EN_STRINGS.FORM.FIELD_IS_REQUIRED}
             type={PASSWORD_TYPE}
+            value={password}
             setValue={setPassword}
           />
           <button onClick={submitLoginForm}>{EN_STRINGS.LOGIN.LOGIN}</button>

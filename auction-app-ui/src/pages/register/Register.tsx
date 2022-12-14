@@ -9,6 +9,8 @@ import { checkIfStringIsEmpty } from 'util/helperFunctions';
 import logo from 'assets/logo/auction-app-logo.svg';
 
 import './register.scss';
+import { userRegisterRequest } from 'requestModels/userRegisterRequest';
+import authService from 'services/authService';
 
 const Register = () => {
   const [firstName, setFirstName] = useState('');
@@ -30,6 +32,23 @@ const Register = () => {
     setIsPasswordEmpty(checkIfStringIsEmpty(password));
   };
 
+  const registerUser = async (
+    userRegisterRequest: userRegisterRequest
+  ) => {
+    try {
+      const response = await authService.register(userRegisterRequest);
+
+      setFirstName('');
+      setLastName('');
+      setEmail('');
+      setPassword('');
+
+      console.log(response);
+    } catch (error:any) {
+      console.log(error?.response.data.message);
+    }
+  };
+
   const submitRegisterForm = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -44,6 +63,15 @@ const Register = () => {
     ) {
       return;
     }
+    const userRegisterRequest: userRegisterRequest = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      role: EN_STRINGS.REGISTER.ROLE_USER,
+      password: password,
+    };
+
+    registerUser(userRegisterRequest);
 
     console.log(firstName);
     console.log(lastName);
@@ -66,6 +94,7 @@ const Register = () => {
             isEmpty={isFirstNameEmpty}
             errorMessage={EN_STRINGS.FORM.FIELD_IS_REQUIRED}
             type={TEXT_TYPE}
+            value={firstName}
             setValue={setFirstName}
           />
 
@@ -75,6 +104,7 @@ const Register = () => {
             isEmpty={isLastNameEmpty}
             errorMessage={EN_STRINGS.FORM.FIELD_IS_REQUIRED}
             type={TEXT_TYPE}
+            value={lastName}
             setValue={setLastName}
           />
 
@@ -84,6 +114,7 @@ const Register = () => {
             isEmpty={isEmailEmpty}
             errorMessage={EN_STRINGS.FORM.FIELD_IS_REQUIRED}
             type={EMAIL_TYPE}
+            value={email}
             setValue={setEmail}
           />
 
@@ -93,6 +124,7 @@ const Register = () => {
             isEmpty={isPasswordEmpty}
             errorMessage={EN_STRINGS.FORM.FIELD_IS_REQUIRED}
             type={PASSWORD_TYPE}
+            value={password}
             setValue={setPassword}
           />
           <button onClick={submitRegisterForm}>

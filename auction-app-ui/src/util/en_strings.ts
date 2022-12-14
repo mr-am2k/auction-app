@@ -62,6 +62,7 @@ const EN_STRINGS = {
     REGISTER: 'REGISTER',
     HAVE_ACCOUNT: 'Already have an account',
     LOGIN: 'Login',
+    ROLE_USER: 'ROLE_USER',
   },
 
   LOGIN: {
