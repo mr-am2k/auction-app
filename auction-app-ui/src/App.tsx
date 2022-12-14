@@ -28,7 +28,7 @@ const App = () => {
     const id = localStorage.getItem('id');
     const token = localStorage.getItem('token');
 
-    if (!id?.length || !token?.length) {
+    if (id?.length || token?.length) {
       const user: User = {
         id: id!,
         token: token!,
