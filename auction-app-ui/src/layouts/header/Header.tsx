@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useUser } from 'hooks/useUser';
 import { Link } from 'react-router-dom';
 
 import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
@@ -8,8 +9,7 @@ import ROUTES from 'util/routes';
 import './header.scss';
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-
+  const {isUserLoggedIn} = useUser();
   return (
     <div className='c-header'>
       <div className='c-header-icons'>
@@ -25,9 +25,9 @@ const Header = () => {
       </div>
 
       <div className='c-header-message'>
-        {isLoggedIn && <p>Hi, John Doe</p>}
+        {isUserLoggedIn() && <p>Hi, John Doe</p>}
         {/* Can happen to redirect logged in user on register page and keep this message, but in future if he redirects on register/login he will be logged out, so this won't happen */}
-        {!isLoggedIn && (
+        {!isUserLoggedIn() && (
           <>
             <Link to={`/${ROUTES.LOGIN}`} className='c-header-link-item'>
               {EN_STRINGS.HEADER.LOGIN}

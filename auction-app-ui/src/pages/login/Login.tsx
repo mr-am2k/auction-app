@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 
-import { Input } from 'components';
+import { useUser } from 'hooks/useUser';
 
-import { checkIfStringIsEmpty, getUserFromLocalStorage } from 'util/helperFunctions';
-import { PASSWORD_TYPE, EMAIL_TYPE } from 'util/constants';
+import authService from 'services/authService';
+
+import { User } from 'models/user';
+import { userLoginRequest } from 'requestModels/userLoginRequest';
 import EN_STRINGS from 'util/en_strings';
+import { PASSWORD_TYPE, EMAIL_TYPE } from 'util/constants';
+import { checkIfStringIsEmpty } from 'util/helperFunctions';
+import { Input } from 'components';
 import logo from 'assets/logo/auction-app-logo.svg';
 
 import './login.scss';
-import { userLoginRequest } from 'requestModels/userLoginRequest';
-import authService from 'services/authService';
-import { useUser } from 'hooks/useUser';
-import { User } from 'models/user';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [isEmailEmpty, setIsEmailEmpty] = useState(false);
 
@@ -22,7 +25,7 @@ const Login = () => {
 
   const [loginError, setLoginError] = useState('');
 
-  const { setLoggedInUser, loggedInUser } = useUser();
+  const { setLoggedInUser, loggedInUser, isUserLoggedIn } = useUser();
 
   const validateFields = () => {
     setIsEmailEmpty(checkIfStringIsEmpty(email));
@@ -38,15 +41,18 @@ const Login = () => {
       localStorage.setItem('id', authResponse.id);
       localStorage.setItem('role', authResponse.roles[0]);
 
-      if(getUserFromLocalStorage()){
-        setLoggedInUser(getUserFromLocalStorage()!);
+      const user: User = {
+        id: authResponse.id,
+        token: authResponse.token
       }
 
-
+      setLoggedInUser(user);
 
       setEmail('');
       setPassword('');
       setLoginError('');
+
+      navigate('/')
     } catch (error: any) {
       setLoginError(error.response.data.message);
       console.log(error);
@@ -54,8 +60,9 @@ const Login = () => {
   };
 
   useEffect(() => {
+    console.log(isUserLoggedIn())
     console.log(loggedInUser);
-  }, [loggedInUser]);
+  }, [loggedInUser, isUserLoggedIn]);
 
   const submitLoginForm = (event: React.FormEvent) => {
     event.preventDefault();
@@ -72,10 +79,9 @@ const Login = () => {
     };
 
     loginUser(userLoginRequest);
-
-    console.log(email);
-    console.log(password);
+    console.log(isUserLoggedIn());
   };
+
   return (
     <div className='c-login-page'>
       <div className='c-header-image'>

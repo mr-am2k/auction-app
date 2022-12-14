@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { Input } from 'components';
+import authService from 'services/authService';
 
-import EN_STRINGS from 'util/en_strings';
-import { TEXT_TYPE, PASSWORD_TYPE, EMAIL_TYPE } from 'util/constants';
+import { userRegisterRequest } from 'requestModels/userRegisterRequest';
 import { checkIfStringIsEmpty } from 'util/helperFunctions';
+import { TEXT_TYPE, PASSWORD_TYPE, EMAIL_TYPE } from 'util/constants';
+import EN_STRINGS from 'util/en_strings';
+import { Input } from 'components';
 import logo from 'assets/logo/auction-app-logo.svg';
 
 import './register.scss';
-import { userRegisterRequest } from 'requestModels/userRegisterRequest';
-import authService from 'services/authService';
 
 const Register = () => {
   const navigate = useNavigate();
