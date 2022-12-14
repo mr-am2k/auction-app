@@ -28,6 +28,7 @@ const SingleProduct = () => {
   const [latestNotification, setLatestNotification] = useState<
     Notification | undefined
   >();
+  const [placeholderValue, setPlaceholderValue] = useState(0);
 
   const fetchSingleProduct = async (productId: string) => {
     try {
@@ -35,6 +36,9 @@ const SingleProduct = () => {
       setNavbarTitle(product.name);
       setNavbarItems([EN_STRINGS.NAVBAR.SHOP, EN_STRINGS.SHOP.SINGLE_PRODUCT]);
       setSingleProduct(product);
+      if(!product.bids.length){
+        setPlaceholderValue(product.startPrice)
+      }
     } catch (error) {
       console.log(error);
     }
@@ -44,6 +48,7 @@ const SingleProduct = () => {
     try {
       const highestBid = await bidService.getHighestBid(productId);
       setHighestBid(highestBid);
+      setPlaceholderValue(highestBid)
     } catch (error) {
       console.log(error);
     }
@@ -147,7 +152,7 @@ const SingleProduct = () => {
               <input
                 ref={bidInputRef}
                 type='number'
-                placeholder={EN_STRINGS.SINGLE_PRODUCT.INPUT_PLACEHOLDER}
+                placeholder={`${EN_STRINGS.SINGLE_PRODUCT.INPUT_PLACEHOLDER}${placeholderValue}`}
                 disabled={!isUserLoggedIn()}
               />
               <button disabled={!isUserLoggedIn()} onClick={sendBid}>
