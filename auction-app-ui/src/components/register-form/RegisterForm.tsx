@@ -18,7 +18,8 @@ type Props = {
 };
 
 const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
-  const { setFormValues } = useForm();
+  const { formValues, setFormValues } = useForm();
+
   const children = [
     <Input
       key={FORM.FIRST_NAME}

@@ -14,7 +14,7 @@ import './register.scss';
 import { useState } from 'react';
 
 const Register = () => {
-  const { formValues } = useForm();
+  const { formValues, formValidInputs } = useForm();
   const navigate = useNavigate();
 
   const [registerError, setRegisterError] = useState<string>();
@@ -28,12 +28,13 @@ const Register = () => {
 
   const submitRegisterForm = () => {
     const { firstName, lastName, email, password } = formValues;
+    console.log(formValidInputs)
 
     if (
-      checkIfStringIsEmpty(firstName) ||
-      checkIfStringIsEmpty(lastName) ||
-      checkIfStringIsEmpty(email) ||
-      checkIfStringIsEmpty(password)
+      !checkIfStringIsEmpty(firstName) ||
+      !checkIfStringIsEmpty(lastName) ||
+      !checkIfStringIsEmpty(email) ||
+      !checkIfStringIsEmpty(password)
     ) {
       return;
     }

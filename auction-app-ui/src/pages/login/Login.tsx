@@ -30,6 +30,7 @@ const Login = () => {
       .then((authResponse) => {
         localStorage.setItem('token', authResponse.token);
         localStorage.setItem('id', authResponse.id);
+        localStorage.setItem('fullName', authResponse.fullName);
         localStorage.setItem('role', authResponse.roles[0]);
 
         const user: User = {

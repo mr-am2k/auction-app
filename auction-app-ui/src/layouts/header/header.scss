@@ -21,7 +21,7 @@
     line-height: 17px;
 
     div {
-      min-width: 10rem;
+      min-width: 14rem;
       @include flexDisplay(space-between, center);
 
       button {
@@ -29,7 +29,7 @@
         border: none;
         outline: none;
         color: $purpleColor;
-        $fontFamily: $fontFamily;
+        font-family: $fontFamily;
         font-weight: $highFontWeight;
       }
 

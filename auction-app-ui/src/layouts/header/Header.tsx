@@ -13,18 +13,14 @@ const Header = () => {
   const { isUserLoggedIn, setLoggedInUser } = useUser();
 
   const logoutUser = async () => {
-    authService
-      .logout()
-      .then((response) => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('id');
-        localStorage.removeItem('role');
+    authService.logout();
 
-        setLoggedInUser(undefined);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    localStorage.removeItem('token');
+    localStorage.removeItem('id');
+    localStorage.removeItem('role');
+    localStorage.removeItem('fullName');
+
+    setLoggedInUser(undefined);
   };
 
   return (
@@ -44,7 +40,7 @@ const Header = () => {
       <div className='c-header-message'>
         {isUserLoggedIn() && (
           <div>
-            <p>Hi, John Doe </p>
+            <p>Hi, {localStorage.getItem('fullName')} </p>
             <button onClick={logoutUser}>Logout</button>
           </div>
         )}

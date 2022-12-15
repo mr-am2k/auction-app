@@ -18,7 +18,6 @@ import ROUTES from './util/routes';
 import './app.scss';
 import { useEffect } from 'react';
 import { User } from 'models/user';
-import FormProvider from 'store/form-context/FormProvider';
 import Login from 'pages/login/Login';
 
 const App = () => {
@@ -40,7 +39,6 @@ const App = () => {
 
   return (
     <PageProvider>
-      <FormProvider>
         <Header />
 
         {location.pathname !== `/${ROUTES.REGISTER}` &&
@@ -76,7 +74,6 @@ const App = () => {
           </>
         </div>
         <Footer />
-      </FormProvider>
     </PageProvider>
   );
 };
