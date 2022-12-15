@@ -10,6 +10,7 @@ import {
   INPUT_TYPE_PASSWORD,
 } from 'util/constants';
 import { FORM } from 'util/constants';
+import { useEffect } from 'react';
 
 type Props = {
   children?: React.ReactNode;
@@ -18,13 +19,14 @@ type Props = {
 };
 
 const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
-  const { formValues, setFormValues } = useForm();
+  const { formValues, setFormValues, setFormValidInputs } = useForm();
 
   const children = [
     <Input
       key={FORM.FIRST_NAME}
       type={INPUT_TYPE_TEXT}
       setValue={setFormValues}
+      setValidInputs={setFormValidInputs}
       name={FORM.FIRST_NAME}
       title={FORM.FIRST_NAME_TITLE}
       placeholder={FORM.FIRST_NAME_PLACEHOLDER}
@@ -34,6 +36,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       key={FORM.LAST_NAME}
       type={INPUT_TYPE_TEXT}
       setValue={setFormValues}
+      setValidInputs={setFormValidInputs}
       name={FORM.LAST_NAME}
       title={FORM.LAST_NAME_TITLE}
       placeholder={FORM.LAST_NAME_PLACEHOLDER}
@@ -41,8 +44,9 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
 
     <Input
       key={FORM.EMAIL}
-      setValue={setFormValues}
       type={INPUT_TYPE_EMAIL}
+      setValue={setFormValues}
+      setValidInputs={setFormValidInputs}
       name={FORM.EMAIL}
       title={FORM.EMAIL_TITLE}
       placeholder={FORM.EMAIL_PLACEHOLDER}
@@ -52,6 +56,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       key={FORM.PASSWORD}
       type={INPUT_TYPE_PASSWORD}
       setValue={setFormValues}
+      setValidInputs={setFormValidInputs}
       name={FORM.PASSWORD}
       title={FORM.PASSWORD_TITLE}
       placeholder={FORM.PASSWORD_PLACEHOLDER}
@@ -66,6 +71,16 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       </div>
     </div>
   );
+
+  useEffect(() => {
+    setFormValidInputs({
+      firstName: { valid: false, message: 'This field is required' },
+      lastName: { valid: false, message: 'This field is required' },
+      email: { valid: false, message: 'This field is required' },
+      password: { valid: false, message: 'This field is required' },
+    });
+  }, []);
+
   return (
     <div>
       <Form

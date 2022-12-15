@@ -12,13 +12,14 @@ type Props = {
 };
 
 const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
-  const { setFormValues } = useForm();
+  const { setFormValues, setFormValidInputs } = useForm();
 
   const children = [
     <Input
       key={FORM.EMAIL}
       type={INPUT_TYPE_EMAIL}
       setValue={setFormValues}
+      setValidInputs={setFormValidInputs}
       name={FORM.EMAIL}
       title={FORM.EMAIL_TITLE}
       placeholder={FORM.EMAIL_PLACEHOLDER}
@@ -28,6 +29,7 @@ const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       key={FORM.PASSWORD}
       type={INPUT_TYPE_PASSWORD}
       setValue={setFormValues}
+      setValidInputs={setFormValidInputs}
       name={FORM.PASSWORD}
       title={FORM.PASSWORD_TITLE}
       placeholder={FORM.PASSWORD_PLACEHOLDER}

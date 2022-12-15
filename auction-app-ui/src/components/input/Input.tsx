@@ -1,5 +1,7 @@
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useForm } from 'hooks/useForm';
-import { Dispatch, SetStateAction } from 'react';
+
+import { validateFields } from 'util/helperFunctions';
 
 import './input.scss';
 
@@ -10,6 +12,7 @@ type Props = {
   type: string;
   title: string;
   setValue: Dispatch<SetStateAction<{}>>;
+  setValidInputs: Dispatch<SetStateAction<{}>>;
 };
 
 const Input: React.FC<Props> = ({
@@ -18,14 +21,27 @@ const Input: React.FC<Props> = ({
   type,
   title,
   setValue,
+  setValidInputs,
 }) => {
-  const { formValues } = useForm();
+  type ObjectKey = keyof typeof formValidInputs;
+
+  const { formValues, formValidInputs } = useForm();
+  const [onChangeValidation, setOnChangeValidation] = useState(false);
+
   const inputFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
+
     setValue({
       ...formValues,
       [name]: value,
     });
+
+    setValidInputs({
+      ...formValidInputs,
+      [name]: validateFields(value),
+    });
+
+    setOnChangeValidation(true);
   };
 
   return (
@@ -33,6 +49,11 @@ const Input: React.FC<Props> = ({
       <p className='c-header-text'>{title}</p>
 
       <input
+        className={
+          onChangeValidation && !formValidInputs[name as ObjectKey]?.valid
+            ? 'c-input-error'
+            : ''
+        }
         placeholder={placeholder}
         type={type}
         name={name}
@@ -40,6 +61,11 @@ const Input: React.FC<Props> = ({
           inputFieldChange(e);
         }}
       />
+      {onChangeValidation && !formValidInputs[name as ObjectKey]?.valid ? (
+        <p>{formValidInputs[name as ObjectKey]?.message}</p>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

@@ -1,8 +1,9 @@
+import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 import { useUser } from 'hooks/useUser';
 
-import { PageProvider } from 'store/index';
+import { PageProvider, FormProvider } from 'store/index';
 
 import {
   PrivacyAndPolicy,
@@ -11,14 +12,13 @@ import {
   Home,
   SingleProduct,
   Register,
+  Login,
 } from './pages';
+import { User } from 'models/user';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import ROUTES from './util/routes';
 
 import './app.scss';
-import { useEffect } from 'react';
-import { User } from 'models/user';
-import Login from 'pages/login/Login';
 
 const App = () => {
   const location = useLocation();
@@ -39,6 +39,7 @@ const App = () => {
 
   return (
     <PageProvider>
+      <FormProvider>
         <Header />
 
         {location.pathname !== `/${ROUTES.REGISTER}` &&
@@ -74,6 +75,7 @@ const App = () => {
           </>
         </div>
         <Footer />
+      </FormProvider>
     </PageProvider>
   );
 };

@@ -1,6 +1,18 @@
 export type FormValidInputs = {
-  firstName?: boolean;
-  lastName?: boolean;
-  email?: boolean;
-  password?: boolean;
+  firstName?: {
+    valid: boolean;
+    message?: string;
+  };
+  lastName?: {
+    valid: boolean;
+    message?: string;
+  };
+  email?: {
+    valid: boolean;
+    message?: string;
+  };
+  password?: {
+    valid: boolean;
+    message?: string;
+  };
 };

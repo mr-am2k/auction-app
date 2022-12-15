@@ -9,12 +9,12 @@ type Props = {
 const FormProvider: React.FC<Props> = ({ children }) => {
   const [formValues, setFormValues] = useState({});
 
-  const [formValidInputs, setFromValidInputs] = useState({});
+  const [formValidInputs, setFormValidInputs] = useState({});
 
   return (
     <FormContext.Provider
-      value={{ formValues, setFormValues, formValidInputs }}
-    >
+      value={{ formValues, setFormValues, formValidInputs, setFormValidInputs }}
+    > 
       {children}
     </FormContext.Provider>
   );

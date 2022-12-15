@@ -23,12 +23,15 @@ const Register = () => {
     authService
       .register(userRegisterRequest)
       .then(() => navigate('/login'))
-      .catch((error) => setRegisterError(error.response.data.message));
+      .catch((error) => {
+        console.log(error);
+        setRegisterError(error.response.data.message);
+      });
   };
 
   const submitRegisterForm = () => {
     const { firstName, lastName, email, password } = formValues;
-    console.log(formValidInputs)
+    console.log(formValidInputs);
 
     if (
       !checkIfStringIsEmpty(firstName) ||

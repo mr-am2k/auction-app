@@ -26,13 +26,17 @@
     font-size: 18px;
     line-height: 27px;
 
-    ::placeholder{
-        color: $greyColor;
-        font-family: $fontFamily;
-        font-weight: $mediumFontWeight;
-        font-size: 18px;
-        line-height: 27px;
+    ::placeholder {
+      color: $greyColor;
+      font-family: $fontFamily;
+      font-weight: $mediumFontWeight;
+      font-size: 18px;
+      line-height: 27px;
     }
+  }
+
+  .c-input-error {
+    border-color: red;
   }
 
   p {

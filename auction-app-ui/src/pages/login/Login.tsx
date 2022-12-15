@@ -50,7 +50,7 @@ const Login = () => {
   const submitLoginForm = () => {
     const { email, password } = formValues;
 
-    if (checkIfStringIsEmpty(email) || checkIfStringIsEmpty(password)) {
+    if (!checkIfStringIsEmpty(email) || !checkIfStringIsEmpty(password)) {
       return;
     }
 

@@ -6,13 +6,15 @@ import { RegisterForm } from 'models/registerForm';
 interface FormContextInterface {
   formValues: RegisterForm;
   setFormValues: (values: {}) => void;
-  formValidInputs: FormValidInputs
+  formValidInputs: FormValidInputs;
+  setFormValidInputs: (values: {}) => void;
 }
 
 const FormContext = createContext<FormContextInterface>({
   formValues: {},
   setFormValues: () => {},
-  formValidInputs: {}
+  formValidInputs: {},
+  setFormValidInputs: () => {},
 });
 
 export default FormContext;
