@@ -86,7 +86,7 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
 
         authTokenService.addToken(jwt, false);
 
-        return new AuthResponse(jwt, userDetails.getId(), userDetails.getEmail(), roles);
+        return new AuthResponse(jwt, userDetails.getId(), userDetails.getEmail(), userDetails.getFullName(), roles);
     }
 
     @Override
