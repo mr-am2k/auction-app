@@ -103,6 +103,9 @@ const SingleProduct = () => {
     if (loggedInUser) {
       getLatestNotification(loggedInUser!.id, id!);
     }
+    if(!loggedInUser){
+      setLatestNotification(undefined)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedInUser, singleProduct]);
 

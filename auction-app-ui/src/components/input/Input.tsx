@@ -1,43 +1,45 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useForm } from 'hooks/useForm';
+import { Dispatch, SetStateAction } from 'react';
+
 import './input.scss';
 
 type Props = {
   children?: React.ReactNode;
   placeholder: string;
   name: string;
-  isEmpty: boolean;
-  errorMessage: string;
-  type:string;
-  value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  type: string;
+  title: string;
+  setValue: Dispatch<SetStateAction<{}>>;
 };
 
 const Input: React.FC<Props> = ({
   placeholder,
   name,
-  isEmpty,
-  errorMessage,
   type,
-  value,
+  title,
   setValue,
 }) => {
+  const { formValues } = useForm();
   const inputFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    const { name, value } = e.currentTarget;
+    setValue({
+      ...formValues,
+      [name]: value,
+    });
   };
 
   return (
     <div className='c-text-input'>
-      <p className='c-header-text'>{name}</p>
+      <p className='c-header-text'>{title}</p>
 
       <input
         placeholder={placeholder}
         type={type}
-        value={value}
+        name={name}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           inputFieldChange(e);
         }}
       />
-      {isEmpty && <p>{errorMessage}</p>}
     </div>
   );
 };
