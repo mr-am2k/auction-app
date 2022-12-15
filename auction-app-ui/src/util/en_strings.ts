@@ -68,22 +68,6 @@ const EN_STRINGS = {
   LOGIN: {
     LOGIN: 'LOGIN',
   },
-
-  FORM: {
-    FIRST_NAME: 'firstName',
-    FIRST_NAME_TITLE: 'First Name',
-    FIRST_NAME_PLACEHOLDER: 'John',
-    LAST_NAME: 'lastName',
-    LAST_NAME_TITLE: 'Last Name',
-    LAST_NAME_PLACEHOLDER: 'Doe',
-    EMAIL: 'email',
-    EMAIL_TITLE: 'Email',
-    EMAIL_PLACEHOLDER: 'user@domain.com',
-    PASSWORD: 'password',
-    PASSWORD_TITLE: 'Password',
-    PASSWORD_PLACEHOLDER: '*******',
-    FIELD_IS_REQUIRED: 'This field is required',
-  },
 };
 
 export default EN_STRINGS;

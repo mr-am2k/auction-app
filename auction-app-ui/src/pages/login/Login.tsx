@@ -9,9 +9,7 @@ import authService from 'services/authService';
 
 import { User } from 'models/user';
 import { userLoginRequest } from 'requestModels/userLoginRequest';
-import EN_STRINGS from 'util/en_strings';
-import { checkIfStringIsEmpty } from 'util/helperFunctions';
-import { Input } from 'components';
+import { checkIfStringIsEmpty } from 'util/stringUtils';
 import logo from 'assets/logo/auction-app-logo.svg';
 
 import './login.scss';
@@ -20,30 +18,32 @@ import { useForm } from 'hooks/useForm';
 const Login = () => {
   const navigate = useNavigate();
 
+  const [loginError, setLoginError] = useState<string>();
+
   const { setLoggedInUser, loggedInUser, isUserLoggedIn } = useUser();
 
   const { formValues } = useForm();
 
   const loginUser = async (userLoginRequest: userLoginRequest) => {
-    try {
-      const authResponse = await authService.login(userLoginRequest);
-      console.log(authResponse);
+    authService
+      .login(userLoginRequest)
+      .then((authResponse) => {
+        localStorage.setItem('token', authResponse.token);
+        localStorage.setItem('id', authResponse.id);
+        localStorage.setItem('role', authResponse.roles[0]);
 
-      localStorage.setItem('token', authResponse.token);
-      localStorage.setItem('id', authResponse.id);
-      localStorage.setItem('role', authResponse.roles[0]);
+        const user: User = {
+          id: authResponse.id,
+          token: authResponse.token,
+        };
 
-      const user: User = {
-        id: authResponse.id,
-        token: authResponse.token,
-      };
+        setLoggedInUser(user);
 
-      setLoggedInUser(user);
-
-      navigate('/');
-    } catch (error: any) {
-      console.log(error);
-    }
+        navigate('/');
+      })
+      .catch((error) => {
+        setLoginError(error.response.data.message);
+      });
   };
 
   const submitLoginForm = () => {
@@ -70,12 +70,20 @@ const Login = () => {
     console.log(loggedInUser);
   }, [loggedInUser, isUserLoggedIn]);
 
+  const error = loginError ? (
+    <div className='c-error-message'>
+      <p>{loginError}</p>
+    </div>
+  ) : (
+    ''
+  );
+
   return (
     <div className='c-login-page'>
       <div className='c-header-image'>
         <img src={logo} alt='Logo' />
       </div>
-      <LoginForm onSubmit={submitLoginForm} />
+      <LoginForm onSubmit={submitLoginForm} errorMessage={error} />
     </div>
   );
 };

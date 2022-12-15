@@ -7,23 +7,23 @@ import authService from 'services/authService';
 import { RegisterForm } from 'components';
 import { userRegisterRequest } from 'requestModels/userRegisterRequest';
 import logo from 'assets/logo/auction-app-logo.svg';
-import { checkIfStringIsEmpty } from 'util/helperFunctions';
+import { checkIfStringIsEmpty } from 'util/stringUtils';
 import EN_STRINGS from 'util/en_strings';
 
 import './register.scss';
+import { useState } from 'react';
 
 const Register = () => {
   const { formValues } = useForm();
   const navigate = useNavigate();
 
-  const registerUser = async (userRegisterRequest: userRegisterRequest) => {
-    try {
-      await authService.register(userRegisterRequest);
+  const [registerError, setRegisterError] = useState<string>();
 
-      navigate('/login');
-    } catch (error: any) {
-      console.log(error);
-    }
+  const registerUser = async (userRegisterRequest: userRegisterRequest) => {
+    authService
+      .register(userRegisterRequest)
+      .then(() => navigate('/login'))
+      .catch((error) => setRegisterError(error.response.data.message));
   };
 
   const submitRegisterForm = () => {
@@ -54,12 +54,20 @@ const Register = () => {
     registerUser(userRegisterRequest);
   };
 
+  const error = registerError ? (
+    <div className='c-error-message'>
+      <p>{registerError}</p>
+    </div>
+  ) : (
+    ''
+  );
+
   return (
     <div className='c-register-page'>
       <div className='c-header-image'>
         <img src={logo} alt='Logo' />
       </div>
-      <RegisterForm onSubmit={submitRegisterForm} />
+      <RegisterForm onSubmit={submitRegisterForm} errorMessage={error} />
     </div>
   );
 };

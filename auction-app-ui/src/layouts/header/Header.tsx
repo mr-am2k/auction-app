@@ -13,17 +13,18 @@ const Header = () => {
   const { isUserLoggedIn, setLoggedInUser } = useUser();
 
   const logoutUser = async () => {
-    try {
-      await authService.logout();
+    authService
+      .logout()
+      .then((response) => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('id');
+        localStorage.removeItem('role');
 
-      localStorage.removeItem('token');
-      localStorage.removeItem('id');
-      localStorage.removeItem('role');
-
-      setLoggedInUser(undefined);
-    } catch (error) {
-      console.log(error);
-    }
+        setLoggedInUser(undefined);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

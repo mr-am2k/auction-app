@@ -8,9 +8,17 @@ type Props = {
   children?: React.ReactNode;
   onSubmit: () => void;
   buttonText: string;
+  errorMessage: JSX.Element | string;
+  otherOptions?: JSX.Element;
 };
 
-export const Form: React.FC<Props> = ({ children, onSubmit, buttonText }) => {
+export const Form: React.FC<Props> = ({
+  children,
+  onSubmit,
+  buttonText,
+  otherOptions,
+  errorMessage,
+}) => {
   const { formValues, setFormValues } = useForm();
   return (
     <div className='c-form-component'>
@@ -18,9 +26,11 @@ export const Form: React.FC<Props> = ({ children, onSubmit, buttonText }) => {
         <FormContext.Provider value={{ formValues, setFormValues }}>
           {children}
         </FormContext.Provider>
+        {errorMessage}
         <button type='button' onClick={onSubmit}>
           {buttonText}
         </button>
+        {otherOptions}
       </form>
     </div>
   );

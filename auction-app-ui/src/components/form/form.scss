@@ -32,5 +32,37 @@
     button:hover {
       cursor: pointer;
     }
+
+    .c-error-message {
+      width: 500px;
+      @include flexDisplay(flex-start, center);
+      text-align: left;
+      color: $purpleColor;
+      font-weight: $highFontWeight;
+      font-size: 19px;
+    }
+
+
+    .c-other-options {
+      @include flexDisplay(center, center);
+      gap: 20px;
+
+      p {
+        font-family: $fontFamily;
+        font-weight: $highFontWeight;
+        font-size: $fontSize;
+        line-height: 19px;
+        color: $greyColor;
+      }
+
+      a {
+        text-decoration: none;
+        font-family: $fontFamily;
+        font-weight: $highFontWeight;
+        font-size: $fontSize;
+        line-height: 19px;
+        color: $purpleColor;
+      }
+    }
   }
 }

@@ -20,20 +20,20 @@
     font-weight: $highFontWeight;
     line-height: 17px;
 
-    div{
-      width: 10rem;
+    div {
+      min-width: 10rem;
       @include flexDisplay(space-between, center);
 
       button {
-       background-color: transparent;
-       border: none;
-       outline: none;
-       color: $purpleColor;
-       $fontFamily: $fontFamily;
-       font-weight: $highFontWeight;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        color: $purpleColor;
+        $fontFamily: $fontFamily;
+        font-weight: $highFontWeight;
       }
 
-      button:hover{
+      button:hover {
         cursor: pointer;
       }
     }
@@ -52,7 +52,6 @@
       text-decoration: none;
       color: $whiteColor;
     }
-    
 
     .c-header-link-item:hover {
       cursor: pointer;
