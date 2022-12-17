@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { useForm } from 'hooks/useForm';
@@ -7,14 +8,15 @@ import authService from 'services/authService';
 import { RegisterForm } from 'components';
 import { userRegisterRequest } from 'requestModels/userRegisterRequest';
 import logo from 'assets/logo/auction-app-logo.svg';
-import { checkIfStringIsEmpty } from 'util/stringUtils';
+import { validateFields } from 'util/helperFunctions';
+import { FORM } from 'util/constants';
+import ROUTES from 'util/routes';
 import EN_STRINGS from 'util/en_strings';
 
 import './register.scss';
-import { useState } from 'react';
 
 const Register = () => {
-  const { formValues, formValidInputs } = useForm();
+  const { formValues, setFormValidInputs } = useForm();
   const navigate = useNavigate();
 
   const [registerError, setRegisterError] = useState<string>();
@@ -22,7 +24,7 @@ const Register = () => {
   const registerUser = async (userRegisterRequest: userRegisterRequest) => {
     authService
       .register(userRegisterRequest)
-      .then(() => navigate('/login'))
+      .then(() => navigate(`/${ROUTES.LOGIN}`))
       .catch((error) => {
         console.log(error);
         setRegisterError(error.response.data.message);
@@ -31,34 +33,40 @@ const Register = () => {
 
   const submitRegisterForm = () => {
     const { firstName, lastName, email, password } = formValues;
-    console.log(formValidInputs);
+
+    const validFirstName = validateFields(firstName);
+    const validLastName = validateFields(lastName);
+    const validEmail = validateFields(email, FORM.EMAIL);
+    const validPassword = validateFields(password, FORM.PASSWORD);
+
+    setFormValidInputs({
+      firstName: validFirstName,
+      lastName: validLastName,
+      email: validEmail,
+      password: validPassword,
+    });
 
     if (
-      !checkIfStringIsEmpty(firstName) ||
-      !checkIfStringIsEmpty(lastName) ||
-      !checkIfStringIsEmpty(email) ||
-      !checkIfStringIsEmpty(password)
+      validFirstName.valid === false ||
+      validLastName.valid === false ||
+      validEmail.valid === false ||
+      validPassword.valid === false
     ) {
       return;
     }
 
-    const userFirstName: string = firstName!;
-    const userLastName: string = lastName!;
-    const userEmail: string = email!;
-    const userPassword: string = password!;
-
     const userRegisterRequest: userRegisterRequest = {
-      firstName: userFirstName,
-      lastName: userLastName,
-      email: userEmail,
+      firstName: firstName!,
+      lastName: lastName!,
+      email: email!,
       role: EN_STRINGS.REGISTER.ROLE_USER,
-      password: userPassword,
+      password: password!,
     };
 
     registerUser(userRegisterRequest);
   };
 
-  const error = registerError ? (
+  const error = registerError?.length ? (
     <div className='c-error-message'>
       <p>{registerError}</p>
     </div>

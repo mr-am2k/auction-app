@@ -8,8 +8,8 @@ import {
   INPUT_TYPE_TEXT,
   INPUT_TYPE_EMAIL,
   INPUT_TYPE_PASSWORD,
+  FORM,
 } from 'util/constants';
-import { FORM } from 'util/constants';
 import { useEffect } from 'react';
 
 type Props = {
@@ -19,7 +19,7 @@ type Props = {
 };
 
 const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
-  const { formValues, setFormValues, setFormValidInputs } = useForm();
+  const { setFormValues, setFormValidInputs } = useForm();
 
   const children = [
     <Input
@@ -74,10 +74,10 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
 
   useEffect(() => {
     setFormValidInputs({
-      firstName: { valid: false, message: 'This field is required' },
-      lastName: { valid: false, message: 'This field is required' },
-      email: { valid: false, message: 'This field is required' },
-      password: { valid: false, message: 'This field is required' },
+      firstName: { valid: true },
+      lastName: { valid: true },
+      email: { valid: true },
+      password: { valid: true },
     });
   }, []);
 

@@ -1,6 +1,7 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'hooks/useForm';
 
+import { FORM } from 'util/constants';
 import { validateFields } from 'util/helperFunctions';
 
 import './input.scss';
@@ -26,7 +27,6 @@ const Input: React.FC<Props> = ({
   type ObjectKey = keyof typeof formValidInputs;
 
   const { formValues, formValidInputs } = useForm();
-  const [onChangeValidation, setOnChangeValidation] = useState(false);
 
   const inputFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
@@ -36,12 +36,22 @@ const Input: React.FC<Props> = ({
       [name]: value,
     });
 
-    setValidInputs({
-      ...formValidInputs,
-      [name]: validateFields(value),
-    });
-
-    setOnChangeValidation(true);
+    if (name === FORM.EMAIL) {
+      setValidInputs({
+        ...formValidInputs,
+        [name]: validateFields(value, FORM.EMAIL),
+      });
+    } else if (name === FORM.PASSWORD) {
+      setValidInputs({
+        ...formValidInputs,
+        [name]: validateFields(value, FORM.PASSWORD),
+      });
+    } else {
+      setValidInputs({
+        ...formValidInputs,
+        [name]: validateFields(value),
+      });
+    }
   };
 
   return (
@@ -50,9 +60,7 @@ const Input: React.FC<Props> = ({
 
       <input
         className={
-          onChangeValidation && !formValidInputs[name as ObjectKey]?.valid
-            ? 'c-input-error'
-            : ''
+          !formValidInputs[name as ObjectKey]?.valid ? 'c-input-error' : ''
         }
         placeholder={placeholder}
         type={type}
@@ -61,7 +69,7 @@ const Input: React.FC<Props> = ({
           inputFieldChange(e);
         }}
       />
-      {onChangeValidation && !formValidInputs[name as ObjectKey]?.valid ? (
+      {!formValidInputs[name as ObjectKey]?.valid ? (
         <p>{formValidInputs[name as ObjectKey]?.message}</p>
       ) : (
         ''

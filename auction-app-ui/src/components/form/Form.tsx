@@ -19,7 +19,8 @@ export const Form: React.FC<Props> = ({
   otherOptions,
   errorMessage,
 }) => {
-  const { formValues, setFormValues, formValidInputs, setFormValidInputs } = useForm();
+  const { formValues, setFormValues, formValidInputs, setFormValidInputs} = useForm();
+  
   return (
     <div className='c-form-component'>
       <form className='c-form'>
