@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useForm } from 'hooks/useForm';
@@ -10,7 +11,6 @@ import {
   INPUT_TYPE_PASSWORD,
   FORM,
 } from 'util/constants';
-import { useEffect } from 'react';
 
 type Props = {
   children?: React.ReactNode;
@@ -19,14 +19,14 @@ type Props = {
 };
 
 const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
-  const { setFormValues, setFormValidInputs } = useForm();
+  const { setValues, setValidInputs } = useForm();
 
   const children = [
     <Input
       key={FORM.FIRST_NAME}
       type={INPUT_TYPE_TEXT}
-      setValue={setFormValues}
-      setValidInputs={setFormValidInputs}
+      setValue={setValues}
+      setValidInputs={setValidInputs}
       name={FORM.FIRST_NAME}
       title={FORM.FIRST_NAME_TITLE}
       placeholder={FORM.FIRST_NAME_PLACEHOLDER}
@@ -35,8 +35,8 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
     <Input
       key={FORM.LAST_NAME}
       type={INPUT_TYPE_TEXT}
-      setValue={setFormValues}
-      setValidInputs={setFormValidInputs}
+      setValue={setValues}
+      setValidInputs={setValidInputs}
       name={FORM.LAST_NAME}
       title={FORM.LAST_NAME_TITLE}
       placeholder={FORM.LAST_NAME_PLACEHOLDER}
@@ -45,8 +45,8 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
     <Input
       key={FORM.EMAIL}
       type={INPUT_TYPE_EMAIL}
-      setValue={setFormValues}
-      setValidInputs={setFormValidInputs}
+      setValue={setValues}
+      setValidInputs={setValidInputs}
       name={FORM.EMAIL}
       title={FORM.EMAIL_TITLE}
       placeholder={FORM.EMAIL_PLACEHOLDER}
@@ -55,8 +55,8 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
     <Input
       key={FORM.PASSWORD}
       type={INPUT_TYPE_PASSWORD}
-      setValue={setFormValues}
-      setValidInputs={setFormValidInputs}
+      setValue={setValues}
+      setValidInputs={setValidInputs}
       name={FORM.PASSWORD}
       title={FORM.PASSWORD_TITLE}
       placeholder={FORM.PASSWORD_PLACEHOLDER}
@@ -67,13 +67,13 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
     <div>
       <div className='c-other-options'>
         <p>{EN_STRINGS.REGISTER.HAVE_ACCOUNT}</p>
-        <Link to='/login'>{EN_STRINGS.REGISTER.LOGIN}</Link>
+        <Link to='/login'>{EN_STRINGS.REGISTER.LOGIN}!</Link>
       </div>
     </div>
   );
 
   useEffect(() => {
-    setFormValidInputs({
+    setValidInputs({
       firstName: { valid: true },
       lastName: { valid: true },
       email: { valid: true },

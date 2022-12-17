@@ -24,31 +24,31 @@ const Input: React.FC<Props> = ({
   setValue,
   setValidInputs,
 }) => {
-  type ObjectKey = keyof typeof formValidInputs;
+  type ObjectKey = keyof typeof validInputs;
 
-  const { formValues, formValidInputs } = useForm();
+  const { values, validInputs } = useForm();
 
-  const inputFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.currentTarget;
+  const inputFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.currentTarget;
 
     setValue({
-      ...formValues,
+      ...values,
       [name]: value,
     });
 
     if (name === FORM.EMAIL) {
       setValidInputs({
-        ...formValidInputs,
+        ...validInputs,
         [name]: validateFields(value, FORM.EMAIL),
       });
     } else if (name === FORM.PASSWORD) {
       setValidInputs({
-        ...formValidInputs,
+        ...validInputs,
         [name]: validateFields(value, FORM.PASSWORD),
       });
     } else {
       setValidInputs({
-        ...formValidInputs,
+        ...validInputs,
         [name]: validateFields(value),
       });
     }
@@ -60,17 +60,18 @@ const Input: React.FC<Props> = ({
 
       <input
         className={
-          !formValidInputs[name as ObjectKey]?.valid ? 'c-input-error' : ''
+          !validInputs[name as ObjectKey]?.valid ? 'c-input-error' : ''
         }
         placeholder={placeholder}
         type={type}
         name={name}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          inputFieldChange(e);
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          inputFieldChange(event);
         }}
       />
-      {!formValidInputs[name as ObjectKey]?.valid ? (
-        <p>{formValidInputs[name as ObjectKey]?.message}</p>
+
+      {!validInputs[name as ObjectKey]?.valid ? (
+        <p>{validInputs[name as ObjectKey]?.message}</p>
       ) : (
         ''
       )}

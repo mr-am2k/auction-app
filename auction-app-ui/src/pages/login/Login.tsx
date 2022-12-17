@@ -1,44 +1,48 @@
-import LoginForm from 'components/login-form/LoginForm';
-
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { useUser } from 'hooks/useUser';
+import { useForm } from 'hooks/useForm';
 
 import authService from 'services/authService';
 
+import LoginForm from 'components/login-form/LoginForm';
 import { User } from 'models/user';
 import { userLoginRequest } from 'requestModels/userLoginRequest';
-import { checkIfStringIsEmpty } from 'util/stringUtils';
+import { validateFields } from 'util/helperFunctions';
+import { serviceStorage } from 'util/serviceStorage';
+import { FORM, LOCAL_STORAGE } from 'util/constants';
 import logo from 'assets/logo/auction-app-logo.svg';
 
 import './login.scss';
-import { useForm } from 'hooks/useForm';
 
 const Login = () => {
+  const { values, setValues, setValidInputs } = useForm();
+  const { setLoggedInUser } = useUser();
+
   const navigate = useNavigate();
 
   const [loginError, setLoginError] = useState<string>();
-
-  const { setLoggedInUser, loggedInUser, isUserLoggedIn } = useUser();
-
-  const { formValues } = useForm();
 
   const loginUser = async (userLoginRequest: userLoginRequest) => {
     authService
       .login(userLoginRequest)
       .then((authResponse) => {
-        localStorage.setItem('token', authResponse.token);
-        localStorage.setItem('id', authResponse.id);
-        localStorage.setItem('fullName', authResponse.fullName);
-        localStorage.setItem('role', authResponse.roles[0]);
+        serviceStorage.addInStorage(LOCAL_STORAGE.TOKEN, authResponse.token);
+        serviceStorage.addInStorage(LOCAL_STORAGE.ID, authResponse.id);
+        serviceStorage.addInStorage(LOCAL_STORAGE.FULL_NAME, authResponse.fullName);
+        serviceStorage.addInStorage(LOCAL_STORAGE.ROLE, authResponse.roles[0]);
 
         const user: User = {
           id: authResponse.id,
           token: authResponse.token,
         };
 
+        console.log(authResponse);
+
         setLoggedInUser(user);
+
+        setValues({});
 
         navigate('/');
       })
@@ -48,9 +52,17 @@ const Login = () => {
   };
 
   const submitLoginForm = () => {
-    const { email, password } = formValues;
+    const { email, password } = values;
 
-    if (!checkIfStringIsEmpty(email) || !checkIfStringIsEmpty(password)) {
+    const validEmail = validateFields(email, FORM.EMAIL);
+    const validPassword = validateFields(password, FORM.PASSWORD);
+
+    setValidInputs({
+      email: validEmail,
+      password: validPassword,
+    });
+
+    if (validEmail.valid === false || validPassword.valid === false) {
       return;
     }
 
@@ -63,13 +75,7 @@ const Login = () => {
     };
 
     loginUser(userLoginRequest);
-    console.log(isUserLoggedIn());
   };
-
-  useEffect(() => {
-    console.log(isUserLoggedIn());
-    console.log(loggedInUser);
-  }, [loggedInUser, isUserLoggedIn]);
 
   const error = loginError ? (
     <div className='c-error-message'>

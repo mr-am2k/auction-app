@@ -2,12 +2,15 @@ import { Link } from 'react-router-dom';
 
 import { useUser } from 'hooks/useUser';
 
+import authService from 'services/authService';
+
 import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
 import EN_STRINGS from 'util/en_strings';
+import { serviceStorage } from 'util/serviceStorage';
+import { LOCAL_STORAGE } from 'util/constants';
 import ROUTES from 'util/routes';
 
 import './header.scss';
-import authService from 'services/authService';
 
 const Header = () => {
   const { isUserLoggedIn, setLoggedInUser } = useUser();
@@ -15,10 +18,10 @@ const Header = () => {
   const logoutUser = async () => {
     authService.logout();
 
-    localStorage.removeItem('token');
-    localStorage.removeItem('id');
-    localStorage.removeItem('role');
-    localStorage.removeItem('fullName');
+    serviceStorage.removeFromStorage(LOCAL_STORAGE.TOKEN);
+    serviceStorage.removeFromStorage(LOCAL_STORAGE.ID);
+    serviceStorage.removeFromStorage(LOCAL_STORAGE.FULL_NAME);
+    serviceStorage.removeFromStorage(LOCAL_STORAGE.ROLE);
 
     setLoggedInUser(undefined);
   };
@@ -40,7 +43,7 @@ const Header = () => {
       <div className='c-header-message'>
         {isUserLoggedIn() && (
           <div>
-            <p>Hi, {localStorage.getItem('fullName')} </p>
+            <p>Hi, {serviceStorage.getFromStorage(LOCAL_STORAGE.FULL_NAME)} </p>
             <button onClick={logoutUser}>Logout</button>
           </div>
         )}

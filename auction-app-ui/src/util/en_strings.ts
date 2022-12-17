@@ -71,9 +71,10 @@ const EN_STRINGS = {
 
   ERROR_MESSAGE: {
     REQUIRED: 'This field is required',
-    PASSWORD: 'Password needs to have 8 characters, one upper case and one lower case letter and one special character', 
-    EMAIL: 'The email should be in format: user@domain.com'
-  }
+    PASSWORD:
+      'Password needs to have 8 characters, one upper case and one lower case letter and one special character',
+    EMAIL: 'The email should be in format: user@domain.com',
+  },
 };
 
 export default EN_STRINGS;

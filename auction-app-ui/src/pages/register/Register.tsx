@@ -16,7 +16,8 @@ import EN_STRINGS from 'util/en_strings';
 import './register.scss';
 
 const Register = () => {
-  const { formValues, setFormValidInputs } = useForm();
+  const { values, setValues, setValidInputs } = useForm();
+
   const navigate = useNavigate();
 
   const [registerError, setRegisterError] = useState<string>();
@@ -24,22 +25,25 @@ const Register = () => {
   const registerUser = async (userRegisterRequest: userRegisterRequest) => {
     authService
       .register(userRegisterRequest)
-      .then(() => navigate(`/${ROUTES.LOGIN}`))
+      .then(() => {
+        setValues({});
+
+        navigate(`/${ROUTES.LOGIN}`);
+      })
       .catch((error) => {
-        console.log(error);
         setRegisterError(error.response.data.message);
       });
   };
 
   const submitRegisterForm = () => {
-    const { firstName, lastName, email, password } = formValues;
+    const { firstName, lastName, email, password } = values;
 
     const validFirstName = validateFields(firstName);
     const validLastName = validateFields(lastName);
     const validEmail = validateFields(email, FORM.EMAIL);
     const validPassword = validateFields(password, FORM.PASSWORD);
 
-    setFormValidInputs({
+    setValidInputs({
       firstName: validFirstName,
       lastName: validLastName,
       email: validEmail,

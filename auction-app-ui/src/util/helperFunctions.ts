@@ -1,6 +1,5 @@
-import { checkIfStringIsEmpty } from './stringUtils';
-
 import { FORM } from 'util/constants';
+import { checkIfStringIsEmpty } from './stringUtils';
 import EN_STRINGS from './en_strings';
 
 export const validateFields = (name: string | undefined, pattern?: string) => {

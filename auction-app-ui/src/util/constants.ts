@@ -20,3 +20,9 @@ export const FORM = {
   PASSWORD_PLACEHOLDER: '*******',
   FIELD_IS_REQUIRED: 'This field is required',
 };
+export const LOCAL_STORAGE = {
+  TOKEN: 'token',
+  ID: 'id',
+  FULL_NAME: 'fullName',
+  ROLE: 'role',
+};

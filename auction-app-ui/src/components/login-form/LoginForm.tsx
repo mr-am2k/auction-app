@@ -1,9 +1,10 @@
+import { useEffect } from 'react';
+
 import { useForm } from 'hooks/useForm';
 
 import { Input, Form } from 'components/index';
 import EN_STRINGS from 'util/en_strings';
-import { FORM } from 'util/constants';
-import { INPUT_TYPE_EMAIL, INPUT_TYPE_PASSWORD } from 'util/constants';
+import { INPUT_TYPE_EMAIL, INPUT_TYPE_PASSWORD, FORM } from 'util/constants';
 
 type Props = {
   children?: React.ReactNode;
@@ -12,14 +13,14 @@ type Props = {
 };
 
 const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
-  const { setFormValues, setFormValidInputs } = useForm();
+  const { setValues, setValidInputs } = useForm();
 
   const children = [
     <Input
       key={FORM.EMAIL}
       type={INPUT_TYPE_EMAIL}
-      setValue={setFormValues}
-      setValidInputs={setFormValidInputs}
+      setValue={setValues}
+      setValidInputs={setValidInputs}
       name={FORM.EMAIL}
       title={FORM.EMAIL_TITLE}
       placeholder={FORM.EMAIL_PLACEHOLDER}
@@ -28,13 +29,21 @@ const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
     <Input
       key={FORM.PASSWORD}
       type={INPUT_TYPE_PASSWORD}
-      setValue={setFormValues}
-      setValidInputs={setFormValidInputs}
+      setValue={setValues}
+      setValidInputs={setValidInputs}
       name={FORM.PASSWORD}
       title={FORM.PASSWORD_TITLE}
       placeholder={FORM.PASSWORD_PLACEHOLDER}
     />,
   ];
+
+  useEffect(() => {
+    setValidInputs({
+      email: { valid: true },
+      password: { valid: true },
+    });
+  }, []);
+
   return (
     <div>
       <Form
