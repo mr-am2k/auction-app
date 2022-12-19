@@ -37,7 +37,7 @@ public class DefaultUserDetails implements UserDetails {
         final List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole().getValue()));
 
-        final String fullName = user.getFirstName() + " " + user.getLastName();
+        final String fullName = String.join(" ", user.getFirstName(), user.getLastName());
 
         return new DefaultUserDetails(
                 user.getId(),
