@@ -10,9 +10,14 @@ type Props = {
   children?: React.ReactNode;
   onSubmit: () => void;
   errorMessage: JSX.Element | string;
+  displayError: boolean;
 };
 
-const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
+const LoginForm: React.FC<Props> = ({
+  onSubmit,
+  errorMessage,
+  displayError,
+}) => {
   const { setValues, setValidInputs } = useForm();
 
   const children = [
@@ -24,6 +29,8 @@ const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       name={FORM.EMAIL}
       title={FORM.EMAIL_TITLE}
       placeholder={FORM.EMAIL_PLACEHOLDER}
+      pattern={FORM.EMAIL_PATTERN}
+      displayError={displayError}
     />,
 
     <Input
@@ -34,13 +41,21 @@ const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       name={FORM.PASSWORD}
       title={FORM.PASSWORD_TITLE}
       placeholder={FORM.PASSWORD_PLACEHOLDER}
+      pattern={FORM.PASSWORD_PATTERN}
+      displayError={displayError}
     />,
   ];
 
   useEffect(() => {
     setValidInputs({
-      email: { valid: true },
-      password: { valid: true },
+      email: {
+        valid: false,
+        message: 'This field is required',
+      },
+      password: {
+        valid: false,
+        message: 'This field is required',
+      },
     });
   }, []);
 

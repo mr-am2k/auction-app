@@ -5,29 +5,32 @@ import { useForm } from 'hooks/useForm';
 
 import authService from 'services/authService';
 
-import { RegisterForm } from 'components';
 import { userRegisterRequest } from 'requestModels/userRegisterRequest';
 import logo from 'assets/logo/auction-app-logo.svg';
-import { validateFields } from 'util/helperFunctions';
-import { FORM } from 'util/constants';
 import ROUTES from 'util/routes';
 import EN_STRINGS from 'util/en_strings';
 
 import './register.scss';
+import { RegisterForm } from 'components';
 
 const Register = () => {
-  const { values, setValues, setValidInputs } = useForm();
+  const {
+    values,
+    setValues,
+    validInputs,
+  } = useForm();
 
   const navigate = useNavigate();
 
   const [registerError, setRegisterError] = useState<string>();
+  const [displayError, setDisplayError] = useState(false);
 
   const registerUser = async (userRegisterRequest: userRegisterRequest) => {
     authService
       .register(userRegisterRequest)
       .then(() => {
         setValues({});
-
+        
         navigate(`/${ROUTES.LOGIN}`);
       })
       .catch((error) => {
@@ -38,24 +41,13 @@ const Register = () => {
   const submitRegisterForm = () => {
     const { firstName, lastName, email, password } = values;
 
-    const validFirstName = validateFields(firstName);
-    const validLastName = validateFields(lastName);
-    const validEmail = validateFields(email, FORM.EMAIL);
-    const validPassword = validateFields(password, FORM.PASSWORD);
-
-    setValidInputs({
-      firstName: validFirstName,
-      lastName: validLastName,
-      email: validEmail,
-      password: validPassword,
-    });
-
     if (
-      validFirstName.valid === false ||
-      validLastName.valid === false ||
-      validEmail.valid === false ||
-      validPassword.valid === false
+      validInputs.firstName?.valid === false ||
+      validInputs.lastName?.valid === false ||
+      validInputs.email?.valid === false ||
+      validInputs.password?.valid === false
     ) {
+      setDisplayError(true)
       return;
     }
 
@@ -67,6 +59,7 @@ const Register = () => {
       password: password!,
     };
 
+    setDisplayError(false)
     registerUser(userRegisterRequest);
   };
 
@@ -83,7 +76,7 @@ const Register = () => {
       <div className='c-header-image'>
         <img src={logo} alt='Logo' />
       </div>
-      <RegisterForm onSubmit={submitRegisterForm} errorMessage={error} />
+      <RegisterForm onSubmit={submitRegisterForm} errorMessage={error} displayError={displayError}/>
     </div>
   );
 };

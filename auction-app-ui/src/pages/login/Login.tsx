@@ -9,36 +9,34 @@ import authService from 'services/authService';
 import LoginForm from 'components/login-form/LoginForm';
 import { User } from 'models/user';
 import { userLoginRequest } from 'requestModels/userLoginRequest';
-import { validateFields } from 'util/helperFunctions';
 import { serviceStorage } from 'util/serviceStorage';
-import { FORM, LOCAL_STORAGE } from 'util/constants';
+import { LOCAL_STORAGE } from 'util/constants';
 import logo from 'assets/logo/auction-app-logo.svg';
 
 import './login.scss';
 
 const Login = () => {
-  const { values, setValues, setValidInputs } = useForm();
+  const { values, setValues, validInputs } = useForm();
   const { setLoggedInUser } = useUser();
 
   const navigate = useNavigate();
 
   const [loginError, setLoginError] = useState<string>();
+  const [displayError, setDisplayError] = useState(false);
 
-  const loginUser = async (userLoginRequest: userLoginRequest) => {
+  const loginUser = async (loginRequest: userLoginRequest) => {
     authService
-      .login(userLoginRequest)
+      .login(loginRequest)
       .then((authResponse) => {
-        serviceStorage.addInStorage(LOCAL_STORAGE.TOKEN, authResponse.token);
-        serviceStorage.addInStorage(LOCAL_STORAGE.ID, authResponse.id);
-        serviceStorage.addInStorage(LOCAL_STORAGE.FULL_NAME, authResponse.fullName);
-        serviceStorage.addInStorage(LOCAL_STORAGE.ROLE, authResponse.roles[0]);
+        serviceStorage.add(LOCAL_STORAGE.TOKEN, authResponse.token);
+        serviceStorage.add(LOCAL_STORAGE.ID, authResponse.id);
+        serviceStorage.add(LOCAL_STORAGE.FULL_NAME, authResponse.fullName);
+        serviceStorage.add(LOCAL_STORAGE.ROLE, authResponse.roles[0]);
 
         const user: User = {
           id: authResponse.id,
           token: authResponse.token,
         };
-
-        console.log(authResponse);
 
         setLoggedInUser(user);
 
@@ -54,27 +52,22 @@ const Login = () => {
   const submitLoginForm = () => {
     const { email, password } = values;
 
-    const validEmail = validateFields(email, FORM.EMAIL);
-    const validPassword = validateFields(password, FORM.PASSWORD);
+    const loginRequest: userLoginRequest = {
+      username: email!,
+      password: password!,
+    };
 
-    setValidInputs({
-      email: validEmail,
-      password: validPassword,
-    });
-
-    if (validEmail.valid === false || validPassword.valid === false) {
+    if (
+      validInputs.email?.valid === false ||
+      validInputs.password?.valid === false
+    ) {
+      setDisplayError(true);
       return;
     }
 
-    const userUsername: string = email!;
-    const userPassword: string = password!;
+    setDisplayError(false);
 
-    const userLoginRequest: userLoginRequest = {
-      username: userUsername,
-      password: userPassword,
-    };
-
-    loginUser(userLoginRequest);
+    loginUser(loginRequest);
   };
 
   const error = loginError ? (
@@ -90,7 +83,11 @@ const Login = () => {
       <div className='c-header-image'>
         <img src={logo} alt='Logo' />
       </div>
-      <LoginForm onSubmit={submitLoginForm} errorMessage={error} />
+      <LoginForm
+        onSubmit={submitLoginForm}
+        errorMessage={error}
+        displayError={displayError}
+      />
     </div>
   );
 };

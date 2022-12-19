@@ -27,11 +27,11 @@
     line-height: 27px;
 
     ::placeholder {
-      color: $greyColor;
-      font-family: $fontFamily;
-      font-weight: $mediumFontWeight;
-      font-size: 18px;
-      line-height: 27px;
+      color: inherit;
+      font-family: inherit;
+      font-weight: inherit;
+      font-size: inherit;
+      line-height: inherit;
     }
   }
 

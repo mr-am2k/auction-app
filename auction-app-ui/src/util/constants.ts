@@ -15,8 +15,10 @@ export const FORM = {
   EMAIL: 'email',
   EMAIL_TITLE: 'Email',
   EMAIL_PLACEHOLDER: 'user@domain.com',
+  EMAIL_PATTERN: 'email-pattern',
   PASSWORD: 'password',
   PASSWORD_TITLE: 'Password',
+  PASSWORD_PATTERN: 'password-pattern',
   PASSWORD_PLACEHOLDER: '*******',
   FIELD_IS_REQUIRED: 'This field is required',
 };

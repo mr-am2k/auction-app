@@ -1,8 +1,6 @@
-import { Dispatch, SetStateAction } from 'react';
-import { useForm } from 'hooks/useForm';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-import { FORM } from 'util/constants';
-import { validateFields } from 'util/helperFunctions';
+import { useForm } from 'hooks/useForm';
 
 import './input.scss';
 
@@ -12,8 +10,10 @@ type Props = {
   name: string;
   type: string;
   title: string;
+  pattern?: string;
   setValue: Dispatch<SetStateAction<{}>>;
   setValidInputs: Dispatch<SetStateAction<{}>>;
+  displayError: boolean;
 };
 
 const Input: React.FC<Props> = ({
@@ -21,12 +21,15 @@ const Input: React.FC<Props> = ({
   name,
   type,
   title,
+  pattern,
   setValue,
   setValidInputs,
+  displayError
 }) => {
   type ObjectKey = keyof typeof validInputs;
 
-  const { values, validInputs } = useForm();
+  const { values, validInputs, validateSingleField } = useForm();
+  const [errorDisplay, setErrorDisplay] = useState(false);
 
   const inputFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.currentTarget;
@@ -36,7 +39,9 @@ const Input: React.FC<Props> = ({
       [name]: value,
     });
 
-    if (name === FORM.EMAIL) {
+    validateSingleField(name, value, pattern);
+    setErrorDisplay(true);
+    /*if (name === FORM.EMAIL) {
       setValidInputs({
         ...validInputs,
         [name]: validateFields(value, FORM.EMAIL),
@@ -51,8 +56,14 @@ const Input: React.FC<Props> = ({
         ...validInputs,
         [name]: validateFields(value),
       });
-    }
+    }*/
   };
+
+  useEffect(() => {
+    if(displayError){
+      setErrorDisplay(true);
+    }
+  }, [displayError])
 
   return (
     <div className='c-text-input'>
@@ -60,21 +71,24 @@ const Input: React.FC<Props> = ({
 
       <input
         className={
-          !validInputs[name as ObjectKey]?.valid ? 'c-input-error' : ''
+          !validInputs[name as ObjectKey]?.valid &&
+          errorDisplay
+            ? 'c-input-error'
+            : ''
         }
         placeholder={placeholder}
         type={type}
         name={name}
+        pattern={pattern}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           inputFieldChange(event);
         }}
       />
 
-      {!validInputs[name as ObjectKey]?.valid ? (
-        <p>{validInputs[name as ObjectKey]?.message}</p>
-      ) : (
-        ''
-      )}
+      {!validInputs[name as ObjectKey]?.valid &&
+        errorDisplay && (
+          <p>{validInputs[name as ObjectKey]?.message}</p>
+        )}
     </div>
   );
 };

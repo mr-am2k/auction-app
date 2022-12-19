@@ -18,10 +18,10 @@ const Header = () => {
   const logoutUser = async () => {
     authService.logout();
 
-    serviceStorage.removeFromStorage(LOCAL_STORAGE.TOKEN);
-    serviceStorage.removeFromStorage(LOCAL_STORAGE.ID);
-    serviceStorage.removeFromStorage(LOCAL_STORAGE.FULL_NAME);
-    serviceStorage.removeFromStorage(LOCAL_STORAGE.ROLE);
+    serviceStorage.remove(LOCAL_STORAGE.TOKEN);
+    serviceStorage.remove(LOCAL_STORAGE.ID);
+    serviceStorage.remove(LOCAL_STORAGE.FULL_NAME);
+    serviceStorage.remove(LOCAL_STORAGE.ROLE);
 
     setLoggedInUser(undefined);
   };
@@ -43,7 +43,7 @@ const Header = () => {
       <div className='c-header-message'>
         {isUserLoggedIn() && (
           <div>
-            <p>Hi, {serviceStorage.getFromStorage(LOCAL_STORAGE.FULL_NAME)} </p>
+            <p>Hi, {serviceStorage.get(LOCAL_STORAGE.FULL_NAME)} </p>
             <button onClick={logoutUser}>Logout</button>
           </div>
         )}

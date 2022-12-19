@@ -16,9 +16,14 @@ type Props = {
   children?: React.ReactNode;
   onSubmit: () => void;
   errorMessage: JSX.Element | string;
+  displayError: boolean;
 };
 
-const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
+const RegisterForm: React.FC<Props> = ({
+  onSubmit,
+  errorMessage,
+  displayError,
+}) => {
   const { setValues, setValidInputs } = useForm();
 
   const children = [
@@ -30,6 +35,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       name={FORM.FIRST_NAME}
       title={FORM.FIRST_NAME_TITLE}
       placeholder={FORM.FIRST_NAME_PLACEHOLDER}
+      displayError={displayError}
     />,
 
     <Input
@@ -40,6 +46,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       name={FORM.LAST_NAME}
       title={FORM.LAST_NAME_TITLE}
       placeholder={FORM.LAST_NAME_PLACEHOLDER}
+      displayError={displayError}
     />,
 
     <Input
@@ -50,6 +57,8 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       name={FORM.EMAIL}
       title={FORM.EMAIL_TITLE}
       placeholder={FORM.EMAIL_PLACEHOLDER}
+      pattern={FORM.EMAIL_PATTERN}
+      displayError={displayError}
     />,
 
     <Input
@@ -60,6 +69,8 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       name={FORM.PASSWORD}
       title={FORM.PASSWORD_TITLE}
       placeholder={FORM.PASSWORD_PLACEHOLDER}
+      pattern={FORM.PASSWORD_PATTERN}
+      displayError={displayError}
     />,
   ];
 
@@ -74,10 +85,22 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
 
   useEffect(() => {
     setValidInputs({
-      firstName: { valid: true },
-      lastName: { valid: true },
-      email: { valid: true },
-      password: { valid: true },
+      firstName: {
+        valid: false,
+        message: 'This field is required',
+      },
+      lastName: {
+        valid: false,
+        message: 'This field is required',
+      },
+      email: {
+        valid: false,
+        message: 'This field is required',
+      },
+      password: {
+        valid: false,
+        message: 'This field is required',
+      },
     });
   }, []);
 

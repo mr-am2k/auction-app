@@ -19,20 +19,35 @@ export const Form: React.FC<Props> = ({
   otherOptions,
   errorMessage,
 }) => {
-  const { values, setValues, validInputs, setValidInputs } = useForm();
+  const {
+    values,
+    setValues,
+    validInputs,
+    setValidInputs,
+    validateSingleField,
+  } = useForm();
 
   return (
     <div className='c-form-component'>
       <form className='c-form'>
         <FormContext.Provider
-          value={{ values, setValues, validInputs, setValidInputs }}
+          value={{
+            values,
+            setValues,
+            validInputs,
+            setValidInputs,
+            validateSingleField
+          }}
         >
           {children}
         </FormContext.Provider>
+        
         {errorMessage}
+
         <button type='button' onClick={onSubmit}>
           {buttonText}
         </button>
+
         {otherOptions}
       </form>
     </div>
