@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useForm } from 'hooks/useForm';
 
 import { Input, Form } from 'components/index';
-import EN_STRINGS from 'util/en_strings';
+import EN_STRINGS from 'translation/en';
 import { INPUT_TYPE_EMAIL, INPUT_TYPE_PASSWORD, FORM } from 'util/constants';
 
 type Props = {
@@ -25,7 +25,6 @@ const LoginForm: React.FC<Props> = ({
       key={FORM.EMAIL}
       type={INPUT_TYPE_EMAIL}
       setValue={setValues}
-      setValidInputs={setValidInputs}
       name={FORM.EMAIL}
       title={FORM.EMAIL_TITLE}
       placeholder={FORM.EMAIL_PLACEHOLDER}
@@ -37,7 +36,6 @@ const LoginForm: React.FC<Props> = ({
       key={FORM.PASSWORD}
       type={INPUT_TYPE_PASSWORD}
       setValue={setValues}
-      setValidInputs={setValidInputs}
       name={FORM.PASSWORD}
       title={FORM.PASSWORD_TITLE}
       placeholder={FORM.PASSWORD_PLACEHOLDER}
@@ -50,11 +48,11 @@ const LoginForm: React.FC<Props> = ({
     setValidInputs({
       email: {
         valid: false,
-        message: 'This field is required',
+        message: EN_STRINGS.ERROR_MESSAGE.REQUIRED,
       },
       password: {
         valid: false,
-        message: 'This field is required',
+        message: EN_STRINGS.ERROR_MESSAGE.REQUIRED,
       },
     });
   }, []);

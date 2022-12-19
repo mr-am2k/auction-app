@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'hooks/useForm';
 
 import { Input, Form } from 'components/index';
-import EN_STRINGS from 'util/en_strings';
+import EN_STRINGS from 'translation/en';
 import {
   INPUT_TYPE_TEXT,
   INPUT_TYPE_EMAIL,
@@ -31,7 +31,6 @@ const RegisterForm: React.FC<Props> = ({
       key={FORM.FIRST_NAME}
       type={INPUT_TYPE_TEXT}
       setValue={setValues}
-      setValidInputs={setValidInputs}
       name={FORM.FIRST_NAME}
       title={FORM.FIRST_NAME_TITLE}
       placeholder={FORM.FIRST_NAME_PLACEHOLDER}
@@ -42,7 +41,6 @@ const RegisterForm: React.FC<Props> = ({
       key={FORM.LAST_NAME}
       type={INPUT_TYPE_TEXT}
       setValue={setValues}
-      setValidInputs={setValidInputs}
       name={FORM.LAST_NAME}
       title={FORM.LAST_NAME_TITLE}
       placeholder={FORM.LAST_NAME_PLACEHOLDER}
@@ -53,7 +51,6 @@ const RegisterForm: React.FC<Props> = ({
       key={FORM.EMAIL}
       type={INPUT_TYPE_EMAIL}
       setValue={setValues}
-      setValidInputs={setValidInputs}
       name={FORM.EMAIL}
       title={FORM.EMAIL_TITLE}
       placeholder={FORM.EMAIL_PLACEHOLDER}
@@ -65,7 +62,6 @@ const RegisterForm: React.FC<Props> = ({
       key={FORM.PASSWORD}
       type={INPUT_TYPE_PASSWORD}
       setValue={setValues}
-      setValidInputs={setValidInputs}
       name={FORM.PASSWORD}
       title={FORM.PASSWORD_TITLE}
       placeholder={FORM.PASSWORD_PLACEHOLDER}
@@ -87,19 +83,19 @@ const RegisterForm: React.FC<Props> = ({
     setValidInputs({
       firstName: {
         valid: false,
-        message: 'This field is required',
+        message: EN_STRINGS.ERROR_MESSAGE.REQUIRED,
       },
       lastName: {
         valid: false,
-        message: 'This field is required',
+        message: EN_STRINGS.ERROR_MESSAGE.REQUIRED,
       },
       email: {
         valid: false,
-        message: 'This field is required',
+        message: EN_STRINGS.ERROR_MESSAGE.REQUIRED,
       },
       password: {
         valid: false,
-        message: 'This field is required',
+        message: EN_STRINGS.ERROR_MESSAGE.REQUIRED,
       },
     });
   }, []);

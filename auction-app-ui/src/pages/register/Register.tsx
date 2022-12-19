@@ -7,18 +7,14 @@ import authService from 'services/authService';
 
 import { userRegisterRequest } from 'requestModels/userRegisterRequest';
 import logo from 'assets/logo/auction-app-logo.svg';
-import ROUTES from 'util/routes';
-import EN_STRINGS from 'util/en_strings';
+import { ROUTES } from 'util/routes';
+import EN_STRINGS from 'translation/en';
 
 import './register.scss';
 import { RegisterForm } from 'components';
 
 const Register = () => {
-  const {
-    values,
-    setValues,
-    validInputs,
-  } = useForm();
+  const { values, setValues, validInputs } = useForm();
 
   const navigate = useNavigate();
 
@@ -30,24 +26,25 @@ const Register = () => {
       .register(userRegisterRequest)
       .then(() => {
         setValues({});
-        
-        navigate(`/${ROUTES.LOGIN}`);
+        navigate(ROUTES.LOGIN);
       })
       .catch((error) => {
         setRegisterError(error.response.data.message);
       });
   };
 
-  const submitRegisterForm = () => {
+  const submitForm = () => {
     const { firstName, lastName, email, password } = values;
 
     if (
-      validInputs.firstName?.valid === false ||
-      validInputs.lastName?.valid === false ||
-      validInputs.email?.valid === false ||
-      validInputs.password?.valid === false
+      [
+        validInputs.firstName?.valid,
+        validInputs.lastName?.valid,
+        validInputs.email?.valid,
+        validInputs.password?.valid,
+      ].some((input) => input === false)
     ) {
-      setDisplayError(true)
+      setDisplayError(true);
       return;
     }
 
@@ -59,7 +56,7 @@ const Register = () => {
       password: password!,
     };
 
-    setDisplayError(false)
+    setDisplayError(false);
     registerUser(userRegisterRequest);
   };
 
@@ -76,7 +73,11 @@ const Register = () => {
       <div className='c-header-image'>
         <img src={logo} alt='Logo' />
       </div>
-      <RegisterForm onSubmit={submitRegisterForm} errorMessage={error} displayError={displayError}/>
+      <RegisterForm
+        onSubmit={submitForm}
+        errorMessage={error}
+        displayError={displayError}
+      />
     </div>
   );
 };

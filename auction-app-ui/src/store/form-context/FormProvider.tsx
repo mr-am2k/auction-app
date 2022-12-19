@@ -3,9 +3,10 @@ import { useState } from 'react';
 import FormContext from './form-context';
 
 import { FORM } from 'util/constants';
-import EN_STRINGS from 'util/en_strings';
+import EN_STRINGS from 'translation/en';
 import { checkIfStringIsEmpty } from 'util/stringUtils';
-import { validateEmail, validatePassword } from 'util/helperFunctions';
+import { validate as validateEmail } from 'validators/validateEmail';
+import { validate as validatePassword } from 'validators/validatePassword';
 
 type Props = {
   children?: React.ReactNode;
@@ -29,7 +30,7 @@ const FormProvider: React.FC<Props> = ({ children }) => {
           displayed: true,
         },
       });
-      
+
       return;
     }
 
@@ -49,7 +50,7 @@ const FormProvider: React.FC<Props> = ({ children }) => {
           });
           break;
       }
-      
+
       return;
     }
 

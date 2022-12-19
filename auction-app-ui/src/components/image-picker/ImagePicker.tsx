@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import EN_STRINGS from 'util/en_strings';
+import EN_STRINGS from 'translation/en';
 
 import './image-picker.scss';
 
@@ -28,7 +28,10 @@ const ImagePicker: React.FC<Props> = ({ images }) => {
   return (
     <div className='c-images'>
       <div className='c-main-image'>
-        <img src={images[selectedImageIndex]} alt={EN_STRINGS.IMAGE_PICKER.FOCUSED_IMAGED}/>
+        <img
+          src={images[selectedImageIndex]}
+          alt={EN_STRINGS.IMAGE_PICKER.FOCUSED_IMAGED}
+        />
       </div>
 
       <div className='c-other-images'>{otherImages}</div>

@@ -1,4 +1,4 @@
-import EN_STRINGS from 'util/en_strings';
+import EN_STRINGS from 'translation/en';
 import './notification-bar.scss';
 
 const SCSS_NOTIFICATION_CLASSES = {
@@ -13,8 +13,10 @@ type Props = {
 };
 
 const NotificationBar: React.FC<Props> = ({ notificationMessage }) => {
-  const classKey = notificationMessage as keyof typeof SCSS_NOTIFICATION_CLASSES;
-  const enumKey = notificationMessage as keyof typeof EN_STRINGS.NOTIFICATION_BAR
+  const classKey =
+    notificationMessage as keyof typeof SCSS_NOTIFICATION_CLASSES;
+  const enumKey =
+    notificationMessage as keyof typeof EN_STRINGS.NOTIFICATION_BAR;
 
   return (
     <>

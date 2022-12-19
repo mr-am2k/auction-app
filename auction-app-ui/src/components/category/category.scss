@@ -11,10 +11,10 @@
   border-bottom: 2px solid $smokeWhiteColor;
 
   p {
-    font-family: $fontFamily;
-    font-weight: $highFontWeight;
-    font-size: $fontSize;
-    line-height: $paragraphLineHeight;
+    font-family: $latoFont;
+    font-weight: $fontBold;
+    font-size: $textBase;
+    line-height: $lineHeightBase;
     color: $blackColor;
 
     &:hover {

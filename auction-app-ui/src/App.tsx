@@ -16,19 +16,19 @@ import {
 } from './pages';
 import { User } from 'models/user';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
-import ROUTES from './util/routes';
+import { ROUTES } from './util/routes';
 
 import './app.scss';
 import { LOCAL_STORAGE } from 'util/constants';
-import { serviceStorage } from 'util/serviceStorage';
+import { storageService } from 'services/storageService';
 
 const App = () => {
   const location = useLocation();
   const { setLoggedInUser } = useUser();
 
   useEffect(() => {
-    const id = serviceStorage.get(LOCAL_STORAGE.ID)
-    const token = serviceStorage.get(LOCAL_STORAGE.TOKEN)
+    const id = storageService.get(LOCAL_STORAGE.ID);
+    const token = storageService.get(LOCAL_STORAGE.TOKEN);
 
     if (id?.length || token?.length) {
       const user: User = {
@@ -44,8 +44,8 @@ const App = () => {
       <FormProvider>
         <Header />
 
-        {!location.pathname.includes(` /${ROUTES.REGISTER}`) &&
-          !location.pathname.includes(`/${ROUTES.LOGIN}`) && (
+        {!location.pathname.includes(ROUTES.REGISTER) &&
+          !location.pathname.includes(ROUTES.LOGIN) && (
             <>
               <Navbar />
               <NavbarTracker />

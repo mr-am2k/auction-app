@@ -4,6 +4,8 @@ import { useForm } from 'hooks/useForm';
 
 import './input.scss';
 
+import classNames from 'classnames';
+
 type Props = {
   children?: React.ReactNode;
   placeholder: string;
@@ -12,7 +14,6 @@ type Props = {
   title: string;
   pattern?: string;
   setValue: Dispatch<SetStateAction<{}>>;
-  setValidInputs: Dispatch<SetStateAction<{}>>;
   displayError: boolean;
 };
 
@@ -23,8 +24,7 @@ const Input: React.FC<Props> = ({
   title,
   pattern,
   setValue,
-  setValidInputs,
-  displayError
+  displayError,
 }) => {
   type ObjectKey = keyof typeof validInputs;
 
@@ -41,41 +41,23 @@ const Input: React.FC<Props> = ({
 
     validateSingleField(name, value, pattern);
     setErrorDisplay(true);
-    /*if (name === FORM.EMAIL) {
-      setValidInputs({
-        ...validInputs,
-        [name]: validateFields(value, FORM.EMAIL),
-      });
-    } else if (name === FORM.PASSWORD) {
-      setValidInputs({
-        ...validInputs,
-        [name]: validateFields(value, FORM.PASSWORD),
-      });
-    } else {
-      setValidInputs({
-        ...validInputs,
-        [name]: validateFields(value),
-      });
-    }*/
   };
 
   useEffect(() => {
-    if(displayError){
+    if (displayError) {
       setErrorDisplay(true);
     }
-  }, [displayError])
+  }, [displayError]);
 
   return (
     <div className='c-text-input'>
       <p className='c-header-text'>{title}</p>
 
       <input
-        className={
-          !validInputs[name as ObjectKey]?.valid &&
-          errorDisplay
-            ? 'c-input-error'
-            : ''
-        }
+        className={classNames({
+          'c-input-error':
+            !validInputs[name as ObjectKey]?.valid && errorDisplay,
+        })}
         placeholder={placeholder}
         type={type}
         name={name}
@@ -85,10 +67,9 @@ const Input: React.FC<Props> = ({
         }}
       />
 
-      {!validInputs[name as ObjectKey]?.valid &&
-        errorDisplay && (
-          <p>{validInputs[name as ObjectKey]?.message}</p>
-        )}
+      {!validInputs[name as ObjectKey]?.valid && errorDisplay && (
+        <p>{validInputs[name as ObjectKey]!.message}</p>
+      )}
     </div>
   );
 };

@@ -4,7 +4,7 @@
 .c-text-input {
   @include flexDisplay(flex-start, flex-start);
   flex-direction: column;
-  font-family: $fontFamily;
+  font-family: $latoFont;
   width: 500px;
   margin-bottom: 0.5rem;
 
@@ -21,8 +21,8 @@
     border: 1px solid $borderGreyColor;
     outline: none;
     color: $greyColor;
-    font-family: $fontFamily;
-    font-weight: $mediumFontWeight;
+    font-family: $latoFont;
+    font-weight: $fontNormal;
     font-size: 18px;
     line-height: 27px;
 

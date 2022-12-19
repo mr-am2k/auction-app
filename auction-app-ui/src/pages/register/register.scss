@@ -2,7 +2,7 @@
 @import '/src/scss//mixin';
 
 .c-register-page {
-  font-family: $fontFamily;
+  font-family: $latoFont;
 
   .c-header-image {
     @include flexDisplay(center, center);

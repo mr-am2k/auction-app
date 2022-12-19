@@ -2,12 +2,12 @@
 @import '/src/scss//mixin';
 
 .c-form-component {
-  margin-top: 2rem;
   @include flexDisplay(center, center);
+  margin-top: 2rem;
 
   .c-form {
-    width: 700px;
     @include flexDisplay(flex-start, center);
+    width: 700px;
     flex-direction: column;
     border: 1px solid $borderGreyColor;
     padding: 2rem;
@@ -20,10 +20,10 @@
       height: 60px;
       margin-top: 3rem;
       margin-bottom: 2rem;
-      font-family: $fontFamily;
+      font-family: $latoFont;
       color: $whiteColor;
       border: none;
-      font-weight: 700;
+      font-weight: $fontBold;
       font-size: 18px;
       line-height: 27px;
       background: $purpleColor;
@@ -34,11 +34,11 @@
     }
 
     .c-error-message {
-      width: 500px;
       @include flexDisplay(flex-start, center);
+      width: 500px;
       text-align: left;
       color: $purpleColor;
-      font-weight: $highFontWeight;
+      font-weight: $fontBold;
       font-size: 19px;
     }
 
@@ -47,18 +47,18 @@
       gap: 20px;
 
       p {
-        font-family: $fontFamily;
-        font-weight: $highFontWeight;
-        font-size: $fontSize;
+        font-family: $latoFont;
+        font-weight: $fontBold;
+        font-size: $textBase;
         line-height: 19px;
         color: $greyColor;
       }
 
       a {
         text-decoration: none;
-        font-family: $fontFamily;
-        font-weight: $highFontWeight;
-        font-size: $fontSize;
+        font-family: $latoFont;
+        font-weight: $fontBold;
+        font-size: $textBase;
         line-height: 19px;
         color: $purpleColor;
       }

@@ -13,7 +13,7 @@ import { createBidRequest } from 'requestModels/createBidRequest';
 import { Notification } from 'models/notification';
 import { GreaterIcon } from 'assets/icons';
 import { Product } from 'models/product';
-import EN_STRINGS from 'util/en_strings';
+import EN_STRINGS from 'translation/en';
 
 import './single-product.scss';
 
@@ -36,8 +36,8 @@ const SingleProduct = () => {
       setNavbarTitle(product.name);
       setNavbarItems([EN_STRINGS.NAVBAR.SHOP, EN_STRINGS.SHOP.SINGLE_PRODUCT]);
       setSingleProduct(product);
-      if(!product.bids.length){
-        setPlaceholderValue(product.startPrice)
+      if (!product.bids.length) {
+        setPlaceholderValue(product.startPrice);
       }
     } catch (error) {
       console.log(error);
@@ -48,7 +48,7 @@ const SingleProduct = () => {
     try {
       const highestBid = await bidService.getHighestBid(productId);
       setHighestBid(highestBid);
-      setPlaceholderValue(highestBid)
+      setPlaceholderValue(highestBid);
     } catch (error) {
       console.log(error);
     }
@@ -100,12 +100,9 @@ const SingleProduct = () => {
   }, []);
 
   useEffect(() => {
-    if (loggedInUser) {
-      getLatestNotification(loggedInUser!.id, id!);
-    }
-    if(!loggedInUser){
-      setLatestNotification(undefined)
-    }
+    loggedInUser
+      ? getLatestNotification(loggedInUser!.id, id!)
+      : setLatestNotification(undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedInUser, singleProduct]);
 
@@ -116,9 +113,7 @@ const SingleProduct = () => {
   return (
     <>
       {latestNotification && (
-        <NotificationBar
-          notificationMessage={latestNotification!.type}
-        />
+        <NotificationBar notificationMessage={latestNotification!.type} />
       )}
 
       <div className='c-single-product'>
@@ -167,7 +162,9 @@ const SingleProduct = () => {
               <div className='c-bid-error'>
                 <p>{bidInputError}</p>
               </div>
-            ) : ('')}
+            ) : (
+              ''
+            )}
           </div>
 
           <div className='c-details'>

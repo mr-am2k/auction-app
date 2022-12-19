@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 import { SearchIcon, CloseIcon } from 'assets/icons';
 import auctionAppLogo from 'assets/logo/auction-app-logo.svg';
-import EN_STRINGS from 'util/en_strings';
-import ROUTES from 'util/routes';
+import EN_STRINGS from 'translation/en';
+import { ROUTES } from 'util/routes';
 
 import './navbar.scss';
 
@@ -44,10 +44,8 @@ const Navbar = () => {
 
       <div className='c-navbar-options'>
         <Link to='/'>{EN_STRINGS.NAVBAR.HOME.toUpperCase()}</Link>
-        <Link to={`/${ROUTES.SHOP}`}>
-          {EN_STRINGS.NAVBAR.SHOP.toUpperCase()}
-        </Link>
-        <Link to={`/${ROUTES.MY_ACCOUNT}`}>
+        <Link to={ROUTES.SHOP}>{EN_STRINGS.NAVBAR.SHOP.toUpperCase()}</Link>
+        <Link to={ROUTES.MY_ACCOUNT}>
           {EN_STRINGS.NAVBAR.MY_ACCOUNT.toUpperCase()}
         </Link>
       </div>

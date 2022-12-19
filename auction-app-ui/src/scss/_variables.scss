@@ -7,14 +7,13 @@ $purpleColor: #8367d8;
 $smokeWhiteColor: #d8d8d8;
 $lightGreyColor: #fcfcfc;
 $borderWhiteColor: #e3e3e3;
-$borderGreyColor: #D8D8D8;
-
+$borderGreyColor: #d8d8d8;
 
 //fonts and text
-$fontFamily: 'Lato', sans-serif;
-$fontSize: 16px;
-$paragraphLineHeight: 24px;
-$headingLineHeight: 51px;
+$latoFont: 'Lato', sans-serif;
+$textBase: 16px;
+$lineHeightBase: 24px;
+$lineHeight5xl: 51px;
 $letterSpacing: 0.84px;
-$mediumFontWeight: 400;
-$highFontWeight: 700;
+$fontNormal: 400;
+$fontBold: 700;

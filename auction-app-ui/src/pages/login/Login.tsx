@@ -9,7 +9,7 @@ import authService from 'services/authService';
 import LoginForm from 'components/login-form/LoginForm';
 import { User } from 'models/user';
 import { userLoginRequest } from 'requestModels/userLoginRequest';
-import { serviceStorage } from 'util/serviceStorage';
+import { storageService } from 'services/storageService';
 import { LOCAL_STORAGE } from 'util/constants';
 import logo from 'assets/logo/auction-app-logo.svg';
 
@@ -28,10 +28,10 @@ const Login = () => {
     authService
       .login(loginRequest)
       .then((authResponse) => {
-        serviceStorage.add(LOCAL_STORAGE.TOKEN, authResponse.token);
-        serviceStorage.add(LOCAL_STORAGE.ID, authResponse.id);
-        serviceStorage.add(LOCAL_STORAGE.FULL_NAME, authResponse.fullName);
-        serviceStorage.add(LOCAL_STORAGE.ROLE, authResponse.roles[0]);
+        storageService.add(LOCAL_STORAGE.TOKEN, authResponse.token);
+        storageService.add(LOCAL_STORAGE.ID, authResponse.id);
+        storageService.add(LOCAL_STORAGE.FULL_NAME, authResponse.fullName);
+        storageService.add(LOCAL_STORAGE.ROLE, authResponse.roles[0]);
 
         const user: User = {
           id: authResponse.id,
@@ -39,9 +39,7 @@ const Login = () => {
         };
 
         setLoggedInUser(user);
-
         setValues({});
-
         navigate('/');
       })
       .catch((error) => {
@@ -49,7 +47,7 @@ const Login = () => {
       });
   };
 
-  const submitLoginForm = () => {
+  const submitForm = () => {
     const { email, password } = values;
 
     const loginRequest: userLoginRequest = {
@@ -58,15 +56,15 @@ const Login = () => {
     };
 
     if (
-      validInputs.email?.valid === false ||
-      validInputs.password?.valid === false
+      [validInputs.email?.valid, validInputs.password?.valid].some(
+        (input) => input === false
+      )
     ) {
       setDisplayError(true);
       return;
     }
 
     setDisplayError(false);
-
     loginUser(loginRequest);
   };
 
@@ -84,7 +82,7 @@ const Login = () => {
         <img src={logo} alt='Logo' />
       </div>
       <LoginForm
-        onSubmit={submitLoginForm}
+        onSubmit={submitForm}
         errorMessage={error}
         displayError={displayError}
       />

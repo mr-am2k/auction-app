@@ -2,7 +2,7 @@
 @import '/src/scss/variables';
 
 .c-new-arrivals {
-  font-family: $fontFamily;
+  font-family: $latoFont;
   padding-top: 3rem;
   display: flex;
   width: 100%;
@@ -28,7 +28,7 @@
 
     p {
       font-weight: 500;
-      font-size: $fontSize;
+      font-size: $textBase;
       line-height: 19px;
       letter-spacing: $letterSpacing;
       color: $greyColor;

@@ -36,15 +36,20 @@ export const Form: React.FC<Props> = ({
             setValues,
             validInputs,
             setValidInputs,
-            validateSingleField
+            validateSingleField,
           }}
         >
           {children}
         </FormContext.Provider>
-        
+
         {errorMessage}
 
-        <button type='button' onClick={onSubmit}>
+        <button
+          onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+            event.preventDefault();
+            onSubmit();
+          }}
+        >
           {buttonText}
         </button>
 
