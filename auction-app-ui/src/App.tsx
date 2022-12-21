@@ -44,13 +44,12 @@ const App = () => {
       <FormProvider>
         <Header />
 
-        {!location.pathname.includes(ROUTES.REGISTER) &&
-          !location.pathname.includes(ROUTES.LOGIN) && (
-            <>
-              <Navbar />
-              <NavbarTracker />
-            </>
-          )}
+        {![ROUTES.REGISTER, ROUTES.LOGIN].includes(location.pathname) && (
+          <>
+            <Navbar />
+            <NavbarTracker />
+          </>
+        )}
 
         <div className='c-page-wrapper'>
           <>

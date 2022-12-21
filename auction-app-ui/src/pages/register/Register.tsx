@@ -14,18 +14,17 @@ import './register.scss';
 import { RegisterForm } from 'components';
 
 const Register = () => {
-  const { values, setValues, validInputs } = useForm();
+  const { fieldValues, setFieldValues, isValid } = useForm();
 
   const navigate = useNavigate();
 
   const [registerError, setRegisterError] = useState<string>();
-  const [displayError, setDisplayError] = useState(false);
 
   const registerUser = async (userRegisterRequest: userRegisterRequest) => {
     authService
       .register(userRegisterRequest)
       .then(() => {
-        setValues({});
+        setFieldValues({});
         navigate(ROUTES.LOGIN);
       })
       .catch((error) => {
@@ -34,29 +33,20 @@ const Register = () => {
   };
 
   const submitForm = () => {
-    const { firstName, lastName, email, password } = values;
+    const { firstName, lastName, email, password } = fieldValues;
 
-    if (
-      [
-        validInputs.firstName?.valid,
-        validInputs.lastName?.valid,
-        validInputs.email?.valid,
-        validInputs.password?.valid,
-      ].some((input) => input === false)
-    ) {
-      setDisplayError(true);
+    if (!isValid) {
       return;
     }
 
     const userRegisterRequest: userRegisterRequest = {
-      firstName: firstName!,
-      lastName: lastName!,
-      email: email!,
+      firstName: firstName!.value,
+      lastName: lastName!.value,
+      email: email!.value,
       role: EN_STRINGS.REGISTER.ROLE_USER,
-      password: password!,
+      password: password!.value,
     };
 
-    setDisplayError(false);
     registerUser(userRegisterRequest);
   };
 
@@ -73,11 +63,7 @@ const Register = () => {
       <div className='c-header-image'>
         <img src={logo} alt='Logo' />
       </div>
-      <RegisterForm
-        onSubmit={submitForm}
-        errorMessage={error}
-        displayError={displayError}
-      />
+      <RegisterForm onSubmit={submitForm} errorMessage={error} />
     </div>
   );
 };

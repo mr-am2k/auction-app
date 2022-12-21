@@ -16,13 +16,12 @@ import logo from 'assets/logo/auction-app-logo.svg';
 import './login.scss';
 
 const Login = () => {
-  const { values, setValues, validInputs } = useForm();
+  const { fieldValues, setFieldValues, isValid } = useForm();
   const { setLoggedInUser } = useUser();
 
   const navigate = useNavigate();
 
   const [loginError, setLoginError] = useState<string>();
-  const [displayError, setDisplayError] = useState(false);
 
   const loginUser = async (loginRequest: userLoginRequest) => {
     authService
@@ -39,7 +38,7 @@ const Login = () => {
         };
 
         setLoggedInUser(user);
-        setValues({});
+        setFieldValues({});
         navigate('/');
       })
       .catch((error) => {
@@ -48,23 +47,17 @@ const Login = () => {
   };
 
   const submitForm = () => {
-    const { email, password } = values;
+    const { email, password } = fieldValues;
 
     const loginRequest: userLoginRequest = {
-      username: email!,
-      password: password!,
+      username: email!.value,
+      password: password!.value,
     };
 
-    if (
-      [validInputs.email?.valid, validInputs.password?.valid].some(
-        (input) => input === false
-      )
-    ) {
-      setDisplayError(true);
+    if (!isValid) {
       return;
     }
 
-    setDisplayError(false);
     loginUser(loginRequest);
   };
 
@@ -81,11 +74,7 @@ const Login = () => {
       <div className='c-header-image'>
         <img src={logo} alt='Logo' />
       </div>
-      <LoginForm
-        onSubmit={submitForm}
-        errorMessage={error}
-        displayError={displayError}
-      />
+      <LoginForm onSubmit={submitForm} errorMessage={error} />
     </div>
   );
 };

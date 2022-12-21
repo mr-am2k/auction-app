@@ -11,62 +11,57 @@ import {
   INPUT_TYPE_PASSWORD,
   FORM,
 } from 'util/constants';
+import { validate as validateEmail } from 'validators/validateEmail';
+import { validate as validatePassword } from 'validators/validatePassword';
 
 type Props = {
   children?: React.ReactNode;
   onSubmit: () => void;
   errorMessage: JSX.Element | string;
-  displayError: boolean;
 };
 
-const RegisterForm: React.FC<Props> = ({
-  onSubmit,
-  errorMessage,
-  displayError,
-}) => {
-  const { setValues, setValidInputs } = useForm();
+const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
+  const { setFieldValues } = useForm();
 
   const children = [
     <Input
       key={FORM.FIRST_NAME}
       type={INPUT_TYPE_TEXT}
-      setValue={setValues}
+      setValue={setFieldValues}
       name={FORM.FIRST_NAME}
       title={FORM.FIRST_NAME_TITLE}
       placeholder={FORM.FIRST_NAME_PLACEHOLDER}
-      displayError={displayError}
     />,
 
     <Input
       key={FORM.LAST_NAME}
       type={INPUT_TYPE_TEXT}
-      setValue={setValues}
+      setValue={setFieldValues}
       name={FORM.LAST_NAME}
       title={FORM.LAST_NAME_TITLE}
       placeholder={FORM.LAST_NAME_PLACEHOLDER}
-      displayError={displayError}
     />,
 
     <Input
       key={FORM.EMAIL}
       type={INPUT_TYPE_EMAIL}
-      setValue={setValues}
+      setValue={setFieldValues}
       name={FORM.EMAIL}
       title={FORM.EMAIL_TITLE}
       placeholder={FORM.EMAIL_PLACEHOLDER}
       pattern={FORM.EMAIL_PATTERN}
-      displayError={displayError}
+      validator={validateEmail}
     />,
 
     <Input
       key={FORM.PASSWORD}
       type={INPUT_TYPE_PASSWORD}
-      setValue={setValues}
+      setValue={setFieldValues}
       name={FORM.PASSWORD}
       title={FORM.PASSWORD_TITLE}
       placeholder={FORM.PASSWORD_PLACEHOLDER}
       pattern={FORM.PASSWORD_PATTERN}
-      displayError={displayError}
+      validator={validatePassword}
     />,
   ];
 
@@ -80,23 +75,11 @@ const RegisterForm: React.FC<Props> = ({
   );
 
   useEffect(() => {
-    setValidInputs({
-      firstName: {
-        valid: false,
-        message: EN_STRINGS.ERROR_MESSAGE.REQUIRED,
-      },
-      lastName: {
-        valid: false,
-        message: EN_STRINGS.ERROR_MESSAGE.REQUIRED,
-      },
-      email: {
-        valid: false,
-        message: EN_STRINGS.ERROR_MESSAGE.REQUIRED,
-      },
-      password: {
-        valid: false,
-        message: EN_STRINGS.ERROR_MESSAGE.REQUIRED,
-      },
+    setFieldValues({
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
     });
   }, []);
 

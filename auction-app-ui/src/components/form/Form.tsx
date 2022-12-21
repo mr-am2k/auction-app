@@ -20,11 +20,13 @@ export const Form: React.FC<Props> = ({
   errorMessage,
 }) => {
   const {
-    values,
-    setValues,
+    fieldValues,
+    setFieldValues,
     validInputs,
     setValidInputs,
     validateSingleField,
+    isValid,
+    validateForm,
   } = useForm();
 
   return (
@@ -32,11 +34,13 @@ export const Form: React.FC<Props> = ({
       <form className='c-form'>
         <FormContext.Provider
           value={{
-            values,
-            setValues,
+            fieldValues,
+            setFieldValues,
             validInputs,
             setValidInputs,
             validateSingleField,
+            isValid,
+            validateForm,
           }}
         >
           {children}
@@ -45,6 +49,7 @@ export const Form: React.FC<Props> = ({
         {errorMessage}
 
         <button
+          onClickCapture={validateForm}
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
             event.preventDefault();
             onSubmit();

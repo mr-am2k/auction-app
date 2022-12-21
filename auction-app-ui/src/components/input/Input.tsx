@@ -14,7 +14,7 @@ type Props = {
   title: string;
   pattern?: string;
   setValue: Dispatch<SetStateAction<{}>>;
-  displayError: boolean;
+  validator?: (param: string) => void;
 };
 
 const Input: React.FC<Props> = ({
@@ -24,30 +24,29 @@ const Input: React.FC<Props> = ({
   title,
   pattern,
   setValue,
-  displayError,
+  validator,
 }) => {
   type ObjectKey = keyof typeof validInputs;
 
-  const { values, validInputs, validateSingleField } = useForm();
-  const [errorDisplay, setErrorDisplay] = useState(false);
+  const { fieldValues, validInputs, setValidInputs, validateSingleField } =
+    useForm();
 
   const inputFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.currentTarget;
 
     setValue({
-      ...values,
-      [name]: value,
+      ...fieldValues,
+      [name]: {
+        value: value,
+        pattern: pattern,
+        validator: validator,
+      },
     });
-
-    validateSingleField(name, value, pattern);
-    setErrorDisplay(true);
+    setValidInputs({
+      ...validInputs,
+      [name]: validateSingleField(name, value, pattern, validator),
+    });
   };
-
-  useEffect(() => {
-    if (displayError) {
-      setErrorDisplay(true);
-    }
-  }, [displayError]);
 
   return (
     <div className='c-text-input'>
@@ -56,7 +55,8 @@ const Input: React.FC<Props> = ({
       <input
         className={classNames({
           'c-input-error':
-            !validInputs[name as ObjectKey]?.valid && errorDisplay,
+            !validInputs[name as ObjectKey]?.valid &&
+            validInputs[name as ObjectKey]?.message,
         })}
         placeholder={placeholder}
         type={type}
@@ -67,9 +67,10 @@ const Input: React.FC<Props> = ({
         }}
       />
 
-      {!validInputs[name as ObjectKey]?.valid && errorDisplay && (
-        <p>{validInputs[name as ObjectKey]!.message}</p>
-      )}
+      {!validInputs[name as ObjectKey]?.valid &&
+        validInputs[name as ObjectKey]?.message && (
+          <p>{validInputs[name as ObjectKey]!.message}</p>
+        )}
     </div>
   );
 };

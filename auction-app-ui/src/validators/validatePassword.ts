@@ -2,8 +2,7 @@ import EN_STRINGS from 'translation/en';
 import { PASSWORD_REGEX } from 'util/regexUtils';
 
 export const validate = (password: string) => {
-  if (
-    ![
+  if (![
       PASSWORD_REGEX.capital,
       PASSWORD_REGEX.lowercase,
       PASSWORD_REGEX.digit,

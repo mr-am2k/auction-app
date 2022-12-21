@@ -2,72 +2,89 @@ import { useState } from 'react';
 
 import FormContext from './form-context';
 
-import { FORM } from 'util/constants';
 import EN_STRINGS from 'translation/en';
 import { checkIfStringIsEmpty } from 'util/stringUtils';
-import { validate as validateEmail } from 'validators/validateEmail';
-import { validate as validatePassword } from 'validators/validatePassword';
+import { FormValidInputs } from 'models/formValidInputs';
+import { Form } from 'models/form';
 
 type Props = {
   children?: React.ReactNode;
 };
 
 const FormProvider: React.FC<Props> = ({ children }) => {
-  const [values, setValues] = useState({});
-  const [validInputs, setValidInputs] = useState({});
+  const [fieldValues, setFieldValues] = useState<Form>({});
+  const [validInputs, setValidInputs] = useState<FormValidInputs>({});
+  const [isValid, setIsValid] = useState(false);
 
   const validateSingleField = (
     name: string,
     value: string | undefined,
-    pattern?: string | undefined
+    pattern?: string | undefined,
+    validator?: (param: string) => void
   ) => {
     if (!checkIfStringIsEmpty(value) || value === undefined) {
-      setValidInputs({
-        ...validInputs,
-        [name]: {
-          valid: false,
-          message: EN_STRINGS.ERROR_MESSAGE.REQUIRED,
-          displayed: true,
-        },
-      });
-
-      return;
+      return {
+        valid: false,
+        message: EN_STRINGS.ERROR_MESSAGE.REQUIRED,
+        displayed: true,
+      };
     }
 
-    if (pattern !== undefined) {
-      switch (pattern) {
-        case FORM.EMAIL_PATTERN:
-          setValidInputs({
-            ...validInputs,
-            [name]: validateEmail(value),
-          });
-          break;
-
-        case FORM.PASSWORD_PATTERN:
-          setValidInputs({
-            ...validInputs,
-            [name]: validatePassword(value),
-          });
-          break;
-      }
-
-      return;
+    if (pattern !== undefined && validator !== undefined) {
+      return validator(value);
     }
 
-    setValidInputs({
-      ...validInputs,
-      [name]: { valid: true, displayed: true },
+    return { valid: true, displayed: true };
+  };
+
+  const validateForm = () => {
+    let invalidForm = false;
+    let validInputsObject: FormValidInputs = {};
+
+    type FormValuesObjectKey = keyof typeof fieldValues;
+    type ValidInputsObjectKey = keyof typeof validInputsObject;
+    const valuesKeys = Object.keys(fieldValues);
+    const validInputsKeys = Object.keys(fieldValues);
+
+    valuesKeys.forEach((key) => {
+      validInputsObject = {
+        ...validInputsObject,
+        [key]: validateSingleField(
+          key,
+          fieldValues[key as FormValuesObjectKey]?.value,
+          fieldValues[key as FormValuesObjectKey]?.pattern,
+          fieldValues[key as FormValuesObjectKey]?.validator
+        ),
+      };
     });
+
+    setValidInputs(validInputsObject);
+
+    validInputsKeys.forEach((key) => {
+      if (!validInputsObject[key as ValidInputsObjectKey]?.valid) {
+        setIsValid(false);
+        invalidForm = true;
+        return;
+      }
+    });
+
+    if (invalidForm) {
+      return;
+    }
+
+    setIsValid(true);
   };
 
   return (
     <FormContext.Provider
       value={{
-        values,
-        setValues,
+        fieldValues,
+        setFieldValues,
         validInputs,
         setValidInputs,
         validateSingleField,
+        isValid,
+        validateForm,
       }}
     >
       {children}

@@ -1,26 +1,31 @@
 import { createContext } from 'react';
 
 import { FormValidInputs } from 'models/formValidInputs';
-import { RegisterForm } from 'models/registerForm';
+import { Form } from 'models/form';
 
 interface FormContextInterface {
-  values: RegisterForm;
-  setValues: (values: {}) => void;
+  fieldValues: Form;
+  setFieldValues: (values: {}) => void;
   validInputs: FormValidInputs;
   setValidInputs: (values: {}) => void;
   validateSingleField: (
     name: string,
     value: string | undefined,
-    pattern?: string | undefined
+    pattern?: string | undefined,
+    validator?: (param: string) => void
   ) => void;
+  isValid: boolean;
+  validateForm: () => void;
 }
 
 const FormContext = createContext<FormContextInterface>({
-  values: {},
-  setValues: () => {},
+  fieldValues: {},
+  setFieldValues: () => {},
   validInputs: {},
   setValidInputs: () => {},
   validateSingleField: () => {},
+  isValid: false,
+  validateForm: () => {},
 });
 
 export default FormContext;
