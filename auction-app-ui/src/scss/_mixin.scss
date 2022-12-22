@@ -14,7 +14,7 @@
 
 @mixin notificationBar($backgroundColor, $color) {
   @include flexDisplay(column, flex-start);
-  padding: 20px 160px;
+  padding: 1.2rem 12rem;
   gap: 10px;
   height: 59px;
   background: $backgroundColor;

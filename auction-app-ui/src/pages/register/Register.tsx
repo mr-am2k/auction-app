@@ -1,17 +1,18 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import { useForm } from 'hooks/useForm';
 
 import authService from 'services/authService';
 
+import { RegisterForm } from 'components';
 import { userRegisterRequest } from 'requestModels/userRegisterRequest';
 import logo from 'assets/logo/auction-app-logo.svg';
 import { ROUTES } from 'util/routes';
 import EN_STRINGS from 'translation/en';
 
 import './register.scss';
-import { RegisterForm } from 'components';
 
 const Register = () => {
   const { fieldValues, setFieldValues, isValid } = useForm();
@@ -40,11 +41,11 @@ const Register = () => {
     }
 
     const userRegisterRequest: userRegisterRequest = {
-      firstName: firstName!.value,
-      lastName: lastName!.value,
-      email: email!.value,
+      firstName: firstName!,
+      lastName: lastName!,
+      email: email!,
       role: EN_STRINGS.REGISTER.ROLE_USER,
-      password: password!.value,
+      password: password!,
     };
 
     registerUser(userRegisterRequest);
@@ -61,7 +62,9 @@ const Register = () => {
   return (
     <div className='c-register-page'>
       <div className='c-header-image'>
-        <img src={logo} alt='Logo' />
+        <Link to='/'>
+          <img src={logo} alt='Logo' />
+        </Link>
       </div>
       <RegisterForm onSubmit={submitForm} errorMessage={error} />
     </div>

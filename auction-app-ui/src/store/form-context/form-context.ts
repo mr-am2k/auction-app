@@ -1,13 +1,10 @@
 import { createContext } from 'react';
 
-import { FormValidInputs } from 'models/formValidInputs';
-import { Form } from 'models/form';
-
 interface FormContextInterface {
-  fieldValues: Form;
+  fieldValues: any;
   setFieldValues: (values: {}) => void;
-  validInputs: FormValidInputs;
-  setValidInputs: (values: {}) => void;
+  fieldValidationResults: any;
+  setFieldValidationResults: (values: {}) => void;
   validateSingleField: (
     name: string,
     value: string | undefined,
@@ -16,16 +13,20 @@ interface FormContextInterface {
   ) => void;
   isValid: boolean;
   validateForm: () => void;
+  additionalFieldsInfo: any;
+  setAdditionalFieldsInfo: (values: {}) => void;
 }
 
 const FormContext = createContext<FormContextInterface>({
   fieldValues: {},
   setFieldValues: () => {},
-  validInputs: {},
-  setValidInputs: () => {},
+  fieldValidationResults: {},
+  setFieldValidationResults: () => {},
   validateSingleField: () => {},
   isValid: false,
   validateForm: () => {},
+  additionalFieldsInfo: {},
+  setAdditionalFieldsInfo: () => {},
 });
 
 export default FormContext;

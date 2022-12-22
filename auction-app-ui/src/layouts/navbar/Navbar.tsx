@@ -17,7 +17,9 @@ const Navbar = () => {
   return (
     <div className='c-navbar'>
       <div className='c-navbar-logo'>
-        <img src={auctionAppLogo} alt='Auction App' />
+        <Link to='/'>
+          <img src={auctionAppLogo} alt='Auction App' />
+        </Link>
       </div>
 
       <div className='c-search-field'>

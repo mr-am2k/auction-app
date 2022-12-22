@@ -3,18 +3,17 @@ import { useState } from 'react';
 import FormContext from './form-context';
 
 import EN_STRINGS from 'translation/en';
-import { checkIfStringIsEmpty } from 'util/stringUtils';
-import { FormValidInputs } from 'models/formValidInputs';
-import { Form } from 'models/form';
+import { isEmptyString } from 'util/stringUtils';
 
 type Props = {
   children?: React.ReactNode;
 };
 
 const FormProvider: React.FC<Props> = ({ children }) => {
-  const [fieldValues, setFieldValues] = useState<Form>({});
-  const [validInputs, setValidInputs] = useState<FormValidInputs>({});
+  const [fieldValues, setFieldValues] = useState<any>({});
+  const [fieldValidationResults, setFieldValidationResults] = useState<any>({});
   const [isValid, setIsValid] = useState(false);
+  const [additionalFieldsInfo, setAdditionalFieldsInfo] = useState<any>({});
 
   const validateSingleField = (
     name: string,
@@ -22,11 +21,10 @@ const FormProvider: React.FC<Props> = ({ children }) => {
     pattern?: string | undefined,
     validator?: (param: string) => void
   ) => {
-    if (!checkIfStringIsEmpty(value) || value === undefined) {
+    if (value === undefined || !isEmptyString(value)) {
       return {
         valid: false,
         message: EN_STRINGS.ERROR_MESSAGE.REQUIRED,
-        displayed: true,
       };
     }
 
@@ -34,31 +32,32 @@ const FormProvider: React.FC<Props> = ({ children }) => {
       return validator(value);
     }
 
-    return { valid: true, displayed: true };
+    return { valid: true };
   };
 
   const validateForm = () => {
     let invalidForm = false;
-    let validInputsObject: FormValidInputs = {};
+    let validInputsObject: any = {};
 
     type FormValuesObjectKey = keyof typeof fieldValues;
     type ValidInputsObjectKey = keyof typeof validInputsObject;
-    const valuesKeys = Object.keys(fieldValues);
-    const validInputsKeys = Object.keys(fieldValues);
+    type AdditionalFieldsObjectKey = keyof typeof additionalFieldsInfo;
 
-    valuesKeys.forEach((key) => {
+    const validInputsKeys = Object.keys(fieldValidationResults);
+
+    validInputsKeys.forEach((key) => {
       validInputsObject = {
         ...validInputsObject,
         [key]: validateSingleField(
           key,
-          fieldValues[key as FormValuesObjectKey]?.value,
-          fieldValues[key as FormValuesObjectKey]?.pattern,
-          fieldValues[key as FormValuesObjectKey]?.validator
+          fieldValues[key as FormValuesObjectKey] ? fieldValues[key as FormValuesObjectKey] : '' ,
+          additionalFieldsInfo[key as AdditionalFieldsObjectKey]?.pattern,
+          additionalFieldsInfo[key as AdditionalFieldsObjectKey]?.validator
         ),
       };
     });
 
-    setValidInputs(validInputsObject);
+    setFieldValidationResults(validInputsObject);
 
     validInputsKeys.forEach((key) => {
       if (!validInputsObject[key as ValidInputsObjectKey]?.valid) {
@@ -80,11 +79,13 @@ const FormProvider: React.FC<Props> = ({ children }) => {
       value={{
         fieldValues,
         setFieldValues,
-        validInputs,
-        setValidInputs,
+        fieldValidationResults,
+        setFieldValidationResults,
         validateSingleField,
         isValid,
         validateForm,
+        additionalFieldsInfo,
+        setAdditionalFieldsInfo,
       }}
     >
       {children}

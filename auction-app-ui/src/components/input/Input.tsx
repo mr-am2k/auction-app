@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useForm } from 'hooks/useForm';
 
@@ -13,7 +13,6 @@ type Props = {
   type: string;
   title: string;
   pattern?: string;
-  setValue: Dispatch<SetStateAction<{}>>;
   validator?: (param: string) => void;
 };
 
@@ -23,30 +22,66 @@ const Input: React.FC<Props> = ({
   type,
   title,
   pattern,
-  setValue,
   validator,
 }) => {
-  type ObjectKey = keyof typeof validInputs;
+  type ObjectKey = keyof typeof fieldValidationResults;
 
-  const { fieldValues, validInputs, setValidInputs, validateSingleField } =
-    useForm();
+  const {
+    fieldValues,
+    fieldValidationResults,
+    additionalFieldsInfo,
+    setFieldValues,
+    setFieldValidationResults,
+    validateSingleField,
+    setAdditionalFieldsInfo,
+  } = useForm();
 
   const inputFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.currentTarget;
 
-    setValue({
+    setFieldValues({
       ...fieldValues,
+      [name]: value,
+    });
+
+    setAdditionalFieldsInfo({
+      ...additionalFieldsInfo,
       [name]: {
-        value: value,
-        pattern: pattern,
-        validator: validator,
+        pattern,
+        validator,
       },
     });
-    setValidInputs({
-      ...validInputs,
-      [name]: validateSingleField(name, value, pattern, validator),
+
+    setFieldValidationResults({
+      ...fieldValidationResults,
+      [name]: validateSingleField(
+        name,
+        value,
+        additionalFieldsInfo[name]?.pattern,
+        additionalFieldsInfo[name]?.validator
+      ),
     });
   };
+
+  useEffect(() => {
+    setFieldValidationResults((prevValue: any) => {
+      return {
+        ...prevValue,
+        [name]: {valid: true},
+      };
+    });
+
+    setAdditionalFieldsInfo((prevValue: any) => {
+      return {
+        ...prevValue,
+        [name]: {
+          pattern,
+          validator,
+        },
+      };
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className='c-text-input'>
@@ -55,8 +90,8 @@ const Input: React.FC<Props> = ({
       <input
         className={classNames({
           'c-input-error':
-            !validInputs[name as ObjectKey]?.valid &&
-            validInputs[name as ObjectKey]?.message,
+            !fieldValidationResults[name as ObjectKey]?.valid &&
+            fieldValidationResults[name as ObjectKey]?.message,
         })}
         placeholder={placeholder}
         type={type}
@@ -67,9 +102,9 @@ const Input: React.FC<Props> = ({
         }}
       />
 
-      {!validInputs[name as ObjectKey]?.valid &&
-        validInputs[name as ObjectKey]?.message && (
-          <p>{validInputs[name as ObjectKey]!.message}</p>
+      {!fieldValidationResults[name as ObjectKey]?.valid &&
+        fieldValidationResults[name as ObjectKey]?.message && (
+          <p>{fieldValidationResults[name as ObjectKey]!.message}</p>
         )}
     </div>
   );

@@ -7,7 +7,7 @@ import './form.scss';
 type Props = {
   children?: React.ReactNode;
   onSubmit: () => void;
-  buttonText: string;
+  primaryActionLabel: string;
   errorMessage: JSX.Element | string;
   otherOptions?: JSX.Element;
 };
@@ -15,18 +15,20 @@ type Props = {
 export const Form: React.FC<Props> = ({
   children,
   onSubmit,
-  buttonText,
+  primaryActionLabel,
   otherOptions,
   errorMessage,
 }) => {
   const {
     fieldValues,
     setFieldValues,
-    validInputs,
-    setValidInputs,
+    fieldValidationResults,
+    setFieldValidationResults,
     validateSingleField,
     isValid,
     validateForm,
+    additionalFieldsInfo,
+    setAdditionalFieldsInfo,
   } = useForm();
 
   return (
@@ -36,11 +38,13 @@ export const Form: React.FC<Props> = ({
           value={{
             fieldValues,
             setFieldValues,
-            validInputs,
-            setValidInputs,
+            fieldValidationResults,
+            setFieldValidationResults,
             validateSingleField,
             isValid,
             validateForm,
+            additionalFieldsInfo,
+            setAdditionalFieldsInfo,
           }}
         >
           {children}
@@ -55,7 +59,7 @@ export const Form: React.FC<Props> = ({
             onSubmit();
           }}
         >
-          {buttonText}
+          {primaryActionLabel}
         </button>
 
         {otherOptions}

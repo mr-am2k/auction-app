@@ -4,6 +4,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { useUser } from 'hooks/useUser';
 
 import { PageProvider, FormProvider } from 'store/index';
+import { storageService } from 'services/storageService';
 
 import {
   PrivacyAndPolicy,
@@ -17,10 +18,9 @@ import {
 import { User } from 'models/user';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import { ROUTES } from './util/routes';
+import { LOCAL_STORAGE } from 'util/constants';
 
 import './app.scss';
-import { LOCAL_STORAGE } from 'util/constants';
-import { storageService } from 'services/storageService';
 
 const App = () => {
   const location = useLocation();
@@ -30,13 +30,14 @@ const App = () => {
     const id = storageService.get(LOCAL_STORAGE.ID);
     const token = storageService.get(LOCAL_STORAGE.TOKEN);
 
-    if (id?.length || token?.length) {
+    if (id?.length && token?.length) {
       const user: User = {
         id: id!,
         token: token!,
       };
       setLoggedInUser(user);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

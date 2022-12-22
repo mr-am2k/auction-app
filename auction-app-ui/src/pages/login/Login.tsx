@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import { useUser } from 'hooks/useUser';
 import { useForm } from 'hooks/useForm';
@@ -50,8 +51,8 @@ const Login = () => {
     const { email, password } = fieldValues;
 
     const loginRequest: userLoginRequest = {
-      username: email!.value,
-      password: password!.value,
+      username: email!,
+      password: password!,
     };
 
     if (!isValid) {
@@ -72,7 +73,9 @@ const Login = () => {
   return (
     <div className='c-login-page'>
       <div className='c-header-image'>
-        <img src={logo} alt='Logo' />
+        <Link to='/'>
+          <img src={logo} alt='Logo' />
+        </Link>
       </div>
       <LoginForm onSubmit={submitForm} errorMessage={error} />
     </div>

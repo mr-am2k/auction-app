@@ -13,6 +13,7 @@ import {
 } from 'util/constants';
 import { validate as validateEmail } from 'validators/validateEmail';
 import { validate as validatePassword } from 'validators/validatePassword';
+import isEmpty from 'util/isEmptyObject';
 
 type Props = {
   children?: React.ReactNode;
@@ -21,13 +22,12 @@ type Props = {
 };
 
 const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
-  const { setFieldValues } = useForm();
+  const { setFieldValidationResults, fieldValidationResults } = useForm();
 
   const children = [
     <Input
       key={FORM.FIRST_NAME}
       type={INPUT_TYPE_TEXT}
-      setValue={setFieldValues}
       name={FORM.FIRST_NAME}
       title={FORM.FIRST_NAME_TITLE}
       placeholder={FORM.FIRST_NAME_PLACEHOLDER}
@@ -36,7 +36,6 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
     <Input
       key={FORM.LAST_NAME}
       type={INPUT_TYPE_TEXT}
-      setValue={setFieldValues}
       name={FORM.LAST_NAME}
       title={FORM.LAST_NAME_TITLE}
       placeholder={FORM.LAST_NAME_PLACEHOLDER}
@@ -45,7 +44,6 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
     <Input
       key={FORM.EMAIL}
       type={INPUT_TYPE_EMAIL}
-      setValue={setFieldValues}
       name={FORM.EMAIL}
       title={FORM.EMAIL_TITLE}
       placeholder={FORM.EMAIL_PLACEHOLDER}
@@ -56,7 +54,6 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
     <Input
       key={FORM.PASSWORD}
       type={INPUT_TYPE_PASSWORD}
-      setValue={setFieldValues}
       name={FORM.PASSWORD}
       title={FORM.PASSWORD_TITLE}
       placeholder={FORM.PASSWORD_PLACEHOLDER}
@@ -64,6 +61,13 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       validator={validatePassword}
     />,
   ];
+
+  useEffect(() => {
+    if (!isEmpty(fieldValidationResults)) {
+      setFieldValidationResults({});
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const otherOptions = (
     <div>
@@ -74,21 +78,12 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
     </div>
   );
 
-  useEffect(() => {
-    setFieldValues({
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-    });
-  }, []);
-
   return (
     <div>
       <Form
         children={children}
         onSubmit={onSubmit}
-        buttonText={EN_STRINGS.REGISTER.REGISTER}
+        primaryActionLabel={EN_STRINGS.REGISTER.REGISTER}
         otherOptions={otherOptions}
         errorMessage={errorMessage}
       />

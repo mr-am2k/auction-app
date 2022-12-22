@@ -5,6 +5,7 @@ import { useForm } from 'hooks/useForm';
 import { Input, Form } from 'components/index';
 import EN_STRINGS from 'translation/en';
 import { INPUT_TYPE_EMAIL, INPUT_TYPE_PASSWORD, FORM } from 'util/constants';
+import isEmpty from 'util/isEmptyObject';
 import { validate as validateEmail } from 'validators/validateEmail';
 import { validate as validatePassword } from 'validators/validatePassword';
 
@@ -15,13 +16,11 @@ type Props = {
 };
 
 const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
-  const { setFieldValues } = useForm();
-
+  const { setFieldValidationResults, fieldValidationResults } = useForm();
   const children = [
     <Input
       key={FORM.EMAIL}
       type={INPUT_TYPE_EMAIL}
-      setValue={setFieldValues}
       name={FORM.EMAIL}
       title={FORM.EMAIL_TITLE}
       placeholder={FORM.EMAIL_PLACEHOLDER}
@@ -32,7 +31,6 @@ const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
     <Input
       key={FORM.PASSWORD}
       type={INPUT_TYPE_PASSWORD}
-      setValue={setFieldValues}
       name={FORM.PASSWORD}
       title={FORM.PASSWORD_TITLE}
       placeholder={FORM.PASSWORD_PLACEHOLDER}
@@ -42,10 +40,10 @@ const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
   ];
 
   useEffect(() => {
-    setFieldValues({
-      email: '',
-      password: '',
-    });
+    if (!isEmpty(fieldValidationResults)) {
+      setFieldValidationResults({});
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -53,7 +51,7 @@ const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       <Form
         children={children}
         onSubmit={onSubmit}
-        buttonText={EN_STRINGS.LOGIN.LOGIN}
+        primaryActionLabel={EN_STRINGS.LOGIN.LOGIN}
         errorMessage={errorMessage}
       />
     </div>
