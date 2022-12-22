@@ -13,7 +13,6 @@ import {
 } from 'util/constants';
 import { validate as validateEmail } from 'validators/validateEmail';
 import { validate as validatePassword } from 'validators/validatePassword';
-import isEmpty from 'util/isEmptyObject';
 
 type Props = {
   children?: React.ReactNode;
@@ -22,7 +21,7 @@ type Props = {
 };
 
 const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
-  const { setFieldValidationResults, fieldValidationResults } = useForm();
+  const { setFieldValidationResults } = useForm();
 
   const children = [
     <Input
@@ -63,9 +62,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
   ];
 
   useEffect(() => {
-    if (!isEmpty(fieldValidationResults)) {
-      setFieldValidationResults({});
-    }
+    return () => setFieldValidationResults({});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

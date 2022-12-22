@@ -5,7 +5,6 @@ import { useForm } from 'hooks/useForm';
 import { Input, Form } from 'components/index';
 import EN_STRINGS from 'translation/en';
 import { INPUT_TYPE_EMAIL, INPUT_TYPE_PASSWORD, FORM } from 'util/constants';
-import isEmpty from 'util/isEmptyObject';
 import { validate as validateEmail } from 'validators/validateEmail';
 import { validate as validatePassword } from 'validators/validatePassword';
 
@@ -16,7 +15,7 @@ type Props = {
 };
 
 const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
-  const { setFieldValidationResults, fieldValidationResults } = useForm();
+  const { setFieldValidationResults } = useForm();
   const children = [
     <Input
       key={FORM.EMAIL}
@@ -40,9 +39,7 @@ const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
   ];
 
   useEffect(() => {
-    if (!isEmpty(fieldValidationResults)) {
-      setFieldValidationResults({});
-    }
+    return () => setFieldValidationResults({});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

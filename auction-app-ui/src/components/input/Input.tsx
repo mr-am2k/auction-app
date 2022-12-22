@@ -36,20 +36,16 @@ const Input: React.FC<Props> = ({
     setAdditionalFieldsInfo,
   } = useForm();
 
+  const hasErrorMessage: boolean =
+    !fieldValidationResults[name as ObjectKey]?.valid &&
+    fieldValidationResults[name as ObjectKey]?.message;
+
   const inputFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.currentTarget;
 
     setFieldValues({
       ...fieldValues,
       [name]: value,
-    });
-
-    setAdditionalFieldsInfo({
-      ...additionalFieldsInfo,
-      [name]: {
-        pattern,
-        validator,
-      },
     });
 
     setFieldValidationResults({
@@ -64,22 +60,24 @@ const Input: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    setFieldValidationResults((prevValue: any) => {
+    setFieldValidationResults((fieldValidationResults: any) => {
       return {
-        ...prevValue,
-        [name]: {valid: true},
+        ...fieldValidationResults,
+        [name]: { valid: true },
       };
     });
 
-    setAdditionalFieldsInfo((prevValue: any) => {
+    setAdditionalFieldsInfo((additionalFieldsInfo: any) => {
       return {
-        ...prevValue,
+        ...additionalFieldsInfo,
         [name]: {
           pattern,
           validator,
         },
       };
     });
+
+    return () => setFieldValidationResults({});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -89,9 +87,7 @@ const Input: React.FC<Props> = ({
 
       <input
         className={classNames({
-          'c-input-error':
-            !fieldValidationResults[name as ObjectKey]?.valid &&
-            fieldValidationResults[name as ObjectKey]?.message,
+          'c-input-error': hasErrorMessage,
         })}
         placeholder={placeholder}
         type={type}
@@ -102,10 +98,9 @@ const Input: React.FC<Props> = ({
         }}
       />
 
-      {!fieldValidationResults[name as ObjectKey]?.valid &&
-        fieldValidationResults[name as ObjectKey]?.message && (
-          <p>{fieldValidationResults[name as ObjectKey]!.message}</p>
-        )}
+      {hasErrorMessage && (
+        <p>{fieldValidationResults[name as ObjectKey]!.message}</p>
+      )}
     </div>
   );
 };

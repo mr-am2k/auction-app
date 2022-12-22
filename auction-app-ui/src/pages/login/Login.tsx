@@ -66,9 +66,7 @@ const Login = () => {
     <div className='c-error-message'>
       <p>{loginError}</p>
     </div>
-  ) : (
-    ''
-  );
+  ) : ('');
 
   return (
     <div className='c-login-page'>

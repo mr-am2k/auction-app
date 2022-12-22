@@ -1,0 +1,16 @@
+name: deploy-app
+run-name: ${{ github.actor }} started deployment
+on: [push]
+
+jobs:
+  build-and-deploy:
+    runs-on: [self-hosted, linux, X64]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run build script
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          AUCTION_APP_JWTSECRET: ${{ secrets.AUCTION_APP_JWTSECRET }}
+          REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
+        run: docker-compose up -d --build
+        shell: bash
