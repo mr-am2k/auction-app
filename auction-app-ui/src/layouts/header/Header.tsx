@@ -25,6 +25,8 @@ const Header = () => {
       LOCAL_STORAGE.ROLE,
     ]);
 
+    window.location.reload();
+
     resetLoggedInUser();
   };
 
