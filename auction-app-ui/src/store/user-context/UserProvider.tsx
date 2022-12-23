@@ -8,7 +8,7 @@ type Props = {
 };
 
 const UserProvider: React.FC<Props> = ({ children }) => {
-  const [loggedInUser, setLoggedInUser] = useState<User | undefined>(); //used for demonstration, because logic for login/register is not yet implemented
+  const [loggedInUser, setLoggedInUser] = useState<User | undefined>();
 
   const isUserLoggedIn = () => {
     if (loggedInUser) {

@@ -20,7 +20,6 @@ export const FORM = {
   PASSWORD_TITLE: 'Password',
   PASSWORD_PATTERN: 'password-pattern',
   PASSWORD_PLACEHOLDER: '*******',
-  FIELD_IS_REQUIRED: 'This field is required',
 };
 export const LOCAL_STORAGE = {
   TOKEN: 'token',

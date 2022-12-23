@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-interface FormContextInterface {
+interface FormInterface {
   fieldValues: any;
   setFieldValues: (values: {}) => void;
   fieldValidationResults: any;
@@ -15,9 +15,10 @@ interface FormContextInterface {
   validateForm: () => void;
   additionalFieldsInfo: any;
   setAdditionalFieldsInfo: (values: {}) => void;
+  resetFieldValues: () => void;
 }
 
-const FormContext = createContext<FormContextInterface>({
+const FormContext = createContext<FormInterface>({
   fieldValues: {},
   setFieldValues: () => {},
   fieldValidationResults: {},
@@ -27,6 +28,7 @@ const FormContext = createContext<FormContextInterface>({
   validateForm: () => {},
   additionalFieldsInfo: {},
   setAdditionalFieldsInfo: () => {},
+  resetFieldValues: () => {},
 });
 
 export default FormContext;

@@ -21,7 +21,7 @@ type Props = {
 };
 
 const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
-  const { setFieldValidationResults } = useForm();
+  const { resetFieldValues, setFieldValidationResults } = useForm();
 
   const children = [
     <Input
@@ -61,11 +61,6 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
     />,
   ];
 
-  useEffect(() => {
-    return () => setFieldValidationResults({});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const otherOptions = (
     <div>
       <div className='c-other-options'>
@@ -74,6 +69,14 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       </div>
     </div>
   );
+
+  useEffect(() => {
+    return () => {
+      resetFieldValues();
+      setFieldValidationResults({});
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div>

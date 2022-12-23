@@ -1,8 +1,6 @@
-import { useEffect } from 'react';
-
-import { useForm } from 'hooks/useForm';
-
 import { Input, Form } from 'components/index';
+import { useForm } from 'hooks/useForm';
+import { useEffect } from 'react';
 import EN_STRINGS from 'translation/en';
 import { INPUT_TYPE_EMAIL, INPUT_TYPE_PASSWORD, FORM } from 'util/constants';
 import { validate as validateEmail } from 'validators/validateEmail';
@@ -15,7 +13,7 @@ type Props = {
 };
 
 const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
-  const { setFieldValidationResults } = useForm();
+  const { resetFieldValues, setFieldValidationResults } = useForm();
   const children = [
     <Input
       key={FORM.EMAIL}
@@ -39,7 +37,10 @@ const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
   ];
 
   useEffect(() => {
-    return () => setFieldValidationResults({});
+    return () => {
+      resetFieldValues();
+      setFieldValidationResults({});
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

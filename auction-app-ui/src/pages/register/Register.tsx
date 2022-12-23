@@ -15,7 +15,7 @@ import EN_STRINGS from 'translation/en';
 import './register.scss';
 
 const Register = () => {
-  const { fieldValues, setFieldValues, isValid } = useForm();
+  const { fieldValues, isValid } = useForm();
 
   const navigate = useNavigate();
 
@@ -25,7 +25,6 @@ const Register = () => {
     authService
       .register(userRegisterRequest)
       .then(() => {
-        setFieldValues({});
         navigate(ROUTES.LOGIN);
       })
       .catch((error) => {
@@ -66,6 +65,7 @@ const Register = () => {
           <img src={logo} alt='Logo' />
         </Link>
       </div>
+
       <RegisterForm onSubmit={submitForm} errorMessage={error} />
     </div>
   );

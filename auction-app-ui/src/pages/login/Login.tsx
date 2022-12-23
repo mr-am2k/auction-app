@@ -17,7 +17,7 @@ import logo from 'assets/logo/auction-app-logo.svg';
 import './login.scss';
 
 const Login = () => {
-  const { fieldValues, setFieldValues, isValid } = useForm();
+  const { fieldValues, isValid } = useForm();
   const { setLoggedInUser } = useUser();
 
   const navigate = useNavigate();
@@ -39,7 +39,6 @@ const Login = () => {
         };
 
         setLoggedInUser(user);
-        setFieldValues({});
         navigate('/');
       })
       .catch((error) => {
@@ -66,7 +65,9 @@ const Login = () => {
     <div className='c-error-message'>
       <p>{loginError}</p>
     </div>
-  ) : ('');
+  ) : (
+    ''
+  );
 
   return (
     <div className='c-login-page'>
@@ -75,6 +76,7 @@ const Login = () => {
           <img src={logo} alt='Logo' />
         </Link>
       </div>
+
       <LoginForm onSubmit={submitForm} errorMessage={error} />
     </div>
   );

@@ -15,6 +15,10 @@ const FormProvider: React.FC<Props> = ({ children }) => {
   const [isValid, setIsValid] = useState(false);
   const [additionalFieldsInfo, setAdditionalFieldsInfo] = useState<any>({});
 
+  const resetFieldValues = () => {
+    setFieldValues({});
+  };
+
   const validateSingleField = (
     name: string,
     value: string | undefined,
@@ -50,7 +54,9 @@ const FormProvider: React.FC<Props> = ({ children }) => {
         ...validInputsObject,
         [key]: validateSingleField(
           key,
-          fieldValues[key as FormValuesObjectKey] ? fieldValues[key as FormValuesObjectKey] : '' ,
+          fieldValues[key as FormValuesObjectKey]
+            ? fieldValues[key as FormValuesObjectKey]
+            : '',
           additionalFieldsInfo[key as AdditionalFieldsObjectKey]?.pattern,
           additionalFieldsInfo[key as AdditionalFieldsObjectKey]?.validator
         ),
@@ -86,6 +92,7 @@ const FormProvider: React.FC<Props> = ({ children }) => {
         validateForm,
         additionalFieldsInfo,
         setAdditionalFieldsInfo,
+        resetFieldValues,
       }}
     >
       {children}

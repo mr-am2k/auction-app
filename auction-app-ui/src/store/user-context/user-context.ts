@@ -2,14 +2,14 @@ import { createContext } from 'react';
 
 import { User } from 'models/user';
 
-interface UserContextInterface {
+interface UserInterface {
   loggedInUser: User | undefined;
   setLoggedInUser: (newUser: User | undefined) => void;
   isUserLoggedIn: () => boolean;
   resetLoggedInUser: () => void;
 }
 
-const UserContext = createContext<UserContextInterface>({
+const UserContext = createContext<UserInterface>({
   loggedInUser: undefined,
   setLoggedInUser: (newUser: User | undefined) => {},
   isUserLoggedIn: () => false,
