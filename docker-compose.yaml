@@ -1,10 +1,11 @@
 services:
   backend:
     deploy: 
-      limits:
-        memory: 256M
-      reservations:
-        memory: 128M
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 128M
     build:
       context: ./auction-app-backend
     ports:
@@ -20,10 +21,11 @@ services:
       AUCTION_APP_JWTSECRET: "${AUCTION_APP_JWTSECRET}"
   ui:
     deploy: 
-      limits:
-        memory: 512M
-      reservations:
-        memory: 256M
+        resources:
+          limits:
+            memory: 512M
+          reservations:
+            memory: 256M
     build:
       context: ./auction-app-ui
     ports:
@@ -36,10 +38,11 @@ services:
   db:
     image: postgres:13.9
     deploy: 
-      limits:
-        memory: 128M
-      reservations:
-        memory: 64M
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
     restart: always
     environment:
       POSTGRES_USER: postgres
