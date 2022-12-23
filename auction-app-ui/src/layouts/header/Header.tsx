@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useUser } from 'hooks/useUser';
 
@@ -15,6 +15,8 @@ import './header.scss';
 const Header = () => {
   const { isUserLoggedIn, resetLoggedInUser } = useUser();
 
+  const navigate = useNavigate();
+
   const logoutUser = async () => {
     authService.logout();
 
@@ -25,7 +27,7 @@ const Header = () => {
       LOCAL_STORAGE.ROLE,
     ]);
 
-    window.location.reload();
+    navigate('/')
 
     resetLoggedInUser();
   };
