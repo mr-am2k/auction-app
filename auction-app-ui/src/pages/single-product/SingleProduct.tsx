@@ -13,7 +13,7 @@ import { createBidRequest } from 'requestModels/createBidRequest';
 import { Notification } from 'models/notification';
 import { GreaterIcon } from 'assets/icons';
 import { Product } from 'models/product';
-import EN_STRINGS from 'util/en_strings';
+import EN_STRINGS from 'translation/en';
 
 import './single-product.scss';
 
@@ -28,6 +28,7 @@ const SingleProduct = () => {
   const [latestNotification, setLatestNotification] = useState<
     Notification | undefined
   >();
+  const [inputPlaceholderValue, setInputPlaceholderValue] = useState(0);
 
   const fetchSingleProduct = async (productId: string) => {
     try {
@@ -35,6 +36,9 @@ const SingleProduct = () => {
       setNavbarTitle(product.name);
       setNavbarItems([EN_STRINGS.NAVBAR.SHOP, EN_STRINGS.SHOP.SINGLE_PRODUCT]);
       setSingleProduct(product);
+      if (!product.bids.length) {
+        setInputPlaceholderValue(product.startPrice);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -44,6 +48,7 @@ const SingleProduct = () => {
     try {
       const highestBid = await bidService.getHighestBid(productId);
       setHighestBid(highestBid);
+      setInputPlaceholderValue(highestBid);
     } catch (error) {
       console.log(error);
     }
@@ -95,9 +100,9 @@ const SingleProduct = () => {
   }, []);
 
   useEffect(() => {
-    if (loggedInUser) {
-      getLatestNotification(loggedInUser!.id, id!);
-    }
+    loggedInUser
+      ? getLatestNotification(loggedInUser!.id, id!)
+      : setLatestNotification(undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedInUser, singleProduct]);
 
@@ -108,9 +113,7 @@ const SingleProduct = () => {
   return (
     <>
       {latestNotification && (
-        <NotificationBar
-          notificationMessage={latestNotification!.type}
-        />
+        <NotificationBar notificationMessage={latestNotification!.type} />
       )}
 
       <div className='c-single-product'>
@@ -147,7 +150,7 @@ const SingleProduct = () => {
               <input
                 ref={bidInputRef}
                 type='number'
-                placeholder={EN_STRINGS.SINGLE_PRODUCT.INPUT_PLACEHOLDER}
+                placeholder={`${EN_STRINGS.SINGLE_PRODUCT.INPUT_PLACEHOLDER}${inputPlaceholderValue}`}
                 disabled={!isUserLoggedIn()}
               />
               <button disabled={!isUserLoggedIn()} onClick={sendBid}>
@@ -159,7 +162,9 @@ const SingleProduct = () => {
               <div className='c-bid-error'>
                 <p>{bidInputError}</p>
               </div>
-            ) : ('')}
+            ) : (
+              ''
+            )}
           </div>
 
           <div className='c-details'>

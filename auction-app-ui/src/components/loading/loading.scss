@@ -2,9 +2,9 @@
 @import '/src/scss/variables';
 
 .c-loading-container {
+  @include flexDisplay(center, center);
   width: 100%;
   height: inherit;
-  @include flexDisplay(center, center);
   flex-direction: column;
 
   .c-spinner {
@@ -26,7 +26,7 @@
   }
 
   h3 {
-    font-family: $fontFamily;
+    font-family: $latoFont;
   }
 }
 

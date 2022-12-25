@@ -2,22 +2,22 @@
 
 .c-privacy-and-policy {
   padding: 0 40rem;
-  font-family: $fontFamily;
-  font-weight: $mediumFontWeight;
+  font-family: $latoFont;
+  font-weight: $fontNormal;
 
   .c-content {
     width: 100%;
 
     h1 {
-      line-height: $headingLineHeight;
+      line-height: $lineHeight5xl;
       letter-spacing: $letterSpacing;
       color: $blackColor;
     }
 
     p {
       padding-top: 1rem;
-      font-size: $fontSize;
-      line-height: $paragraphLineHeight;
+      font-size: $textBase;
+      line-height: $lineHeightBase;
       color: $greyColor;
     }
   }

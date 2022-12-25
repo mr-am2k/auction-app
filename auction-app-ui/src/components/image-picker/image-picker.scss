@@ -16,8 +16,8 @@
   }
 
   .c-other-images {
-    margin-top: 2rem;
     @include flexDisplay(center, center);
+    margin-top: 2rem;
     flex-wrap: wrap;
     gap: 2rem;
 

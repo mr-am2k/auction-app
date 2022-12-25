@@ -1,0 +1,17 @@
+@import '/src/scss/variables';
+@import '/src/scss//mixin';
+
+.c-login-page {
+  font-family: $latoFont;
+
+  .c-header-image {
+    @include flexDisplay(center, center);
+    height: 7rem;
+    border-bottom: 1px solid $borderGreyColor;
+
+    img {
+      width: 163px;
+      height: 56px;
+    }
+  }
+}

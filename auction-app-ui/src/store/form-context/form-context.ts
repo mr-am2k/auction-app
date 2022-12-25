@@ -1,0 +1,34 @@
+import { createContext } from 'react';
+
+interface FormInterface {
+  fieldValues: any;
+  setFieldValues: (values: {}) => void;
+  fieldValidationResults: any;
+  setFieldValidationResults: (values: {}) => void;
+  validateSingleField: (
+    name: string,
+    value: string | undefined,
+    pattern?: string | undefined,
+    validator?: (param: string) => void
+  ) => void;
+  isValid: boolean;
+  validateForm: () => void;
+  additionalFieldsInfo: any;
+  setAdditionalFieldsInfo: (values: {}) => void;
+  resetFieldValues: () => void;
+}
+
+const FormContext = createContext<FormInterface>({
+  fieldValues: {},
+  setFieldValues: () => {},
+  fieldValidationResults: {},
+  setFieldValidationResults: () => {},
+  validateSingleField: () => {},
+  isValid: false,
+  validateForm: () => {},
+  additionalFieldsInfo: {},
+  setAdditionalFieldsInfo: () => {},
+  resetFieldValues: () => {},
+});
+
+export default FormContext;

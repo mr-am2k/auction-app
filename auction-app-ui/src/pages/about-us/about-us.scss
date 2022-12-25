@@ -3,12 +3,12 @@
 
 .c-about-us {
   padding: 0 12rem;
-  font-family: $fontFamily;
-  font-weight: $mediumFontWeight;
+  font-family: $latoFont;
+  font-weight: $fontNormal;
   height: 800px;
 
   h1 {
-    line-height: $headingLineHeight;
+    line-height: $lineHeight5xl;
     letter-spacing: $letterSpacing;
     color: $darkBlackColor;
   }
@@ -23,9 +23,9 @@
 
       p {
         padding-bottom: 1rem;
-        font-weight: $mediumFontWeight;
-        font-size: $fontSize;
-        line-height: $paragraphLineHeight;
+        font-weight: $fontNormal;
+        font-size: $textBase;
+        line-height: $lineHeightBase;
         color: $greyColor;
       }
     }
@@ -33,7 +33,7 @@
     .c-images {
       @include flexDisplay(flex-start, center);
       flex-direction: column;
-      
+
       .c-main-image {
         background-image: url('~/src/assets/images/about-us-image-1.png');
         width: 548px;

@@ -5,7 +5,7 @@
   @include flexDisplay(space-between, center);
   padding: 1rem 12rem;
   background-color: $whiteColor;
-  font-family: $fontFamily;
+  font-family: $latoFont;
 
   .c-navbar-logo {
     flex: none;
@@ -25,7 +25,7 @@
     input {
       outline: none;
       border: none;
-      font-weight: $mediumFontWeight;
+      font-weight: $fontNormal;
       font-size: 18px;
       line-height: 22px;
       letter-spacing: 0.63px;
@@ -35,7 +35,7 @@
 
     input::placeholder {
       font-weight: 300;
-      font-size: $fontSize;
+      font-size: $textBase;
       line-height: 19px;
       color: $greyColor;
     }
@@ -51,14 +51,14 @@
   }
 
   .c-navbar-options {
-    width: 20%;
     @include flexDisplay(space-between, center);
+    width: 20%;
     padding-left: 4rem;
 
     a {
       text-decoration: none;
       font-weight: 300;
-      font-size: $fontSize;
+      font-size: $textBase;
       line-height: 19px;
       color: $blackColor;
       flex: none;
@@ -67,7 +67,7 @@
     }
 
     a:focus {
-      font-weight: $highFontWeight;
+      font-weight: $fontBold;
       color: $purpleColor;
     }
   }

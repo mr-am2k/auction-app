@@ -7,6 +7,7 @@ import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.util.UserRole;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,8 @@ public class ProductSeeder implements CommandLineRunner {
 
     private final UserJpaRepository userRepository;
 
+    private final PasswordEncoder encoder;
+
     String PRODUCT_DESCRIPTION = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
             "Vestibulum hendrerit odio a erat lobortis auctor. " +
             "Curabitur sodales pharetra placerat. Aenean auctor luctus tempus. Cras laoreet et magna in dignissim. " +
@@ -29,9 +32,10 @@ public class ProductSeeder implements CommandLineRunner {
 
     String USER_ID = "ccd5d47b-a868-4a3d-ba39-6e966ccaa24e";
 
-    public ProductSeeder(ProductJpaRepository productRepository, UserJpaRepository userRepository) {
+    public ProductSeeder(ProductJpaRepository productRepository, UserJpaRepository userRepository, PasswordEncoder encoder) {
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+        this.encoder = encoder;
     }
 
     @Override
@@ -49,7 +53,7 @@ public class ProductSeeder implements CommandLineRunner {
                 user.setLastName("Alickovic");
                 user.setUsername("alickovicmuamer@gmail.com");
                 user.setEmail("alickovicmuamer@gmail.com");
-                user.setPasswordHash("Passw)&rd");
+                user.setPasswordHash(encoder.encode("Passw)&rd"));
                 user.setPhoneNumber("061-061-061");
                 user.setRole(UserRole.ROLE_ADMIN);
 

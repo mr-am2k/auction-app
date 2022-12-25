@@ -1,0 +1,67 @@
+@import '/src/scss/variables';
+@import '/src/scss//mixin';
+
+.c-form-component {
+  @include flexDisplay(center, center);
+  margin-top: 2rem;
+
+  .c-form {
+    @include flexDisplay(flex-start, center);
+    width: 700px;
+    flex-direction: column;
+    border: 1px solid $borderGreyColor;
+    padding: 2rem;
+
+    button {
+      @include flexDisplay(center, center);
+      width: 500px;
+      padding: 16px 56px;
+      gap: 32px;
+      height: 60px;
+      margin-top: 3rem;
+      margin-bottom: 2rem;
+      font-family: $latoFont;
+      color: $whiteColor;
+      border: none;
+      font-weight: $fontBold;
+      font-size: 18px;
+      line-height: 27px;
+      background: $purpleColor;
+    }
+
+    button:hover {
+      cursor: pointer;
+    }
+
+    .c-error-message {
+      @include flexDisplay(flex-start, center);
+      width: 500px;
+      text-align: left;
+      color: #f44336;
+      font-weight: $fontBold;
+      font-size: 19px;
+    }
+
+    .c-other-options {
+      @include flexDisplay(center, center);
+      gap: 20px;
+
+      p {
+        font-family: $latoFont;
+        font-weight: $fontBold;
+        font-size: $textBase;
+        line-height: 19px;
+        color: $greyColor;
+      }
+
+      a {
+        text-decoration: none;
+        font-family: $latoFont;
+        font-weight: $fontBold;
+        font-size: $textBase;
+        line-height: 19px;
+        color: $purpleColor;
+      }
+    }
+  }
+}

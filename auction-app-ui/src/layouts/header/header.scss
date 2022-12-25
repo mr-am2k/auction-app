@@ -2,8 +2,8 @@
 @import '/src/scss/mixin';
 
 .c-header {
-  background-color: $blackColor;
   @include flexDisplay(space-between, center);
+  background-color: $blackColor;
   padding: 0.5rem 12rem;
 
   .c-header-icons {
@@ -15,10 +15,28 @@
   .c-header-message {
     @include flexDisplay(center, center);
     color: $whiteColor;
-    font-family: $fontFamily;
+    font-family: $latoFont;
     font-size: 14px;
-    font-weight: $highFontWeight;
+    font-weight: $fontBold;
     line-height: 17px;
+
+    div {
+      min-width: 14rem;
+      @include flexDisplay(space-between, center);
+
+      button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        color: $purpleColor;
+        font-family: $latoFont;
+        font-weight: $fontBold;
+      }
+
+      button:hover {
+        cursor: pointer;
+      }
+    }
 
     p {
       color: $whiteColor;

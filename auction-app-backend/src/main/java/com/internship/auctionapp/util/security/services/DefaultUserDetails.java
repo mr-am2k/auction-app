@@ -29,16 +29,21 @@ public class DefaultUserDetails implements UserDetails {
     @JsonIgnore
     private String password;
 
+    private String fullName;
+
     private Collection<? extends GrantedAuthority> authorities;
 
     public static DefaultUserDetails build(UserEntity user) {
         final List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole().getValue()));
 
+        final String fullName = String.join(" ", user.getFirstName(), user.getLastName());
+
         return new DefaultUserDetails(
                 user.getId(),
                 user.getEmail(),
                 user.getPasswordHash(),
+                fullName,
                 authorities
         );
     }

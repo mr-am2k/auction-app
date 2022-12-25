@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import { useUser } from 'hooks/useUser';
 
-import { PageProvider} from 'store/index';
+import { PageProvider, FormProvider } from 'store/index';
+import { storageService } from 'services/storageService';
 
 import {
   PrivacyAndPolicy,
@@ -11,41 +12,52 @@ import {
   AboutUs,
   Home,
   SingleProduct,
+  Register,
+  Login,
 } from './pages';
+import { User } from 'models/user';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
-import ROUTES from './util/routes';
+import { ROUTES } from './util/routes';
+import { LOCAL_STORAGE } from 'util/constants';
 
 import './app.scss';
 
-// TODO: used for testing, will be removed when we create real users
-const USER_ID_1 = '94dd5b8d-49eb-4c92-827f-022a2dfb868f';
-
-const USER_ID_2 = '16065605-eca3-4d16-8eb0-93368fbf5841';
-
-const USER_ID_3 = '20171418-8bde-47a3-82a8-39cfa643afd7';
-
 const App = () => {
+  const location = useLocation();
   const { setLoggedInUser } = useUser();
 
-  //used for demonstration, because user login/registration is not yet implemented
   useEffect(() => {
-    setLoggedInUser({
-      id: USER_ID_1,
-      name: 'Muamer',
-    });
+    const id = storageService.get(LOCAL_STORAGE.ID);
+    const token = storageService.get(LOCAL_STORAGE.TOKEN);
+
+    if (id?.length && token?.length) {
+      const user: User = {
+        id: id!,
+        token: token!,
+      };
+      setLoggedInUser(user);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <PageProvider>
+      <FormProvider>
         <Header />
-        <Navbar />
-        <NavbarTracker />
+
+        {![ROUTES.REGISTER, ROUTES.LOGIN].includes(location.pathname) && (
+          <>
+            <Navbar />
+            <NavbarTracker />
+          </>
+        )}
 
         <div className='c-page-wrapper'>
           <>
             <main>
               <Routes>
+                <Route path={ROUTES.REGISTER} element={<Register />} />
+                <Route path={ROUTES.LOGIN} element={<Login />} />
                 <Route
                   path={ROUTES.PRIVACY_AND_POLICY}
                   element={<PrivacyAndPolicy />}
@@ -56,12 +68,16 @@ const App = () => {
                 />
                 <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
                 <Route path='/' element={<Home />} />
-                <Route path={`${ROUTES.PRODUCT}/:id`} element={<SingleProduct />} />
+                <Route
+                  path={`${ROUTES.PRODUCT}/:id`}
+                  element={<SingleProduct />}
+                />
               </Routes>
             </main>
           </>
         </div>
         <Footer />
+      </FormProvider>
     </PageProvider>
   );
 };

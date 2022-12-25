@@ -43,7 +43,7 @@ const EN_STRINGS = {
     CUSTOM_REVIEWS: 'Custom reviews',
     PLACE_BID: 'PLACE BID',
     NO_BID_MESSAGE: 'Be first to bid for this product',
-    INPUT_PLACEHOLDER: 'Enter $56 or higher',
+    INPUT_PLACEHOLDER: 'Enter higher than $',
     INPUT_BID_ERROR: 'You must enter price first',
   },
 
@@ -56,6 +56,24 @@ const EN_STRINGS = {
     OUTBIDDED: 'There are higher bids than yours. You could give a second try!',
     AUCTION_WON: 'Congratulations! You outbid the competition.',
     AUCTION_LOST: 'Unfortunately you have been outbidded!',
+  },
+
+  REGISTER: {
+    REGISTER: 'REGISTER',
+    HAVE_ACCOUNT: 'Already have an account',
+    LOGIN: 'Login',
+    ROLE_USER: 'ROLE_USER',
+  },
+
+  LOGIN: {
+    LOGIN: 'LOGIN',
+  },
+
+  ERROR_MESSAGE: {
+    REQUIRED: 'This field is required',
+    PASSWORD:
+      'Password needs to have 8 characters, one upper case and one lower case letter and one special character',
+    EMAIL: 'The email should be in format: user@domain.com',
   },
 };
 

@@ -2,9 +2,9 @@
 @import '/src/scss/mixin';
 
 .c-single-product {
-  padding: 1rem 12rem 0;
   @include flexDisplay(space-between, flex-start);
-  font-family: $fontFamily;
+  padding: 1rem 12rem 0;
+  font-family: $latoFont;
 
   .c-images {
     width: 50%;
@@ -21,8 +21,8 @@
     }
 
     .c-other-images {
-      margin-top: 2rem;
       @include flexDisplay(center, center);
+      margin-top: 2rem;
       flex-wrap: wrap;
       gap: 2rem;
 
@@ -45,14 +45,14 @@
     }
 
     p {
-      font-weight: $mediumFontWeight;
-      line-height: $paragraphLineHeight;
-      font-size: $fontSize;
+      font-weight: $fontNormal;
+      line-height: $lineHeightBase;
+      font-size: $textBase;
       color: $greyColor;
 
       span {
         color: $purpleColor;
-        font-weight: $highFontWeight;
+        font-weight: $fontBold;
       }
     }
 
@@ -70,8 +70,8 @@
       }
 
       .c-send-bid {
-        margin-top: 4rem;
         @include flexDisplay(space-between, flex-start);
+        margin-top: 4rem;
 
         input {
           box-sizing: border-box;
@@ -80,11 +80,11 @@
           background: $whiteColor;
           border: 1px solid $borderWhiteColor;
           padding-left: 2.5rem;
-          font-family: $fontFamily;
+          font-family: $latoFont;
 
           &::placeholder {
             font-weight: 300;
-            font-size: $fontSize;
+            font-size: $textBase;
             line-height: 19px;
             color: $greyColor;
           }
@@ -105,16 +105,16 @@
         }
 
         button {
+          @include flexDisplay(space-around, center);
           background-color: transparent;
           padding: 0.7rem 2rem;
           width: 13rem;
           border: 2px solid $purpleColor;
-          font-weight: $highFontWeight;
+          font-weight: $fontBold;
           font-size: 18px;
           line-height: 27px;
           letter-spacing: 0.63px;
           color: $blackColor;
-          @include flexDisplay(space-around, center);
 
           &:hover {
             background-color: $purpleColor;
@@ -131,8 +131,8 @@
       .c-bid-error {
         p {
           color: $purpleColor;
-          font-size: $fontSize;
-          font-weight: $highFontWeight;
+          font-size: $textBase;
+          font-weight: $fontBold;
         }
       }
     }
@@ -148,8 +148,8 @@
         width: 100%;
 
         .c-navbar-item {
-          font-weight: $mediumFontWeight;
-          font-size: $fontSize;
+          font-weight: $fontNormal;
+          font-size: $textBase;
           line-height: 19px;
           letter-spacing: $letterSpacing;
           color: $greyColor;
@@ -162,7 +162,7 @@
         .c-focus {
           border-bottom: 2px solid $purpleColor;
           color: $purpleColor;
-          font-weight: $highFontWeight;
+          font-weight: $fontBold;
         }
         p:hover {
           cursor: pointer;

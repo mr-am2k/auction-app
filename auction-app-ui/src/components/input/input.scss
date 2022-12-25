@@ -1,0 +1,45 @@
+@import '/src/scss/variables';
+@import '/src/scss//mixin';
+
+.c-text-input {
+  @include flexDisplay(flex-start, flex-start);
+  flex-direction: column;
+  font-family: $latoFont;
+  width: 500px;
+  margin-bottom: 0.5rem;
+
+  .c-header-text {
+    color: $darkBlackColor;
+    font-size: 18px;
+  }
+
+  input {
+    width: 432px;
+    padding: 18px 42px 18px 24px;
+    gap: 10px;
+    background: $lightGreyColor;
+    border: 1px solid $borderGreyColor;
+    outline: none;
+    color: $greyColor;
+    font-family: $latoFont;
+    font-weight: $fontNormal;
+    font-size: 18px;
+    line-height: 27px;
+
+    ::placeholder {
+      color: inherit;
+      font-family: inherit;
+      font-weight: inherit;
+      font-size: inherit;
+      line-height: inherit;
+    }
+  }
+
+  .c-input-error {
+    border: 2px solid #f44336;
+  }
+
+  p {
+    color: #f44336;
+  }
+}
