@@ -16,5 +16,5 @@ public interface UserRepository {
 
     List<User> getUsers();
 
-    User getUserById(UUID id);
+    User getSingleUser(UUID id);
 }

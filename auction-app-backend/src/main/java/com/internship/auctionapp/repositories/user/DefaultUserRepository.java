@@ -50,12 +50,12 @@ public class DefaultUserRepository implements UserRepository {
     @Override
     public List<User> getUsers() {
         return userJpaRepository.findAll().stream()
-                .map(userEntity -> userEntity.toDomainModel())
+                .map(UserEntity::toDomainModel)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public User getUserById(UUID id) {
+    public User getSingleUser(UUID id) {
         final User user = userJpaRepository.findById(id).get().toDomainModel();
 
         if (user == null) {

@@ -4,6 +4,7 @@ import com.internship.auctionapp.requests.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.services.bid.BidService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +23,7 @@ import java.util.UUID;
 @RequestMapping("api/v1/bids")
 @CrossOrigin
 @Tag(name = "Bids")
+@SecurityRequirement(name = "Bearer Authentication")
 public class BidController {
     private final BidService bidService;
 

@@ -5,6 +5,7 @@ import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.services.product.ProductService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @RequestMapping("api/v1/products")
 @CrossOrigin
 @Tag(name = "Products")
+@SecurityRequirement(name = "Bearer Authentication")
 public class ProductController {
     private final ProductService productService;
 
