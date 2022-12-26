@@ -107,6 +107,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Entered birth date is in the future"));
     }
 
+    @ExceptionHandler(DeactivatedAccountException.class)
+    public ResponseEntity<Object> handleDeactivateAccountException(HttpServletRequest req, DeactivatedAccountException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Account is deactivated!"));
+    }
+
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
     }

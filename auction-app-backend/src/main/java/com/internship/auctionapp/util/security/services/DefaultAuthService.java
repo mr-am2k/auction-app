@@ -1,6 +1,7 @@
 package com.internship.auctionapp.util.security.services;
 
 import com.internship.auctionapp.entities.UserEntity;
+import com.internship.auctionapp.middleware.exception.DeactivatedAccountException;
 import com.internship.auctionapp.middleware.exception.EmailNotValidException;
 import com.internship.auctionapp.middleware.exception.PasswordNotValidException;
 import com.internship.auctionapp.middleware.exception.UserAlreadyExistsException;
@@ -63,6 +64,10 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
 
         if (user == null) {
             throw new UserNotFoundByUsernameException(username);
+        }
+
+        if(!user.isActive()){
+            throw new DeactivatedAccountException();
         }
 
         return DefaultUserDetails.build(user);

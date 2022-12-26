@@ -8,7 +8,6 @@ import com.internship.auctionapp.repositories.user.UserRepository;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
-import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.RegexUtils;
 import com.internship.auctionapp.util.security.services.AuthService;
 
