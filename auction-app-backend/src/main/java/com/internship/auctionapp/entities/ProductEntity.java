@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -76,6 +77,12 @@ public class ProductEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    @Column(name = "highest_bidder")
+    @Formula("(SELECT b.user_id FROM bids b " +
+            "INNER JOIN products p on p.id = b.product_id " +
+            "WHERE id = b.product_id ORDER BY b.price DESC LIMIT 1)")
+    private UUID highestBidder;
+
     public ProductEntity(String name, String description, List<String> imageURLs, Double startPrice,
                          ZonedDateTime expirationDateTime, UserEntity user) {
         this.name = name;
@@ -93,7 +100,8 @@ public class ProductEntity {
             Double startPrice,
             ZonedDateTime creationDateTime,
             ZonedDateTime expirationDateTime,
-            UserEntity user
+            UserEntity user,
+            UUID highestBidder
     ) {
         this.name = name;
         this.description = description;
@@ -102,6 +110,7 @@ public class ProductEntity {
         this.creationDateTime = creationDateTime;
         this.expirationDateTime = expirationDateTime;
         this.user = user;
+        this.highestBidder = highestBidder;
     }
 
     public Product toDomainModel() {
@@ -116,7 +125,8 @@ public class ProductEntity {
                 this.startPrice,
                 this.creationDateTime,
                 this.expirationDateTime,
-                this.user
+                this.user,
+                this.highestBidder
         );
 
         Product product = new Product(

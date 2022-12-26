@@ -36,7 +36,9 @@ public class Product {
 
     private User user;
 
-    public Product(UUID productId, ProductEntity productEntity, List<Bid> bids, String remainingTime){
+    private UUID highestBidder;
+
+    public Product(UUID productId, ProductEntity productEntity, List<Bid> bids, String remainingTime) {
         this.id = productId;
         this.name = productEntity.getName();
         this.description = productEntity.getDescription();
@@ -47,5 +49,6 @@ public class Product {
         this.bids = bids;
         this.remainingTime = remainingTime;
         this.user = productEntity.getUser().toDomainModel();
+        this.highestBidder = productEntity.getHighestBidder();
     }
 }
