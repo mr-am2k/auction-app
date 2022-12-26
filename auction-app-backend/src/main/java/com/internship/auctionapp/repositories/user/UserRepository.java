@@ -2,6 +2,7 @@ package com.internship.auctionapp.repositories.user;
 
 import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.models.User;
+import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface UserRepository {
     List<User> getUsers();
 
     User getSingleUser(UUID id);
+
+    User updateUser(UUID id, UpdateUserRequest updateUserRequest);
 }

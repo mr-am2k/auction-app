@@ -3,9 +3,15 @@ package com.internship.auctionapp.repositories.user;
 import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.User;
+import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
+import com.internship.auctionapp.services.bid.DefaultBidService;
 import com.internship.auctionapp.util.UserRole;
 
+import org.hibernate.sql.Update;
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,6 +20,8 @@ import java.util.stream.Collectors;
 
 @Repository
 public class DefaultUserRepository implements UserRepository {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultUserRepository.class);
     private final UserJpaRepository userJpaRepository;
 
     public DefaultUserRepository(UserJpaRepository userJpaRepository) {
@@ -63,5 +71,21 @@ public class DefaultUserRepository implements UserRepository {
         }
 
         return user;
+    }
+
+    @Override
+    public User updateUser(UUID id, UpdateUserRequest updateUserRequest) {
+        UserEntity user = userJpaRepository.findById(id).orElseThrow(() -> new UserNotFoundByIdException(id.toString()));
+
+        ModelMapper modelMapper = new ModelMapper();
+
+        UserEntity updatedUser = modelMapper.map(updateUserRequest, UserEntity.class);
+
+        updatedUser.setId(id);
+        updatedUser.setUsername(updatedUser.getEmail());
+        updatedUser.setPasswordHash(user.getPasswordHash());
+        updatedUser.setRole(user.getRole());
+
+        return userJpaRepository.save(updatedUser).toDomainModel();
     }
 }

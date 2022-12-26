@@ -1,15 +1,21 @@
 package com.internship.auctionapp.services.user;
 
+import com.internship.auctionapp.middleware.exception.EmailNotValidException;
+import com.internship.auctionapp.middleware.exception.InvalidBirthDateException;
 import com.internship.auctionapp.models.AuthResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.repositories.user.UserRepository;
+import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
+import com.internship.auctionapp.util.DateUtils;
+import com.internship.auctionapp.util.RegexUtils;
 import com.internship.auctionapp.util.security.services.AuthService;
 
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -41,5 +47,18 @@ public class DefaultUserService implements UserService {
     @Override
     public User getSingleUser(UUID id) {
         return userRepository.getSingleUser(id);
+    }
+
+    @Override
+    public User updateUser(UUID id, UpdateUserRequest updateUserRequest) {
+        if(updateUserRequest.getDateOfBirth().after(new Date())){
+            throw new InvalidBirthDateException();
+        }
+
+        if (!RegexUtils.match(RegexUtils.VALID_EMAIL_ADDRESS_REGEX, updateUserRequest.getEmail())) {
+            throw new EmailNotValidException();
+        }
+
+        return userRepository.updateUser(id, updateUserRequest);
     }
 }

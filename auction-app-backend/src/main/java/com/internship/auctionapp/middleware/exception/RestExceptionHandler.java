@@ -102,6 +102,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Entered password is not valid"));
     }
 
+    @ExceptionHandler(InvalidBirthDateException.class)
+    public ResponseEntity<Object> handleInvalidBirthDateException(HttpServletRequest req, InvalidBirthDateException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Entered birth date is in the future"));
+    }
+
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
     }

@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,29 +55,29 @@ public class UserEntity {
     @Column(name = "role", nullable = false)
     private UserRole role = UserRole.ROLE_USER;
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
-    )
-    private List<ProductEntity> productEntities;
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive = true;
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
-    )
-    private List<BidEntity> bidEntities;
+    @Column(name = "image_url")
+    private String imageUrl;
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
-    )
-    private List<NotificationEntity> notificationEntities;
+    @Column(name = "date_of_birth")
+    private Date dateOfBirth;
+
+    @Column(name = "street")
+    private String street;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "zip_code")
+    private String zipCode;
+
+    @Column(name = "state")
+    private String state;
+
+    @Column(name = "country")
+    private String country;
 
     public User toDomainModel() {
         User user = new User();
@@ -87,6 +88,14 @@ public class UserEntity {
         user.setEmail(this.email);
         user.setPhoneNumber(this.phoneNumber);
         user.setRole(this.role.getValue());
+        user.setActive(this.isActive);
+        user.setImageUrl(this.imageUrl);
+        user.setDateOfBirth(this.dateOfBirth);
+        user.setStreet(this.street);
+        user.setCity(this.city);
+        user.setZipCode(this.zipCode);
+        user.setState(this.state);
+        user.setCountry(this.country);
 
         return user;
     }

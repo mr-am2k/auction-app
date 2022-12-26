@@ -1,26 +1,25 @@
-package com.internship.auctionapp.models;
+package com.internship.auctionapp.requests;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-public class User {
-    private UUID id;
-
+public class UpdateUserRequest {
+    @NotBlank
     private String firstName;
 
+    @NotBlank
     private String lastName;
 
+    @NotBlank
     private String email;
 
     private String phoneNumber;
-
-    private String role;
 
     private boolean isActive;
 

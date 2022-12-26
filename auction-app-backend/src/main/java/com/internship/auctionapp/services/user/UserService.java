@@ -2,6 +2,7 @@ package com.internship.auctionapp.services.user;
 
 import com.internship.auctionapp.models.AuthResponse;
 import com.internship.auctionapp.models.User;
+import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 
@@ -16,4 +17,6 @@ public interface UserService {
     void logout(HttpServletRequest request);
 
     User getSingleUser(UUID id);
+
+    User updateUser(UUID id, UpdateUserRequest updateUserRequest);
 }
