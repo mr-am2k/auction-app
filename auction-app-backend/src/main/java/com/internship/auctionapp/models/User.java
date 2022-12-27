@@ -37,4 +37,6 @@ public class User {
     private String state;
 
     private String country;
+
+    private Card card;
 }

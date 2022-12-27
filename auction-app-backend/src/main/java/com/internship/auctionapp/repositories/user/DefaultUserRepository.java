@@ -1,8 +1,11 @@
 package com.internship.auctionapp.repositories.user;
 
+import com.internship.auctionapp.entities.CardEntity;
 import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.User;
+import com.internship.auctionapp.repositories.card.CardJpaRepository;
+import com.internship.auctionapp.requests.UpdateCardRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 import com.internship.auctionapp.util.UserRole;
@@ -10,6 +13,7 @@ import com.internship.auctionapp.util.UserRole;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -18,8 +22,11 @@ import java.util.stream.Collectors;
 public class DefaultUserRepository implements UserRepository {
     private final UserJpaRepository userJpaRepository;
 
-    public DefaultUserRepository(UserJpaRepository userJpaRepository) {
+    private final CardJpaRepository cardJpaRepository;
+
+    public DefaultUserRepository(UserJpaRepository userJpaRepository, CardJpaRepository cardJpaRepository) {
         this.userJpaRepository = userJpaRepository;
+        this.cardJpaRepository = cardJpaRepository;
     }
 
     @Override
@@ -68,7 +75,8 @@ public class DefaultUserRepository implements UserRepository {
     }
 
     @Override
-    public User updateUser(UUID id, UpdateUserRequest updateUserRequest) {
+    @Transactional
+    public User updateUser(UUID id, UpdateUserRequest updateUserRequest, UpdateCardRequest updateCardRequest) {
         UserEntity user = userJpaRepository.findById(id).orElseThrow(() -> new UserNotFoundByIdException(id.toString()));
 
         ModelMapper modelMapper = new ModelMapper();
@@ -79,6 +87,30 @@ public class DefaultUserRepository implements UserRepository {
         updatedUser.setUsername(updatedUser.getEmail());
         updatedUser.setPasswordHash(user.getPasswordHash());
         updatedUser.setRole(user.getRole());
+
+        if(user.getCard() == null){
+            CardEntity newCard = new CardEntity();
+
+            newCard.setHolderName(updateCardRequest.getHolderName());
+            newCard.setNumber(updateCardRequest.getNumber());
+            newCard.setExpirationDate(updateCardRequest.getExpirationDate());
+            newCard.setVerificationValue(updateCardRequest.getVerificationValue());
+
+            cardJpaRepository.save(newCard);
+
+            updatedUser.setCard(newCard);
+        }else{
+            CardEntity existingCard = cardJpaRepository.findById(user.getCard().getId()).get();
+
+            existingCard.setHolderName(updateCardRequest.getHolderName());
+            existingCard.setNumber(updateCardRequest.getNumber());
+            existingCard.setExpirationDate(updateCardRequest.getExpirationDate());
+            existingCard.setVerificationValue(updateCardRequest.getVerificationValue());
+
+            cardJpaRepository.save(existingCard);
+
+            updatedUser.setCard(existingCard);
+        }
 
         return userJpaRepository.save(updatedUser).toDomainModel();
     }

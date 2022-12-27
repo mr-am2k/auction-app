@@ -2,6 +2,7 @@ package com.internship.auctionapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.internship.auctionapp.models.Card;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.util.UserRole;
 
@@ -12,15 +13,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -79,6 +79,10 @@ public class UserEntity {
     @Column(name = "country")
     private String country;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "card_id", referencedColumnName = "id")
+    private CardEntity card;
+
     public User toDomainModel() {
         User user = new User();
 
@@ -96,6 +100,12 @@ public class UserEntity {
         user.setZipCode(this.zipCode);
         user.setState(this.state);
         user.setCountry(this.country);
+
+        if(this.card != null){
+            user.setCard(this.card.toDomainModel());
+        }else{
+            user.setCard(new Card());
+        }
 
         return user;
     }

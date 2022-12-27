@@ -1,6 +1,8 @@
 package com.internship.auctionapp.controllers;
 
 import com.internship.auctionapp.models.User;
+import com.internship.auctionapp.requests.UpdateCardRequest;
+import com.internship.auctionapp.requests.UpdateUserDataRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.services.user.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -28,12 +30,15 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getSingleUser(@PathVariable("id") UUID id){
+    public User getSingleUser(@PathVariable("id") UUID id) {
         return userService.getSingleUser(id);
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable("id") UUID id,@RequestBody UpdateUserRequest updateUserRequest){
-        return userService.updateUser(id, updateUserRequest);
+    public User updateUser(
+            @PathVariable("id") UUID id,
+            @RequestBody UpdateUserDataRequest updateUserDataRequest
+    ) {
+        return userService.updateUser(id, updateUserDataRequest.getUpdateUserRequest(), updateUserDataRequest.getUpdateCardRequest());
     }
 }

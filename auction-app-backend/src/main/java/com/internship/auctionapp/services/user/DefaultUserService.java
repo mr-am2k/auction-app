@@ -5,6 +5,7 @@ import com.internship.auctionapp.middleware.exception.InvalidBirthDateException;
 import com.internship.auctionapp.models.AuthResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.repositories.user.UserRepository;
+import com.internship.auctionapp.requests.UpdateCardRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
@@ -49,7 +50,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public User updateUser(UUID id, UpdateUserRequest updateUserRequest) {
+    public User updateUser(UUID id, UpdateUserRequest updateUserRequest, UpdateCardRequest updateCardRequest) {
         if(updateUserRequest.getDateOfBirth().after(new Date())){
             throw new InvalidBirthDateException();
         }
@@ -58,6 +59,6 @@ public class DefaultUserService implements UserService {
             throw new EmailNotValidException();
         }
 
-        return userRepository.updateUser(id, updateUserRequest);
+        return userRepository.updateUser(id, updateUserRequest, updateCardRequest);
     }
 }
