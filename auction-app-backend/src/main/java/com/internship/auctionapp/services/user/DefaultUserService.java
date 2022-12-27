@@ -2,6 +2,9 @@ package com.internship.auctionapp.services.user;
 
 import com.internship.auctionapp.middleware.exception.EmailNotValidException;
 import com.internship.auctionapp.middleware.exception.InvalidBirthDateException;
+import com.internship.auctionapp.middleware.exception.InvalidCVVException;
+import com.internship.auctionapp.middleware.exception.InvalidCardExpirationDateException;
+import com.internship.auctionapp.middleware.exception.InvalidCardNumberException;
 import com.internship.auctionapp.models.AuthResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.repositories.user.UserRepository;
@@ -57,6 +60,18 @@ public class DefaultUserService implements UserService {
 
         if (!RegexUtils.match(RegexUtils.VALID_EMAIL_ADDRESS_REGEX, updateUserRequest.getEmail())) {
             throw new EmailNotValidException();
+        }
+
+        if(updateCardRequest.getExpirationDate().before(new Date())){
+            throw new InvalidCardExpirationDateException();
+        }
+
+        if(updateCardRequest.getNumber().length() != 16){
+            throw new InvalidCardNumberException();
+        }
+
+        if(updateCardRequest.getVerificationValue().length() != 3){
+            throw new InvalidCVVException();
         }
 
         return userRepository.updateUser(id, updateUserRequest, updateCardRequest);

@@ -109,7 +109,22 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DeactivatedAccountException.class)
     public ResponseEntity<Object> handleDeactivateAccountException(HttpServletRequest req, DeactivatedAccountException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Account is deactivated!"));
+        return buildResponseEntity(new ErrorResponse(HttpStatus.FORBIDDEN, "Account is deactivated!"));
+    }
+
+    @ExceptionHandler(InvalidCardExpirationDateException.class)
+    public ResponseEntity<Object> handleInvalidCardExpirationDateException(HttpServletRequest req, InvalidCardExpirationDateException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Card expiration date can't be in the past!"));
+    }
+
+    @ExceptionHandler(InvalidCardNumberException.class)
+    public ResponseEntity<Object> handleInvalidCardNumberException(HttpServletRequest req, InvalidCardNumberException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Card number needs to have 16 numbers!"));
+    }
+
+    @ExceptionHandler(InvalidCVVException.class)
+    public ResponseEntity<Object> handleInvalidCardExpirationDateException(HttpServletRequest req, InvalidCVVException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "CVV needs to have 3 numbers!"));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
