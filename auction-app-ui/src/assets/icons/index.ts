@@ -5,3 +5,6 @@ export { default as CloseIcon } from './CloseIcon';
 export { default as SearchIcon } from './SearchIcon';
 export { default as ArrowIcon } from './ArrowIcon';
 export { default as GreaterIcon } from './GreaterIcon';
+export { default as ProfileIcon } from './ProfileIcon';
+export { default as SellerIcon } from './SellerIcon';
+export { default as BidIcon } from './BidIcon';

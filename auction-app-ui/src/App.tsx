@@ -14,6 +14,7 @@ import {
   SingleProduct,
   Register,
   Login,
+  MyAccount,
 } from './pages';
 import { User } from 'models/user';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
@@ -71,6 +72,10 @@ const App = () => {
                 <Route
                   path={`${ROUTES.PRODUCT}/:id`}
                   element={<SingleProduct />}
+                />
+                <Route
+                  path={ROUTES.MY_ACCOUNT}
+                  element={<MyAccount />}
                 />
               </Routes>
             </main>

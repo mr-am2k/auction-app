@@ -75,6 +75,14 @@ const EN_STRINGS = {
       'Password needs to have 8 characters, one upper case and one lower case letter and one special character',
     EMAIL: 'The email should be in format: user@domain.com',
   },
+
+  MY_ACCOUNT: {
+    PROFILE: 'Profile',
+    SELLER: 'Seller',
+    BIDS: 'Bids',
+    WISHLIST: 'Wishlist',
+    SETTINGS: 'Settings',
+  },
 };
 
 export default EN_STRINGS;

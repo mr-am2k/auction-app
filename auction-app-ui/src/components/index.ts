@@ -6,3 +6,8 @@ export { default as NotificationBar } from './notification-bar/NotificationBar';
 export { default as Input } from './input/Input';
 export { default as Form } from './form/Form';
 export { default as RegisterForm } from './register-form/RegisterForm';
+export { default as Profile } from './profile/Profile';
+export { default as Seller } from './seller/Seller';
+export { default as Bids } from './bids/Bids';
+export { default as Wishlist } from './wishlist/Wishlist';
+export { default as Settings } from './settings/Settings';
