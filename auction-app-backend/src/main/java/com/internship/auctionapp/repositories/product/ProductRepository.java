@@ -23,7 +23,7 @@ public interface ProductRepository {
 
     void deleteProduct(UUID id);
 
-    Product getRandomProduct();
+    Page<Product> getRandomProduct(Pageable page);
 
     Page<Product> getProductsByCriteria(Pageable page);
 

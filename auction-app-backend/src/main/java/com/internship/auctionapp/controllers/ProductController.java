@@ -19,7 +19,6 @@ import java.util.UUID;
 @RequestMapping("api/v1/products")
 @CrossOrigin
 @Tag(name = "Products")
-@SecurityRequirement(name = "Bearer Authentication")
 public class ProductController {
     private final ProductService productService;
 
@@ -28,6 +27,7 @@ public class ProductController {
     }
 
     @PostMapping()
+    @SecurityRequirement(name = "Bearer Authentication")
     public Product addProduct(@Valid @RequestBody CreateProductRequest createProductRequest) {
         return productService.addProduct(createProductRequest);
     }
@@ -43,17 +43,19 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public Product updateProduct(@PathVariable("id") UUID id, @RequestBody ProductEntity product) {
         return productService.updateProduct(id, product);
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public void deleteProduct(@PathVariable("id") UUID id) {
         productService.deleteProduct(id);
     }
 
     @GetMapping("/random")
-    public Product getRandomProduct() {
+    public Page<Product> getRandomProduct() {
         return productService.getRandomProduct();
     }
 

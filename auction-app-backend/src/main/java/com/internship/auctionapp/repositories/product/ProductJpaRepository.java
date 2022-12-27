@@ -13,12 +13,6 @@ import java.util.UUID;
 
 @Repository
 public interface ProductJpaRepository extends JpaRepository<ProductEntity, UUID> {
-    @Query(
-            value = "SELECT * FROM products ORDER BY random() LIMIT 1",
-            nativeQuery = true
-    )
-    ProductEntity getRandomProduct();
-
     List<ProductEntity> findAllByExpirationDateTimeBetween(
             ZonedDateTime startDate,
             ZonedDateTime endDate

@@ -1,5 +1,6 @@
 package com.internship.auctionapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.util.DateUtils;
@@ -65,6 +66,11 @@ public class ProductEntity {
     @Column(name = "expiration_date_time", nullable = false, columnDefinition = "timestamp with time zone")
     private ZonedDateTime expirationDateTime;
 
+    @Formula("(SELECT b.user_id FROM bids b " +
+            "INNER JOIN products p on p.id = b.product_id " +
+            "WHERE id = b.product_id ORDER BY b.price DESC LIMIT 1)")
+    private UUID highestBidder;
+
     @OneToMany(
             mappedBy = "product",
             cascade = CascadeType.ALL,
@@ -76,12 +82,6 @@ public class ProductEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
-
-    @Column(name = "highest_bidder")
-    @Formula("(SELECT b.user_id FROM bids b " +
-            "INNER JOIN products p on p.id = b.product_id " +
-            "WHERE id = b.product_id ORDER BY b.price DESC LIMIT 1)")
-    private UUID highestBidder;
 
     public ProductEntity(String name, String description, List<String> imageURLs, Double startPrice,
                          ZonedDateTime expirationDateTime, UserEntity user) {

@@ -21,7 +21,6 @@ import java.util.UUID;
 @RequestMapping("/api/v1/users")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "User")
-@SecurityRequirement(name = "Bearer Authentication")
 public class UserController {
     private final UserService userService;
 
@@ -35,6 +34,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public User updateUser(
             @PathVariable("id") UUID id,
             @RequestBody UpdateUserDataRequest updateUserDataRequest

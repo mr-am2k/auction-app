@@ -6,8 +6,11 @@ import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateProductRequest;
 
+import com.internship.auctionapp.services.bid.DefaultBidService;
 import org.modelmapper.ModelMapper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -22,6 +25,8 @@ import java.util.stream.Collectors;
 
 @Repository
 public class DefaultProductRepository implements ProductRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductRepository.class);
+
     private final ProductJpaRepository productJpaRepository;
 
     private final UserJpaRepository userJpaRepository;
@@ -78,8 +83,8 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public Product getRandomProduct() {
-        return productJpaRepository.getRandomProduct().toDomainModel();
+    public Page<Product> getRandomProduct(Pageable page) {
+        return productJpaRepository.findAll(page).map(productEntity -> productEntity.toDomainModel());
     }
 
     @Override

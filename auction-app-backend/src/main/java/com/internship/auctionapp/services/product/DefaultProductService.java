@@ -112,12 +112,10 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Product getRandomProduct() {
-        final Product randomProduct = productRepository.getRandomProduct();
+    public Page<Product> getRandomProduct() {
+        final Pageable page = PageRequest.of(0, 1);
 
-        LOGGER.info("Fetched random product={}", randomProduct);
-
-        return randomProduct;
+        return productRepository.getRandomProduct(page);
     }
 
     @Override

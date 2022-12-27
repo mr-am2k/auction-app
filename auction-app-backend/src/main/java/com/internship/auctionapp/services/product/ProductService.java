@@ -20,7 +20,7 @@ public interface ProductService {
 
     void deleteProduct(UUID id);
 
-    Product getRandomProduct();
+    Page<Product> getRandomProduct();
 
     Page<Product> getProductsByCriteria(String criteria);
 

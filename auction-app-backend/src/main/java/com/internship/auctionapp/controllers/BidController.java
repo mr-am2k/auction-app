@@ -23,7 +23,6 @@ import java.util.UUID;
 @RequestMapping("api/v1/bids")
 @CrossOrigin
 @Tag(name = "Bids")
-@SecurityRequirement(name = "Bearer Authentication")
 public class BidController {
     private final BidService bidService;
 
@@ -32,6 +31,7 @@ public class BidController {
     }
 
     @PostMapping()
+    @SecurityRequirement(name = "Bearer Authentication")
     public Bid addBid(@RequestBody CreateBidRequest createBidRequest) {
         return bidService.addBid(createBidRequest);
     }
@@ -47,6 +47,7 @@ public class BidController {
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public void deleteBid(@PathVariable("id") UUID id) {
         bidService.deleteBid(id);
     }

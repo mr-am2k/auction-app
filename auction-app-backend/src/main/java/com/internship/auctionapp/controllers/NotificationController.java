@@ -22,7 +22,6 @@ import java.util.UUID;
 @RequestMapping("api/v1/notifications")
 @CrossOrigin
 @Tag(name = "Notifications")
-@SecurityRequirement(name = "Bearer Authentication")
 public class NotificationController {
     private final NotificationService notificationService;
 
@@ -36,6 +35,7 @@ public class NotificationController {
     }
 
     @PostMapping()
+    @SecurityRequirement(name = "Bearer Authentication")
     public Notification createNotification(@RequestBody CreateNotificationRequest createNotificationRequest) {
         return notificationService.createNotification(createNotificationRequest);
     }
