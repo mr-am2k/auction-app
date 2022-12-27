@@ -41,7 +41,7 @@ const Home = () => {
   const fetchSingleProduct = () => {
     productsService
       .getRandomProduct()
-      .then((data) => setRandomProduct(data))
+      .then((data) => setRandomProduct(data.content[0]))
       .catch((error) => console.log(error));
   };
 
