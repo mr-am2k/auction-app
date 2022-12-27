@@ -82,6 +82,19 @@ const EN_STRINGS = {
     BIDS: 'Bids',
     WISHLIST: 'Wishlist',
     SETTINGS: 'Settings',
+    EMAIL: 'Email',
+    POLICY_AND_COMMUNITY: 'Policy and Community',
+    POLICY_AND_COMMUNITY_TITLE:
+      "Receive updates on bids and seller's offers. Stay informed through:",
+    PUSH_NOTIFICATION: 'Push Notifications',
+    SMS_NOTIFICATION: 'SMS Notifications',
+    CONTACT_INFORMATION: 'Contact Information',
+    CONTACT_INFORMATION_TITLE:
+      'This information can be edited on your profile.',
+    PHONE: 'Phone',
+    ACCOUNT: 'Account',
+    ACCOUNT_TITLE: 'Do you want to deactivate account?',
+    DEACTIVATE: 'DEACTIVATE'
   },
 };
 

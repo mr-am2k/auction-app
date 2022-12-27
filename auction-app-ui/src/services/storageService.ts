@@ -14,4 +14,8 @@ export const storageService = {
       localStorage.removeItem(key);
     });
   },
+
+  clear: () => {
+    localStorage.clear();
+  }
 };

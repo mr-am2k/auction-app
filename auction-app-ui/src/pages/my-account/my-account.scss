@@ -22,7 +22,7 @@
         color: black;
         font-size: 1rem;
 
-        :hover {
+        &:hover {
           cursor: pointer;
         }
       }
@@ -50,17 +50,18 @@
         background-color: $purpleColor;
         border: none;
         outline: none;
-      }
 
-      :hover {
-        cursor: pointer;
-        scale: 1.02;
+        &:hover {
+          cursor: pointer;
+          scale: 1.02;
+        }
       }
     }
   }
 
-  .c-page-content{
+  .c-page-content {
     margin-top: 3rem;
+    width: 100%;
   }
 }
 

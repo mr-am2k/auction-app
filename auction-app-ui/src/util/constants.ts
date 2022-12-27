@@ -27,3 +27,8 @@ export const LOCAL_STORAGE = {
   FULL_NAME: 'fullName',
   ROLE: 'role',
 };
+
+export const MY_ACCOUNT = {
+  EMAIL: 'adam.smith@mail.com',
+  PHONE: '555-555-555'
+}
