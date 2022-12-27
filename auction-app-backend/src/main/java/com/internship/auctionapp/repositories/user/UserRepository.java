@@ -21,4 +21,6 @@ public interface UserRepository {
     User getSingleUser(UUID id);
 
     User updateUser(UUID id, UpdateUserRequest updateUserRequest, UpdateCardRequest updateCardRequest);
+
+    void deactivate(String username);
 }

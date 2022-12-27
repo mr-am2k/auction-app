@@ -88,7 +88,7 @@ public class DefaultUserRepository implements UserRepository {
         updatedUser.setPasswordHash(user.getPasswordHash());
         updatedUser.setRole(user.getRole());
 
-        if(user.getCard() == null){
+        if (user.getCard() == null) {
             CardEntity newCard = new CardEntity();
 
             newCard.setHolderName(updateCardRequest.getHolderName());
@@ -99,7 +99,7 @@ public class DefaultUserRepository implements UserRepository {
             cardJpaRepository.save(newCard);
 
             updatedUser.setCard(newCard);
-        }else{
+        } else {
             CardEntity existingCard = cardJpaRepository.findById(user.getCard().getId()).get();
 
             existingCard.setHolderName(updateCardRequest.getHolderName());
@@ -113,5 +113,14 @@ public class DefaultUserRepository implements UserRepository {
         }
 
         return userJpaRepository.save(updatedUser).toDomainModel();
+    }
+
+    @Override
+    public void deactivate(String username) {
+        UserEntity user = userJpaRepository.findByUsername(username);
+
+        user.setActive(false);
+
+        userJpaRepository.save(user);
     }
 }

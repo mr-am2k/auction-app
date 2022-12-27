@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 @RestController
@@ -40,5 +41,11 @@ public class UserController {
             @RequestBody UpdateUserDataRequest updateUserDataRequest
     ) {
         return userService.updateUser(id, updateUserDataRequest.getUpdateUserRequest(), updateUserDataRequest.getUpdateCardRequest());
+    }
+
+    @GetMapping("/deactivate")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public void deactivate(HttpServletRequest request) {
+        userService.deactivate(request);
     }
 }

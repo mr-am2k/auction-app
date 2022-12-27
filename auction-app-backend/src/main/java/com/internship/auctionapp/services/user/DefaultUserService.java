@@ -12,9 +12,13 @@ import com.internship.auctionapp.requests.UpdateCardRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
+import com.internship.auctionapp.services.bid.DefaultBidService;
 import com.internship.auctionapp.util.RegexUtils;
+import com.internship.auctionapp.util.security.jwt.JwtUtils;
 import com.internship.auctionapp.util.security.services.AuthService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,9 +31,18 @@ public class DefaultUserService implements UserService {
 
     private final UserRepository userRepository;
 
-    public DefaultUserService(AuthService authService, UserRepository userRepository) {
+    private final JwtUtils jwtUtils;
+
+    private final String AUTHORIZATION_HEADER = "Authorization";
+    private final String BEARER = "Bearer ";
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
+
+
+    public DefaultUserService(AuthService authService, UserRepository userRepository, JwtUtils jwtUtils) {
         this.authService = authService;
         this.userRepository = userRepository;
+        this.jwtUtils = jwtUtils;
     }
 
     @Override
@@ -75,5 +88,21 @@ public class DefaultUserService implements UserService {
         }
 
         return userRepository.updateUser(id, updateUserRequest, updateCardRequest);
+    }
+
+    @Override
+    public void deactivate(HttpServletRequest request) {
+        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
+
+        String token = null;
+
+        if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER)) {
+            token = requestTokenHeader.substring(BEARER.length());
+        }
+
+        String username = jwtUtils.getEmailFromJwtToken(token);
+
+
+        userRepository.deactivate(username);
     }
 }

@@ -42,11 +42,8 @@ public class JwtUtils {
     public String generateJwtToken(Authentication authentication) {
         final DefaultUserDetails userPrincipal = (DefaultUserDetails) authentication.getPrincipal();
 
-        Map<String, Object> claims = new HashMap<>();
-
         return Jwts.builder()
-                .setIssuer("App")
-                .setClaims(claims)
+                .setId(String.valueOf(userPrincipal.getId()))
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
