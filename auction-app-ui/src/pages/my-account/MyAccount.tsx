@@ -9,45 +9,49 @@ import EN_STRINGS from 'translation/en';
 import './my-account.scss';
 
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
+import { ROUTES } from 'util/routes';
 
 type Props = {
   children?: React.ReactNode;
   pages: any[];
 };
 
+const initialNavbarElements = [
+  {
+    page: <Profile />,
+    icon: <ProfileIcon />,
+    name: EN_STRINGS.MY_ACCOUNT.PROFILE,
+    focused: true,
+  },
+  {
+    page: <Seller />,
+    icon: <SellerIcon />,
+    name: EN_STRINGS.MY_ACCOUNT.SELLER,
+    focused: false,
+  },
+  {
+    page: <Bids />,
+    icon: <BidIcon />,
+    name: EN_STRINGS.MY_ACCOUNT.BIDS,
+    focused: false,
+  },
+  {
+    page: <Wishlist />,
+    icon: <AiOutlineHeart className='c-icon-style' />,
+    name: EN_STRINGS.MY_ACCOUNT.WISHLIST,
+    focused: false,
+  },
+  {
+    page: <Settings />,
+    icon: <CiSettings className='c-icon-style' />,
+    name: EN_STRINGS.MY_ACCOUNT.SETTINGS,
+    focused: false,
+  },
+];
+
 const MyAccount = () => {
-  const [navbarElements, setNavbarElements] = useState([
-    {
-      page: <Profile />,
-      icon: <ProfileIcon />,
-      name: EN_STRINGS.MY_ACCOUNT.PROFILE,
-      focused: true,
-    },
-    {
-      page: <Seller />,
-      icon: <SellerIcon />,
-      name: EN_STRINGS.MY_ACCOUNT.SELLER,
-      focused: false,
-    },
-    {
-      page: <Bids />,
-      icon: <BidIcon />,
-      name: EN_STRINGS.MY_ACCOUNT.BIDS,
-      focused: false,
-    },
-    {
-      page: <Wishlist />,
-      icon: <AiOutlineHeart className='c-icon-style' />,
-      name: EN_STRINGS.MY_ACCOUNT.WISHLIST,
-      focused: false,
-    },
-    {
-      page: <Settings />,
-      icon: <CiSettings className='c-icon-style' />,
-      name: EN_STRINGS.MY_ACCOUNT.SETTINGS,
-      focused: false,
-    },
-  ]);
+  const [navbarElements, setNavbarElements] = useState(initialNavbarElements);
   const [page, setPage] = useState<JSX.Element>();
 
   const changeActivePage = (i: number) => {
@@ -73,7 +77,7 @@ const MyAccount = () => {
             })}
             key={index}
           >
-            <div className='c-page-icon'>{page.icon}</div>
+            {page.icon}
             <p>{page.name}</p>
           </div>
         ))}
@@ -88,9 +92,18 @@ const MyAccount = () => {
   return (
     <div className='c-my-account-wrapper'>
       <div className='c-my-account-navbar'>
-        <NavbarElement pages={navbarElements} />
+        <div className='c-navbar-list'>
+          <NavbarElement pages={navbarElements} />
+        </div>
+
+        <div className='c-add-button'>
+          <Link to={ROUTES.ADD_PRODUCT}>
+            <button>+ ADD ITEM</button>
+          </Link>
+        </div>
       </div>
-      <div>{page}</div>
+
+      <div className='c-page-content'>{page}</div>
     </div>
   );
 };
