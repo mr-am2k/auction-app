@@ -96,6 +96,20 @@ const EN_STRINGS = {
     ACCOUNT_TITLE: 'Do you want to deactivate account?',
     DEACTIVATE: 'DEACTIVATE'
   },
+
+  TABLE:{
+    ITEM: 'Item',
+    NAME: 'Name',
+    TIME_LEFT: 'Time left',
+    YOUR_PRICE: 'Your price',
+    NUMBER_OF_BIDS: 'No. bids',
+    HIGHEST_BID: 'Highest bid'
+  },
+
+  WISHLIST: {
+    MESSAGE: 'Your wishlist is empty! Start browsing the shop.',
+    BUTTON: 'VISIT SHOP'
+  },
 };
 
 export default EN_STRINGS;

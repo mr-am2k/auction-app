@@ -1,0 +1,41 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
+
+.c-wishlist-wrapper{
+    width: 100%;
+    font-family: $latoFont;
+
+    table{
+        width: 100%;
+        border: 1px solid $greyColor;
+        padding: 1rem 0.5rem;
+
+        .c-empty-wishlist{
+            @include flexDisplay(center, center);
+            padding-top: 2rem;
+            gap: 1rem;
+            flex-direction: column;
+
+            .c-wishlist-icon{
+                font-size: 5rem;
+                color: $purpleColor;
+            }
+
+            button{
+                width: 15rem;
+                height: 3rem;
+                background-color: transparent;
+                color: black;
+                font-size: $textBase;
+                outline: none;
+                border: 2px solid $purpleColor;
+                font-weight: $fontBold;
+
+                &:hover{
+                    cursor: pointer;
+                }
+
+            }
+        }
+    }
+}
