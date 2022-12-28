@@ -3,6 +3,7 @@ package com.internship.auctionapp.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.internship.auctionapp.models.Bid;
 
+import com.internship.auctionapp.models.BidWithProduct;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -66,5 +67,17 @@ public class BidEntity {
         bid.setUserId(this.user.getId());
 
         return bid;
+    }
+
+    public BidWithProduct toDomainModelWithProduct(){
+        BidWithProduct bidWithProduct = new BidWithProduct();
+
+        bidWithProduct.setId(this.id);
+        bidWithProduct.setPrice(this.price);
+        bidWithProduct.setCreationDateTime(this.creationDateTime);
+        bidWithProduct.setProduct(this.product.toDomainModelWithoutBids());
+        bidWithProduct.setUserId(this.user.getId());
+
+        return bidWithProduct;
     }
 }

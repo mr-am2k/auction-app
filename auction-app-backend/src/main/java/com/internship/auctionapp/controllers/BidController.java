@@ -1,5 +1,6 @@
 package com.internship.auctionapp.controllers;
 
+import com.internship.auctionapp.models.BidWithProduct;
 import com.internship.auctionapp.requests.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.services.bid.BidService;
@@ -37,7 +38,7 @@ public class BidController {
     }
 
     @GetMapping()
-    public List<Bid> getAllBids() {
+    public List<BidWithProduct> getAllBids() {
         return bidService.getAllBids();
     }
 

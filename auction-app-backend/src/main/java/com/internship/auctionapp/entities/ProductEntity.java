@@ -1,8 +1,8 @@
 package com.internship.auctionapp.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Product;
+import com.internship.auctionapp.models.ProductWithoutBid;
 import com.internship.auctionapp.util.DateUtils;
 
 import lombok.AllArgsConstructor;
@@ -71,6 +71,11 @@ public class ProductEntity {
             "WHERE id = b.product_id ORDER BY b.price DESC LIMIT 1)")
     private UUID highestBidder;
 
+    @Formula("(SELECT b.price FROM bids b " +
+            "INNER JOIN products p on p.id = b.product_id " +
+            "WHERE id = b.product_id ORDER BY b.price DESC LIMIT 1)")
+    private Double highestBid;
+
     @OneToMany(
             mappedBy = "product",
             cascade = CascadeType.ALL,
@@ -101,7 +106,8 @@ public class ProductEntity {
             ZonedDateTime creationDateTime,
             ZonedDateTime expirationDateTime,
             UserEntity user,
-            UUID highestBidder
+            UUID highestBidder,
+            Double highestBid
     ) {
         this.name = name;
         this.description = description;
@@ -111,6 +117,7 @@ public class ProductEntity {
         this.expirationDateTime = expirationDateTime;
         this.user = user;
         this.highestBidder = highestBidder;
+        this.highestBid = highestBid;
     }
 
     public Product toDomainModel() {
@@ -126,7 +133,8 @@ public class ProductEntity {
                 this.creationDateTime,
                 this.expirationDateTime,
                 this.user,
-                this.highestBidder
+                this.highestBidder,
+                this.highestBid
         );
 
         Product product = new Product(
@@ -137,5 +145,24 @@ public class ProductEntity {
         );
 
         return product;
+    }
+
+    public ProductWithoutBid toDomainModelWithoutBids() {
+        ProductWithoutBid productWithoutBid = new ProductWithoutBid();
+
+        final String remainingTime = DateUtils.calculateDateDiffVerbose(this.expirationDateTime);
+
+        productWithoutBid.setId(this.id);
+        productWithoutBid.setName(this.name);
+        productWithoutBid.setDescription(this.description);
+        productWithoutBid.setImageURLs(this.imageURLs);
+        productWithoutBid.setStartPrice(this.startPrice);
+        productWithoutBid.setCreationDateTime(this.creationDateTime);
+        productWithoutBid.setExpirationDateTime(this.expirationDateTime);
+        productWithoutBid.setRemainingTime(remainingTime);
+        productWithoutBid.setUser(this.user.toDomainModel());
+        productWithoutBid.setHighestBidder(this.highestBidder);
+
+        return productWithoutBid;
     }
 }

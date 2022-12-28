@@ -4,6 +4,7 @@ import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.models.BidWithProduct;
 import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateBidRequest;
@@ -48,9 +49,9 @@ public class DefaultBidRepository implements BidRepository {
     }
 
     @Override
-    public List<Bid> getAllBids() {
+    public List<BidWithProduct> getAllBids() {
         return bidJpaRepository.findAll().stream()
-                .map(bidEntity -> bidEntity.toDomainModel())
+                .map(bidEntity -> bidEntity.toDomainModelWithProduct())
                 .collect(Collectors.toList());
     }
 
