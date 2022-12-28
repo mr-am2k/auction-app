@@ -51,13 +51,8 @@ public class DefaultBidRepository implements BidRepository {
     @Override
     public List<BidWithProduct> getAllBids() {
         return bidJpaRepository.findAll().stream()
-                .map(bidEntity -> bidEntity.toDomainModelWithProduct())
+                .map(BidEntity::toDomainModelWithProduct)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public void deleteBid(UUID id) {
-        bidJpaRepository.deleteById(id);
     }
 
     @Override
@@ -70,7 +65,7 @@ public class DefaultBidRepository implements BidRepository {
         UserEntity user = userJpaRepository.findByUsername(username);
 
         return bidJpaRepository.findAllByUserId(user.getId()).stream()
-                .map(bidEntity -> bidEntity.toDomainModelWithProduct())
+                .map(BidEntity::toDomainModelWithProduct)
                 .collect(Collectors.toList());
     }
 }

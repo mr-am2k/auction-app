@@ -53,10 +53,4 @@ public class BidController {
     public List<BidWithProduct> getBidsForUser(HttpServletRequest request){
         return bidService.getBidsForUser(request);
     }
-
-    @DeleteMapping("/{id}")
-    @SecurityRequirement(name = "Bearer Authentication")
-    public void deleteBid(@PathVariable("id") UUID id) {
-        bidService.deleteBid(id);
-    }
 }

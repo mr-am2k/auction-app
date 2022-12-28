@@ -13,8 +13,6 @@ public interface BidService {
 
     List<BidWithProduct> getAllBids();
 
-    void deleteBid(UUID id);
-
     Double getHighestBidPrice(UUID productId);
 
     List<BidWithProduct> getBidsForUser(HttpServletRequest request);

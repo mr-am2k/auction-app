@@ -95,17 +95,6 @@ public class DefaultBidService implements BidService {
     }
 
     @Override
-    public void deleteBid(UUID id) {
-        try {
-            bidRepository.deleteBid(id);
-
-            LOGGER.info("Deleted bid, with id={}", id);
-        } catch (RuntimeException ex) {
-            throw new BidNotFoundException(String.valueOf(id));
-        }
-    }
-
-    @Override
     public Double getHighestBidPrice(UUID productId) {
         Bid highestBid = bidRepository.getHighestBid(productId);
 
