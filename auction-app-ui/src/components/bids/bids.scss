@@ -10,27 +10,9 @@
     border: 1px solid $greyColor;
     padding: 1rem 0.5rem;
 
-    tbody {
-      font-weight: $fontBold;
-    }
-
     img {
       width: 60px;
       height: 60px;
-    }
-
-    button {
-      width: 7rem;
-      height: 3rem;
-      background-color: transparent;
-      outline: none;
-      border: 2px solid $greyColor;
-      font-size: $textBase;
-      font-weight: $fontBold;
-
-      &:hover {
-        cursor: pointer;
-      }
     }
   }
 }

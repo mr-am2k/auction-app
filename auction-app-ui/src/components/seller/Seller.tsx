@@ -43,7 +43,7 @@ const Seller = () => {
             name: product.name,
             remainingTime: product.remainingTime,
             price: product.startPrice,
-            numberOfBids: product.numberOfBids,
+            numberOfBids: product.bids.length,
             highestBid: product.highestBid,
           };
 
@@ -119,7 +119,7 @@ const Seller = () => {
                   buttonMessage={EN_STRINGS.SELLER.BUTTON}
                 />
               }
-              buttonLabel={EN_STRINGS.SELLER.BUTTON}
+              buttonLabel={EN_STRINGS.SELLER.VIEW}
             />
           ) : (
             <ItemList
@@ -133,7 +133,7 @@ const Seller = () => {
                   buttonMessage={EN_STRINGS.SELLER.BUTTON}
                 />
               }
-              buttonLabel={EN_STRINGS.SELLER.BUTTON}
+              buttonLabel={EN_STRINGS.SELLER.VIEW}
             />
           )}
         </table>

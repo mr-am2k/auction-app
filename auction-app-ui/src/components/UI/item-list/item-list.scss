@@ -1,6 +1,11 @@
 @import '/src/scss/variables';
 @import '/src/scss/mixin';
 
+
+tbody {
+  font-weight: $fontBold;
+}
+
 button {
     width: 7rem;
     height: 3rem;

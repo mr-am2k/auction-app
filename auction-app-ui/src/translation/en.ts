@@ -123,6 +123,7 @@ const EN_STRINGS = {
     BUTTON: 'START SELLING',
     ACTIVE: 'Active',
     SOLD: 'Sold',
+    VIEW: 'VIEW',
   },
 
   ITEM_LIST: {

@@ -4,15 +4,22 @@ import { Link } from 'react-router-dom';
 import EN_STRINGS from 'translation/en';
 import { ROUTES } from 'util/routes';
 
+import './item-list.scss';
+
 type Props = {
   children?: React.ReactNode;
   elements: any[];
   expired?: boolean;
   emptyCart: JSX.Element;
-  buttonLabel: string
+  buttonLabel: string;
 };
 
-const ItemList: React.FC<Props> = ({ elements, expired, emptyCart, buttonLabel }) => {
+const ItemList: React.FC<Props> = ({
+  elements,
+  expired,
+  emptyCart,
+  buttonLabel,
+}) => {
   return (
     <tbody>
       {elements.length ? (
