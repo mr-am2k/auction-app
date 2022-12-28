@@ -9,6 +9,7 @@ const productsService = {
   getRandomProduct: () => agent.get<any>(`${BASE_URL}/random`),
   search: (queryParam: string) =>
     agent.get<any>(`${BASE_URL}/search?criteria=${queryParam}`),
+  getProductsForUse: () => agent.get<Product[]>(`${BASE_URL}/user-products`),
 };
 
 export default productsService;

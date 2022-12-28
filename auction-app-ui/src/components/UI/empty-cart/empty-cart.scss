@@ -1,0 +1,24 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
+
+.c-empty-cart {
+  @include flexDisplay(center, center);
+  padding-top: 2rem;
+  gap: 1rem;
+  flex-direction: column;
+
+  button {
+    width: 15rem;
+    height: 3rem;
+    background-color: transparent;
+    color: black;
+    font-size: $textBase;
+    outline: none;
+    border: 2px solid $purpleColor;
+    font-weight: $fontBold;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import { usePage } from 'hooks/usePage';
 
 import bidService from 'services/bidService';
 
-import { BidWithProduct } from 'models/bidWithProduct';
+import ItemList from 'components/UI/item-list/ItemList';
+import EmptyCart from 'components/UI/empty-cart/EmptyCart';
 import { ROUTES } from 'util/routes';
+import { Item } from 'models/item';
 import HammerIcon from 'assets/icons/HammerIcon';
 import EN_STRINGS from 'translation/en';
 
@@ -15,11 +16,23 @@ import './bids.scss';
 const Bids = () => {
   const { setNavbarTitle, setNavbarItems } = usePage();
 
-  const [bids, setBids] = useState<BidWithProduct[]>();
+  const [bids, setBids] = useState<Item[]>([]);
 
   const fetchBidsForUser = () => {
     bidService.getBidsForUser().then((bids) => {
-      setBids(bids);
+      bids.forEach((bid) => {
+        const newItem: Item = {
+          id: bid.product.id,
+          imageUrl: bid.product.imageURLs[0],
+          name: bid.product.name,
+          remainingTime: bid.product.remainingTime,
+          price: bid.price,
+          numberOfBids: bid.product.numberOfBids,
+          highestBid: bid.product.highestBid,
+        };
+
+        setBids((prevValues) => [...prevValues, newItem]);
+      });
     });
   };
 
@@ -45,41 +58,18 @@ const Bids = () => {
           </tr>
         </thead>
 
-        <tbody>
-          {bids?.length ? (
-            bids?.map((bid, index) => (
-              <tr key={index}>
-                <td>
-                  <img src={bid.product.imageURLs[0]} alt='Product' />
-                </td>
-                <td>{bid.product.name}</td>
-                <td>{bid.product.remainingTime}</td>
-                <td>${bid.price.toFixed(2)}</td>
-                <td>{bid.product.numberOfBids}</td>
-                <td>${bid.product.highestBid?.toFixed(2)}</td>
-                <td>
-                  <Link to={`${ROUTES.PRODUCT}/${bid.product.id}`}>
-                    <button>{EN_STRINGS.BIDS.BID}</button>
-                  </Link>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={6}>
-                <div className='c-empty-bids'>
-                  <HammerIcon />
-
-                  <p>{EN_STRINGS.BIDS.MESSAGE}</p>
-
-                  <Link to={ROUTES.SHOP}>
-                    <button>{EN_STRINGS.BIDS.BUTTON}</button>
-                  </Link>
-                </div>
-              </td>
-            </tr>
-          )}
-        </tbody>
+        <ItemList
+          elements={bids}
+          emptyCart={
+            <EmptyCart
+              icon={<HammerIcon />}
+              message={EN_STRINGS.BIDS.MESSAGE}
+              route={ROUTES.SHOP}
+              buttonMessage={EN_STRINGS.BIDS.BUTTON}
+            />
+          }
+          buttonLabel={EN_STRINGS.BIDS.BID}
+        />
       </table>
     </div>
   );

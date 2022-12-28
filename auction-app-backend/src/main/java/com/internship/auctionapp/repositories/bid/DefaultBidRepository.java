@@ -64,7 +64,7 @@ public class DefaultBidRepository implements BidRepository {
     public List<BidWithProduct> getBidsForUser(String username) {
         UserEntity user = userJpaRepository.findByUsername(username);
 
-        return bidJpaRepository.findAllByUserId(user.getId()).stream()
+        return bidJpaRepository.findDistinctTopByUserIdOrderByPriceDesc(user.getId()).stream()
                 .map(BidEntity::toDomainModelWithProduct)
                 .collect(Collectors.toList());
     }

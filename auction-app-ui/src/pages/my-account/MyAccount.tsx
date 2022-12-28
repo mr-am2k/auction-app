@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Profile, Seller, Bids, Wishlist, Settings } from 'components';
 import { ProfileIcon, SellerIcon, BidIcon } from 'assets/icons';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { CiSettings } from 'react-icons/ci';
+import { ROUTES } from 'util/routes';
 import EN_STRINGS from 'translation/en';
 
 import './my-account.scss';
-
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
-import { ROUTES } from 'util/routes';
 
 type Props = {
   children?: React.ReactNode;

@@ -94,28 +94,42 @@ const EN_STRINGS = {
     PHONE: 'Phone',
     ACCOUNT: 'Account',
     ACCOUNT_TITLE: 'Do you want to deactivate account?',
-    DEACTIVATE: 'DEACTIVATE'
+    DEACTIVATE: 'DEACTIVATE',
   },
 
-  TABLE:{
+  TABLE: {
     ITEM: 'Item',
     NAME: 'Name',
     TIME_LEFT: 'Time left',
     YOUR_PRICE: 'Your price',
     NUMBER_OF_BIDS: 'No. bids',
-    HIGHEST_BID: 'Highest bid'
+    HIGHEST_BID: 'Highest bid',
   },
 
   WISHLIST: {
     MESSAGE: 'Your wishlist is empty! Start browsing the shop.',
-    BUTTON: 'VISIT SHOP'
+    BUTTON: 'VISIT SHOP',
   },
 
   BIDS: {
-    BID: 'Bid',
-    MESSAGE: 'You don’t have any bids and there are so many cool products available for sale.',
-    BUTTON: 'START BIDDING'
-  }
+    BID: 'BID',
+    MESSAGE:
+      'You don’t have any bids and there are so many cool products available for sale.',
+    BUTTON: 'START BIDDING',
+  },
+
+  SELLER: {
+    MESSAGE: 'You do not have any scheduled items for sale.',
+    BUTTON: 'START SELLING',
+    ACTIVE: 'Active',
+    SOLD: 'Sold',
+  },
+
+  ITEM_LIST: {
+    ALT_MESSAGE: 'Product',
+    EXPIRED: 'EXPIRED',
+    NO_BIDS: 'No bids',
+  },
 };
 
 export default EN_STRINGS;

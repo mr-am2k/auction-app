@@ -17,5 +17,5 @@ public interface BidJpaRepository extends JpaRepository<BidEntity, UUID> {
             @Param("productId") UUID productId
     );
 
-    List<BidEntity> findAllByUserId(UUID userId);
+    List<BidEntity> findDistinctTopByUserIdOrderByPriceDesc(UUID userId);
 }

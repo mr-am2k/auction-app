@@ -1,0 +1,39 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
+
+.c-seller-wrapper {
+  .c-seller-options {
+    display: flex;
+
+    .c-seller-option {
+      width: 5rem;
+      height: 2.5rem;
+      border: 1px solid $greyColor;
+      margin-right: 1px;
+      @include flexDisplay(center, center);
+      font-family: $textBase;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .c-seller-option-active {
+      background-color: $purpleColor;
+      color: $whiteColor;
+    }
+  }
+
+  .c-user-products {
+    table {
+      width: 100%;
+      border: 1px solid $greyColor;
+      padding: 1rem 0.5rem;
+    }
+
+    img{
+        width: 60px;
+        height: 60px;
+    }
+  }
+}
