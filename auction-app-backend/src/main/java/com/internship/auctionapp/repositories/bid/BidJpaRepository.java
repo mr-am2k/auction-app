@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Repository
@@ -17,5 +18,5 @@ public interface BidJpaRepository extends JpaRepository<BidEntity, UUID> {
             @Param("productId") UUID productId
     );
 
-    List<BidEntity> findDistinctTopByUserIdOrderByPriceDesc(UUID userId);
+    List<BidEntity> findAllByUserIdOrderByCreationDateTimeDesc(UUID userId);
 }
