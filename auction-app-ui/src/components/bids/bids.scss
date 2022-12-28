@@ -1,0 +1,58 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
+
+.c-bids-wrapper {
+  width: 100%;
+  font-family: $latoFont;
+
+  table {
+    width: 100%;
+    border: 1px solid $greyColor;
+    padding: 1rem 0.5rem;
+
+    tbody {
+      font-weight: $fontBold;
+    }
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+
+    button {
+      width: 7rem;
+      height: 3rem;
+      background-color: transparent;
+      outline: none;
+      border: 2px solid $greyColor;
+      font-size: $textBase;
+      font-weight: $fontBold;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .c-empty-bids {
+      @include flexDisplay(center, center);
+      padding-top: 2rem;
+      gap: 1rem;
+      flex-direction: column;
+
+      button {
+        width: 15rem;
+        height: 3rem;
+        background-color: transparent;
+        color: black;
+        font-size: $textBase;
+        outline: none;
+        border: 2px solid $purpleColor;
+        font-weight: $fontBold;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

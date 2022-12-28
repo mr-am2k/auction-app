@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import { usePage } from 'hooks/usePage';
 
+import { ROUTES } from 'util/routes';
 import { AiOutlineHeart } from 'react-icons/ai';
 import EN_STRINGS from 'translation/en';
 
 import './wishlist.scss';
-import { Link } from 'react-router-dom';
-import { ROUTES } from 'util/routes';
 
 const Wishlist = () => {
   const { setNavbarTitle, setNavbarItems } = usePage();
@@ -18,7 +18,8 @@ const Wishlist = () => {
       EN_STRINGS.NAVBAR.MY_ACCOUNT,
       EN_STRINGS.MY_ACCOUNT.WISHLIST,
     ]);
-  }, [setNavbarItems, setNavbarTitle]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className='c-wishlist-wrapper'>

@@ -110,6 +110,12 @@ const EN_STRINGS = {
     MESSAGE: 'Your wishlist is empty! Start browsing the shop.',
     BUTTON: 'VISIT SHOP'
   },
+
+  BIDS: {
+    BID: 'Bid',
+    MESSAGE: 'You don’t have any bids and there are so many cool products available for sale.',
+    BUTTON: 'START BIDDING'
+  }
 };
 
 export default EN_STRINGS;

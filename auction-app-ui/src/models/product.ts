@@ -11,5 +11,8 @@ export type Product = {
     bids: Bid[];
     remainingTime: string
     userId: string;
+    highestBidder: string | null;
+    highestBid: number | null;
+    numberOfBids: number | null;
 }
 
