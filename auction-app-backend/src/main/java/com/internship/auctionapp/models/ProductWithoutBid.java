@@ -31,4 +31,6 @@ public class ProductWithoutBid {
     private User user;
 
     private UUID highestBidder;
+
+    private Double highestBid;
 }

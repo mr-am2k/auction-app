@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,6 +46,12 @@ public class BidController {
     @GetMapping("/product/{productId}")
     public Double getHighestBid(@PathVariable("productId") UUID productId) {
         return bidService.getHighestBidPrice(productId);
+    }
+
+    @GetMapping("/user-bids")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public List<BidWithProduct> getBidsForUser(HttpServletRequest request){
+        return bidService.getBidsForUser(request);
     }
 
     @DeleteMapping("/{id}")

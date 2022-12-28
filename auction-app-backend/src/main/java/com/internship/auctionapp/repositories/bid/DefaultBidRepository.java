@@ -64,4 +64,13 @@ public class DefaultBidRepository implements BidRepository {
     public Bid getHighestBid(UUID productId) {
         return bidJpaRepository.findTopByProductIdOrderByPriceDesc(productId).toDomainModel();
     }
+
+    @Override
+    public List<BidWithProduct> getBidsForUser(String username) {
+        UserEntity user = userJpaRepository.findByUsername(username);
+
+        return bidJpaRepository.findAllByUserId(user.getId()).stream()
+                .map(bidEntity -> bidEntity.toDomainModelWithProduct())
+                .collect(Collectors.toList());
+    }
 }

@@ -14,11 +14,13 @@ import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.services.notification.NotificationService;
 import com.internship.auctionapp.util.NotificationType;
 
+import com.internship.auctionapp.util.security.jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,16 +32,22 @@ public class DefaultBidService implements BidService {
 
     private final NotificationService notificationService;
 
+    private final JwtUtils jwtUtils;
+
+    private final String AUTHORIZATION_HEADER = "Authorization";
+    private final String BEARER = "Bearer ";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
 
     public DefaultBidService(
             BidRepository bidRepository,
             ProductRepository productRepository,
-            NotificationService notificationService
-    ) {
+            NotificationService notificationService,
+            JwtUtils jwtUtils) {
         this.bidRepository = bidRepository;
         this.productRepository = productRepository;
         this.notificationService = notificationService;
+        this.jwtUtils = jwtUtils;
     }
 
     @Override
@@ -104,5 +112,20 @@ public class DefaultBidService implements BidService {
         LOGGER.info("Fetched bid with the highest price, bid={}", highestBid);
 
         return highestBid.getPrice();
+    }
+
+    @Override
+    public List<BidWithProduct> getBidsForUser(HttpServletRequest request) {
+        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
+
+        String token = null;
+
+        if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER)) {
+            token = requestTokenHeader.substring(BEARER.length());
+        }
+
+        String username = jwtUtils.getEmailFromJwtToken(token);
+
+        return bidRepository.getBidsForUser(username);
     }
 }

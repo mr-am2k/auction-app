@@ -15,4 +15,6 @@ public interface BidRepository {
     void deleteBid(UUID id);
 
     Bid getHighestBid(UUID productId);
+
+    List<BidWithProduct> getBidsForUser(String username);
 }

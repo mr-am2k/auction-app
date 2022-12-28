@@ -162,6 +162,7 @@ public class ProductEntity {
         productWithoutBid.setRemainingTime(remainingTime);
         productWithoutBid.setUser(this.user.toDomainModel());
         productWithoutBid.setHighestBidder(this.highestBidder);
+        productWithoutBid.setHighestBid(this.highestBid);
 
         return productWithoutBid;
     }
