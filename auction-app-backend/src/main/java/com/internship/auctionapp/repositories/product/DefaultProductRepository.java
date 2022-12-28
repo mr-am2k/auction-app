@@ -84,18 +84,27 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public Page<Product> getRandomProduct(Pageable page) {
-        return productJpaRepository.findAll(page).map(productEntity -> productEntity.toDomainModel());
+        return productJpaRepository.findAll(page).map(ProductEntity::toDomainModel);
     }
 
     @Override
     public Page<Product> getProductsByCriteria(Pageable page) {
-        return productJpaRepository.findAll(page).map(productEntity -> productEntity.toDomainModel());
+        return productJpaRepository.findAll(page).map(ProductEntity::toDomainModel);
     }
 
     @Override
     public List<Product> getProductsBetweenTwoDates(ZonedDateTime startDate, ZonedDateTime endDate) {
         return productJpaRepository.findAllByExpirationDateTimeBetween(startDate, endDate).stream()
-                .map(productEntity -> productEntity.toDomainModel())
+                .map(ProductEntity::toDomainModel)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Product> getProductsForUser(String username) {
+        UserEntity user = userJpaRepository.findByUsername(username);
+
+        return productJpaRepository.findAllByUserId(user.getId()).stream()
+                .map(ProductEntity::toDomainModel)
                 .collect(Collectors.toList());
     }
 }

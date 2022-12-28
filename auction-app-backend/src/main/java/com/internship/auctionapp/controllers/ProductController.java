@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -62,5 +63,11 @@ public class ProductController {
     @GetMapping("/search")
     public Page<Product> getProductsByCriteria(@RequestParam(required = false) String criteria) {
         return productService.getProductsByCriteria(criteria);
+    }
+
+    @GetMapping("/user-products")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public List<Product> getProductsForUser(HttpServletRequest request){
+        return productService.getProductsForUser(request);
     }
 }

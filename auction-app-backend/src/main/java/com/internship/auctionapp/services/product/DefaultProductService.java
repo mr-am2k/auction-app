@@ -1,5 +1,6 @@
 package com.internship.auctionapp.services.product;
 
+import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.ProductNotFoundException;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Product;
@@ -8,11 +9,13 @@ import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
+import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.NotificationType;
 
+import com.internship.auctionapp.util.security.jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -42,6 +46,8 @@ public class DefaultProductService implements ProductService {
 
     private final NotificationRepository notificationRepository;
 
+    private final JwtUtils jwtUtils;
+
     private static final Integer DEFAULT_ELEMENTS_PER_PAGE = 8;
 
     private static final String LAST_CHANCE = "last-chance";
@@ -50,12 +56,19 @@ public class DefaultProductService implements ProductService {
 
     private static final String CREATION_DATE_TIME = "creationDateTime";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
+    private final String AUTHORIZATION_HEADER = "Authorization";
+    private final String BEARER = "Bearer ";
 
-    public DefaultProductService(ProductRepository productCRUDRepository, BidRepository bidRepository, NotificationRepository notificationRepository) {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
+    private final UserJpaRepository userJpaRepository;
+
+    public DefaultProductService(ProductRepository productCRUDRepository, BidRepository bidRepository, NotificationRepository notificationRepository, JwtUtils jwtUtils,
+                                 UserJpaRepository userJpaRepository) {
         this.productRepository = productCRUDRepository;
         this.bidRepository = bidRepository;
         this.notificationRepository = notificationRepository;
+        this.jwtUtils = jwtUtils;
+        this.userJpaRepository = userJpaRepository;
     }
 
     @Override
@@ -129,6 +142,21 @@ public class DefaultProductService implements ProductService {
         LOGGER.info("Fetched page of 8 products from the database, based on criteria={} ", criteria);
 
         return returnedPage;
+    }
+
+    @Override
+    public List<Product> getProductsForUser(HttpServletRequest request) {
+        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
+
+        String token = null;
+
+        if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER)) {
+            token = requestTokenHeader.substring(BEARER.length());
+        }
+
+        String username = jwtUtils.getEmailFromJwtToken(token);
+
+        return productRepository.getProductsForUser(username);
     }
 
     @Override

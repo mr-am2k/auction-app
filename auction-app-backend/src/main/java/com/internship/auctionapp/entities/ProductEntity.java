@@ -160,6 +160,7 @@ public class ProductEntity {
         productWithoutBid.setCreationDateTime(this.creationDateTime);
         productWithoutBid.setExpirationDateTime(this.expirationDateTime);
         productWithoutBid.setRemainingTime(remainingTime);
+        productWithoutBid.setNumberOfBids(this.bidEntities.size());
         productWithoutBid.setUser(this.user.toDomainModel());
         productWithoutBid.setHighestBidder(this.highestBidder);
         productWithoutBid.setHighestBid(this.highestBid);

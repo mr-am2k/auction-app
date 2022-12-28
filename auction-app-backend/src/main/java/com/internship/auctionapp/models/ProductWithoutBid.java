@@ -28,6 +28,8 @@ public class ProductWithoutBid {
 
     private String remainingTime;
 
+    private Integer numberOfBids;
+
     private User user;
 
     private UUID highestBidder;

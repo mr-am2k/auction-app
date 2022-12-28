@@ -53,7 +53,7 @@ public class ProductSeeder implements CommandLineRunner {
                 user.setLastName("Alickovic");
                 user.setUsername("alickovicmuamer@gmail.com");
                 user.setEmail("alickovicmuamer@gmail.com");
-                user.setPasswordHash(encoder.encode("Passw)&rd"));
+                user.setPasswordHash(encoder.encode("Pa$$w0rd"));
                 user.setPhoneNumber("061-061-061");
                 user.setRole(UserRole.ROLE_ADMIN);
 

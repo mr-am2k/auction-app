@@ -17,4 +17,6 @@ public interface ProductJpaRepository extends JpaRepository<ProductEntity, UUID>
             ZonedDateTime startDate,
             ZonedDateTime endDate
     );
+
+    List<ProductEntity> findAllByUserId(UUID id);
 }

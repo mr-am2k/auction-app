@@ -28,4 +28,6 @@ public interface ProductRepository {
     Page<Product> getProductsByCriteria(Pageable page);
 
     List<Product> getProductsBetweenTwoDates(ZonedDateTime startDate, ZonedDateTime endDate);
+
+    List<Product> getProductsForUser(String username);
 }
