@@ -16,6 +16,8 @@ import { Product } from 'models/product';
 import EN_STRINGS from 'translation/en';
 
 import './single-product.scss';
+import { storageService } from 'services/storageService';
+import { Link } from 'react-router-dom';
 
 const SingleProduct = () => {
   const { setNavbarTitle, setNavbarItems } = usePage();
@@ -29,6 +31,8 @@ const SingleProduct = () => {
     Notification | undefined
   >();
   const [inputPlaceholderValue, setInputPlaceholderValue] = useState(0);
+
+  const currentDate = new Date();
 
   const fetchSingleProduct = async (productId: string) => {
     try {
@@ -139,7 +143,11 @@ const SingleProduct = () => {
                 </p>
                 <p>
                   {`${EN_STRINGS.SINGLE_PRODUCT.TIME_LEFT}: `}
-                  <span>{singleProduct.remainingTime}</span>
+                  <span>
+                    {new Date(singleProduct.expirationDateTime) < currentDate
+                      ? 'EXPIRED'
+                      : singleProduct.remainingTime}
+                  </span>
                 </p>
               </div>
             ) : (
@@ -147,15 +155,27 @@ const SingleProduct = () => {
             )}
 
             <div className='c-send-bid'>
-              <input
-                ref={bidInputRef}
-                type='number'
-                placeholder={`${EN_STRINGS.SINGLE_PRODUCT.INPUT_PLACEHOLDER}${inputPlaceholderValue}`}
-                disabled={!isUserLoggedIn()}
-              />
-              <button disabled={!isUserLoggedIn()} onClick={sendBid}>
-                {EN_STRINGS.SINGLE_PRODUCT.PLACE_BID} <GreaterIcon />
-              </button>
+              {new Date(singleProduct.expirationDateTime) < currentDate ? (
+                singleProduct.highestBidder === storageService.get('id') ? (
+                  <Link to='/'>
+                    <button>{EN_STRINGS.SINGLE_PRODUCT.PAY}</button>
+                  </Link>
+                ) : (
+                  <p className='c-lost-message'>{EN_STRINGS.SINGLE_PRODUCT.LOST_MESSAGE}</p>
+                )
+              ) : (
+                <>
+                  <input
+                    ref={bidInputRef}
+                    type='number'
+                    placeholder={`${EN_STRINGS.SINGLE_PRODUCT.INPUT_PLACEHOLDER}${inputPlaceholderValue}`}
+                    disabled={!isUserLoggedIn()}
+                  />
+                  <button disabled={!isUserLoggedIn()} onClick={sendBid}>
+                    {EN_STRINGS.SINGLE_PRODUCT.PLACE_BID} <GreaterIcon />
+                  </button>
+                </>
+              )}
             </div>
 
             {bidInputError?.length ? (

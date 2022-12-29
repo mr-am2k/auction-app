@@ -45,6 +45,8 @@ const EN_STRINGS = {
     NO_BID_MESSAGE: 'Be first to bid for this product',
     INPUT_PLACEHOLDER: 'Enter higher than $',
     INPUT_BID_ERROR: 'You must enter price first',
+    PAY: 'PAY',
+    LOST_MESSAGE: 'Auction is finished, more luck next time.',
   },
 
   IMAGE_PICKER: {
