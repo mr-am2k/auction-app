@@ -26,7 +26,13 @@
     font-size: 18px;
     line-height: 27px;
 
-    ::placeholder {
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &::placeholder {
       color: inherit;
       font-family: inherit;
       font-weight: inherit;

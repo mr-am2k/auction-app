@@ -11,3 +11,6 @@ export { default as Seller } from './seller/Seller';
 export { default as Bids } from './bids/Bids';
 export { default as Wishlist } from './wishlist/Wishlist';
 export { default as Settings } from './settings/Settings';
+export { default as CardForm } from './card-form/CardForm';
+export { default as LocationForm } from './location-form/LocationForm';
+export { default as PersonalForm } from './personal-form/PersonalForm';

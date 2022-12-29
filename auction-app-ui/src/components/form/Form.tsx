@@ -5,7 +5,7 @@ import './form.scss';
 type Props = {
   children?: React.ReactNode;
   onSubmit: () => void;
-  primaryActionLabel: string;
+  primaryActionLabel?: string;
   errorMessage: JSX.Element | string;
   otherOptions?: JSX.Element;
 };
@@ -26,15 +26,20 @@ export const Form: React.FC<Props> = ({
 
         {errorMessage}
 
-        <button
-          onClickCapture={validateForm}
-          onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-            event.preventDefault();
-            onSubmit();
-          }}
-        >
-          {primaryActionLabel}
-        </button>
+        {primaryActionLabel && (
+          <>
+            {' '}
+            <button
+              onClickCapture={validateForm}
+              onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                event.preventDefault();
+                onSubmit();
+              }}
+            >
+              {primaryActionLabel}
+            </button>
+          </>
+        )}
 
         {otherOptions}
       </form>
