@@ -2,10 +2,13 @@ package com.internship.auctionapp.repositories.product;
 
 import com.internship.auctionapp.entities.ProductEntity;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 import java.util.List;
@@ -19,4 +22,6 @@ public interface ProductJpaRepository extends JpaRepository<ProductEntity, UUID>
     );
 
     List<ProductEntity> findAllByUserId(UUID id);
+
+    Page<ProductEntity> findAllByExpirationDateTimeAfter(ZonedDateTime expirationDateTime, Pageable page);
 }
