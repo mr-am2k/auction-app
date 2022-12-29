@@ -23,6 +23,7 @@ const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       placeholder={FORM.EMAIL_PLACEHOLDER}
       pattern={FORM.EMAIL_PATTERN}
       validator={validateEmail}
+      required
     />,
 
     <Input
@@ -33,6 +34,7 @@ const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       placeholder={FORM.PASSWORD_PLACEHOLDER}
       pattern={FORM.PASSWORD_PATTERN}
       validator={validatePassword}
+      required
     />,
   ];
 

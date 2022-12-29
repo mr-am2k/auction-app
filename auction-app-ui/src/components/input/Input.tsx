@@ -13,6 +13,7 @@ type Props = {
   type: string;
   title: string;
   pattern?: string;
+  required?: boolean;
   validator?: (param: string) => void;
 };
 
@@ -22,6 +23,7 @@ const Input: React.FC<Props> = ({
   type,
   title,
   pattern,
+  required,
   validator,
 }) => {
   type ObjectKey = keyof typeof fieldValidationResults;
@@ -54,6 +56,7 @@ const Input: React.FC<Props> = ({
         name,
         value,
         additionalFieldsInfo[name]?.pattern,
+        required,
         additionalFieldsInfo[name]?.validator
       ),
     });
@@ -93,6 +96,7 @@ const Input: React.FC<Props> = ({
         type={type}
         name={name}
         pattern={pattern}
+        required
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           inputFieldChange(event);
         }}

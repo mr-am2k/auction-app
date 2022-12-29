@@ -30,6 +30,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       name={FORM.FIRST_NAME}
       title={FORM.FIRST_NAME_TITLE}
       placeholder={FORM.FIRST_NAME_PLACEHOLDER}
+      required
     />,
 
     <Input
@@ -38,6 +39,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       name={FORM.LAST_NAME}
       title={FORM.LAST_NAME_TITLE}
       placeholder={FORM.LAST_NAME_PLACEHOLDER}
+      required
     />,
 
     <Input
@@ -48,6 +50,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       placeholder={FORM.EMAIL_PLACEHOLDER}
       pattern={FORM.EMAIL_PATTERN}
       validator={validateEmail}
+      required
     />,
 
     <Input
@@ -58,6 +61,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       placeholder={FORM.PASSWORD_PLACEHOLDER}
       pattern={FORM.PASSWORD_PATTERN}
       validator={validatePassword}
+      required
     />,
   ];
 

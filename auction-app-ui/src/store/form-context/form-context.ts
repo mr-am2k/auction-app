@@ -9,6 +9,7 @@ interface FormInterface {
     name: string,
     value: string | undefined,
     pattern?: string | undefined,
+    required?: boolean | undefined,
     validator?: (param: string) => void
   ) => void;
   isValid: boolean;

@@ -23,8 +23,15 @@ const FormProvider: React.FC<Props> = ({ children }) => {
     name: string,
     value: string | undefined,
     pattern?: string | undefined,
+    required?: boolean | undefined,
     validator?: (param: string) => void
   ) => {
+    if (!required) {
+      return {
+        valid: true,
+      };
+    }
+
     if (value === undefined || !isEmptyString(value)) {
       return {
         valid: false,
