@@ -133,6 +133,14 @@ const EN_STRINGS = {
     EXPIRED: 'EXPIRED',
     NO_BIDS: 'No bids',
   },
+
+  PROFILE: {
+    PERSONAL: 'Personal Information',
+    CHANGE_PHOTO: 'CHANGE PHOTO',
+    CARD: 'Card Information (Optional)',
+    SHIPPING: 'Shipping Information (Optional)',
+    BUTTON: 'SAVE INFO',
+  },
 };
 
 export default EN_STRINGS;

@@ -1,13 +1,13 @@
 @import '/src/scss/variables';
 @import '/src/scss//mixin';
 
-.c-form-border {
-  border: 1px solid $borderGreyColor;
-}
-
 .c-form-component {
   @include flexDisplay(center, center);
   margin-top: 2rem;
+
+  .c-form-border {
+    border: 1px solid $borderGreyColor;
+  }
 
   .c-form {
     @include flexDisplay(flex-start, center);
