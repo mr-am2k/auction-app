@@ -1,7 +1,6 @@
 import { Input, Form } from 'components/index';
 import {
   INPUT_TYPE_TEXT,
-  INPUT_TYPE_PASSWORD,
   FORM,
   INPUT_TYPE_EMAIL,
   INPUT_TYPE_DATE,
@@ -9,11 +8,10 @@ import {
 
 type Props = {
   children?: React.ReactNode;
-  onSubmit: () => void;
   errorMessage: JSX.Element | string;
 };
 
-const PersonalForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
+const PersonalForm: React.FC<Props> = ({ errorMessage }) => {
   const children = [
     <Input
       key={FORM.FIRST_NAME}
@@ -58,11 +56,7 @@ const PersonalForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
 
   return (
     <div>
-      <Form
-        children={children}
-        onSubmit={onSubmit}
-        errorMessage={errorMessage}
-      />
+      <Form children={children} errorMessage={errorMessage} />
     </div>
   );
 };

@@ -34,9 +34,9 @@ const Profile = () => {
 
   return (
     <div className='c-profile-wrapper'>
-      <PersonalForm onSubmit={submitForm} errorMessage={error} />
-      <CardForm onSubmit={submitForm} errorMessage={error} />
-      <LocationForm onSubmit={submitForm} errorMessage={error} />
+      <PersonalForm errorMessage={error} />
+      <CardForm errorMessage={error} />
+      <LocationForm errorMessage={error} />
       <button onClick={submitForm}>Test</button>
     </div>
   );

@@ -1,17 +1,12 @@
 import { Input, Form } from 'components/index';
-import {
-  INPUT_TYPE_TEXT,
-  FORM,
-  INPUT_TYPE_NUMBER,
-} from 'util/constants';
+import { INPUT_TYPE_TEXT, FORM, INPUT_TYPE_NUMBER } from 'util/constants';
 
 type Props = {
   children?: React.ReactNode;
-  onSubmit: () => void;
   errorMessage: JSX.Element | string;
 };
 
-const LocationForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
+const LocationForm: React.FC<Props> = ({ errorMessage }) => {
   const children = [
     <Input
       key={FORM.STREET}
@@ -54,11 +49,7 @@ const LocationForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
 
   return (
     <div>
-      <Form
-        children={children}
-        onSubmit={onSubmit}
-        errorMessage={errorMessage}
-      />
+      <Form children={children} errorMessage={errorMessage} />
     </div>
   );
 };

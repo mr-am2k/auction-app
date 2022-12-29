@@ -90,6 +90,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
         primaryActionLabel={EN_STRINGS.REGISTER.REGISTER}
         otherOptions={otherOptions}
         errorMessage={errorMessage}
+        className='c-form-border'
       />
     </div>
   );

@@ -7,13 +7,14 @@ import {
   INPUT_TYPE_NUMBER,
 } from 'util/constants';
 
+import '../form/form.scss';
+
 type Props = {
   children?: React.ReactNode;
-  onSubmit: () => void;
   errorMessage: JSX.Element | string;
 };
 
-const CardForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
+const CardForm: React.FC<Props> = ({ errorMessage }) => {
   const children = [
     <Input
       key={FORM.CARD}
@@ -48,13 +49,10 @@ const CardForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
   ];
 
   return (
-    <div>
-      <Form
-        children={children}
-        onSubmit={onSubmit}
-        errorMessage={errorMessage}
-      />
-    </div>
+    <Form
+      children={children}
+      errorMessage={errorMessage}
+    />
   );
 };
 

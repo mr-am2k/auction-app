@@ -4,10 +4,11 @@ import './form.scss';
 
 type Props = {
   children?: React.ReactNode;
-  onSubmit: () => void;
+  onSubmit?: () => void;
   primaryActionLabel?: string;
   errorMessage: JSX.Element | string;
   otherOptions?: JSX.Element;
+  className?: string;
 };
 
 export const Form: React.FC<Props> = ({
@@ -16,19 +17,21 @@ export const Form: React.FC<Props> = ({
   primaryActionLabel,
   otherOptions,
   errorMessage,
+  className,
 }) => {
   const { validateForm } = useForm();
 
+  const formClass = `c-form ${className}`;
+
   return (
     <div className='c-form-component'>
-      <form className='c-form'>
+      <form className={formClass}>
         {children}
 
         {errorMessage}
 
-        {primaryActionLabel && (
+        {onSubmit && (
           <>
-            {' '}
             <button
               onClickCapture={validateForm}
               onClick={(event: React.MouseEvent<HTMLButtonElement>) => {

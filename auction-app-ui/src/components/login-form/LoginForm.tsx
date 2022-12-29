@@ -53,6 +53,7 @@ const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
         onSubmit={onSubmit}
         primaryActionLabel={EN_STRINGS.LOGIN.LOGIN}
         errorMessage={errorMessage}
+        className='c-form-border'
       />
     </div>
   );
