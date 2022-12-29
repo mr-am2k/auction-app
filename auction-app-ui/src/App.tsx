@@ -16,7 +16,6 @@ import {
   Login,
   MyAccount,
 } from './pages';
-import { User } from 'models/user';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import { ROUTES } from './util/routes';
 import { LOCAL_STORAGE } from 'util/constants';
@@ -32,7 +31,7 @@ const App = () => {
     const token = storageService.get(LOCAL_STORAGE.TOKEN);
 
     if (id?.length && token?.length) {
-      const user: User = {
+      const user = {
         id: id!,
         token: token!,
       };

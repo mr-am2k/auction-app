@@ -4,7 +4,7 @@
 .c-profile-wrapper {
   font-family: $textBase;
 
-  .c-display-shipping{
+  .c-display-shipping {
     display: none;
   }
 
@@ -12,15 +12,20 @@
     border: 1px solid $smokeWhiteColor;
     margin-top: 1rem;
 
-    .c-display-card{
-        display: none;
-      }
-    
+    .c-display-card {
+      display: none;
+    }
 
     .c-profile-header {
+      @include flexDisplay(flex-start, center);
+      gap: 16px;
       padding: 0 1rem;
       border-bottom: 1px solid $smokeWhiteColor;
       font-weight: $fontBold;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     .c-personal-information {
@@ -52,6 +57,7 @@
           &:hover {
             cursor: pointer;
           }
+
           input {
             display: none;
           }
@@ -65,7 +71,7 @@
     }
   }
 
-  button{
+  button {
     margin-top: 1rem;
     border: 2px solid $purpleColor;
     float: right;

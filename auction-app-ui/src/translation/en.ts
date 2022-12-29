@@ -76,6 +76,9 @@ const EN_STRINGS = {
     PASSWORD:
       'Password needs to have 8 characters, one upper case and one lower case letter and one special character',
     EMAIL: 'The email should be in format: user@domain.com',
+    CARD_NUMBER: 'The card number needs to contain exactly 16 numbers.',
+    CARD_CVV: 'The card CVV needs to contain exactly 3 numbers.',
+    DATE_OF_BIRTH: 'You need to be over 18 years.',
   },
 
   MY_ACCOUNT: {

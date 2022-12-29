@@ -1,19 +1,22 @@
 import { Input, Form } from 'components/index';
+import { User } from 'models/user';
 import { INPUT_TYPE_TEXT, FORM, INPUT_TYPE_NUMBER } from 'util/constants';
+import { validate } from 'validators/validateEmail';
 
 type Props = {
   children?: React.ReactNode;
   errorMessage: JSX.Element | string;
+  user: User | undefined;
 };
 
-const LocationForm: React.FC<Props> = ({ errorMessage }) => {
+const LocationForm: React.FC<Props> = ({ errorMessage, user }) => {
   const children = [
     <Input
       key={FORM.STREET}
       type={INPUT_TYPE_TEXT}
       name={FORM.STREET}
       title={FORM.STREET_TITLE}
-      placeholder={FORM.STREET_PLACEHOLDER}
+      placeholder={user?.street ? user.street : FORM.STREET_PLACEHOLDER}
     />,
 
     <Input
@@ -21,7 +24,7 @@ const LocationForm: React.FC<Props> = ({ errorMessage }) => {
       type={INPUT_TYPE_TEXT}
       name={FORM.CITY}
       title={FORM.CITY_TITLE}
-      placeholder={FORM.CITY_PLACEHOLDER}
+      placeholder={user?.city ? user.city : FORM.CITY_PLACEHOLDER}
     />,
 
     <Input
@@ -29,21 +32,22 @@ const LocationForm: React.FC<Props> = ({ errorMessage }) => {
       type={INPUT_TYPE_NUMBER}
       name={FORM.ZIP_CODE}
       title={FORM.ZIP_CODE_TITLE}
-      placeholder={FORM.ZIP_CODE_PLACEHOLDER}
+      placeholder={user?.zipCode ? user.zipCode : FORM.ZIP_CODE_PLACEHOLDER}
     />,
     <Input
       key={FORM.STATE}
       type={INPUT_TYPE_TEXT}
       name={FORM.STATE}
       title={FORM.STATE_TITLE}
-      placeholder={FORM.STATE_PLACEHOLDER}
+      placeholder={user?.state ? user.state : FORM.STATE_PLACEHOLDER}
     />,
     <Input
       key={FORM.COUNTRY}
       type={INPUT_TYPE_TEXT}
       name={FORM.COUNTRY}
-      title={FORM.COUNTRY}
-      placeholder={FORM.COUNTRY}
+      title={FORM.COUNTRY_TITLE}
+      placeholder={user?.country ? user.country : FORM.COUNTRY_PLACEHOLDER}
+      validator={validate}
     />,
   ];
 

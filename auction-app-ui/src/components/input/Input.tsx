@@ -15,6 +15,7 @@ type Props = {
   pattern?: string;
   required?: boolean;
   validator?: (param: string) => void;
+  disabled?: boolean;
 };
 
 const Input: React.FC<Props> = ({
@@ -25,6 +26,7 @@ const Input: React.FC<Props> = ({
   pattern,
   required,
   validator,
+  disabled,
 }) => {
   type ObjectKey = keyof typeof fieldValidationResults;
 
@@ -76,6 +78,7 @@ const Input: React.FC<Props> = ({
         [name]: {
           pattern,
           validator,
+          required,
         },
       };
     });
@@ -91,12 +94,14 @@ const Input: React.FC<Props> = ({
       <input
         className={classNames({
           'c-input-error': hasErrorMessage,
+          'c-input-disabled': disabled,
         })}
         placeholder={placeholder}
         type={type}
         name={name}
         pattern={pattern}
-        required
+        required={required}
+        disabled={disabled}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           inputFieldChange(event);
         }}

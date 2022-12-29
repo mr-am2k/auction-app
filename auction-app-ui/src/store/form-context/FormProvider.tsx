@@ -12,7 +12,7 @@ type Props = {
 const FormProvider: React.FC<Props> = ({ children }) => {
   const [fieldValues, setFieldValues] = useState<any>({});
   const [fieldValidationResults, setFieldValidationResults] = useState<any>({});
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState(true);
   const [additionalFieldsInfo, setAdditionalFieldsInfo] = useState<any>({});
 
   const resetFieldValues = () => {
@@ -26,21 +26,27 @@ const FormProvider: React.FC<Props> = ({ children }) => {
     required?: boolean | undefined,
     validator?: (param: string) => void
   ) => {
-    if (!required) {
+    if (!required && !validator) {
       return {
         valid: true,
       };
     }
 
     if (value === undefined || !isEmptyString(value)) {
-      return {
-        valid: false,
-        message: EN_STRINGS.ERROR_MESSAGE.REQUIRED,
-      };
+      if (required) {
+        return {
+          valid: false,
+          message: EN_STRINGS.ERROR_MESSAGE.REQUIRED,
+        };
+      }
     }
 
     if (pattern !== undefined && validator !== undefined) {
-      return validator(value);
+      return validator(value!);
+    }
+
+    if (validator !== undefined) {
+      return validator(value!);
     }
 
     return { valid: true };
@@ -64,14 +70,14 @@ const FormProvider: React.FC<Props> = ({ children }) => {
           fieldValues[key as FormValuesObjectKey]
             ? fieldValues[key as FormValuesObjectKey]
             : '',
-          additionalFieldsInfo[key as AdditionalFieldsObjectKey]?.pattern,
+          additionalFieldsInfo[key as AdditionalFieldsObjectKey]?.patter,
+          additionalFieldsInfo[key as AdditionalFieldsObjectKey]?.required,
           additionalFieldsInfo[key as AdditionalFieldsObjectKey]?.validator
         ),
       };
     });
 
     setFieldValidationResults(validInputsObject);
-
     validInputsKeys.forEach((key) => {
       if (!validInputsObject[key as ValidInputsObjectKey]?.valid) {
         setIsValid(false);

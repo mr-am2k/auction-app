@@ -8,7 +8,6 @@ import { useForm } from 'hooks/useForm';
 import authService from 'services/authService';
 
 import LoginForm from 'components/login-form/LoginForm';
-import { User } from 'models/user';
 import { userLoginRequest } from 'requestModels/userLoginRequest';
 import { storageService } from 'services/storageService';
 import { LOCAL_STORAGE } from 'util/constants';
@@ -33,7 +32,7 @@ const Login = () => {
         storageService.add(LOCAL_STORAGE.FULL_NAME, authResponse.fullName);
         storageService.add(LOCAL_STORAGE.ROLE, authResponse.roles[0]);
 
-        const user: User = {
+        const user = {
           id: authResponse.id,
           token: authResponse.token,
         };

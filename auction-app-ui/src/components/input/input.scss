@@ -39,6 +39,10 @@
       font-size: inherit;
       line-height: inherit;
     }
+
+    &:disabled {
+      background-color: $smokeWhiteColor;
+    }
   }
 
   .c-input-error {

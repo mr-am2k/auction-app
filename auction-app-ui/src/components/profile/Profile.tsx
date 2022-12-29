@@ -1,22 +1,32 @@
-import { usePage } from 'hooks/usePage';
-import './profile.scss';
 import { useEffect, useRef, useState } from 'react';
-import EN_STRINGS from 'translation/en';
 
-import { useForm } from 'hooks/useForm';
+import { usePage } from 'hooks/usePage';
+
+import userService from 'services/userService';
+
 import { PersonalForm, LocationForm, CardForm } from 'components';
+import { User } from 'models/user';
+import EN_STRINGS from 'translation/en';
+import arrowUp from 'assets/images/arrow-up.png';
+import arrowDown from 'assets/images/arrow-down.png';
+
+import './profile.scss';
 
 import classNames from 'classnames';
 
 const Profile = () => {
-  const { setNavbarTitle, setNavbarItems } = usePage();
-  const { fieldValues, fieldValidationResults } = useForm();
+  const { setNavbarTitle, setNavbarItems } = usePage();;
   const [loginError, setLoginError] = useState<string>();
   const [displayCard, setDisplayCard] = useState(true);
   const [displayShipping, setDisplayShipping] = useState(true);
+  const [user, setUser] = useState<User>();
   const [uploadedImage, setUploadedImage] = useState<string | null>();
 
   const imageRef = useRef<HTMLInputElement>(null);
+
+  const fetchUser = () => {
+    userService.getUser().then((response) => setUser(response));
+  };
 
   const imageChange = () => {
     setUploadedImage(imageRef.current?.value);
@@ -29,11 +39,8 @@ const Profile = () => {
   const changeDisplayShipping = () => {
     setDisplayShipping((prevState) => !prevState);
   };
-  const submitForm = () => {
-    console.log(fieldValues);
-    console.log(fieldValidationResults);
-    console.log(imageRef.current?.value.length);
-  };
+
+  const submitForm = () => {};
 
   useEffect(() => {
     setNavbarTitle(EN_STRINGS.MY_ACCOUNT.PROFILE);
@@ -41,6 +48,7 @@ const Profile = () => {
       EN_STRINGS.NAVBAR.MY_ACCOUNT,
       EN_STRINGS.MY_ACCOUNT.PROFILE,
     ]);
+    fetchUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -58,6 +66,7 @@ const Profile = () => {
         <div className='c-profile-header'>
           <p>{EN_STRINGS.PROFILE.PERSONAL}</p>
         </div>
+
         <div className='c-personal-information'>
           <div className='c-personal-image'>
             <img
@@ -75,35 +84,45 @@ const Profile = () => {
             </label>
             {uploadedImage && <p>{uploadedImage}</p>}
           </div>
-          <PersonalForm errorMessage={error} />
+          <PersonalForm errorMessage={error} user={user} />
         </div>
       </div>
 
       <div className='c-profile-information'>
         <div className='c-profile-header' onClick={changeDisplayCard}>
+          <img
+            src={!displayCard ? arrowUp : arrowDown}
+            alt={EN_STRINGS.PROFILE.CARD}
+          />
           <p>{EN_STRINGS.PROFILE.CARD}</p>
         </div>
+
         <div
           className={classNames({
             'c-display-card': displayCard,
             'c-profile-content': !displayCard,
           })}
         >
-          <CardForm errorMessage={error} />
+          <CardForm errorMessage={error} user={user} />
         </div>
       </div>
 
       <div className='c-profile-information'>
         <div className='c-profile-header' onClick={changeDisplayShipping}>
+          <img
+            src={!displayShipping ? arrowUp : arrowDown}
+            alt={EN_STRINGS.PROFILE.SHIPPING}
+          />
           <p>{EN_STRINGS.PROFILE.SHIPPING}</p>
         </div>
+
         <div
           className={classNames({
             'c-display-shipping': displayShipping,
             'c-profile-content': !displayShipping,
           })}
         >
-          <LocationForm errorMessage={error} />
+          <LocationForm errorMessage={error} user={user} />
         </div>
       </div>
 
