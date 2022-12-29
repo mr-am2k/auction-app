@@ -85,7 +85,7 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public Page<Product> getRandomProduct(Pageable page) {
-        return productJpaRepository.findAll(page).map(ProductEntity::toDomainModel);
+        return productJpaRepository.findAllByExpirationDateTimeAfter(ZonedDateTime.now(), page).map(ProductEntity::toDomainModel);
     }
 
     @Override

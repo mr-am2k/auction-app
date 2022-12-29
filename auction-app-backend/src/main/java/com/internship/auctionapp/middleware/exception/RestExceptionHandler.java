@@ -127,6 +127,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "CVV needs to have 3 numbers!"));
     }
 
+    @ExceptionHandler(ProductExpiredException.class)
+    public ResponseEntity<Object> handleProductExpiredException(HttpServletRequest req, ProductExpiredException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Product auction time expired!"));
+    }
+
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
     }
