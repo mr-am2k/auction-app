@@ -17,7 +17,7 @@ public interface UserService {
 
     void logout(HttpServletRequest request);
 
-    User getSingleUser(UUID id);
+    User getSingleUser(HttpServletRequest request);
 
     User updateUser(UUID id, UpdateUserRequest updateUserRequest, UpdateCardRequest updateCardRequest);
 

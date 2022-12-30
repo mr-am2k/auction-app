@@ -61,13 +61,23 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public User getSingleUser(UUID id) {
-        return userRepository.getSingleUser(id);
+    public User getSingleUser(HttpServletRequest request) {
+        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
+
+        String token = null;
+
+        if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER)) {
+            token = requestTokenHeader.substring(BEARER.length());
+        }
+
+        String username = jwtUtils.getEmailFromJwtToken(token);
+
+        return userRepository.getSingleUser(username);
     }
 
     @Override
     public User updateUser(UUID id, UpdateUserRequest updateUserRequest, UpdateCardRequest updateCardRequest) {
-        if(updateUserRequest.getDateOfBirth().after(new Date())){
+        if(updateUserRequest.getDateOfBirth() != null && updateUserRequest.getDateOfBirth().after(new Date())){
             throw new InvalidBirthDateException();
         }
 
@@ -75,15 +85,15 @@ public class DefaultUserService implements UserService {
             throw new EmailNotValidException();
         }
 
-        if(updateCardRequest.getExpirationDate().before(new Date())){
+        if(updateCardRequest.getExpirationDate() != null && updateCardRequest.getExpirationDate().before(new Date())){
             throw new InvalidCardExpirationDateException();
         }
 
-        if(updateCardRequest.getNumber().length() != 16){
+        if(updateCardRequest.getNumber() != null && updateCardRequest.getNumber().length() != 16){
             throw new InvalidCardNumberException();
         }
 
-        if(updateCardRequest.getVerificationValue().length() != 3){
+        if(updateCardRequest.getVerificationValue() != null && updateCardRequest.getVerificationValue().length() != 3){
             throw new InvalidCVVException();
         }
 

@@ -91,8 +91,6 @@ public class UserEntity {
         user.setLastName(this.lastName);
         user.setEmail(this.email);
         user.setPhoneNumber(this.phoneNumber);
-        user.setRole(this.role.getValue());
-        user.setActive(this.isActive);
         user.setImageUrl(this.imageUrl);
         user.setDateOfBirth(this.dateOfBirth);
         user.setStreet(this.street);

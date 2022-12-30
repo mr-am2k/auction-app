@@ -21,8 +21,6 @@ public class UpdateUserRequest {
 
     private String phoneNumber;
 
-    private boolean isActive;
-
     private String imageUrl;
 
     private Date dateOfBirth;

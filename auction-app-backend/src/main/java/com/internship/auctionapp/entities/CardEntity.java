@@ -32,16 +32,16 @@ public class CardEntity {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "holder_name", nullable = false)
+    @Column(name = "holder_name")
     private String holderName;
 
-    @Column(name = "number", nullable = false)
+    @Column(name = "number")
     private String number;
 
-    @Column(name = "expiration_date", nullable = false)
+    @Column(name = "expiration_date")
     private Date expirationDate;
 
-    @Column(name = "verification_value", nullable = false)
+    @Column(name = "verification_value")
     private String verificationValue;
 
     public Card toDomainModel(){

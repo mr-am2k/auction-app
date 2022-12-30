@@ -18,7 +18,7 @@ public interface UserRepository {
 
     List<User> getUsers();
 
-    User getSingleUser(UUID id);
+    User getSingleUser(String username);
 
     User updateUser(UUID id, UpdateUserRequest updateUserRequest, UpdateCardRequest updateCardRequest);
 

@@ -11,6 +11,7 @@ import com.internship.auctionapp.requests.UserRegisterRequest;
 import com.internship.auctionapp.util.UserRole;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -64,11 +65,11 @@ public class DefaultUserRepository implements UserRepository {
     }
 
     @Override
-    public User getSingleUser(UUID id) {
-        final User user = userJpaRepository.findById(id).get().toDomainModel();
+    public User getSingleUser(String username) {
+        final User user = userJpaRepository.findByUsername(username).toDomainModel();
 
         if (user == null) {
-            throw new UserNotFoundByIdException(String.valueOf(id));
+            throw new UsernameNotFoundException(username);
         }
 
         return user;
@@ -87,6 +88,7 @@ public class DefaultUserRepository implements UserRepository {
         updatedUser.setUsername(updatedUser.getEmail());
         updatedUser.setPasswordHash(user.getPasswordHash());
         updatedUser.setRole(user.getRole());
+        updatedUser.setActive(user.isActive());
 
         if (user.getCard() == null) {
             CardEntity newCard = new CardEntity();

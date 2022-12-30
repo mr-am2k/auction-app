@@ -4,9 +4,12 @@ import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.requests.UpdateCardRequest;
 import com.internship.auctionapp.requests.UpdateUserDataRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
+import com.internship.auctionapp.services.bid.DefaultBidService;
 import com.internship.auctionapp.services.user.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,15 +26,17 @@ import java.util.UUID;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "User")
 public class UserController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
+
     private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping("/{id}")
-    public User getSingleUser(@PathVariable("id") UUID id) {
-        return userService.getSingleUser(id);
+    @GetMapping("/user")
+    public User getSingleUser(HttpServletRequest request) {
+        return userService.getSingleUser(request);
     }
 
     @PutMapping("/{id}")
@@ -40,6 +45,7 @@ public class UserController {
             @PathVariable("id") UUID id,
             @RequestBody UpdateUserDataRequest updateUserDataRequest
     ) {
+        LOGGER.info(updateUserDataRequest.toString());
         return userService.updateUser(id, updateUserDataRequest.getUpdateUserRequest(), updateUserDataRequest.getUpdateCardRequest());
     }
 

@@ -20,10 +20,6 @@ public class User {
 
     private String phoneNumber;
 
-    private String role;
-
-    private boolean isActive;
-
     private String imageUrl;
 
     private Date dateOfBirth;
