@@ -6,7 +6,7 @@ type Props = {
   children?: React.ReactNode;
   onSubmit?: () => void;
   primaryActionLabel?: string;
-  errorMessage: JSX.Element | string;
+  errorMessage?: JSX.Element | string;
   otherOptions?: JSX.Element;
   className?: string;
 };

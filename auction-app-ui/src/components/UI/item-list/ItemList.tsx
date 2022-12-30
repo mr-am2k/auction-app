@@ -37,7 +37,7 @@ const ItemList: React.FC<Props> = ({
             </td>
             <td>${element.price.toFixed(2)}</td>
             <td>{element.numberOfBids ? element.numberOfBids : '0'}</td>
-            <td>
+            <td className='c-custom-color'>
               {element.highestBid
                 ? `$ ${element.highestBid?.toFixed(2)}`
                 : EN_STRINGS.ITEM_LIST.NO_BIDS}

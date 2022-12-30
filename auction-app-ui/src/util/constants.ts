@@ -7,6 +7,7 @@ export const INPUT_TYPE_PASSWORD = 'password';
 export const INPUT_TYPE_EMAIL = 'email';
 export const INPUT_TYPE_DATE = 'date';
 export const INPUT_TYPE_NUMBER = 'number';
+export const INPUT_TYPE_FILE = 'file';
 export const FORM = {
   FIRST_NAME: 'firstName',
   FIRST_NAME_TITLE: 'First Name',

@@ -1,42 +1,40 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { usePage } from 'hooks/usePage';
+import { useForm } from 'hooks/useForm';
 
 import userService from 'services/userService';
 
-import { PersonalForm, LocationForm, CardForm } from 'components';
+import { storage } from 'firebase-storage/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
+import { UpdateUserDataRequest } from 'requestModels/updateUserDataRequest';
 import { User } from 'models/user';
-import EN_STRINGS from 'translation/en';
+import { PersonalForm, LocationForm, CardForm } from 'components';
 import arrowUp from 'assets/images/arrow-up.png';
+import userImage from 'assets/images/user.png';
 import arrowDown from 'assets/images/arrow-down.png';
+import EN_STRINGS from 'translation/en';
+import { getUserData } from 'util/getUserData';
+import { getCardData } from 'util/getCardData';
+import { INPUT_TYPE_FILE } from 'util/constants';
+import isEmpty from 'util/objectUtils';
+import { v4 } from 'uuid';
 
 import './profile.scss';
 
 import classNames from 'classnames';
-import { UpdateUserDataRequest } from 'requestModels/updateUserDataRequest';
-import { useForm } from 'hooks/useForm';
-import { UpdateUserRequest } from 'requestModels/updateUserRequest';
-import { UpdateCardRequest } from 'requestModels/updateCardRequest';
-import { useNavigate } from 'react-router';
-import { storageService } from 'services/storageService';
-import { useUser } from 'hooks/useUser';
-import authService from 'services/authService';
-import { getUserData } from 'util/getUserData';
-import { getCardData } from 'util/getCardData';
 
 const Profile = () => {
-  const { setNavbarTitle, setNavbarItems } = usePage();
   const [updateError, setUpdateError] = useState<string>();
   const [displayCard, setDisplayCard] = useState(true);
   const [displayShipping, setDisplayShipping] = useState(true);
   const [user, setUser] = useState<User>();
-  const [uploadedImage, setUploadedImage] = useState<string | null>();
+  const [imageUpload, setImageUpload] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
 
-  const navigate = useNavigate();
-
-  const { resetLoggedInUser } = useUser();
-
-  const { fieldValues } = useForm();
+  const { setNavbarTitle, setNavbarItems } = usePage();
+  const { fieldValues, validateForm } = useForm();
 
   const imageRef = useRef<HTMLInputElement>(null);
 
@@ -52,27 +50,60 @@ const Profile = () => {
     setDisplayShipping((prevState) => !prevState);
   };
 
-  const imageChange = () => {
-    setUploadedImage(imageRef.current?.value);
+  const setImage = () => {
+    setImageUpload(imageRef.current!.files![0]);
   };
 
-  const submitForm = () => {
+  const uploadImage = async () => {
+    if (imageUpload === null) return;
+
+    const imageRef = ref(
+      storage,
+      `profile-pictures/${imageUpload.name! + v4()}`
+    );
+
+    const snapshot = await uploadBytes(imageRef, imageUpload);
+
+    const url = await getDownloadURL(snapshot.ref);
+
+    return url;
+  };
+
+  const submitForm = async () => {
+    let isValid = true;
+
+    if (!isEmpty(fieldValues)) {
+      isValid = validateForm();
+    }
+
+    if (!isValid) {
+      setUpdateError('There is a problem with provided values!');
+      return;
+    } else {
+      setUpdateError('');
+    }
+
+    setUploading(true);
+
     const updateUserRequest = getUserData(fieldValues, user!);
     const updateCardRequest = getCardData(fieldValues, user!);
+
+    const imageUrl = await uploadImage();
+
+    if (imageUrl) {
+      updateUserRequest.imageUrl = imageUrl!;
+    }
 
     const updateUserDataRequest: UpdateUserDataRequest = {
       updateUserRequest,
       updateCardRequest,
     };
 
-
     userService
       .updateUser(user!.id, updateUserDataRequest)
       .then(() => {
-        storageService.clear();
-        resetLoggedInUser();
-        authService.logout();
-        navigate('/login');
+        window.location.reload();
+        setUploading(false);
       })
       .catch((error) => setUpdateError(error.data.response.message));
   };
@@ -105,21 +136,20 @@ const Profile = () => {
         <div className='c-personal-information'>
           <div className='c-personal-image'>
             <img
-              src='https://www.shutterstock.com/image-photo/mountains-under-mist-morning-amazing-260nw-1725825019.jpg'
+              src={user?.imageUrl ? user.imageUrl : userImage}
               alt='Profile'
             />
             <label>
               {EN_STRINGS.PROFILE.CHANGE_PHOTO}
               <input
                 ref={imageRef}
-                onChange={imageChange}
-                type='file'
-                name='photo'
+                onChange={setImage}
+                type={INPUT_TYPE_FILE}
               />
             </label>
-            {uploadedImage && <p>{uploadedImage}</p>}
+            {imageUpload && <p>{imageUpload.name}</p>}
           </div>
-          <PersonalForm errorMessage={error} user={user} />
+          <PersonalForm user={user} />
         </div>
       </div>
 
@@ -138,7 +168,7 @@ const Profile = () => {
             'c-profile-content': !displayCard,
           })}
         >
-          <CardForm errorMessage={error} user={user} />
+          <CardForm user={user} />
         </div>
       </div>
 
@@ -157,11 +187,15 @@ const Profile = () => {
             'c-profile-content': !displayShipping,
           })}
         >
-          <LocationForm errorMessage={error} user={user} />
+          <LocationForm user={user} />
         </div>
       </div>
 
-      <button onClick={submitForm}>{EN_STRINGS.PROFILE.BUTTON}</button>
+      {error}
+
+      <button onClick={submitForm} disabled={uploading}>
+        {uploading ? EN_STRINGS.PROFILE.UPDATING : EN_STRINGS.PROFILE.BUTTON}{' '}
+      </button>
     </div>
   );
 };

@@ -45,7 +45,7 @@ const FormProvider: React.FC<Props> = ({ children }) => {
       return validator(value!);
     }
 
-    if (validator !== undefined) {
+    if (validator !== undefined && value!.length > 0) {
       return validator(value!);
     }
 
@@ -87,10 +87,11 @@ const FormProvider: React.FC<Props> = ({ children }) => {
     });
 
     if (invalidForm) {
-      return;
+      return false;
     }
 
     setIsValid(true);
+    return true;
   };
 
   return (

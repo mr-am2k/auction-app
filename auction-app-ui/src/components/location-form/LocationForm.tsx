@@ -1,15 +1,13 @@
 import { Input, Form } from 'components/index';
 import { User } from 'models/user';
 import { INPUT_TYPE_TEXT, FORM, INPUT_TYPE_NUMBER } from 'util/constants';
-import { validate } from 'validators/validateEmail';
 
 type Props = {
   children?: React.ReactNode;
-  errorMessage: JSX.Element | string;
   user: User | undefined;
 };
 
-const LocationForm: React.FC<Props> = ({ errorMessage, user }) => {
+const LocationForm: React.FC<Props> = ({ user }) => {
   const children = [
     <Input
       key={FORM.STREET}
@@ -47,13 +45,12 @@ const LocationForm: React.FC<Props> = ({ errorMessage, user }) => {
       name={FORM.COUNTRY}
       title={FORM.COUNTRY_TITLE}
       placeholder={user?.country ? user.country : FORM.COUNTRY_PLACEHOLDER}
-      validator={validate}
     />,
   ];
 
   return (
     <div>
-      <Form children={children} errorMessage={errorMessage} />
+      <Form children={children} />
     </div>
   );
 };

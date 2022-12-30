@@ -9,16 +9,15 @@ import {
 } from 'util/constants';
 import { validate as validateCardNumber } from 'validators/validateCardNumber';
 import { validate as validateCardCVV } from 'validators/validateCardCVV';
-
+import { validate as validateCardExpirationDate } from 'validators/validateCardExpirationDate';
 import '../form/form.scss';
 
 type Props = {
   children?: React.ReactNode;
-  errorMessage: JSX.Element | string;
   user: User | undefined;
 };
 
-const CardForm: React.FC<Props> = ({ errorMessage, user }) => {
+const CardForm: React.FC<Props> = ({ user }) => {
   const children = [
     <Input
       key={FORM.CARD}
@@ -49,6 +48,7 @@ const CardForm: React.FC<Props> = ({ errorMessage, user }) => {
       name={FORM.CARD_EXPIRATION_DATE}
       title={FORM.CARD_EXPIRATION_DATE_TITLE}
       placeholder={''}
+      validator={validateCardExpirationDate}
     />,
     <Input
       key={FORM.CARD_CVV}
@@ -64,7 +64,7 @@ const CardForm: React.FC<Props> = ({ errorMessage, user }) => {
     />,
   ];
 
-  return <Form children={children} errorMessage={errorMessage} />;
+  return <Form children={children} />;
 };
 
 export default CardForm;

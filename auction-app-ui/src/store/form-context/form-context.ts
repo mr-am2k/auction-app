@@ -13,7 +13,7 @@ interface FormInterface {
     validator?: (param: string) => void
   ) => void;
   isValid: boolean;
-  validateForm: () => void;
+  validateForm: () => boolean;
   additionalFieldsInfo: any;
   setAdditionalFieldsInfo: (values: {}) => void;
   resetFieldValues: () => void;
@@ -26,7 +26,7 @@ const FormContext = createContext<FormInterface>({
   setFieldValidationResults: () => {},
   validateSingleField: () => {},
   isValid: false,
-  validateForm: () => {},
+  validateForm: () => true,
   additionalFieldsInfo: {},
   setAdditionalFieldsInfo: () => {},
   resetFieldValues: () => {},

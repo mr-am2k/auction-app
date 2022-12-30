@@ -5,16 +5,17 @@ import {
   FORM,
   INPUT_TYPE_EMAIL,
   INPUT_TYPE_DATE,
+  INPUT_TYPE_NUMBER,
 } from 'util/constants';
 import { validate as validateDateOfBirth } from 'validators/validateDateOfBirth';
+import { validate as validatePhoneNumber } from 'validators/validatePhoneNumber';
 
 type Props = {
   children?: React.ReactNode;
-  errorMessage: JSX.Element | string;
   user: User | undefined;
 };
 
-const PersonalForm: React.FC<Props> = ({ errorMessage, user }) => {
+const PersonalForm: React.FC<Props> = ({ user }) => {
   const children = [
     <Input
       key={FORM.FIRST_NAME}
@@ -54,18 +55,19 @@ const PersonalForm: React.FC<Props> = ({ errorMessage, user }) => {
 
     <Input
       key={FORM.PHONE_NUMBER}
-      type={INPUT_TYPE_TEXT}
+      type={INPUT_TYPE_NUMBER}
       name={FORM.PHONE_NUMBER}
       title={FORM.PHONE_NUMBER_TITLE}
       placeholder={
         user?.phoneNumber ? user.phoneNumber : FORM.PHONE_NUMBER_PLACEHOLDER
       }
+      validator={validatePhoneNumber}
     />,
   ];
 
   return (
     <div>
-      <Form children={children} errorMessage={errorMessage} />
+      <Form children={children} />
     </div>
   );
 };

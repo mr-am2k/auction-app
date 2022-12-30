@@ -3,7 +3,7 @@ export type UpdateUserRequest = {
   lastName: string;
   email: string;
   phoneNumber: string;
-  imageUrl: string;
+  imageUrl: string | null;
   dateOfBirth: Date;
   street: string;
   city: string;
