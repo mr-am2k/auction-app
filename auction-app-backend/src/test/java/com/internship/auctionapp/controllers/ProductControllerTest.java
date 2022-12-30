@@ -131,13 +131,4 @@ class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.description").value(PRODUCT_1.getDescription()));
     }
-
-    @Test
-    void getRandomProduct() throws Exception {
-        Mockito.when(productService.getRandomProduct()).thenReturn(RETURN_PRODUCT);
-        mockMvc.perform(get("/api/v1/products/random")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value(PRODUCT_1.getName()));
-    }
 }
