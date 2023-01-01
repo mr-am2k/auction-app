@@ -7,6 +7,7 @@ import com.internship.auctionapp.middleware.exception.PasswordNotValidException;
 import com.internship.auctionapp.middleware.exception.UserAlreadyExistsException;
 import com.internship.auctionapp.middleware.exception.UserNotFoundByUsernameException;
 import com.internship.auctionapp.models.AuthResponse;
+import com.internship.auctionapp.models.LoginResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.repositories.user.UserRepository;
 import com.internship.auctionapp.requests.UserLoginRequest;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -44,6 +46,7 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
 
     private final String AUTHORIZATION_HEADER = "Authorization";
     private final String BEARER = "Bearer";
+    private final String REFRESH = "Refresh";
 
     public DefaultAuthService(
             UserRepository userRepository,
@@ -74,24 +77,28 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
     }
 
     @Override
-    public AuthResponse login(UserLoginRequest loginRequest) {
+    public LoginResponse login(UserLoginRequest loginRequest) {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        final String jwt = jwtUtils.generateJwtToken(authentication);
+        final DefaultUserDetails userPrincipal = (DefaultUserDetails) authentication.getPrincipal();
+
+        final String accessToken = jwtUtils.generateJwtAccessToken(userPrincipal.getUsername());
+
+        final String refreshToken = jwtUtils.generateJwtRefreshToken(loginRequest.getUsername());
 
         final DefaultUserDetails userDetails = (DefaultUserDetails) authentication.getPrincipal();
 
         final List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        authTokenService.addToken(jwt, false);
+        authTokenService.addToken(accessToken, false);
 
-        return new AuthResponse(jwt, userDetails.getId(), userDetails.getEmail(), userDetails.getFullName(), roles);
+        return new LoginResponse(accessToken, refreshToken, userDetails.getId(), userDetails.getEmail(), userDetails.getFullName(), roles);
     }
 
     @Override
@@ -123,5 +130,21 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
         }
 
         jwtUtils.blacklistToken(token);
+    }
+
+    @Override
+    public AuthResponse refreshToken(HttpServletRequest request) {
+        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
+        String token = null;
+
+        if (requestTokenHeader != null && requestTokenHeader.startsWith(REFRESH)) {
+            token = requestTokenHeader.substring(REFRESH.length());
+        }
+
+        jwtUtils.validateJwtToken(token);
+
+        final String username = jwtUtils.getEmailFromJwtToken(token, false);
+
+        return new AuthResponse(jwtUtils.generateJwtAccessToken(username));
     }
 }

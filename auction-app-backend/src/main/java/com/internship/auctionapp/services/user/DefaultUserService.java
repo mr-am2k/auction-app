@@ -6,6 +6,7 @@ import com.internship.auctionapp.middleware.exception.InvalidCVVException;
 import com.internship.auctionapp.middleware.exception.InvalidCardExpirationDateException;
 import com.internship.auctionapp.middleware.exception.InvalidCardNumberException;
 import com.internship.auctionapp.models.AuthResponse;
+import com.internship.auctionapp.models.LoginResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.repositories.user.UserRepository;
 import com.internship.auctionapp.requests.UpdateCardRequest;
@@ -46,7 +47,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public AuthResponse login(UserLoginRequest loginRequest) {
+    public LoginResponse login(UserLoginRequest loginRequest) {
         return authService.login(loginRequest);
     }
 
@@ -61,6 +62,11 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
+    public AuthResponse refreshToken(HttpServletRequest request) {
+        return authService.refreshToken(request);
+    }
+
+    @Override
     public User getSingleUser(HttpServletRequest request) {
         final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
 
@@ -70,7 +76,7 @@ public class DefaultUserService implements UserService {
             token = requestTokenHeader.substring(BEARER.length());
         }
 
-        String username = jwtUtils.getEmailFromJwtToken(token);
+        String username = jwtUtils.getEmailFromJwtToken(token, true);
 
         return userRepository.getSingleUser(username);
     }
@@ -110,7 +116,7 @@ public class DefaultUserService implements UserService {
             token = requestTokenHeader.substring(BEARER.length());
         }
 
-        String username = jwtUtils.getEmailFromJwtToken(token);
+        String username = jwtUtils.getEmailFromJwtToken(token, true);
 
 
         userRepository.deactivate(username);

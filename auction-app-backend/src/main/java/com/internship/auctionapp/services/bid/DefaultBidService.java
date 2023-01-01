@@ -121,7 +121,7 @@ public class DefaultBidService implements BidService {
             token = requestTokenHeader.substring(BEARER.length());
         }
 
-        String username = jwtUtils.getEmailFromJwtToken(token);
+        String username = jwtUtils.getEmailFromJwtToken(token, true);
 
         return bidRepository.getBidsForUser(username);
     }

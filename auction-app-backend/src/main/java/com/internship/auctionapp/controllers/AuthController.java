@@ -1,6 +1,7 @@
 package com.internship.auctionapp.controllers;
 
 import com.internship.auctionapp.models.AuthResponse;
+import com.internship.auctionapp.models.LoginResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
@@ -29,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody UserLoginRequest loginRequest) {
+    public LoginResponse login(@RequestBody UserLoginRequest loginRequest) {
         return userService.login(loginRequest);
     }
 
@@ -42,4 +43,7 @@ public class AuthController {
     public void logout(HttpServletRequest request){
         userService.logout(request);
     }
+
+    @GetMapping("/refresh-token")
+    public AuthResponse refreshToken(HttpServletRequest request) {return userService.refreshToken(request);}
 }

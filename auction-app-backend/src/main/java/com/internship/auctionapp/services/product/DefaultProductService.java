@@ -154,7 +154,7 @@ public class DefaultProductService implements ProductService {
             token = requestTokenHeader.substring(BEARER.length());
         }
 
-        String username = jwtUtils.getEmailFromJwtToken(token);
+        String username = jwtUtils.getEmailFromJwtToken(token, true);
 
         return productRepository.getProductsForUser(username);
     }
