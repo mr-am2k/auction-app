@@ -45,6 +45,7 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
     private final AuthTokenService authTokenService;
 
     private final String AUTHORIZATION_HEADER = "Authorization";
+    private final String AUTHORIZATION_HEADER_REFRESH = "AuthorizationRefresh";
     private final String BEARER = "Bearer";
     private final String REFRESH = "Refresh";
 
@@ -134,14 +135,12 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
 
     @Override
     public AuthResponse refreshToken(HttpServletRequest request) {
-        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
+        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER_REFRESH);
         String token = null;
 
         if (requestTokenHeader != null && requestTokenHeader.startsWith(REFRESH)) {
             token = requestTokenHeader.substring(REFRESH.length());
         }
-
-        jwtUtils.validateJwtToken(token);
 
         final String username = jwtUtils.getEmailFromJwtToken(token, false);
 
