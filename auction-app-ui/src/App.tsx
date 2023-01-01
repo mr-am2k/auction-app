@@ -22,6 +22,7 @@ import { ROUTES } from './util/routes';
 import { LOCAL_STORAGE } from 'util/constants';
 
 import './app.scss';
+import authService from 'services/authService';
 
 const ROUTES_WITH_NAVBAR = [
   '/',
@@ -40,7 +41,7 @@ const App = () => {
 
   useEffect(() => {
     const id = storageService.get(LOCAL_STORAGE.ID);
-    const token = storageService.get(LOCAL_STORAGE.TOKEN);
+    const token = storageService.get(LOCAL_STORAGE.ACCESS_TOKEN);
 
     if (id?.length && token?.length) {
       const user = {
@@ -50,6 +51,16 @@ const App = () => {
       setLoggedInUser(user);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setInterval(() => {
+      authService.refreshToken().then((response) => {
+        console.log(response)
+        storageService.remove(LOCAL_STORAGE.ACCESS_TOKEN);
+        storageService.add(LOCAL_STORAGE.ACCESS_TOKEN, response.accessToken);
+      });
+    }, 120000);
   }, []);
 
   return (

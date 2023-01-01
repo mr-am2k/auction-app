@@ -4,9 +4,12 @@ import { LOCAL_STORAGE } from 'util/constants';
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
 
 axios.interceptors.request.use((config) => {
-  const token = localStorage.getItem(LOCAL_STORAGE.TOKEN);
-  if (token && config.headers) {
-    config.headers.Authorization = `Bearer ${token}`;
+  const accessToken = localStorage.getItem(LOCAL_STORAGE.ACCESS_TOKEN);
+  const refreshToken = localStorage.getItem(LOCAL_STORAGE.REFRESH_TOKEN);
+
+  if (accessToken && config.headers) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+    config.headers.AuthorizationRefresh = `Refresh ${refreshToken}`
   }
   return config;
 });

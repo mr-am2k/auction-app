@@ -80,7 +80,7 @@ const EN_STRINGS = {
     CARD_CVV: 'The card CVV needs to contain exactly 3 numbers.',
     DATE_OF_BIRTH: 'You need to be over 18 years.',
     CARD_EXPIRATION_DATE: 'Your card needs to be at least one year valid!',
-    PHONE_NUMBER: 'Phone number needs to be between 5 and 15 digits!'
+    PHONE_NUMBER: 'Phone number needs to be between 5 and 15 digits!',
   },
 
   MY_ACCOUNT: {
@@ -145,7 +145,13 @@ const EN_STRINGS = {
     CARD: 'Card Information (Optional)',
     SHIPPING: 'Shipping Information (Optional)',
     BUTTON: 'SAVE INFO',
-    UPDATING: 'UPDATING...'
+    UPDATING: 'UPDATING...',
+  },
+
+  ERROR_PAGE: {
+    ERROR_NUMBER: '404',
+    MESSAGE: 'Ooops! Looks like the page is Not Found',
+    BUTTON_MESSAGE: 'GO BACK',
   },
 };
 

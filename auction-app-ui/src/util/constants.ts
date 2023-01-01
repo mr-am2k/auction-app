@@ -56,7 +56,8 @@ export const FORM = {
   COUNTRY_PLACEHOLDER: 'eg. Spain',
 };
 export const LOCAL_STORAGE = {
-  TOKEN: 'token',
+  ACCESS_TOKEN: 'accessToken',
+  REFRESH_TOKEN: 'refreshToken',
   ID: 'id',
   FULL_NAME: 'fullName',
   ROLE: 'role',

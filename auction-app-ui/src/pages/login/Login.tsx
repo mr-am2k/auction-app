@@ -27,14 +27,15 @@ const Login = () => {
     authService
       .login(loginRequest)
       .then((authResponse) => {
-        storageService.add(LOCAL_STORAGE.TOKEN, authResponse.token);
+        storageService.add(LOCAL_STORAGE.ACCESS_TOKEN, authResponse.accessToken);
+        storageService.add(LOCAL_STORAGE.REFRESH_TOKEN, authResponse.refreshToken);
         storageService.add(LOCAL_STORAGE.ID, authResponse.id);
         storageService.add(LOCAL_STORAGE.FULL_NAME, authResponse.fullName);
         storageService.add(LOCAL_STORAGE.ROLE, authResponse.roles[0]);
 
         const user = {
           id: authResponse.id,
-          token: authResponse.token,
+          token: authResponse.accessToken,
         };
 
         setLoggedInUser(user);
