@@ -4,31 +4,22 @@ import { usePage } from 'hooks/usePage';
 import { useForm } from 'hooks/useForm';
 
 import userService from 'services/userService';
-
-import { storage } from 'firebase-storage/firebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { imageService } from 'services/imageService';
 
 import { UpdateUserDataRequest } from 'requestModels/updateUserDataRequest';
 import { User } from 'models/user';
-import { PersonalForm, LocationForm, CardForm } from 'components';
-import arrowUp from 'assets/images/arrow-up.png';
+import { PersonalForm, Location, Card } from 'components';
 import userImage from 'assets/images/user.png';
-import arrowDown from 'assets/images/arrow-down.png';
 import EN_STRINGS from 'translation/en';
 import { getUserData } from 'util/getUserData';
 import { getCardData } from 'util/getCardData';
 import { INPUT_TYPE_FILE } from 'util/constants';
 import isEmpty from 'util/objectUtils';
-import { v4 } from 'uuid';
 
 import './profile.scss';
 
-import classNames from 'classnames';
-
 const Profile = () => {
   const [updateError, setUpdateError] = useState<string>();
-  const [displayCard, setDisplayCard] = useState(true);
-  const [displayShipping, setDisplayShipping] = useState(true);
   const [user, setUser] = useState<User>();
   const [imageUpload, setImageUpload] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -39,34 +30,12 @@ const Profile = () => {
   const imageRef = useRef<HTMLInputElement>(null);
 
   const fetchUser = () => {
-    userService.getUser().then((response) => setUser(response));
-  };
-
-  const changeDisplayCard = () => {
-    setDisplayCard((prevState) => !prevState);
-  };
-
-  const changeDisplayShipping = () => {
-    setDisplayShipping((prevState) => !prevState);
+    userService.getUser().then((userResponse) => setUser(userResponse));
   };
 
   const setImage = () => {
     setImageUpload(imageRef.current!.files![0]);
-  };
-
-  const uploadImage = async () => {
-    if (imageUpload === null) return;
-
-    const imageRef = ref(
-      storage,
-      `profile-pictures/${imageUpload.name! + v4()}`
-    );
-
-    const snapshot = await uploadBytes(imageRef, imageUpload);
-
-    const url = await getDownloadURL(snapshot.ref);
-
-    return url;
+    console.log(imageRef.current!.files![0]);
   };
 
   const submitForm = async () => {
@@ -88,7 +57,11 @@ const Profile = () => {
     const updateUserRequest = getUserData(fieldValues, user!);
     const updateCardRequest = getCardData(fieldValues, user!);
 
-    const imageUrl = await uploadImage();
+    let imageUrl = undefined;
+
+    if (imageUpload !== null && imageUpload?.type.includes('image')) {
+      imageUrl = await imageService.upload(imageUpload);
+    }
 
     if (imageUrl) {
       updateUserRequest.imageUrl = imageUrl!;
@@ -114,6 +87,7 @@ const Profile = () => {
       EN_STRINGS.NAVBAR.MY_ACCOUNT,
       EN_STRINGS.MY_ACCOUNT.PROFILE,
     ]);
+
     fetchUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -145,6 +119,7 @@ const Profile = () => {
                 ref={imageRef}
                 onChange={setImage}
                 type={INPUT_TYPE_FILE}
+                accept='image/*'
               />
             </label>
             {imageUpload && <p>{imageUpload.name}</p>}
@@ -153,43 +128,9 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className='c-profile-information'>
-        <div className='c-profile-header' onClick={changeDisplayCard}>
-          <img
-            src={!displayCard ? arrowUp : arrowDown}
-            alt={EN_STRINGS.PROFILE.CARD}
-          />
-          <p>{EN_STRINGS.PROFILE.CARD}</p>
-        </div>
+      <Card user={user} />
 
-        <div
-          className={classNames({
-            'c-display-card': displayCard,
-            'c-profile-content': !displayCard,
-          })}
-        >
-          <CardForm user={user} />
-        </div>
-      </div>
-
-      <div className='c-profile-information'>
-        <div className='c-profile-header' onClick={changeDisplayShipping}>
-          <img
-            src={!displayShipping ? arrowUp : arrowDown}
-            alt={EN_STRINGS.PROFILE.SHIPPING}
-          />
-          <p>{EN_STRINGS.PROFILE.SHIPPING}</p>
-        </div>
-
-        <div
-          className={classNames({
-            'c-display-shipping': displayShipping,
-            'c-profile-content': !displayShipping,
-          })}
-        >
-          <LocationForm user={user} />
-        </div>
-      </div>
+      <Location user={user} />
 
       {error}
 

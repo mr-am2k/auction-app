@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
-import './error.scss';
+
 import logo from 'assets/logo/auction-app-logo.svg';
 import EN_STRINGS from 'translation/en';
+
+import './error.scss';
 
 const Error = () => {
   return (

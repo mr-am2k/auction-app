@@ -14,3 +14,5 @@ export { default as Settings } from './settings/Settings';
 export { default as CardForm } from './card-form/CardForm';
 export { default as LocationForm } from './location-form/LocationForm';
 export { default as PersonalForm } from './personal-form/PersonalForm';
+export { default as Location } from './location/Location';
+export { default as Card } from './card/Card';
