@@ -1,0 +1,30 @@
+@import '/src/scss/variables';
+@import '/src/scss//mixin';
+
+.c-error-wrapper {
+  @include flexDisplay(center, center);
+  flex-direction: column;
+  font-family: $latoFont;
+
+  h1 {
+    font-weight: $fontNormal;
+    font-size: 192px;
+    line-height: 286px;
+    letter-spacing: $letterSpacing;
+    color: $purpleColor;
+  }
+
+  p {
+    font-weight: $fontNormal;
+    font-size: 32px;
+    line-height: $lineHeight5xl;
+    letter-spacing: $letterSpacing;
+    color: $darkBlackColor;
+  }
+
+  button{
+    margin-top: 1rem;
+    border: 2px solid $purpleColor;
+    width: 10rem;
+  }
+}

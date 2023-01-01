@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Profile, Seller, Bids, Wishlist, Settings } from 'components';
+import { Error } from 'pages';
 import { ProfileIcon, SellerIcon, BidIcon } from 'assets/icons';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { CiSettings } from 'react-icons/ci';
@@ -10,6 +11,7 @@ import EN_STRINGS from 'translation/en';
 
 import './my-account.scss';
 import classNames from 'classnames';
+import { useUser } from 'hooks/useUser';
 
 type Props = {
   children?: React.ReactNode;
@@ -53,6 +55,8 @@ const MyAccount = () => {
   const [navbarElements, setNavbarElements] = useState(initialNavbarElements);
   const [page, setPage] = useState<JSX.Element>();
 
+  const { isUserLoggedIn } = useUser();
+
   const changeActivePage = (i: number) => {
     const newState = navbarElements.map((element, index) => {
       if (index === i) {
@@ -87,6 +91,10 @@ const MyAccount = () => {
   useEffect(() => {
     setPage(<Profile />);
   }, []);
+
+  if (!isUserLoggedIn()) {
+    return <Error />;
+  }
 
   return (
     <div className='c-my-account-wrapper'>

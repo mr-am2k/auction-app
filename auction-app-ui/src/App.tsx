@@ -15,12 +15,24 @@ import {
   Register,
   Login,
   MyAccount,
+  Error,
 } from './pages';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import { ROUTES } from './util/routes';
 import { LOCAL_STORAGE } from 'util/constants';
 
 import './app.scss';
+
+const ROUTES_WITH_NAVBAR = [
+  '/',
+  ROUTES.ABOUT_US,
+  ROUTES.ADD_PRODUCT,
+  ROUTES.MY_ACCOUNT,
+  ROUTES.PRIVACY_AND_POLICY,
+  ROUTES.PRODUCT,
+  ROUTES.SHOP,
+  ROUTES.TERMS_AND_CONDITIONS,
+];
 
 const App = () => {
   const location = useLocation();
@@ -45,7 +57,7 @@ const App = () => {
       <FormProvider>
         <Header />
 
-        {![ROUTES.REGISTER, ROUTES.LOGIN].includes(location.pathname) && (
+        {ROUTES_WITH_NAVBAR.includes(location.pathname) && (
           <>
             <Navbar />
             <NavbarTracker />
@@ -70,12 +82,16 @@ const App = () => {
                 <Route path='/' element={<Home />} />
                 <Route
                   path={`${ROUTES.PRODUCT}/:id`}
-                  element={<SingleProduct />}
+                  element={
+                    <>
+                      <Navbar />
+                      <NavbarTracker />
+                      <SingleProduct />
+                    </>
+                  }
                 />
-                <Route
-                  path={ROUTES.MY_ACCOUNT}
-                  element={<MyAccount />}
-                />
+                <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
+                <Route path='*' element={<Error />} />
               </Routes>
             </main>
           </>
