@@ -137,6 +137,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "You can't add subcategory to subcategory!"));
     }
 
+    @ExceptionHandler(InvalidCategoryIdException.class)
+    public ResponseEntity<Object> handleInvalidCategoryIdException(HttpServletRequest req, InvalidCategoryIdException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "There is no category with id: " + ex.getMessage()));
+    }
+
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
     }

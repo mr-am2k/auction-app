@@ -8,5 +8,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CategoryJpaRepository extends JpaRepository<CategoryEntity, UUID> {
-    boolean existsByParentCategoryId(UUID id);
+    boolean existsById(UUID id);
 }
