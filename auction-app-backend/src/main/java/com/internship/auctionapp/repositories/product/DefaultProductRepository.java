@@ -6,7 +6,6 @@ import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateProductRequest;
 
-import com.internship.auctionapp.services.bid.DefaultBidService;
 import org.modelmapper.ModelMapper;
 
 import org.slf4j.Logger;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
@@ -40,7 +38,7 @@ public class DefaultProductRepository implements ProductRepository {
     @Override
     public List<Product> getAllProducts() {
         return productJpaRepository.findAll().stream()
-                .map(product -> product.toDomainModel())
+                .map(ProductEntity::toDomainModel)
                 .collect(Collectors.toList());
     }
 

@@ -1,6 +1,5 @@
 package com.internship.auctionapp.services.product;
 
-import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.ProductNotFoundException;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Product;

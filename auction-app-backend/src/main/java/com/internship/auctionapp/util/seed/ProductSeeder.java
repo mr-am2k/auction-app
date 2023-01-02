@@ -1,7 +1,11 @@
 package com.internship.auctionapp.util.seed;
 
+import com.internship.auctionapp.entities.CategoryEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.entities.UserEntity;
+import com.internship.auctionapp.models.Category;
+import com.internship.auctionapp.repositories.card.CardJpaRepository;
+import com.internship.auctionapp.repositories.category.CategoryJpaRepository;
 import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.util.UserRole;
@@ -31,11 +35,17 @@ public class ProductSeeder implements CommandLineRunner {
             "Nam et tincidunt augue. Vivamus quis malesuada velit. In hac habitasse platea dictumst. ";
 
     String USER_ID = "ccd5d47b-a868-4a3d-ba39-6e966ccaa24e";
+    private final CategoryJpaRepository categoryJpaRepository;
+    private final CardJpaRepository cardJpaRepository;
 
-    public ProductSeeder(ProductJpaRepository productRepository, UserJpaRepository userRepository, PasswordEncoder encoder) {
+    public ProductSeeder(ProductJpaRepository productRepository, UserJpaRepository userRepository, PasswordEncoder encoder,
+                         CategoryJpaRepository categoryJpaRepository,
+                         CardJpaRepository cardJpaRepository) {
         this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.encoder = encoder;
+        this.categoryJpaRepository = categoryJpaRepository;
+        this.cardJpaRepository = cardJpaRepository;
     }
 
     @Override
@@ -62,6 +72,14 @@ public class ProductSeeder implements CommandLineRunner {
 
             final UserEntity user1 = userRepository.findAll().get(0);
 
+            final CategoryEntity category = new CategoryEntity();
+
+            category.setName("Woman");
+
+            categoryJpaRepository.save(category);
+
+            final CategoryEntity category1 = categoryJpaRepository.findAll().get(0);
+
             final ProductEntity product1 = new ProductEntity("Running Shoes",
                     PRODUCT_DESCRIPTION,
                     List.of("https://media.cntraveler.com/photos/62e7cbd7af14e65bfedc7cd0/master/w_2100,h_1500,c_limit/" +
@@ -71,7 +89,7 @@ public class ProductSeeder implements CommandLineRunner {
                                     "run-flat-footed-runningshoes-1642804867.jpg"),
                     55.50,
                     ZonedDateTime.of(LocalDateTime.of(2023, 12, 12, 19, 30, 40), ZoneOffset.UTC),
-                    user1);
+                    user1, category1);
 
             final ProductEntity product2 = new ProductEntity("Black shirt",
                     PRODUCT_DESCRIPTION,
@@ -84,7 +102,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     25.25,
                     ZonedDateTime.of(LocalDateTime.of(2023, 05, 11, 11, 20, 23), ZoneOffset.UTC),
-                    user1);
+                    user1, category1);
 
             final ProductEntity product3 = new ProductEntity("Nike Air Force",
                     PRODUCT_DESCRIPTION,
@@ -97,7 +115,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     125.50,
                     ZonedDateTime.of(LocalDateTime.of(2022, 12, 12, 15, 15, 15), ZoneOffset.UTC),
-                    user1);
+                    user1, category1);
 
             final ProductEntity product4 = new ProductEntity("Coat",
                     PRODUCT_DESCRIPTION,
@@ -109,7 +127,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     91.99,
                     ZonedDateTime.of(LocalDateTime.of(2023, 4, 9, 21, 14, 44), ZoneOffset.UTC),
-                    user1);
+                    user1, category1);
 
             final ProductEntity product5 = new ProductEntity("Summer shirt",
                     PRODUCT_DESCRIPTION,
@@ -121,7 +139,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     15.50,
                     ZonedDateTime.of(LocalDateTime.of(2024, 12, 12, 12, 12, 12), ZoneOffset.UTC),
-                    user1);
+                    user1, category1);
 
             final ProductEntity product6 = new ProductEntity("Shorts",
                     PRODUCT_DESCRIPTION,
@@ -135,7 +153,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     25.25,
                     ZonedDateTime.of(LocalDateTime.of(2024, 9, 12, 9, 45, 11), ZoneOffset.UTC),
-                    user1);
+                    user1, category1);
 
             final ProductEntity product7 = new ProductEntity("Jacket",
                     PRODUCT_DESCRIPTION,
@@ -148,7 +166,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     75.50,
                     ZonedDateTime.of(LocalDateTime.of(2023, 3, 3, 3, 3, 3), ZoneOffset.UTC),
-                    user1);
+                    user1, category1);
 
             final ProductEntity product8 = new ProductEntity("Simpson Socks",
                     PRODUCT_DESCRIPTION,
@@ -163,7 +181,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     9.50,
                     ZonedDateTime.of(LocalDateTime.of(2023, 11, 11, 12, 12, 11), ZoneOffset.UTC),
-                    user1);
+                    user1, category1);
 
             final ProductEntity product9 = new ProductEntity("Ring",
                     PRODUCT_DESCRIPTION,
@@ -174,7 +192,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     12.45,
                     LocalDateTime.of(2025, 12, 12, 7, 23, 12).atZone(ZoneOffset.UTC),
-                    user1);
+                    user1, category1);
 
             final ProductEntity product10 = new ProductEntity("Watch",
                     PRODUCT_DESCRIPTION,
@@ -184,7 +202,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     85.50,
                     ZonedDateTime.of(LocalDateTime.of(2024, 7, 12, 14, 12, 9), ZoneOffset.UTC),
-                    user1);
+                    user1, category1);
 
             productRepository.save(product1);
             productRepository.save(product2);

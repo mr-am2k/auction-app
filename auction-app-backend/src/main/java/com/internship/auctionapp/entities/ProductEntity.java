@@ -1,6 +1,7 @@
 package com.internship.auctionapp.entities;
 
 import com.internship.auctionapp.models.Bid;
+import com.internship.auctionapp.models.Category;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.models.ProductWithoutBid;
 import com.internship.auctionapp.util.DateUtils;
@@ -88,14 +89,19 @@ public class ProductEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    @ManyToOne
+    @JoinColumn(name = "categoryId", nullable = false)
+    private CategoryEntity category;
+
     public ProductEntity(String name, String description, List<String> imageURLs, Double startPrice,
-                         ZonedDateTime expirationDateTime, UserEntity user) {
+                         ZonedDateTime expirationDateTime, UserEntity user, CategoryEntity category) {
         this.name = name;
         this.description = description;
         this.imageURLs = imageURLs;
         this.startPrice = startPrice;
         this.expirationDateTime = expirationDateTime;
         this.user = user;
+        this.category = category;
     }
 
     public ProductEntity(
@@ -106,6 +112,7 @@ public class ProductEntity {
             ZonedDateTime creationDateTime,
             ZonedDateTime expirationDateTime,
             UserEntity user,
+            CategoryEntity category,
             UUID highestBidder,
             Double highestBid
     ) {
@@ -116,6 +123,7 @@ public class ProductEntity {
         this.creationDateTime = creationDateTime;
         this.expirationDateTime = expirationDateTime;
         this.user = user;
+        this.category = category;
         this.highestBidder = highestBidder;
         this.highestBid = highestBid;
     }
@@ -123,7 +131,7 @@ public class ProductEntity {
     public Product toDomainModel() {
         List<Bid> bids = this.bidEntities != null ?
                 this.bidEntities.stream()
-                        .map(bidEntity -> bidEntity.toDomainModel()).collect(Collectors.toList()) : new ArrayList<>();
+                        .map(BidEntity::toDomainModel).collect(Collectors.toList()) : new ArrayList<>();
 
         ProductEntity productEntity = new ProductEntity(
                 this.name,
@@ -133,6 +141,7 @@ public class ProductEntity {
                 this.creationDateTime,
                 this.expirationDateTime,
                 this.user,
+                this.category,
                 this.highestBidder,
                 this.highestBid
         );
@@ -162,6 +171,7 @@ public class ProductEntity {
         productWithoutBid.setRemainingTime(remainingTime);
         productWithoutBid.setNumberOfBids(this.bidEntities.size());
         productWithoutBid.setUser(this.user.toDomainModel());
+        productWithoutBid.setCategory(this.category.toDomainModel());
         productWithoutBid.setHighestBidder(this.highestBidder);
         productWithoutBid.setHighestBid(this.highestBid);
 

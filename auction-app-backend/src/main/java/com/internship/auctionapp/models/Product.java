@@ -37,6 +37,8 @@ public class Product {
 
     private User user;
 
+    private Category category;
+
     private UUID highestBidder;
 
     private Double highestBid;
@@ -52,6 +54,7 @@ public class Product {
         this.bids = bids;
         this.remainingTime = remainingTime;
         this.user = productEntity.getUser().toDomainModel();
+        this.category = productEntity.getCategory().toDomainModel();
         this.highestBidder = productEntity.getHighestBidder();
         this.highestBid = productEntity.getHighestBid();
     }

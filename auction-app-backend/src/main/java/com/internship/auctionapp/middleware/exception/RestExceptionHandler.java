@@ -132,6 +132,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Product auction time expired!"));
     }
 
+    @ExceptionHandler(SubcategoryAlreadyExistsException.class)
+    public ResponseEntity<Object> handleSubcategoryAlredyExists(HttpServletRequest req, SubcategoryAlreadyExistsException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "You can't add subcategory to subcategory!"));
+    }
+
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
     }

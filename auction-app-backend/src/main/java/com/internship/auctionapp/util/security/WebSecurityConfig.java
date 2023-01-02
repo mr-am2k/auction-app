@@ -78,7 +78,7 @@ public class WebSecurityConfig {
                 .authorizeRequests().antMatchers(SWAGGER_WHITELIST).permitAll()
                 .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/**").permitAll()
-                .antMatchers("/api/v1/**").hasAnyAuthority(UserRole.ROLE_USER.getValue())
+                .antMatchers("/api/v1/**").hasAnyAuthority(UserRole.ROLE_USER.getValue(), UserRole.ROLE_ADMIN.getValue())
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());

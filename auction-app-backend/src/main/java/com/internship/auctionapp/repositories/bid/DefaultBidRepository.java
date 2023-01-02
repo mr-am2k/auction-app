@@ -5,8 +5,8 @@ import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.models.BidWithProduct;
-import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
+import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.requests.CreateBidRequest;
 
 import org.springframework.stereotype.Repository;

@@ -3,7 +3,6 @@ package com.internship.auctionapp.services.bid;
 import com.internship.auctionapp.middleware.exception.BidCreationFailedException;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanHighestBidPriceException;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanProductPriceException;
-import com.internship.auctionapp.middleware.exception.BidNotFoundException;
 import com.internship.auctionapp.middleware.exception.ProductExpiredException;
 import com.internship.auctionapp.models.BidWithProduct;
 import com.internship.auctionapp.models.Product;
@@ -13,7 +12,6 @@ import com.internship.auctionapp.requests.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.services.notification.NotificationService;
-import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.NotificationType;
 
 import com.internship.auctionapp.util.security.jwt.JwtUtils;
@@ -23,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
