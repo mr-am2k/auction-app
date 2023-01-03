@@ -4,7 +4,7 @@ import categoryService from 'services/categoryService';
 
 import { useForm } from 'hooks/useForm';
 
-import { Dropdown, Textarea } from 'components';
+import { Dropdown, ImageUploader, Textarea } from 'components';
 import Input from 'components/input/Input';
 import Form from 'components/form/Form';
 import { FORM, INPUT_TYPE_TEXT } from 'util/constants';
@@ -106,6 +106,8 @@ const ItemForm = () => {
           message={EN_STRINGS.ITEM_FORM.DESCRIPTION_MESSAGE}
         />
       </div>
+
+      <ImageUploader name='images'/>
 
       <button onClick={response}>Click me</button>
     </div>

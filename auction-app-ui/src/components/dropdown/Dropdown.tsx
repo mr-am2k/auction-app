@@ -71,9 +71,10 @@ const Dropdown: React.FC<Props> = ({
           'c-dropdown': true,
           'c-error-border': !existingError,
         })}
+        value={placeholder}
         onChange={onDropdownChange}
       >
-        <option disabled selected>
+        <option disabled>
           {placeholder}
         </option>
 
