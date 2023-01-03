@@ -153,6 +153,11 @@ const EN_STRINGS = {
     MESSAGE: 'Ooops! Looks like the page is Not Found',
     BUTTON_MESSAGE: 'GO BACK',
   },
+
+  ITEM_FORM: {
+    ADD_ITEM: 'ADD ITEM',
+    DESCRIPTION_MESSAGE: '100 words (700 characters)',
+  },
 };
 
 export default EN_STRINGS;

@@ -18,3 +18,4 @@ export { default as Location } from './location/Location';
 export { default as Card } from './card/Card';
 export { default as ItemForm } from './item-form/ItemForm';
 export { default as Dropdown } from './dropdown/Dropdown';
+export { default as Textarea } from './textarea/Textarea';

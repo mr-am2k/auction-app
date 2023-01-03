@@ -1,20 +1,55 @@
-import Input from 'components/input/Input';
-import './item-form.scss';
-import { FORM, INPUT_TYPE_TEXT } from 'util/constants';
-import Form from 'components/form/Form';
+import { useEffect, useState } from 'react';
+
+import categoryService from 'services/categoryService';
+
 import { useForm } from 'hooks/useForm';
-import { useState } from 'react';
-import { Dropdown } from 'components';
+
+import { Dropdown, Textarea } from 'components';
+import Input from 'components/input/Input';
+import Form from 'components/form/Form';
+import { FORM, INPUT_TYPE_TEXT } from 'util/constants';
+import { Category } from 'models/category';
+import { Option } from 'models/option';
+
+import './item-form.scss';
+import EN_STRINGS from 'translation/en';
 
 const ItemForm = () => {
-  const { fieldValues, fieldValidationResults, validateForm, setFieldValues } = useForm();
-  const [selectedOption, setSelectedOption] = useState<string>();
+  const { validateForm, fieldValidationResults, fieldValues } = useForm();
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
-    setFieldValues({
-      ...fieldValues,
-      startDate: event.target.value,
+  const [allCategories, setAllCategories] = useState<Category[]>();
+  const [categoryOptions, setCategoryOptions] = useState<Option[]>([]);
+  const [subCategoryOptions, setSubcategoryOptions] = useState<Option[]>([]);
+
+  const getCategories = () => {
+    categoryService.getCategories().then((categories) => {
+      setAllCategories(categories);
+
+      categories.forEach((category) => {
+        if (category.parentCategoryId === null) {
+          const option: Option = {
+            value: category.id,
+            label: category.name,
+          };
+
+          setCategoryOptions((prevValue) => [...prevValue, option]);
+        }
+      });
+    });
+  };
+
+  const handleCategoryChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    allCategories?.forEach((category) => {
+      if (category.parentCategoryId === event.target.value) {
+        const option: Option = {
+          value: category.id,
+          label: category.name,
+        };
+
+        setSubcategoryOptions((prevValue) => [...prevValue, option]);
+      }
     });
   };
 
@@ -34,20 +69,44 @@ const ItemForm = () => {
     console.log(fieldValues);
     console.log(fieldValidationResults);
   };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
   return (
     <div className='c-item-form-wrapper'>
-      <h3>ADD ITEM</h3>
-      <Form children={nameInput} />
-      <Dropdown
-        options={[
-          { value: 'Option 1', label: 'Option 1' },
-          { value: 'Option 2', label: 'Option 2' },
-          { value: 'Option 3', label: 'Option 3' },
-        ]}
-        value={selectedOption}
-        placeholder={"Select category"}
-        onChange={handleChange}
-      />
+      <div className='c-item-form-part'>
+        <h3>{EN_STRINGS.ITEM_FORM.ADD_ITEM}</h3>
+
+        <Form children={nameInput} />
+
+        <div className='c-select-category'>
+          <Dropdown
+            options={categoryOptions}
+            name={FORM.CATEGORY}
+            placeholder={FORM.CATEGORY_PLACEHOLDER}
+            required={true}
+            onChange={handleCategoryChange}
+          />
+          <Dropdown
+            options={subCategoryOptions}
+            name={FORM.SUBCATEGORY}
+            placeholder={FORM.SUBCATEGORY_PLACEHOLDER}
+            required={true}
+            onChange={() => {}}
+          />
+        </div>
+
+        <Textarea
+          maxLength={700}
+          title={FORM.DESCRIPTION_TITLE}
+          name={FORM.DESCRIPTION}
+          required={true}
+          message={EN_STRINGS.ITEM_FORM.DESCRIPTION_MESSAGE}
+        />
+      </div>
+
       <button onClick={response}>Click me</button>
     </div>
   );

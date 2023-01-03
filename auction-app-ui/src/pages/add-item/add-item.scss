@@ -2,7 +2,7 @@
 @import '/src/scss/variables';
 
 .c-add-item-wrapper {
-  @include flexDisplay(space-between, flex-start);
+  @include flexDisplay(center, center);
   flex-direction: column;
   padding: 1rem 12rem 0;
   font-family: $latoFont;

@@ -2,28 +2,25 @@ import { useEffect } from 'react';
 
 import { useForm } from 'hooks/useForm';
 
-import { Option } from 'models/option';
-import { v4 } from 'uuid';
-
-import './dropdown.scss';
+import './textarea.scss';
 
 import classNames from 'classnames';
 
 type Props = {
   children?: React.ReactNode;
+  maxLength: number;
+  title: string;
   name: string;
-  options: Option[];
-  placeholder: string;
   required: boolean;
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  message: string;
 };
 
-const Dropdown: React.FC<Props> = ({
+const Textarea: React.FC<Props> = ({
+  maxLength,
+  title,
   name,
-  options,
-  placeholder,
   required,
-  onChange,
+  message,
 }) => {
   const {
     fieldValues,
@@ -31,18 +28,28 @@ const Dropdown: React.FC<Props> = ({
     setFieldValues,
     setFieldValidationResults,
     setAdditionalFieldsInfo,
+    validateSingleField,
   } = useForm();
 
   type ObjectKey = keyof typeof fieldValidationResults;
 
   const existingError = fieldValidationResults[name as ObjectKey]?.valid;
 
-  const onDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setFieldValues({
       ...fieldValues,
       [name]: event.target.value,
     });
-    onChange(event);
+
+    setFieldValidationResults({
+      ...fieldValidationResults,
+      [name]: validateSingleField(
+        name,
+        event.target.value,
+        undefined,
+        required
+      ),
+    });
   };
 
   useEffect(() => {
@@ -65,24 +72,20 @@ const Dropdown: React.FC<Props> = ({
   }, []);
 
   return (
-    <div className='c-dropdown-wrapper'>
-      <select
-        className={classNames({
-          'c-dropdown': true,
-          'c-error-border': !existingError,
-        })}
-        onChange={onDropdownChange}
-      >
-        <option disabled selected>
-          {placeholder}
-        </option>
+    <div className='c-textarea'>
+      <p className='c-title'>{title}</p>
 
-        {options.map((option) => (
-          <option className='c-option' key={v4()} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <textarea
+        className={classNames({
+          'c-textarea-error': !existingError,
+        })}
+        maxLength={maxLength}
+        onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+          onChange(event)
+        }
+      />
+
+      <p className='c-message'>{message}</p>
 
       {!existingError && (
         <p className='c-error-message'>
@@ -93,4 +96,4 @@ const Dropdown: React.FC<Props> = ({
   );
 };
 
-export default Dropdown;
+export default Textarea;

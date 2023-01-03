@@ -56,7 +56,13 @@ export const FORM = {
   COUNTRY_PLACEHOLDER: 'eg. Spain',
   PRODUCT: 'product',
   PRODUCT_TITLE: 'What do you sell?',
-  PRODUCT_PLACEHOLDER: 'eg. Targeal 7.1 Surround Sound Gaming Headset for PS4 '
+  PRODUCT_PLACEHOLDER: 'eg. Targeal 7.1 Surround Sound Gaming Headset for PS4 ',
+  CATEGORY: 'category',
+  CATEGORY_PLACEHOLDER: 'Select category',
+  SUBCATEGORY: 'subcategory',
+  SUBCATEGORY_PLACEHOLDER: 'Select subcategory',
+  DESCRIPTION: 'description',
+  DESCRIPTION_TITLE: 'Description',
 };
 export const LOCAL_STORAGE = {
   ACCESS_TOKEN: 'accessToken',

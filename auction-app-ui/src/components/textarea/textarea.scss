@@ -1,0 +1,43 @@
+@import '/src/scss/mixin';
+@import '/src/scss/variables';
+
+.c-textarea {
+  margin-top: 1rem;
+
+  .c-title {
+    color: $darkBlackColor;
+    margin-bottom: 0;
+  }
+
+  .c-textarea-error {
+    border: 2px solid $errorColor;
+    outline: none !important;
+  }
+
+  textarea {
+    margin-top: 1rem;
+    width: 495px;
+    height: 150px;
+    background: $lightGreyColor;
+    border: 1px solid $smokeWhiteColor;
+    font-family: $latoFont;
+    font-size: $textBase;
+
+    &:focus {
+      outline: 2px solid $purpleColor;
+    }
+  }
+
+  .c-message {
+    float: right;
+    font-weight: $fontNormal;
+    font-size: 18px;
+    line-height: 27px;
+    color: $greyColor;
+  }
+
+  .c-error-message {
+    font-family: $latoFont;
+    color: $errorColor;
+  }
+}
