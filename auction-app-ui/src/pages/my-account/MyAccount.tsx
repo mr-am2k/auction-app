@@ -104,7 +104,7 @@ const MyAccount = () => {
         </div>
 
         <div className='c-add-button'>
-          <Link to={ROUTES.ADD_PRODUCT}>
+          <Link to={`${ROUTES.MY_ACCOUNT}/${ROUTES.ADD_PRODUCT}`}>
             <button>+ ADD ITEM</button>
           </Link>
         </div>

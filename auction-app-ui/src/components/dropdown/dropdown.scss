@@ -1,0 +1,13 @@
+@import '/src/scss/mixin';
+@import '/src/scss/variables';
+
+.c-dropdown {
+  @include flexDisplay(center, center);
+  flex-direction: column;
+  padding: 12px 24px;
+  width: 240px;
+  height: 45px;
+  background: #ffffff;
+  border: 2px solid #d8d8d8;
+  font-family: $latoFont;
+}

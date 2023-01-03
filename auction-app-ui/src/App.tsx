@@ -15,6 +15,7 @@ import {
   Register,
   Login,
   MyAccount,
+  AddItem,
   Error,
 } from './pages';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
@@ -56,7 +57,6 @@ const App = () => {
   useEffect(() => {
     setInterval(() => {
       authService.refreshToken().then((response) => {
-        console.log(response)
         storageService.remove(LOCAL_STORAGE.ACCESS_TOKEN);
         storageService.add(LOCAL_STORAGE.ACCESS_TOKEN, response.accessToken);
       });
@@ -102,6 +102,16 @@ const App = () => {
                   }
                 />
                 <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
+                <Route
+                  path={`${ROUTES.MY_ACCOUNT}/${ROUTES.ADD_PRODUCT}`}
+                  element={
+                    <>
+                      <Navbar />
+                      <NavbarTracker />
+                      <AddItem />
+                    </>
+                  }
+                />
                 <Route path='*' element={<Error />} />
               </Routes>
             </main>
