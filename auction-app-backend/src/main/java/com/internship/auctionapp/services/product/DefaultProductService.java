@@ -80,14 +80,28 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Product addProduct(CreateProductRequest createProductRequest) {
-        if (DateUtils.isInPast(createProductRequest.getExpirationDateTime())) {
+    public Product addProduct(CreateProductRequest createProductRequest, HttpServletRequest request) {
+        final LocalDateTime expirationDateTime = createProductRequest.getExpirationDateTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
+
+        if (DateUtils.isInPast(expirationDateTime)) {
             LOGGER.error("Product expiration date is before product creation date. Product={}", createProductRequest);
 
             throw new ProductExpirationDateException();
         }
 
-        Product savedProduct = productRepository.addProduct(createProductRequest);
+        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
+
+        String token = null;
+
+        if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER)) {
+            token = requestTokenHeader.substring(BEARER.length());
+        }
+
+        String username = jwtUtils.getEmailFromJwtToken(token, true);
+
+
+
+        Product savedProduct = productRepository.addProduct(createProductRequest, username);
 
         LOGGER.info("Successfully added product={} to the database.", savedProduct);
 

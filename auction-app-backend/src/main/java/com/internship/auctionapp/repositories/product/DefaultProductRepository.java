@@ -1,8 +1,10 @@
 package com.internship.auctionapp.repositories.product;
 
+import com.internship.auctionapp.entities.CategoryEntity;
 import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.repositories.category.CategoryJpaRepository;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateProductRequest;
 
@@ -15,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
@@ -29,10 +33,13 @@ public class DefaultProductRepository implements ProductRepository {
     private final ProductJpaRepository productJpaRepository;
 
     private final UserJpaRepository userJpaRepository;
+    private final CategoryJpaRepository categoryJpaRepository;
 
-    public DefaultProductRepository(ProductJpaRepository productJpaRepository, UserJpaRepository userJpaRepository) {
+    public DefaultProductRepository(ProductJpaRepository productJpaRepository, UserJpaRepository userJpaRepository,
+                                    CategoryJpaRepository categoryJpaRepository) {
         this.productJpaRepository = productJpaRepository;
         this.userJpaRepository = userJpaRepository;
+        this.categoryJpaRepository = categoryJpaRepository;
     }
 
     @Override
@@ -43,16 +50,23 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public Product addProduct(CreateProductRequest createProductRequest) {
+    public Product addProduct(CreateProductRequest createProductRequest, String username) {
         ProductEntity productEntity = new ProductEntity();
+
+        final LocalDateTime creationDateTime = createProductRequest.getCreationDateTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
+        final LocalDateTime expirationDateTime = createProductRequest.getExpirationDateTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
 
         productEntity.setName(createProductRequest.getName());
         productEntity.setDescription(createProductRequest.getDescription());
         productEntity.setImageURLs(createProductRequest.getImageURLs());
         productEntity.setStartPrice(createProductRequest.getStartPrice());
-        productEntity.setExpirationDateTime(createProductRequest.getExpirationDateTime().atZone(ZoneOffset.UTC));
+        productEntity.setCreationDateTime(creationDateTime.atZone(ZoneOffset.UTC));
+        productEntity.setExpirationDateTime(expirationDateTime.atZone(ZoneOffset.UTC));
 
-        final UserEntity user = userJpaRepository.findById(createProductRequest.getUserId()).get();
+        CategoryEntity category = categoryJpaRepository.findById(createProductRequest.getCategoryId()).get();
+        productEntity.setCategory(category);
+
+        final UserEntity user = userJpaRepository.findByUsername(username);
 
         productEntity.setUser(user);
 

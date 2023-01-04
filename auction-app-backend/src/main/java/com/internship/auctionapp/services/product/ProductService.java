@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface ProductService {
     List<Product> getAllProducts();
 
-    Product addProduct(CreateProductRequest createProductRequest);
+    Product addProduct(CreateProductRequest createProductRequest, HttpServletRequest request);
 
     Product getSingleProduct(UUID id);
 

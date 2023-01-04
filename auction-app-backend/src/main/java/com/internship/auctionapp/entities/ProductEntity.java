@@ -62,7 +62,7 @@ public class ProductEntity {
     private Double startPrice;
 
     @Column(name = "creation_date_time", nullable = false, columnDefinition = "timestamp with time zone")
-    private ZonedDateTime creationDateTime = ZonedDateTime.now(ZoneOffset.UTC);
+    private ZonedDateTime creationDateTime;
 
     @Column(name = "expiration_date_time", nullable = false, columnDefinition = "timestamp with time zone")
     private ZonedDateTime expirationDateTime;
@@ -94,11 +94,13 @@ public class ProductEntity {
     private CategoryEntity category;
 
     public ProductEntity(String name, String description, List<String> imageURLs, Double startPrice,
-                         ZonedDateTime expirationDateTime, UserEntity user, CategoryEntity category) {
+                         ZonedDateTime creationDateTime, ZonedDateTime expirationDateTime,
+                         UserEntity user, CategoryEntity category) {
         this.name = name;
         this.description = description;
         this.imageURLs = imageURLs;
         this.startPrice = startPrice;
+        this.creationDateTime = creationDateTime;
         this.expirationDateTime = expirationDateTime;
         this.user = user;
         this.category = category;

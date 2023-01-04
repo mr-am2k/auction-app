@@ -29,8 +29,8 @@ public class ProductController {
 
     @PostMapping()
     @SecurityRequirement(name = "Bearer Authentication")
-    public Product addProduct(@Valid @RequestBody CreateProductRequest createProductRequest) {
-        return productService.addProduct(createProductRequest);
+    public Product addProduct(@Valid @RequestBody CreateProductRequest createProductRequest, HttpServletRequest request) {
+        return productService.addProduct(createProductRequest, request);
     }
 
     @GetMapping()

@@ -15,7 +15,7 @@ import java.util.UUID;
 public interface ProductRepository {
     List<Product> getAllProducts();
 
-    Product addProduct(CreateProductRequest createProductRequest);
+    Product addProduct(CreateProductRequest createProductRequest, String username);
 
     Product getSingleProduct(UUID id);
 

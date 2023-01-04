@@ -88,6 +88,7 @@ public class ProductSeeder implements CommandLineRunner {
                             "https://hips.hearstapps.com/hmg-prod/images/" +
                                     "run-flat-footed-runningshoes-1642804867.jpg"),
                     55.50,
+                    ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2023, 12, 12, 19, 30, 40), ZoneOffset.UTC),
                     user1, category1);
 
@@ -101,6 +102,7 @@ public class ProductSeeder implements CommandLineRunner {
                                     "w_2000,h_1334,c_limit/sunspel.jpg"
                     ),
                     25.25,
+                    ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2023, 05, 11, 11, 20, 23), ZoneOffset.UTC),
                     user1, category1);
 
@@ -114,6 +116,7 @@ public class ProductSeeder implements CommandLineRunner {
                                     "crop=pad&pad_color=FFF&format=jpeg&trim=color&trimcolor=FFF&w=780&h=838"
                     ),
                     125.50,
+                    ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2022, 12, 12, 15, 15, 15), ZoneOffset.UTC),
                     user1, category1);
 
@@ -126,6 +129,7 @@ public class ProductSeeder implements CommandLineRunner {
                             "https://media.boohoo.com/i/boohoo/m7625914198143_black_xl_1.jpeg"
                     ),
                     91.99,
+                    ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2023, 4, 9, 21, 14, 44), ZoneOffset.UTC),
                     user1, category1);
 
@@ -138,6 +142,7 @@ public class ProductSeeder implements CommandLineRunner {
                                     "q=tbn:ANd9GcRbB04TMVGpXE-ehT9imIF5ElfdrS6T6tHdVA&usqp=CAU"
                     ),
                     15.50,
+                    ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2024, 12, 12, 12, 12, 12), ZoneOffset.UTC),
                     user1, category1);
 
@@ -152,6 +157,7 @@ public class ProductSeeder implements CommandLineRunner {
                                     "9890eac9b882d8eab76fc4de618372e9/A/V/AV8HN_BLK_EE_1.jpg"
                     ),
                     25.25,
+                    ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2024, 9, 12, 9, 45, 11), ZoneOffset.UTC),
                     user1, category1);
 
@@ -165,6 +171,7 @@ public class ProductSeeder implements CommandLineRunner {
                                     "Mens-Jacket-Keanu-BlackMatte-091721-FrontZipped.jpg?v=1632508562"
                     ),
                     75.50,
+                    ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2023, 3, 3, 3, 3, 3), ZoneOffset.UTC),
                     user1, category1);
 
@@ -180,6 +187,7 @@ public class ProductSeeder implements CommandLineRunner {
                                     "the-simpsonstm-gender-neutral-socks-for-adults.jpg"
                     ),
                     9.50,
+                    ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2023, 11, 11, 12, 12, 11), ZoneOffset.UTC),
                     user1, category1);
 
@@ -191,6 +199,7 @@ public class ProductSeeder implements CommandLineRunner {
                             "https://i.insider.com/5c9df52092c88634ba266b74?width=1000&format=jpeg&auto=webp"
                     ),
                     12.45,
+                    ZonedDateTime.now(ZoneOffset.UTC),
                     LocalDateTime.of(2025, 12, 12, 7, 23, 12).atZone(ZoneOffset.UTC),
                     user1, category1);
 
@@ -201,6 +210,7 @@ public class ProductSeeder implements CommandLineRunner {
                             "https://5.imimg.com/data5/FN/FI/MY-34063937/mens-hand-watch-500x500.jpg"
                     ),
                     85.50,
+                    ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2024, 7, 12, 14, 12, 9), ZoneOffset.UTC),
                     user1, category1);
 
