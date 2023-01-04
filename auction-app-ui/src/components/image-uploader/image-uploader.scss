@@ -1,0 +1,38 @@
+@import '/src/scss/mixin';
+@import '/src/scss/variables';
+
+.c-image-upload {
+  @include flexDisplay(center, center);
+  flex-direction: column;
+  width: 500px;
+  border: 2px dashed $smokeWhiteColor;
+  font-family: $latoFont;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  .c-drop-active,
+  .c-added-image,
+  h3 {
+    color: $purpleColor;
+  }
+
+  p {
+    color: $darkBlackColor;
+    font-weight: $fontBold;
+  }
+
+  .c-limit-message {
+    color: $greyColor;
+    font-weight: $fontNormal;
+  }
+
+  .c-error-message {
+    color: $errorColor;
+  }
+}
+
+.c-error-border {
+  border: 2px dashed $errorColor;
+}

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useForm } from 'hooks/useForm';
 
@@ -33,15 +33,21 @@ const Dropdown: React.FC<Props> = ({
     setAdditionalFieldsInfo,
   } = useForm();
 
+  const [selectedOption, setSelectedOption] = useState<string>();
+
   type ObjectKey = keyof typeof fieldValidationResults;
 
   const existingError = fieldValidationResults[name as ObjectKey]?.valid;
+
+  console.log(name);
+  console.log(options);
 
   const onDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFieldValues({
       ...fieldValues,
       [name]: event.target.value,
     });
+    setSelectedOption(event.target.value);
     onChange(event);
   };
 
@@ -71,12 +77,11 @@ const Dropdown: React.FC<Props> = ({
           'c-dropdown': true,
           'c-error-border': !existingError,
         })}
-        value={placeholder}
+        defaultValue={placeholder}
+        value={selectedOption ? selectedOption : placeholder}
         onChange={onDropdownChange}
       >
-        <option disabled>
-          {placeholder}
-        </option>
+        <option disabled>{placeholder}</option>
 
         {options.map((option) => (
           <option className='c-option' key={v4()} value={option.value}>

@@ -76,11 +76,13 @@ const EN_STRINGS = {
     PASSWORD:
       'Password needs to have 8 characters, one upper case and one lower case letter and one special character',
     EMAIL: 'The email should be in format: user@domain.com',
+    EMAIL_LENGTH: "The email can't be over 255 characters",
     CARD_NUMBER: 'The card number needs to contain exactly 16 numbers.',
     CARD_CVV: 'The card CVV needs to contain exactly 3 numbers.',
     DATE_OF_BIRTH: 'You need to be over 18 years.',
     CARD_EXPIRATION_DATE: 'Your card needs to be at least one year valid!',
     PHONE_NUMBER: 'Phone number needs to be between 5 and 15 digits!',
+    PRODUCT_IMAGES: 'You need to upload at least 3 photos!',
   },
 
   MY_ACCOUNT: {
@@ -157,6 +159,8 @@ const EN_STRINGS = {
   ITEM_FORM: {
     ADD_ITEM: 'ADD ITEM',
     DESCRIPTION_MESSAGE: '100 words (700 characters)',
+    CANCEL_BUTTON: 'CANCEL',
+    NEXT_BUTTON: 'NEXT',
   },
 };
 

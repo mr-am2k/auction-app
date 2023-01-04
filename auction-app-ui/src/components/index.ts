@@ -20,3 +20,4 @@ export { default as ItemForm } from './item-form/ItemForm';
 export { default as Dropdown } from './dropdown/Dropdown';
 export { default as Textarea } from './textarea/Textarea';
 export { default as ImageUploader } from './image-uploader/ImageUploader';
+export { default as Prices } from './prices/Prices';

@@ -9,6 +9,13 @@ export const validate = (email: string) => {
     };
   }
 
+  if(email.length > 255){
+    return {
+      valid: false,
+      message: EN_STRINGS.ERROR_MESSAGE.EMAIL_LENGTH,
+    };
+  }
+
   return {
     valid: true,
   };
