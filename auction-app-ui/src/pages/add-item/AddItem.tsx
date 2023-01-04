@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'hooks/useForm';
 
 const AddItem = () => {
-  const { validateForm, resetFieldValues, setFieldValidationResults } =
+  const { fieldValues, validateForm, resetFieldValues, setFieldValidationResults } =
     useForm();
   const [pageNumber, setPageNumber] = useState(1);
 
@@ -19,6 +19,8 @@ const AddItem = () => {
   const handlePrevious = () => {
     setPageNumber((prevNumber) => prevNumber - 1);
   };
+
+  console.log(fieldValues)
 
   useEffect(() => {
     return () => {

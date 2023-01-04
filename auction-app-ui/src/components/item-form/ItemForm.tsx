@@ -13,6 +13,7 @@ import { Option } from 'models/option';
 import EN_STRINGS from 'translation/en';
 
 import './item-form.scss';
+import { useForm } from 'hooks/useForm';
 
 type Props = {
   children?: React.ReactNode;
@@ -23,6 +24,8 @@ const ItemForm: React.FC<Props> = ({ handleNext }) => {
   const [allCategories, setAllCategories] = useState<Category[]>();
   const [categoryOptions, setCategoryOptions] = useState<Option[]>([]);
   const [subCategoryOptions, setSubcategoryOptions] = useState<Option[]>([]);
+
+  const { fieldValues } = useForm();
 
   const getCategories = () => {
     categoryService.getCategories().then((categories) => {
@@ -65,6 +68,7 @@ const ItemForm: React.FC<Props> = ({ handleNext }) => {
       name={FORM.PRODUCT}
       title={FORM.PRODUCT_TITLE}
       placeholder={FORM.PRODUCT_PLACEHOLDER}
+      value={fieldValues[FORM.PRODUCT]}
       required
     />
   );
@@ -103,10 +107,14 @@ const ItemForm: React.FC<Props> = ({ handleNext }) => {
           name={FORM.DESCRIPTION}
           required={true}
           message={EN_STRINGS.ITEM_FORM.DESCRIPTION_MESSAGE}
+          value={fieldValues[FORM.DESCRIPTION]}
         />
       </div>
 
-      <ImageUploader name='images' />
+      <ImageUploader
+        name='images'
+        value={fieldValues['images'] ? fieldValues['images'] : []}
+      />
 
       <div className='c-option-buttons'>
         <Link to={ROUTES.MY_ACCOUNT}>

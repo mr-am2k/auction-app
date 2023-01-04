@@ -8,9 +8,10 @@ import classNames from 'classnames';
 
 interface ImageUploaderProps extends DropzoneProps {
   name: string;
+  value: File[]
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ onDrop, name }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({ onDrop, name, value }) => {
   const {
     fieldValues,
     fieldValidationResults,
@@ -97,6 +98,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onDrop, name }) => {
         },
       };
     });
+
+    setUploadedImages(value)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

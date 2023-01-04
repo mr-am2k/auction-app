@@ -13,6 +13,7 @@ type Props = {
   name: string;
   required: boolean;
   message: string;
+  value?: string;
 };
 
 const Textarea: React.FC<Props> = ({
@@ -21,6 +22,7 @@ const Textarea: React.FC<Props> = ({
   name,
   required,
   message,
+  value,
 }) => {
   const {
     fieldValues,
@@ -80,6 +82,7 @@ const Textarea: React.FC<Props> = ({
           'c-textarea-error': !existingError,
         })}
         maxLength={maxLength}
+        value={value}
         onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
           onChange(event)
         }

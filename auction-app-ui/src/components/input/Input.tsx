@@ -16,6 +16,7 @@ type Props = {
   required?: boolean;
   disabled?: boolean;
   optionalValidator?: string;
+  value?: string | number | undefined;
   validator?: (param: string, param2?: string) => void;
 };
 
@@ -28,6 +29,7 @@ const Input: React.FC<Props> = ({
   required,
   disabled,
   optionalValidator,
+  value,
   validator,
 }) => {
   type ObjectKey = keyof typeof fieldValidationResults;
@@ -106,6 +108,7 @@ const Input: React.FC<Props> = ({
         pattern={pattern}
         required={required}
         disabled={disabled}
+        value={value ? value : ''}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           inputFieldChange(event);
         }}

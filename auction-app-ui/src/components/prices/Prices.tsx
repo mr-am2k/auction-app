@@ -9,6 +9,7 @@ import { validate as validateStartDate } from 'validators/validateStartDate';
 import { validate as validateEndDate } from 'validators/validateEndDate';
 
 import EN_STRINGS from 'translation/en';
+import { useForm } from 'hooks/useForm';
 
 type Props = {
     children?: React.ReactNode;
@@ -19,6 +20,8 @@ type Props = {
 
 const Prices:React.FC<Props> = ({handleNext, handlePrevious}) => {
 
+  const {fieldValues} = useForm();
+
   const children = [
     <Input
       key={FORM.PRICE}
@@ -27,6 +30,7 @@ const Prices:React.FC<Props> = ({handleNext, handlePrevious}) => {
       title={FORM.PRICE_TITLE}
       placeholder={FORM.PRICE_PLACEHOLDER}
       validator={validateStartPrice}
+      value={fieldValues[FORM.PRICE]}
       required
     />,
 
@@ -37,6 +41,7 @@ const Prices:React.FC<Props> = ({handleNext, handlePrevious}) => {
       title={FORM.START_DATE_TITLE}
       placeholder={''}
       validator={validateStartDate}
+      value={fieldValues[FORM.START_DATE]}
       required
     />,
 
@@ -48,6 +53,7 @@ const Prices:React.FC<Props> = ({handleNext, handlePrevious}) => {
       placeholder={''}
       optionalValidator={FORM.START_DATE}
       validator={validateEndDate}
+      value={fieldValues[FORM.END_DATE]}
       required
     />,
   ];
@@ -60,9 +66,9 @@ const Prices:React.FC<Props> = ({handleNext, handlePrevious}) => {
       <p>{EN_STRINGS.PRICES_FORM.MESSAGE}</p>
 
       <div className='c-prices-buttons'>
-        <button onClick={handlePrevious}>{EN_STRINGS.PRICES_FORM.CANCEL_BUTTON}</button>
+        <button>{EN_STRINGS.PRICES_FORM.CANCEL_BUTTON}</button>
         <div className='c-control-buttons'>
-          <button>{EN_STRINGS.PRICES_FORM.BACK_BUTTON}</button>
+          <button onClick={handlePrevious}>{EN_STRINGS.PRICES_FORM.BACK_BUTTON}</button>
           <button className='c-next-button' onClick={handleNext}>
             {EN_STRINGS.PRICES_FORM.NEXT_BUTTON}
           </button>
