@@ -15,11 +15,11 @@ import classNames from 'classnames';
 import './seller.scss';
 
 const Seller = () => {
-  const { setNavbarTitle, setNavbarItems } = usePage();
-
   const [activeProducts, setActiveProducts] = useState<Item[]>([]);
   const [soldProducts, setSoledProducts] = useState<Item[]>([]);
   const [activeDisplay, setActiveDisplay] = useState(true);
+
+  const { setNavbarTitle, setNavbarItems } = usePage();
 
   const changeOnActive = () => {
     setActiveDisplay(true);

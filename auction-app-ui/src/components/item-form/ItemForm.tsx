@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import categoryService from 'services/categoryService';
 
+import { useForm } from 'hooks/useForm';
+
 import { Dropdown, ImageUploader, Textarea } from 'components';
 import Input from 'components/input/Input';
 import Form from 'components/form/Form';
@@ -13,7 +15,6 @@ import { Option } from 'models/option';
 import EN_STRINGS from 'translation/en';
 
 import './item-form.scss';
-import { useForm } from 'hooks/useForm';
 
 type Props = {
   children?: React.ReactNode;
@@ -99,8 +100,8 @@ const ItemForm: React.FC<Props> = ({ handleNext }) => {
             required={true}
             onChange={() => {}}
           />
-        </div>
 
+        </div>
         <Textarea
           maxLength={700}
           title={FORM.DESCRIPTION_TITLE}
@@ -112,8 +113,8 @@ const ItemForm: React.FC<Props> = ({ handleNext }) => {
       </div>
 
       <ImageUploader
-        name='images'
-        value={fieldValues['images'] ? fieldValues['images'] : []}
+        name={FORM.IMAGES}
+        value={fieldValues[FORM.IMAGES] ? fieldValues[FORM.IMAGES] : []}
       />
 
       <div className='c-option-buttons'>
@@ -122,6 +123,7 @@ const ItemForm: React.FC<Props> = ({ handleNext }) => {
             {EN_STRINGS.ITEM_FORM.CANCEL_BUTTON}
           </button>
         </Link>
+        
         <button className='c-next-button' onClick={handleNext}>
           {EN_STRINGS.ITEM_FORM.NEXT_BUTTON}
         </button>

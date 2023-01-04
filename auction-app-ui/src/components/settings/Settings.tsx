@@ -12,11 +12,11 @@ import { storageService } from 'services/storageService';
 import { useUser } from 'hooks/useUser';
 
 const Settings = () => {
-  const navigate = useNavigate();
-
   const { setNavbarTitle, setNavbarItems } = usePage();
   const { resetLoggedInUser } = useUser();
-
+  
+  const navigate = useNavigate();
+  
   const deactivateAccount = () => {
     userService.deactivate().then((response) => {
       storageService.clear();

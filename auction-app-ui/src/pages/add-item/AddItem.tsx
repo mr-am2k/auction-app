@@ -1,22 +1,36 @@
-import { ItemForm, LocationShipping, Prices } from 'components';
-import './add-item.scss';
 import { useEffect, useState } from 'react';
-import { useForm } from 'hooks/useForm';
-import { User } from 'models/user';
+import { useNavigate } from 'react-router';
+
 import userService from 'services/userService';
+import productsService from 'services/productService';
+import { imageService } from 'services/imageService';
+
+import { useForm } from 'hooks/useForm';
+
+import { ItemForm, LocationShipping, Prices } from 'components';
+import { User } from 'models/user';
+import { CreateProductRequest } from 'requestModels/createProductRequest';
+import { UpdateUserDataRequest } from 'requestModels/updateUserDataRequest';
 import { getUserData } from 'util/getUserData';
 import { getCardData } from 'util/getCardData';
-import { UpdateUserDataRequest } from 'requestModels/updateUserDataRequest';
+import { FOLDERS, FORM } from 'util/constants';
+import { ROUTES } from 'util/routes';
+
+import './add-item.scss';
 
 const AddItem = () => {
+  const [pageNumber, setPageNumber] = useState(1);
+  const [user, setUser] = useState<User>();
+  const [saving, setSaving] = useState(false);
+
   const {
     fieldValues,
     validateForm,
     resetFieldValues,
     setFieldValidationResults,
   } = useForm();
-  const [pageNumber, setPageNumber] = useState(1);
-  const [user, setUser] = useState<User>();
+
+  const navigate = useNavigate();
 
   const getUser = () => {
     userService.getUser().then((user) => setUser(user));
@@ -25,8 +39,8 @@ const AddItem = () => {
   const handleNext = () => {
     const isValid = validateForm();
 
-    setPageNumber((prevNumber) => prevNumber + 1);
     if (isValid) {
+      setPageNumber((prevNumber) => prevNumber + 1);
     }
   };
 
@@ -35,6 +49,8 @@ const AddItem = () => {
   };
 
   const addProduct = async () => {
+    setSaving(true);
+
     const updateUserRequest = getUserData(fieldValues, user!);
     const updateCardRequest = getCardData(fieldValues, user!);
 
@@ -44,6 +60,26 @@ const AddItem = () => {
     };
 
     await userService.updateUser(user!.id, updateUserDataRequest);
+
+    const imageURLs = await imageService.uploadImages(
+      FOLDERS.PRODUCT,
+      fieldValues[FORM.IMAGES]
+    );
+
+    const product: CreateProductRequest = {
+      name: fieldValues[FORM.PRODUCT],
+      description: fieldValues[FORM.DESCRIPTION],
+      imageURLs: imageURLs,
+      startPrice: fieldValues[FORM.PRICE],
+      categoryId: fieldValues[FORM.SUBCATEGORY],
+      creationDateTime: fieldValues[FORM.START_DATE],
+      expirationDateTime: fieldValues[FORM.END_DATE],
+    };
+
+    productsService.addProduct(product).then(() => {
+      setSaving(false);
+      navigate(ROUTES.MY_ACCOUNT);
+    });
   };
 
   useEffect(() => {
@@ -66,6 +102,7 @@ const AddItem = () => {
           user={user}
           handlePrevious={handlePrevious}
           onSubmit={addProduct}
+          saving={saving}
         />
       )}
     </div>

@@ -12,6 +12,7 @@ import {
 import { validate as validateCardNumber } from 'validators/validateCardNumber';
 import { validate as validateCardCVV } from 'validators/validateCardCVV';
 import { validate as validateCardExpirationDate } from 'validators/validateCardExpirationDate';
+
 import '../form/form.scss';
 
 type Props = {

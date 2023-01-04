@@ -151,6 +151,7 @@ const EN_STRINGS = {
     SHIPPING: 'Shipping Information (Optional)',
     BUTTON: 'SAVE INFO',
     UPDATING: 'UPDATING...',
+    ERROR: 'There is a problem with provided values!',
   },
 
   ERROR_PAGE: {
@@ -182,6 +183,14 @@ const EN_STRINGS = {
     DONE_BUTTON: 'NEXT',
     FEATURED: 'Featured Products',
     CARD_MESSAGE: 'We accept the following credit cards',
+    SAVING: 'SAVING...',
+  },
+
+  IMAGE_UPLOADER: {
+    UPLOAD_PHOTOS: 'Upload photos',
+    DRAG_AND_DROP: 'or just drag and drop',
+    LIMITATION: '(Add at least 3 photos)',
+    DND_ACTIVE: 'Drop the image here ...',
   },
 };
 

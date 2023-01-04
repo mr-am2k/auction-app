@@ -1,16 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-import './prices.scss';
+import { useForm } from 'hooks/useForm';
+
 import { Form, Input } from 'components';
 import { FORM, INPUT_TYPE_DATE, INPUT_TYPE_NUMBER } from 'util/constants';
+import { ROUTES } from 'util/routes';
 import { validate as validateStartPrice } from 'validators/validateStartPrice';
 import { validate as validateStartDate } from 'validators/validateStartDate';
 import { validate as validateEndDate } from 'validators/validateEndDate';
-
 import EN_STRINGS from 'translation/en';
-import { useForm } from 'hooks/useForm';
-import { ROUTES } from 'util/routes';
-import { Link } from 'react-router-dom';
+
+import './prices.scss';
 
 type Props = {
   children?: React.ReactNode;
@@ -68,10 +69,12 @@ const Prices: React.FC<Props> = ({ handleNext, handlePrevious }) => {
         <Link to={ROUTES.MY_ACCOUNT}>
           <button>{EN_STRINGS.PRICES_FORM.CANCEL_BUTTON}</button>
         </Link>
+
         <div className='c-control-buttons'>
           <button onClick={handlePrevious}>
             {EN_STRINGS.PRICES_FORM.BACK_BUTTON}
           </button>
+          
           <button className='c-next-button' onClick={handleNext}>
             {EN_STRINGS.PRICES_FORM.NEXT_BUTTON}
           </button>

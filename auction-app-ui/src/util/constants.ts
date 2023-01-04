@@ -70,6 +70,7 @@ export const FORM = {
   START_DATE_TITLE: 'Start date',
   END_DATE: 'endDate',
   END_DATE_TITLE: 'End date',
+  IMAGES: 'images'
 };
 export const LOCAL_STORAGE = {
   ACCESS_TOKEN: 'accessToken',
@@ -83,3 +84,8 @@ export const MY_ACCOUNT = {
   EMAIL: 'adam.smith@mail.com',
   PHONE: '555-555-555',
 };
+
+export const FOLDERS = {
+  PROFILE: 'profile-images',
+  PRODUCT: 'product-images'
+}

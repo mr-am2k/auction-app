@@ -29,6 +29,7 @@ const Card: React.FC<Props> = ({ user }) => {
           src={!displayCard ? arrowUp : arrowDown}
           alt={EN_STRINGS.PROFILE.CARD}
         />
+        
         <p>{EN_STRINGS.PROFILE.CARD}</p>
       </div>
 

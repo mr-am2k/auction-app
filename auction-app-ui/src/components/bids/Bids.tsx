@@ -6,17 +6,17 @@ import bidService from 'services/bidService';
 
 import ItemList from 'components/UI/item-list/ItemList';
 import EmptyCart from 'components/UI/empty-cart/EmptyCart';
-import { ROUTES } from 'util/routes';
 import { Item } from 'models/item';
+import { ROUTES } from 'util/routes';
 import HammerIcon from 'assets/icons/HammerIcon';
 import EN_STRINGS from 'translation/en';
 
 import './bids.scss';
 
 const Bids = () => {
-  const { setNavbarTitle, setNavbarItems } = usePage();
-
   const [bids, setBids] = useState<Item[]>([]);
+
+  const { setNavbarTitle, setNavbarItems } = usePage();
 
   const fetchBidsForUser = () => {
     bidService.getBidsForUser().then((bids) => {

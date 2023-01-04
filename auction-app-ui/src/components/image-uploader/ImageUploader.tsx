@@ -1,17 +1,24 @@
-import { useForm } from 'hooks/useForm';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDropzone, DropzoneProps } from 'react-dropzone';
-import { v4 } from 'uuid';
+
+import { useForm } from 'hooks/useForm';
+
 import { validate as validateProductImages } from 'validators/validateProductImages';
+import EN_STRINGS from 'translation/en';
+import { v4 } from 'uuid';
+
 import './image-uploader.scss';
+
 import classNames from 'classnames';
 
 interface ImageUploaderProps extends DropzoneProps {
   name: string;
-  value: File[]
+  value: File[];
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ onDrop, name, value }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({ name, value }) => {
+  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+
   const {
     fieldValues,
     fieldValidationResults,
@@ -19,8 +26,6 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onDrop, name, value }) =>
     setFieldValidationResults,
     setAdditionalFieldsInfo,
   } = useForm();
-
-  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
 
   type ObjectKey = keyof typeof fieldValidationResults;
 
@@ -99,7 +104,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onDrop, name, value }) =>
       };
     });
 
-    setUploadedImages(value)
+    setUploadedImages(value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -113,12 +118,14 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onDrop, name, value }) =>
     >
       <input {...getInputProps()} onChange={handleImageUpload} />
       {isDragActive ? (
-        <p className='c-drop-active'>Drop the image here ...</p>
+        <p className='c-drop-active'>{EN_STRINGS.IMAGE_UPLOADER.DND_ACTIVE}</p>
       ) : (
         <>
-          <h3>Upload photos</h3>
-          <p>or just drag and drop </p>
-          <p className='c-limit-message'>(Add at least 3 photos)</p>
+          <h3>{EN_STRINGS.IMAGE_UPLOADER.UPLOAD_PHOTOS}</h3>
+          <p>{EN_STRINGS.IMAGE_UPLOADER.DRAG_AND_DROP}</p>
+          <p className='c-limit-message'>
+            {EN_STRINGS.IMAGE_UPLOADER.LIMITATION}
+          </p>
         </>
       )}
 

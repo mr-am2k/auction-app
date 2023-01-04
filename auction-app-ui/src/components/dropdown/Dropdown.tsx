@@ -25,6 +25,8 @@ const Dropdown: React.FC<Props> = ({
   required,
   onChange,
 }) => {
+  const [selectedOption, setSelectedOption] = useState<string>();
+
   const {
     fieldValues,
     fieldValidationResults,
@@ -32,8 +34,6 @@ const Dropdown: React.FC<Props> = ({
     setFieldValidationResults,
     setAdditionalFieldsInfo,
   } = useForm();
-
-  const [selectedOption, setSelectedOption] = useState<string>();
 
   type ObjectKey = keyof typeof fieldValidationResults;
 

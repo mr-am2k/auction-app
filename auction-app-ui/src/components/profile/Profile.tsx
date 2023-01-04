@@ -6,15 +6,15 @@ import { useForm } from 'hooks/useForm';
 import userService from 'services/userService';
 import { imageService } from 'services/imageService';
 
+import { PersonalForm, Location, Card } from 'components';
 import { UpdateUserDataRequest } from 'requestModels/updateUserDataRequest';
 import { User } from 'models/user';
-import { PersonalForm, Location, Card } from 'components';
 import userImage from 'assets/images/user.png';
-import EN_STRINGS from 'translation/en';
 import { getUserData } from 'util/getUserData';
 import { getCardData } from 'util/getCardData';
 import { INPUT_TYPE_FILE } from 'util/constants';
 import isEmpty from 'util/objectUtils';
+import EN_STRINGS from 'translation/en';
 
 import './profile.scss';
 
@@ -35,7 +35,6 @@ const Profile = () => {
 
   const setImage = () => {
     setImageUpload(imageRef.current!.files![0]);
-    console.log(imageRef.current!.files![0]);
   };
 
   const submitForm = async () => {
@@ -46,7 +45,7 @@ const Profile = () => {
     }
 
     if (!isValid) {
-      setUpdateError('There is a problem with provided values!');
+      setUpdateError(EN_STRINGS.PROFILE.ERROR);
       return;
     } else {
       setUpdateError('');
@@ -60,7 +59,7 @@ const Profile = () => {
     let imageUrl = undefined;
 
     if (imageUpload !== null && imageUpload?.type.includes('image')) {
-      imageUrl = await imageService.upload(imageUpload);
+      imageUrl = await imageService.upload('profile-pictures', imageUpload);
     }
 
     if (imageUrl) {
@@ -113,6 +112,7 @@ const Profile = () => {
               src={user?.imageUrl ? user.imageUrl : userImage}
               alt='Profile'
             />
+
             <label>
               {EN_STRINGS.PROFILE.CHANGE_PHOTO}
               <input
@@ -122,8 +122,10 @@ const Profile = () => {
                 accept='image/*'
               />
             </label>
+
             {imageUpload && <p>{imageUpload.name}</p>}
           </div>
+
           <PersonalForm user={user} />
         </div>
       </div>
