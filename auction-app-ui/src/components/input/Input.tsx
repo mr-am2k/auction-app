@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 type Props = {
   children?: React.ReactNode;
-  placeholder: string;
+  placeholder: string | undefined;
   name: string;
   type: string;
   title: string;

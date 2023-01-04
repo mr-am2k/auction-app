@@ -21,3 +21,4 @@ export { default as Dropdown } from './dropdown/Dropdown';
 export { default as Textarea } from './textarea/Textarea';
 export { default as ImageUploader } from './image-uploader/ImageUploader';
 export { default as Prices } from './prices/Prices';
+export { default as LocationShipping } from './location-shipping/LocationShipping';

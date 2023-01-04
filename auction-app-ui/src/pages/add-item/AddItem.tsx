@@ -1,18 +1,32 @@
-import { ItemForm, Prices } from 'components';
+import { ItemForm, LocationShipping, Prices } from 'components';
 import './add-item.scss';
 import { useEffect, useState } from 'react';
 import { useForm } from 'hooks/useForm';
+import { User } from 'models/user';
+import userService from 'services/userService';
+import { getUserData } from 'util/getUserData';
+import { getCardData } from 'util/getCardData';
+import { UpdateUserDataRequest } from 'requestModels/updateUserDataRequest';
 
 const AddItem = () => {
-  const { fieldValues, validateForm, resetFieldValues, setFieldValidationResults } =
-    useForm();
+  const {
+    fieldValues,
+    validateForm,
+    resetFieldValues,
+    setFieldValidationResults,
+  } = useForm();
   const [pageNumber, setPageNumber] = useState(1);
+  const [user, setUser] = useState<User>();
+
+  const getUser = () => {
+    userService.getUser().then((user) => setUser(user));
+  };
 
   const handleNext = () => {
     const isValid = validateForm();
 
+    setPageNumber((prevNumber) => prevNumber + 1);
     if (isValid) {
-      setPageNumber((prevNumber) => prevNumber + 1);
     }
   };
 
@@ -20,9 +34,20 @@ const AddItem = () => {
     setPageNumber((prevNumber) => prevNumber - 1);
   };
 
-  console.log(fieldValues)
+  const addProduct = async () => {
+    const updateUserRequest = getUserData(fieldValues, user!);
+    const updateCardRequest = getCardData(fieldValues, user!);
+
+    const updateUserDataRequest: UpdateUserDataRequest = {
+      updateUserRequest,
+      updateCardRequest,
+    };
+
+    await userService.updateUser(user!.id, updateUserDataRequest);
+  };
 
   useEffect(() => {
+    getUser();
     return () => {
       resetFieldValues();
       setFieldValidationResults({});
@@ -36,7 +61,13 @@ const AddItem = () => {
       {pageNumber === 2 && (
         <Prices handleNext={handleNext} handlePrevious={handlePrevious} />
       )}
-      {pageNumber === 3 && <p>Treci page</p>}
+      {pageNumber === 3 && (
+        <LocationShipping
+          user={user}
+          handlePrevious={handlePrevious}
+          onSubmit={addProduct}
+        />
+      )}
     </div>
   );
 };

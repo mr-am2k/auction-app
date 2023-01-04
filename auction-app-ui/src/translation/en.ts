@@ -174,6 +174,15 @@ const EN_STRINGS = {
     MESSAGE:
       'The auction will be automatically closed when the end time comes. The highest bid will win the auction.',
   },
+
+  LOCATION_SHIPPING: {
+    LOCATION_SHIPPING: 'LOCATION&SHIPPING',
+    CANCEL_BUTTON: 'CANCEL',
+    BACK_BUTTON: 'BACK',
+    DONE_BUTTON: 'NEXT',
+    FEATURED: 'Featured Products',
+    CARD_MESSAGE: 'We accept the following credit cards',
+  },
 };
 
 export default EN_STRINGS;

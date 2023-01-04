@@ -20,7 +20,7 @@
     background: $lightGreyColor;
     border: 1px solid $borderGreyColor;
     outline: none;
-    color: $greyColor;
+    color: $blackColor;
     font-family: $latoFont;
     font-weight: $fontNormal;
     font-size: 18px;
@@ -33,7 +33,7 @@
     }
 
     &::placeholder {
-      color: inherit;
+      color: $greyColor;
       font-family: inherit;
       font-weight: inherit;
       font-size: inherit;

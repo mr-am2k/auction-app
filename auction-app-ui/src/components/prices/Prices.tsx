@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import './prices.scss';
@@ -10,17 +9,17 @@ import { validate as validateEndDate } from 'validators/validateEndDate';
 
 import EN_STRINGS from 'translation/en';
 import { useForm } from 'hooks/useForm';
+import { ROUTES } from 'util/routes';
+import { Link } from 'react-router-dom';
 
 type Props = {
-    children?: React.ReactNode;
-    handleNext: () => void;
-    handlePrevious: () => void;
-  };
-  
+  children?: React.ReactNode;
+  handleNext: () => void;
+  handlePrevious: () => void;
+};
 
-const Prices:React.FC<Props> = ({handleNext, handlePrevious}) => {
-
-  const {fieldValues} = useForm();
+const Prices: React.FC<Props> = ({ handleNext, handlePrevious }) => {
+  const { fieldValues } = useForm();
 
   const children = [
     <Input
@@ -66,9 +65,13 @@ const Prices:React.FC<Props> = ({handleNext, handlePrevious}) => {
       <p>{EN_STRINGS.PRICES_FORM.MESSAGE}</p>
 
       <div className='c-prices-buttons'>
-        <button>{EN_STRINGS.PRICES_FORM.CANCEL_BUTTON}</button>
+        <Link to={ROUTES.MY_ACCOUNT}>
+          <button>{EN_STRINGS.PRICES_FORM.CANCEL_BUTTON}</button>
+        </Link>
         <div className='c-control-buttons'>
-          <button onClick={handlePrevious}>{EN_STRINGS.PRICES_FORM.BACK_BUTTON}</button>
+          <button onClick={handlePrevious}>
+            {EN_STRINGS.PRICES_FORM.BACK_BUTTON}
+          </button>
           <button className='c-next-button' onClick={handleNext}>
             {EN_STRINGS.PRICES_FORM.NEXT_BUTTON}
           </button>

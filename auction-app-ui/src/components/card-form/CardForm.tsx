@@ -1,3 +1,5 @@
+import { useForm } from 'hooks/useForm';
+
 import { Input, Form } from 'components/index';
 import { User } from 'models/user';
 import {
@@ -15,9 +17,12 @@ import '../form/form.scss';
 type Props = {
   children?: React.ReactNode;
   user: User | undefined;
+  required?: boolean;
 };
 
-const CardForm: React.FC<Props> = ({ user }) => {
+const CardForm: React.FC<Props> = ({ user, required }) => {
+  const { fieldValues } = useForm();
+
   const children = [
     <Input
       key={FORM.CARD}
@@ -27,6 +32,8 @@ const CardForm: React.FC<Props> = ({ user }) => {
       placeholder={
         user?.card.holderName ? user.card.holderName : FORM.CARD_PLACEHOLDER
       }
+      value={fieldValues[FORM.CARD]}
+      required={required ? user?.card.holderName === null : undefined}
     />,
 
     <Input
@@ -39,6 +46,8 @@ const CardForm: React.FC<Props> = ({ user }) => {
           ? user.card.number.toString()
           : FORM.CARD_NUMBER_PLACEHOLDER
       }
+      value={fieldValues[FORM.CARD_NUMBER]}
+      required={required ? user?.card.number === null : undefined}
       validator={validateCardNumber}
     />,
 
@@ -48,6 +57,8 @@ const CardForm: React.FC<Props> = ({ user }) => {
       name={FORM.CARD_EXPIRATION_DATE}
       title={FORM.CARD_EXPIRATION_DATE_TITLE}
       placeholder={''}
+      value={fieldValues[FORM.CARD_EXPIRATION_DATE]}
+      required={required ? user?.card.expirationDate === null : undefined}
       validator={validateCardExpirationDate}
     />,
     <Input
@@ -60,6 +71,8 @@ const CardForm: React.FC<Props> = ({ user }) => {
           ? user.card.verificationValue.toString()
           : FORM.CARD_CVV_PLACEHOLDER
       }
+      value={fieldValues[FORM.CARD_CVV]}
+      required={required ? user?.card.verificationValue === null : undefined}
       validator={validateCardCVV}
     />,
   ];

@@ -1,3 +1,5 @@
+import { useForm } from 'hooks/useForm';
+
 import { Input, Form } from 'components/index';
 import { User } from 'models/user';
 import {
@@ -16,6 +18,7 @@ type Props = {
 };
 
 const PersonalForm: React.FC<Props> = ({ user }) => {
+  const {fieldValues} = useForm()
   const children = [
     <Input
       key={FORM.FIRST_NAME}
@@ -25,6 +28,7 @@ const PersonalForm: React.FC<Props> = ({ user }) => {
       placeholder={
         user?.firstName ? user.firstName : FORM.FIRST_NAME_PLACEHOLDER
       }
+      value={fieldValues[FORM.FIRST_NAME]}
     />,
 
     <Input
@@ -33,6 +37,7 @@ const PersonalForm: React.FC<Props> = ({ user }) => {
       name={FORM.LAST_NAME}
       title={FORM.LAST_NAME_TITLE}
       placeholder={user?.lastName ? user.lastName : FORM.LAST_NAME_PLACEHOLDER}
+      value={fieldValues[FORM.LAST_NAME]}
     />,
 
     <Input
@@ -50,6 +55,7 @@ const PersonalForm: React.FC<Props> = ({ user }) => {
       name={FORM.DATE}
       title={FORM.DATE_TITLE}
       placeholder={''}
+      value={fieldValues[FORM.DATE]}
       validator={validateDateOfBirth}
     />,
 
@@ -61,6 +67,7 @@ const PersonalForm: React.FC<Props> = ({ user }) => {
       placeholder={
         user?.phoneNumber ? user.phoneNumber : FORM.PHONE_NUMBER_PLACEHOLDER
       }
+      value={fieldValues[FORM.PHONE_NUMBER]}
       validator={validatePhoneNumber}
     />,
   ];
