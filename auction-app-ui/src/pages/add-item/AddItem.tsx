@@ -7,12 +7,17 @@ const AddItem = () => {
   const { validateForm, resetFieldValues, setFieldValidationResults } =
     useForm();
   const [pageNumber, setPageNumber] = useState(1);
+
   const handleNext = () => {
     const isValid = validateForm();
 
     if (isValid) {
       setPageNumber((prevNumber) => prevNumber + 1);
     }
+  };
+
+  const handlePrevious = () => {
+    setPageNumber((prevNumber) => prevNumber - 1);
   };
 
   useEffect(() => {
@@ -26,7 +31,10 @@ const AddItem = () => {
   return (
     <div className='c-add-item-wrapper'>
       {pageNumber === 1 && <ItemForm handleNext={handleNext} />}
-      {pageNumber === 2 && <Prices />}
+      {pageNumber === 2 && (
+        <Prices handleNext={handleNext} handlePrevious={handlePrevious} />
+      )}
+      {pageNumber === 3 && <p>Treci page</p>}
     </div>
   );
 };

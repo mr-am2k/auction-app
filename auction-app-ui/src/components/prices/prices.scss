@@ -7,4 +7,40 @@
   padding: 1rem 12rem 0;
   font-family: $latoFont;
   border: 1px solid $smokeWhiteColor;
+
+  p {
+    width: 500px;
+    color: $greyColor;
+    margin-top: 0;
+    margin-bottom: 2rem;
+  }
+
+  .c-prices-buttons {
+    @include flexDisplay(space-between, center);
+    width: 500px;
+    margin-bottom: 2rem;
+
+    button {
+      border: 2px solid $smokeWhiteColor;
+
+      &:hover {
+        scale: 1.02;
+      }
+    }
+
+    .c-control-buttons {
+      @include flexDisplay(center, center);
+      gap: 20px;
+
+      button {
+        border: 2px solid $purpleColor;
+      }
+
+      .c-next-button {
+        border: none;
+        background-color: $purpleColor;
+        color: $whiteColor;
+      }
+    }
+  }
 }

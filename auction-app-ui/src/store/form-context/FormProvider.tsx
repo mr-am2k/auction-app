@@ -24,7 +24,8 @@ const FormProvider: React.FC<Props> = ({ children }) => {
     value: string | undefined,
     pattern?: string | undefined,
     required?: boolean | undefined,
-    validator?: (param: string) => void
+    optionalValidator?: string | undefined,
+    validator?: (param: string, param2?: string) => void
   ) => {
     if (!required && !validator) {
       return {
@@ -43,6 +44,10 @@ const FormProvider: React.FC<Props> = ({ children }) => {
 
     if (pattern !== undefined && validator !== undefined) {
       return validator(value!);
+    }
+
+    if (validator !== undefined && optionalValidator) {
+      return validator(value!, fieldValues[optionalValidator!]);
     }
 
     if (validator !== undefined && value!.length > 0) {
@@ -72,6 +77,7 @@ const FormProvider: React.FC<Props> = ({ children }) => {
             : '',
           additionalFieldsInfo[key as AdditionalFieldsObjectKey]?.patter,
           additionalFieldsInfo[key as AdditionalFieldsObjectKey]?.required,
+          additionalFieldsInfo[key as AdditionalFieldsObjectKey]?.optionalValidator,
           additionalFieldsInfo[key as AdditionalFieldsObjectKey]?.validator
         ),
       };

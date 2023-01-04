@@ -39,9 +39,6 @@ const Dropdown: React.FC<Props> = ({
 
   const existingError = fieldValidationResults[name as ObjectKey]?.valid;
 
-  console.log(name);
-  console.log(options);
-
   const onDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFieldValues({
       ...fieldValues,
@@ -77,7 +74,6 @@ const Dropdown: React.FC<Props> = ({
           'c-dropdown': true,
           'c-error-border': !existingError,
         })}
-        defaultValue={placeholder}
         value={selectedOption ? selectedOption : placeholder}
         onChange={onDropdownChange}
       >

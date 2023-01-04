@@ -83,6 +83,9 @@ const EN_STRINGS = {
     CARD_EXPIRATION_DATE: 'Your card needs to be at least one year valid!',
     PHONE_NUMBER: 'Phone number needs to be between 5 and 15 digits!',
     PRODUCT_IMAGES: 'You need to upload at least 3 photos!',
+    START_PRICE: 'Price needs to be 1$ or greater!',
+    START_DATE: "Start date can't be in the past!",
+    END_DATE: "End date can't be before start date!",
   },
 
   MY_ACCOUNT: {
@@ -161,6 +164,15 @@ const EN_STRINGS = {
     DESCRIPTION_MESSAGE: '100 words (700 characters)',
     CANCEL_BUTTON: 'CANCEL',
     NEXT_BUTTON: 'NEXT',
+  },
+
+  PRICES_FORM: {
+    SET_PRICES: 'SET PRICES',
+    CANCEL_BUTTON: 'CANCEL',
+    BACK_BUTTON: 'BACK',
+    NEXT_BUTTON: 'NEXT',
+    MESSAGE:
+      'The auction will be automatically closed when the end time comes. The highest bid will win the auction.',
   },
 };
 

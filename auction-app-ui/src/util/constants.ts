@@ -63,6 +63,13 @@ export const FORM = {
   SUBCATEGORY_PLACEHOLDER: 'Select subcategory',
   DESCRIPTION: 'description',
   DESCRIPTION_TITLE: 'Description',
+  PRICE: 'startPrice',
+  PRICE_TITLE: 'Your start Price',
+  PRICE_PLACEHOLDER: '$',
+  START_DATE: 'startDate',
+  START_DATE_TITLE: 'Start date',
+  END_DATE: 'endDate',
+  END_DATE_TITLE: 'End date',
 };
 export const LOCAL_STORAGE = {
   ACCESS_TOKEN: 'accessToken',

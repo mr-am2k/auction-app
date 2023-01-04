@@ -14,8 +14,9 @@ type Props = {
   title: string;
   pattern?: string;
   required?: boolean;
-  validator?: (param: string) => void;
   disabled?: boolean;
+  optionalValidator?: string;
+  validator?: (param: string, param2?: string) => void;
 };
 
 const Input: React.FC<Props> = ({
@@ -25,8 +26,9 @@ const Input: React.FC<Props> = ({
   title,
   pattern,
   required,
-  validator,
   disabled,
+  optionalValidator,
+  validator,
 }) => {
   type ObjectKey = keyof typeof fieldValidationResults;
 
@@ -59,6 +61,7 @@ const Input: React.FC<Props> = ({
         value,
         additionalFieldsInfo[name]?.pattern,
         required,
+        optionalValidator,
         additionalFieldsInfo[name]?.validator
       ),
     });
@@ -77,6 +80,7 @@ const Input: React.FC<Props> = ({
         ...additionalFieldsInfo,
         [name]: {
           pattern,
+          optionalValidator,
           validator,
           required,
         },
