@@ -3,9 +3,9 @@ import { UpdateCardRequest } from 'requestModels/updateCardRequest';
 
 export const getCardData = (fieldValues: any, user: User) => {
   const updateCardRequest: UpdateCardRequest = {
-    holderName: fieldValues?.holderName
-      ? fieldValues.holderName
-      : user?.card.holderName,
+    holderFullName: fieldValues?.holderFullName
+      ? fieldValues.holderFullName
+      : user?.card.holderFullName,
     number: fieldValues?.number ? fieldValues.number : user?.card.number,
     expirationDate: fieldValues?.expirationDate
       ? fieldValues.expirationDate

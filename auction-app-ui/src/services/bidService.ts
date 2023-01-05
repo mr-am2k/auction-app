@@ -10,8 +10,8 @@ const bidService = {
     agent.get<number>(`${BASE_URL}/product/${productId}`),
   addBid: (createBidRequest: createBidRequest) =>
     agent.post(BASE_URL, createBidRequest),
-  getBidsForUser: () => 
-    agent.get<BidWithProduct[]>(`${BASE_URL}/user-bids`)
+  getBidsForUser: (userId: string) => 
+    agent.get<BidWithProduct[]>(`${BASE_URL}/user/${userId}`)
 };
 
 export default bidService;

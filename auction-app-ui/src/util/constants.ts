@@ -28,7 +28,7 @@ export const FORM = {
   PHONE_NUMBER: 'phoneNumber',
   PHONE_NUMBER_TITLE: 'Phone number',
   PHONE_NUMBER_PLACEHOLDER: '+32534231564',
-  CARD: 'holderName',
+  CARD: 'holderFullName',
   CARD_TITLE: 'Name on Card',
   CARD_PLACEHOLDER: 'JOHN DOE',
   CARD_NUMBER: 'number',

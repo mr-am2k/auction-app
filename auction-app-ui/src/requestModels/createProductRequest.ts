@@ -6,4 +6,5 @@ export type CreateProductRequest = {
   categoryId: string;
   creationDateTime: Date;
   expirationDateTime: Date;
+  userId: string;
 };

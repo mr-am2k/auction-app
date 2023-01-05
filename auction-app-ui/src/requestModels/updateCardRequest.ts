@@ -1,5 +1,5 @@
 export type UpdateCardRequest = {
-  holderName: string;
+  holderFullName: string;
   number: string;
   expirationDate: Date;
   verificationValue: string;

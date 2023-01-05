@@ -5,8 +5,8 @@ import { UpdateUserDataRequest } from 'requestModels/updateUserDataRequest';
 const BASE_URL = '/users';
 
 const userService = {
-  deactivate: () => agent.get<any>(`${BASE_URL}/deactivate `),
-  getUser: () => agent.get<User>(`${BASE_URL}/user`),
+  deactivate: () => agent.post<any>(`${BASE_URL}/current/deactivate`, {}),
+  getUser: (userId:string) => agent.get<User>(`${BASE_URL}/current/${userId}`),
   updateUser: (id: string, updateUserDataRequest: UpdateUserDataRequest) => agent.put<any>(`${BASE_URL}/${id}`,  updateUserDataRequest)
 };
 

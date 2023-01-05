@@ -44,7 +44,7 @@ const Seller = () => {
             remainingTime: product.remainingTime,
             price: product.startPrice,
             numberOfBids: product.bids.length,
-            highestBid: product.highestBid,
+            highestBid: product.highestBidPrice,
           };
 
           if (productDate < currentDate) {

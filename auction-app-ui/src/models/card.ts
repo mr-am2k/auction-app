@@ -1,6 +1,6 @@
 export type Card = {
     id: string;
-    holderName: string;
+    holderFullName: string;
     number: number;
     expirationDate: Date;
     verificationValue: string;

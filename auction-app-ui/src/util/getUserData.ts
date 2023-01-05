@@ -9,7 +9,7 @@ export const getUserData = (fieldValues: any, user: User) => {
     phoneNumber: fieldValues?.phoneNumber
       ? fieldValues.phoneNumber
       : user?.phoneNumber,
-    imageUrl: user?.imageUrl ? user.imageUrl : null,
+    profileImageUrl: user?.profileImageUrl ? user.profileImageUrl : null,
     dateOfBirth: fieldValues?.dateOfBirth
       ? fieldValues.dateOfBirth
       : user?.dateOfBirth,

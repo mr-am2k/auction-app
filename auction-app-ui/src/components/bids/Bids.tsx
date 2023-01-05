@@ -12,6 +12,8 @@ import HammerIcon from 'assets/icons/HammerIcon';
 import EN_STRINGS from 'translation/en';
 
 import './bids.scss';
+import { storageService } from 'services/storageService';
+import { LOCAL_STORAGE } from 'util/constants';
 
 const Bids = () => {
   const [bids, setBids] = useState<Item[]>([]);
@@ -19,7 +21,7 @@ const Bids = () => {
   const { setNavbarTitle, setNavbarItems } = usePage();
 
   const fetchBidsForUser = () => {
-    bidService.getBidsForUser().then((bids) => {
+    bidService.getBidsForUser(storageService.get(LOCAL_STORAGE.ID)!).then((bids) => {
       bids.forEach((bid) => {
         const newItem: Item = {
           id: bid.product.id,
@@ -28,7 +30,7 @@ const Bids = () => {
           remainingTime: bid.product.remainingTime,
           price: bid.price,
           numberOfBids: bid.product.numberOfBids,
-          highestBid: bid.product.highestBid,
+          highestBid: bid.product.highestBidPrice,
         };
 
         setBids((prevValues) => [...prevValues, newItem]);

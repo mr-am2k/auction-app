@@ -12,11 +12,12 @@ import { User } from 'models/user';
 import userImage from 'assets/images/user.png';
 import { getUserData } from 'util/getUserData';
 import { getCardData } from 'util/getCardData';
-import { INPUT_TYPE_FILE } from 'util/constants';
+import { INPUT_TYPE_FILE, LOCAL_STORAGE } from 'util/constants';
 import isEmpty from 'util/objectUtils';
 import EN_STRINGS from 'translation/en';
 
 import './profile.scss';
+import { storageService } from 'services/storageService';
 
 const Profile = () => {
   const [updateError, setUpdateError] = useState<string>();
@@ -30,7 +31,11 @@ const Profile = () => {
   const imageRef = useRef<HTMLInputElement>(null);
 
   const fetchUser = () => {
-    userService.getUser().then((userResponse) => setUser(userResponse));
+    userService
+      .getUser(storageService.get(LOCAL_STORAGE.ID)!)
+      .then((userResponse) => {
+        setUser(userResponse);
+      });
   };
 
   const setImage = () => {
@@ -63,7 +68,7 @@ const Profile = () => {
     }
 
     if (imageUrl) {
-      updateUserRequest.imageUrl = imageUrl!;
+      updateUserRequest.profileImageUrl = imageUrl!;
     }
 
     const updateUserDataRequest: UpdateUserDataRequest = {
@@ -75,7 +80,7 @@ const Profile = () => {
       .updateUser(user!.id, updateUserDataRequest)
       .then(() => {
         window.location.reload();
-        setUploading(false);
+        setUploading(true);
       })
       .catch((error) => setUpdateError(error.data.response.message));
   };
@@ -109,7 +114,7 @@ const Profile = () => {
         <div className='c-personal-information'>
           <div className='c-personal-image'>
             <img
-              src={user?.imageUrl ? user.imageUrl : userImage}
+              src={user?.profileImageUrl ? user.profileImageUrl : userImage}
               alt='Profile'
             />
 

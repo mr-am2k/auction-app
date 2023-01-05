@@ -31,10 +31,10 @@ const CardForm: React.FC<Props> = ({ user, required }) => {
       name={FORM.CARD}
       title={FORM.CARD_TITLE}
       placeholder={
-        user?.card.holderName ? user.card.holderName : FORM.CARD_PLACEHOLDER
+        user?.card.holderFullName ? user.card.holderFullName : FORM.CARD_PLACEHOLDER
       }
       value={fieldValues[FORM.CARD]}
-      required={required ? user?.card.holderName === null : undefined}
+      required={required ? user?.card.holderFullName === null : undefined}
     />,
 
     <Input

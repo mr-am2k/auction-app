@@ -12,7 +12,7 @@ export type Product = {
     remainingTime: string
     userId: string;
     highestBidder: string | null;
-    highestBid: number | null;
+    highestBidPrice: number | null;
     numberOfBids: number | null;
 }
 

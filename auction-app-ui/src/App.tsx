@@ -63,6 +63,13 @@ const App = () => {
     }, 120000);
   }, []);
 
+  useEffect(() => {
+    authService.refreshToken().then((response) => {
+      storageService.remove(LOCAL_STORAGE.ACCESS_TOKEN);
+      storageService.add(LOCAL_STORAGE.ACCESS_TOKEN, response.accessToken);
+    });
+  })
+
   return (
     <PageProvider>
       <FormProvider>

@@ -13,12 +13,13 @@ import { CreateProductRequest } from 'requestModels/createProductRequest';
 import { UpdateUserDataRequest } from 'requestModels/updateUserDataRequest';
 import { getUserData } from 'util/getUserData';
 import { getCardData } from 'util/getCardData';
-import { FOLDERS, FORM } from 'util/constants';
+import { FOLDERS, FORM, LOCAL_STORAGE } from 'util/constants';
 import { ROUTES } from 'util/routes';
 
 import './add-item.scss';
 
 import classNames from 'classnames';
+import { storageService } from 'services/storageService';
 
 const AddItem = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -35,7 +36,9 @@ const AddItem = () => {
   const navigate = useNavigate();
 
   const getUser = () => {
-    userService.getUser().then((user) => setUser(user));
+    userService
+      .getUser(storageService.get(LOCAL_STORAGE.ID)!)
+      .then((user) => setUser(user));
   };
 
   const handleNext = () => {
@@ -76,6 +79,7 @@ const AddItem = () => {
       categoryId: fieldValues[FORM.SUBCATEGORY],
       creationDateTime: fieldValues[FORM.START_DATE],
       expirationDateTime: fieldValues[FORM.END_DATE],
+      userId: storageService.get(LOCAL_STORAGE.ID)!,
     };
 
     productsService.addProduct(product).then(() => {

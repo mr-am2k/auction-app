@@ -6,7 +6,7 @@ export type User = {
   lastName: string;
   email: string;
   phoneNumber: string;
-  imageUrl: string;
+  profileImageUrl: string;
   dateOfBirth: Date;
   street: string;
   city: string;
