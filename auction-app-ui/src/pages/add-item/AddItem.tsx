@@ -18,6 +18,8 @@ import { ROUTES } from 'util/routes';
 
 import './add-item.scss';
 
+import classNames from 'classnames';
+
 const AddItem = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [user, setUser] = useState<User>();
@@ -93,6 +95,35 @@ const AddItem = () => {
 
   return (
     <div className='c-add-item-wrapper'>
+      <div className='c-dots'>
+        <span className='c-dot c-dot-active' />
+
+        <hr
+          className={classNames({
+            'c-hr-active': pageNumber >= 2,
+          })}
+        />
+
+        <span
+          className={classNames({
+            'c-dot': true,
+            'c-dot-active': pageNumber >= 2,
+          })}
+        />
+
+        <hr
+          className={classNames({
+            'c-hr-active': pageNumber === 3,
+          })}
+        />
+
+        <span
+          className={classNames({
+            'c-dot': true,
+            'c-dot-active': pageNumber === 3,
+          })}
+        />
+      </div>
       {pageNumber === 1 && <ItemForm handleNext={handleNext} />}
       {pageNumber === 2 && (
         <Prices handleNext={handleNext} handlePrevious={handlePrevious} />
