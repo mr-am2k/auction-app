@@ -1,22 +1,17 @@
 package com.internship.auctionapp.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.internship.auctionapp.models.Card;
+import com.internship.auctionapp.models.CreditCard;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.UUID;
 
@@ -26,14 +21,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Table(name = "cards")
-public class CardEntity {
+public class CreditCardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "holder_name")
-    private String holderName;
+    @Column(name = "holder_full_name")
+    private String holderFullName;
 
     @Column(name = "number")
     private String number;
@@ -44,16 +39,16 @@ public class CardEntity {
     @Column(name = "verification_value")
     private String verificationValue;
 
-    public Card toDomainModel(){
-        Card card = new Card();
+    public CreditCard toDomainModel(){
+        CreditCard creditCard = new CreditCard();
 
-        card.setId(this.id);
-        card.setHolderName(this.holderName);
-        card.setNumber(this.number);
-        card.setExpirationDate(this.expirationDate);
-        card.setVerificationValue(this.verificationValue);
+        creditCard.setId(this.id);
+        creditCard.setHolderFullName(this.holderFullName);
+        creditCard.setNumber(this.number);
+        creditCard.setExpirationDate(this.expirationDate);
+        creditCard.setVerificationValue(this.verificationValue);
 
-        return card;
+        return creditCard;
     }
 }
 

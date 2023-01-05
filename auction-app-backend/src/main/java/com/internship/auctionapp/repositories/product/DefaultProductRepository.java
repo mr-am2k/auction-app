@@ -2,6 +2,7 @@ package com.internship.auctionapp.repositories.product;
 
 import com.internship.auctionapp.entities.CategoryEntity;
 import com.internship.auctionapp.entities.UserEntity;
+import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.category.CategoryJpaRepository;
@@ -10,14 +11,11 @@ import com.internship.auctionapp.requests.CreateProductRequest;
 
 import org.modelmapper.ModelMapper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -28,8 +26,6 @@ import java.util.stream.Collectors;
 
 @Repository
 public class DefaultProductRepository implements ProductRepository {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductRepository.class);
-
     private final ProductJpaRepository productJpaRepository;
 
     private final UserJpaRepository userJpaRepository;
@@ -50,7 +46,7 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public Product addProduct(CreateProductRequest createProductRequest, String username) {
+    public Product addProduct(CreateProductRequest createProductRequest) {
         ProductEntity productEntity = new ProductEntity();
 
         final LocalDateTime creationDateTime = createProductRequest.getCreationDateTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
@@ -63,11 +59,11 @@ public class DefaultProductRepository implements ProductRepository {
         productEntity.setCreationDateTime(creationDateTime.atZone(ZoneOffset.UTC));
         productEntity.setExpirationDateTime(expirationDateTime.atZone(ZoneOffset.UTC));
 
-        CategoryEntity category = categoryJpaRepository.findById(createProductRequest.getCategoryId()).get();
+        final CategoryEntity category = categoryJpaRepository.findById(createProductRequest.getCategoryId()).get();
         productEntity.setCategory(category);
 
-        final UserEntity user = userJpaRepository.findByUsername(username);
-
+        final UserEntity user = userJpaRepository.findById(createProductRequest.getUserId()).orElseThrow(() ->
+                new UserNotFoundByIdException(createProductRequest.getUserId().toString()));
         productEntity.setUser(user);
 
         return productJpaRepository
@@ -96,7 +92,7 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public Page<Product>getRandomProduct(Pageable page) {
+    public Page<Product> getRandomProduct(Pageable page) {
         return productJpaRepository.findAllByExpirationDateTimeAfter(ZonedDateTime.now(), page).map(ProductEntity::toDomainModel);
     }
 
@@ -113,8 +109,8 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public List<Product> getProductsForUser(String username) {
-        UserEntity user = userJpaRepository.findByUsername(username);
+    public List<Product> getUserProducts(UUID userId) {
+        UserEntity user = userJpaRepository.findById(userId).orElseThrow(() -> new UserNotFoundByIdException(userId.toString()));
 
         return productJpaRepository.findAllByUserId(user.getId()).stream()
                 .map(ProductEntity::toDomainModel)

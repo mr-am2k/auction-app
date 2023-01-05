@@ -1,29 +1,27 @@
 package com.internship.auctionapp.services.user;
 
+import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.EmailNotValidException;
 import com.internship.auctionapp.middleware.exception.InvalidBirthDateException;
 import com.internship.auctionapp.middleware.exception.InvalidCVVException;
 import com.internship.auctionapp.middleware.exception.InvalidCardExpirationDateException;
 import com.internship.auctionapp.middleware.exception.InvalidCardNumberException;
+import com.internship.auctionapp.middleware.exception.InvalidUserException;
 import com.internship.auctionapp.models.AuthResponse;
 import com.internship.auctionapp.models.LoginResponse;
 import com.internship.auctionapp.models.User;
+import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.repositories.user.UserRepository;
 import com.internship.auctionapp.requests.UpdateCardRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
-import com.internship.auctionapp.services.bid.DefaultBidService;
+import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.RegexUtils;
-import com.internship.auctionapp.util.security.jwt.JwtUtils;
 import com.internship.auctionapp.util.security.services.AuthService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -32,18 +30,16 @@ public class DefaultUserService implements UserService {
 
     private final UserRepository userRepository;
 
-    private final JwtUtils jwtUtils;
+    private final Integer EXPECTED_CREDIT_CARD_NUMBER_LENGTH = 16;
+    private final Integer EXPECTED_CVV_LENGTH = 3;
 
-    private final String AUTHORIZATION_HEADER = "Authorization";
-    private final String BEARER = "Bearer ";
+    private final UserJpaRepository userJpaRepository;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
-
-
-    public DefaultUserService(AuthService authService, UserRepository userRepository, JwtUtils jwtUtils) {
+    public DefaultUserService(AuthService authService, UserRepository userRepository,
+                              UserJpaRepository userJpaRepository) {
         this.authService = authService;
         this.userRepository = userRepository;
-        this.jwtUtils = jwtUtils;
+        this.userJpaRepository = userJpaRepository;
     }
 
     @Override
@@ -57,33 +53,29 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public void logout(HttpServletRequest request) {
-        authService.logout(request);
+    public void logout(String token) {
+        authService.logout(token);
     }
 
     @Override
-    public AuthResponse refreshToken(HttpServletRequest request) {
-        return authService.refreshToken(request);
+    public AuthResponse refreshToken(String username) {
+        return authService.refreshToken(username);
     }
 
     @Override
-    public User getSingleUser(HttpServletRequest request) {
-        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
+    public User getUser(UUID userId) {
+        return userRepository.getUser(userId);
+    }
 
-        String token = null;
+    @Override
+    public User updateUser(UUID id, UpdateUserRequest updateUserRequest, UpdateCardRequest updateCardRequest, String username) {
+        UserEntity userEntity = userJpaRepository.findByUsername(username);
 
-        if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER)) {
-            token = requestTokenHeader.substring(BEARER.length());
+        if(!id.toString().equalsIgnoreCase(userEntity.getId().toString())){
+            throw new InvalidUserException();
         }
 
-        String username = jwtUtils.getEmailFromJwtToken(token, true);
-
-        return userRepository.getSingleUser(username);
-    }
-
-    @Override
-    public User updateUser(UUID id, UpdateUserRequest updateUserRequest, UpdateCardRequest updateCardRequest) {
-        if(updateUserRequest.getDateOfBirth() != null && updateUserRequest.getDateOfBirth().after(new Date())){
+        if (updateUserRequest.getDateOfBirth() != null && DateUtils.isInFuture(updateUserRequest.getDateOfBirth())) {
             throw new InvalidBirthDateException();
         }
 
@@ -91,15 +83,15 @@ public class DefaultUserService implements UserService {
             throw new EmailNotValidException();
         }
 
-        if(updateCardRequest.getExpirationDate() != null && updateCardRequest.getExpirationDate().before(new Date())){
+        if (updateCardRequest.getExpirationDate() != null && DateUtils.isInPast(updateCardRequest.getExpirationDate())) {
             throw new InvalidCardExpirationDateException();
         }
 
-        if(updateCardRequest.getNumber() != null && updateCardRequest.getNumber().length() != 16){
+        if (updateCardRequest.getNumber() != null && updateCardRequest.getNumber().length() != EXPECTED_CREDIT_CARD_NUMBER_LENGTH) {
             throw new InvalidCardNumberException();
         }
 
-        if(updateCardRequest.getVerificationValue() != null && updateCardRequest.getVerificationValue().length() != 3){
+        if (updateCardRequest.getVerificationValue() != null && updateCardRequest.getVerificationValue().length() != EXPECTED_CVV_LENGTH) {
             throw new InvalidCVVException();
         }
 
@@ -107,18 +99,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public void deactivate(HttpServletRequest request) {
-        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
-
-        String token = null;
-
-        if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER)) {
-            token = requestTokenHeader.substring(BEARER.length());
-        }
-
-        String username = jwtUtils.getEmailFromJwtToken(token, true);
-
-
+    public void deactivate(String username) {
         userRepository.deactivate(username);
     }
 }

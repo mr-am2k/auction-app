@@ -15,7 +15,7 @@ import java.util.UUID;
 public interface ProductRepository {
     List<Product> getAllProducts();
 
-    Product addProduct(CreateProductRequest createProductRequest, String username);
+    Product addProduct(CreateProductRequest createProductRequest);
 
     Product getSingleProduct(UUID id);
 
@@ -29,5 +29,5 @@ public interface ProductRepository {
 
     List<Product> getProductsBetweenTwoDates(ZonedDateTime startDate, ZonedDateTime endDate);
 
-    List<Product> getProductsForUser(String username);
+    List<Product> getUserProducts(UUID userId);
 }

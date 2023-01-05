@@ -25,7 +25,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -80,7 +79,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Product addProduct(CreateProductRequest createProductRequest, HttpServletRequest request) {
+    public Product addProduct(CreateProductRequest createProductRequest) {
         final LocalDateTime expirationDateTime = createProductRequest.getExpirationDateTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
 
         if (DateUtils.isInPast(expirationDateTime)) {
@@ -89,19 +88,7 @@ public class DefaultProductService implements ProductService {
             throw new ProductExpirationDateException();
         }
 
-        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
-
-        String token = null;
-
-        if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER)) {
-            token = requestTokenHeader.substring(BEARER.length());
-        }
-
-        String username = jwtUtils.getEmailFromJwtToken(token, true);
-
-
-
-        Product savedProduct = productRepository.addProduct(createProductRequest, username);
+        Product savedProduct = productRepository.addProduct(createProductRequest);
 
         LOGGER.info("Successfully added product={} to the database.", savedProduct);
 
@@ -158,18 +145,8 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<Product> getProductsForUser(HttpServletRequest request) {
-        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
-
-        String token = null;
-
-        if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER)) {
-            token = requestTokenHeader.substring(BEARER.length());
-        }
-
-        String username = jwtUtils.getEmailFromJwtToken(token, true);
-
-        return productRepository.getProductsForUser(username);
+    public List<Product> getUserProducts(UUID userId) {
+        return productRepository.getUserProducts(userId);
     }
 
     @Override

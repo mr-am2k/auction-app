@@ -8,7 +8,6 @@ import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 public interface UserService {
@@ -16,13 +15,13 @@ public interface UserService {
 
     User register(UserRegisterRequest registerRequest);
 
-    void logout(HttpServletRequest request);
+    void logout(String token);
 
-    AuthResponse refreshToken(HttpServletRequest request);
+    AuthResponse refreshToken(String username);
 
-    User getSingleUser(HttpServletRequest request);
+    User getUser(UUID userId);
 
-    User updateUser(UUID id, UpdateUserRequest updateUserRequest, UpdateCardRequest updateCardRequest);
+    User updateUser(UUID id, UpdateUserRequest updateUserRequest, UpdateCardRequest updateCardRequest, String username);
 
-    void deactivate(HttpServletRequest request);
+    void deactivate(String username);
 }

@@ -69,46 +69,46 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BidNotFoundException.class)
     public ResponseEntity<Object> handleBidNotFoundException(HttpServletRequest req, BidNotFoundException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no bid with id: " + ex.getMessage()));
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no bid with id: " + ex.getMessage() + "!"));
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<Object> handleProductNoFoundException(HttpServletRequest req, ProductNotFoundException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no product with id: " + ex.getMessage()));
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no product with id: " + ex.getMessage() + "!"));
     }
 
-    @ExceptionHandler(UserNotFoundByUsernameException.class)
-    public ResponseEntity<Object> handleUserNotFoundByUsernameException(HttpServletRequest req, UserNotFoundByUsernameException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no user with email: " + ex.getMessage()));
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<Object> handleUsernameNotFoundException(HttpServletRequest req, UsernameNotFoundException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no user with email: " + ex.getMessage() + "!"));
     }
 
     @ExceptionHandler(UserNotFoundByIdException.class)
     public ResponseEntity<Object> handleUserNotFoundByIdException(HttpServletRequest req, UserNotFoundByIdException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no user with id: " + ex.getMessage()));
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "There is no user with id: " + ex.getMessage() + "!"));
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<Object> handleUserAlreadyExistsException(HttpServletRequest req, UserAlreadyExistsException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "User already exists with email: " + ex.getMessage()));
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, "User already exists with email: " + ex.getMessage() + "!"));
     }
 
     @ExceptionHandler(EmailNotValidException.class)
     public ResponseEntity<Object> handleEmailNotValidException(HttpServletRequest req, EmailNotValidException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Entered email is not valid"));
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Entered email is not valid!"));
     }
 
     @ExceptionHandler(PasswordNotValidException.class)
     public ResponseEntity<Object> handlePasswordNotValidException(HttpServletRequest req, PasswordNotValidException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Entered password is not valid"));
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Entered password is not valid!"));
     }
 
     @ExceptionHandler(InvalidBirthDateException.class)
     public ResponseEntity<Object> handleInvalidBirthDateException(HttpServletRequest req, InvalidBirthDateException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Entered birth date is in the future"));
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Entered birth date is in the future!"));
     }
 
-    @ExceptionHandler(DeactivatedAccountException.class)
-    public ResponseEntity<Object> handleDeactivateAccountException(HttpServletRequest req, DeactivatedAccountException ex) {
+    @ExceptionHandler(AccountDeactivatedException.class)
+    public ResponseEntity<Object> handleAccountDeactivatedException(HttpServletRequest req, AccountDeactivatedException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.FORBIDDEN, "Account is deactivated!"));
     }
 
@@ -133,13 +133,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(SubcategoryAlreadyExistsException.class)
-    public ResponseEntity<Object> handleSubcategoryAlredyExists(HttpServletRequest req, SubcategoryAlreadyExistsException ex) {
+    public ResponseEntity<Object> handleSubcategoryAlreadyExists(HttpServletRequest req, SubcategoryAlreadyExistsException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "You can't add subcategory to subcategory!"));
     }
 
-    @ExceptionHandler(InvalidCategoryIdException.class)
-    public ResponseEntity<Object> handleInvalidCategoryIdException(HttpServletRequest req, InvalidCategoryIdException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "There is no category with id: " + ex.getMessage()));
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<Object> handleCategoryNotFoundException(HttpServletRequest req, CategoryNotFoundException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "There is no category with id: " + ex.getMessage() + "!"));
+    }
+
+    @ExceptionHandler(InvalidUserException.class)
+    public ResponseEntity<Object> handleInvalidUserException(HttpServletRequest req, InvalidUserException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Provided user is invalid!"));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {

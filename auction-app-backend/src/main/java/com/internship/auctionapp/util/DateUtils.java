@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 public class DateUtils {
     // TODO: improve this in the future
@@ -75,4 +76,21 @@ public class DateUtils {
     public static boolean isInPast(LocalDateTime dateTime) {
         return isInPast(LocalDateTime.now(), dateTime);
     }
+
+    public static boolean isInPast(Date dateFrom, Date dateTo) {
+        return dateTo.before(dateFrom);
+    }
+
+    public static boolean isInPast(Date dateTime) {
+        return isInPast(new Date(), dateTime);
+    }
+
+    public static boolean isInFuture(Date dateFrom, Date dateTo) {
+        return dateFrom.after(dateTo);
+    }
+
+    public static boolean isInFuture(Date date) {
+        return isInFuture(date, new Date());
+    }
+
 }

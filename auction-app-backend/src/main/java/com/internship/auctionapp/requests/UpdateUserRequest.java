@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -21,7 +20,7 @@ public class UpdateUserRequest {
 
     private String phoneNumber;
 
-    private String imageUrl;
+    private String profileImageUrl;
 
     private Date dateOfBirth;
 

@@ -1,6 +1,7 @@
 package com.internship.auctionapp.repositories.bid;
 
 import com.internship.auctionapp.entities.UserEntity;
+import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.entities.ProductEntity;
@@ -49,9 +50,9 @@ public class DefaultBidRepository implements BidRepository {
     }
 
     @Override
-    public List<BidWithProduct> getAllBids() {
+    public List<Bid> getAllBids() {
         return bidJpaRepository.findAll().stream()
-                .map(BidEntity::toDomainModelWithProduct)
+                .map(BidEntity::toDomainModel)
                 .collect(Collectors.toList());
     }
 
@@ -61,10 +62,11 @@ public class DefaultBidRepository implements BidRepository {
     }
 
     @Override
-    public List<BidWithProduct> getBidsForUser(String username) {
-        UserEntity user = userJpaRepository.findByUsername(username);
+    public List<BidWithProduct> getUserBids(UUID userId) {
+        final UserEntity user = userJpaRepository.findById(userId).orElseThrow(() -> new UserNotFoundByIdException(userId.toString()));
 
-        return bidJpaRepository.findAllByUserIdOrderByCreationDateTimeDesc(user.getId()).stream()
+        return bidJpaRepository.findAllByUserIdOrderByCreationDateTimeDesc(user.getId())
+                .stream()
                 .map(BidEntity::toDomainModelWithProduct)
                 .collect(Collectors.toList());
     }

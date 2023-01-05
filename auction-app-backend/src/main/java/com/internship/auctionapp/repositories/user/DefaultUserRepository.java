@@ -1,17 +1,16 @@
 package com.internship.auctionapp.repositories.user;
 
-import com.internship.auctionapp.entities.CardEntity;
+import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.User;
-import com.internship.auctionapp.repositories.card.CardJpaRepository;
+import com.internship.auctionapp.repositories.creditCard.CreditCardJpaRepository;
 import com.internship.auctionapp.requests.UpdateCardRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 import com.internship.auctionapp.util.UserRole;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -23,11 +22,13 @@ import java.util.stream.Collectors;
 public class DefaultUserRepository implements UserRepository {
     private final UserJpaRepository userJpaRepository;
 
-    private final CardJpaRepository cardJpaRepository;
+    private final CreditCardJpaRepository creditCardJpaRepository;
 
-    public DefaultUserRepository(UserJpaRepository userJpaRepository, CardJpaRepository cardJpaRepository) {
+    private static final ModelMapper modelMapper = new ModelMapper();
+
+    public DefaultUserRepository(UserJpaRepository userJpaRepository, CreditCardJpaRepository creditCardJpaRepository) {
         this.userJpaRepository = userJpaRepository;
-        this.cardJpaRepository = cardJpaRepository;
+        this.creditCardJpaRepository = creditCardJpaRepository;
     }
 
     @Override
@@ -65,22 +66,16 @@ public class DefaultUserRepository implements UserRepository {
     }
 
     @Override
-    public User getSingleUser(String username) {
-        final User user = userJpaRepository.findByUsername(username).toDomainModel();
+    public User getUser(UUID userId) {
+        final UserEntity user = userJpaRepository.findById(userId).orElseThrow(() -> new UserNotFoundByIdException(userId.toString()));
 
-        if (user == null) {
-            throw new UsernameNotFoundException(username);
-        }
-
-        return user;
+        return user.toDomainModel();
     }
 
     @Override
     @Transactional
     public User updateUser(UUID id, UpdateUserRequest updateUserRequest, UpdateCardRequest updateCardRequest) {
         UserEntity user = userJpaRepository.findById(id).orElseThrow(() -> new UserNotFoundByIdException(id.toString()));
-
-        ModelMapper modelMapper = new ModelMapper();
 
         UserEntity updatedUser = modelMapper.map(updateUserRequest, UserEntity.class);
 
@@ -91,25 +86,25 @@ public class DefaultUserRepository implements UserRepository {
         updatedUser.setActive(user.isActive());
 
         if (user.getCard() == null) {
-            CardEntity newCard = new CardEntity();
+            CreditCardEntity newCard = new CreditCardEntity();
 
-            newCard.setHolderName(updateCardRequest.getHolderName());
+            newCard.setHolderFullName(updateCardRequest.getHolderFullName());
             newCard.setNumber(updateCardRequest.getNumber());
             newCard.setExpirationDate(updateCardRequest.getExpirationDate());
             newCard.setVerificationValue(updateCardRequest.getVerificationValue());
 
-            cardJpaRepository.save(newCard);
+            creditCardJpaRepository.save(newCard);
 
             updatedUser.setCard(newCard);
         } else {
-            CardEntity existingCard = cardJpaRepository.findById(user.getCard().getId()).get();
+            CreditCardEntity existingCard = creditCardJpaRepository.findById(user.getCard().getId()).get();
 
-            existingCard.setHolderName(updateCardRequest.getHolderName());
+            existingCard.setHolderFullName(updateCardRequest.getHolderFullName());
             existingCard.setNumber(updateCardRequest.getNumber());
             existingCard.setExpirationDate(updateCardRequest.getExpirationDate());
             existingCard.setVerificationValue(updateCardRequest.getVerificationValue());
 
-            cardJpaRepository.save(existingCard);
+            creditCardJpaRepository.save(existingCard);
 
             updatedUser.setCard(existingCard);
         }
@@ -120,7 +115,6 @@ public class DefaultUserRepository implements UserRepository {
     @Override
     public void deactivate(String username) {
         UserEntity user = userJpaRepository.findByUsername(username);
-
         user.setActive(false);
 
         userJpaRepository.save(user);

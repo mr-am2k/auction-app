@@ -14,13 +14,11 @@ import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.services.notification.NotificationService;
 import com.internship.auctionapp.util.NotificationType;
 
-import com.internship.auctionapp.util.security.jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -33,22 +31,15 @@ public class DefaultBidService implements BidService {
 
     private final NotificationService notificationService;
 
-    private final JwtUtils jwtUtils;
-
-    private final String AUTHORIZATION_HEADER = "Authorization";
-    private final String BEARER = "Bearer ";
-
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
 
     public DefaultBidService(
             BidRepository bidRepository,
             ProductRepository productRepository,
-            NotificationService notificationService,
-            JwtUtils jwtUtils) {
+            NotificationService notificationService) {
         this.bidRepository = bidRepository;
         this.productRepository = productRepository;
         this.notificationService = notificationService;
-        this.jwtUtils = jwtUtils;
     }
 
     @Override
@@ -69,7 +60,7 @@ public class DefaultBidService implements BidService {
             }
         }
 
-        if(product.getExpirationDateTime().isBefore(ZonedDateTime.now())){
+        if (product.getExpirationDateTime().isBefore(ZonedDateTime.now())) {
             throw new ProductExpiredException();
         }
 
@@ -91,8 +82,8 @@ public class DefaultBidService implements BidService {
     }
 
     @Override
-    public List<BidWithProduct> getAllBids() {
-        List<BidWithProduct> bids = bidRepository.getAllBids();
+    public List<Bid> getAllBids() {
+        List<Bid> bids = bidRepository.getAllBids();
 
         LOGGER.info("Fetched bids={}", bids);
 
@@ -109,17 +100,7 @@ public class DefaultBidService implements BidService {
     }
 
     @Override
-    public List<BidWithProduct> getBidsForUser(HttpServletRequest request) {
-        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
-
-        String token = null;
-
-        if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER)) {
-            token = requestTokenHeader.substring(BEARER.length());
-        }
-
-        String username = jwtUtils.getEmailFromJwtToken(token, true);
-
-        return bidRepository.getBidsForUser(username);
+    public List<BidWithProduct> getUserBids(UUID userId) {
+        return bidRepository.getUserBids(userId);
     }
 }

@@ -7,6 +7,8 @@ import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 import com.internship.auctionapp.services.user.UserService;
 
+import com.internship.auctionapp.util.RequestUtils;
+import com.internship.auctionapp.util.security.jwt.JwtUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,8 +27,11 @@ import javax.servlet.http.HttpServletRequest;
 public class AuthController {
     private final UserService userService;
 
-    public AuthController(UserService userService) {
+    private final JwtUtils jwtUtils;
+
+    public AuthController(UserService userService, JwtUtils jwtUtils) {
         this.userService = userService;
+        this.jwtUtils = jwtUtils;
     }
 
     @PostMapping("/login")
@@ -40,10 +45,17 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public void logout(HttpServletRequest request){
-        userService.logout(request);
+    public void logout(HttpServletRequest request) {
+        final String token = RequestUtils.getAccessToken(request);
+
+        userService.logout(token);
     }
 
     @GetMapping("/refresh-token")
-    public AuthResponse refreshToken(HttpServletRequest request) {return userService.refreshToken(request);}
+    public AuthResponse refreshToken(HttpServletRequest request) {
+        final String token = RequestUtils.getRefreshToken(request);
+        final String username = jwtUtils.getEmailFromJwtToken(token, false);
+
+        return userService.refreshToken(username);
+    }
 }

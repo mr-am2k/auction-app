@@ -3,7 +3,6 @@ package com.internship.auctionapp.models;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import java.util.Date;
 import java.util.UUID;
 
@@ -20,7 +19,7 @@ public class User {
 
     private String phoneNumber;
 
-    private String imageUrl;
+    private String profileImageUrl;
 
     private Date dateOfBirth;
 
@@ -34,5 +33,5 @@ public class User {
 
     private String country;
 
-    private Card card;
+    private CreditCard card;
 }

@@ -10,9 +10,9 @@ import java.util.UUID;
 public interface BidRepository {
     Bid addBid(CreateBidRequest createBidRequest);
 
-    List<BidWithProduct> getAllBids();
+    List<Bid> getAllBids();
 
     Bid getHighestBid(UUID productId);
 
-    List<BidWithProduct> getBidsForUser(String username);
+    List<BidWithProduct> getUserBids(UUID userId);
 }

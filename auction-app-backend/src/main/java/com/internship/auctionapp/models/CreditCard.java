@@ -8,10 +8,10 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-public class Card {
+public class CreditCard {
     private UUID id;
 
-    private String holderName;
+    private String holderFullName;
 
     private String number;
 

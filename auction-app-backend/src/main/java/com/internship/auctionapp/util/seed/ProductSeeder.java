@@ -3,8 +3,7 @@ package com.internship.auctionapp.util.seed;
 import com.internship.auctionapp.entities.CategoryEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.entities.UserEntity;
-import com.internship.auctionapp.models.Category;
-import com.internship.auctionapp.repositories.card.CardJpaRepository;
+import com.internship.auctionapp.repositories.creditCard.CreditCardJpaRepository;
 import com.internship.auctionapp.repositories.category.CategoryJpaRepository;
 import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
@@ -36,16 +35,16 @@ public class ProductSeeder implements CommandLineRunner {
 
     String USER_ID = "ccd5d47b-a868-4a3d-ba39-6e966ccaa24e";
     private final CategoryJpaRepository categoryJpaRepository;
-    private final CardJpaRepository cardJpaRepository;
+    private final CreditCardJpaRepository creditCardJpaRepository;
 
     public ProductSeeder(ProductJpaRepository productRepository, UserJpaRepository userRepository, PasswordEncoder encoder,
                          CategoryJpaRepository categoryJpaRepository,
-                         CardJpaRepository cardJpaRepository) {
+                         CreditCardJpaRepository creditCardJpaRepository) {
         this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.encoder = encoder;
         this.categoryJpaRepository = categoryJpaRepository;
-        this.cardJpaRepository = cardJpaRepository;
+        this.creditCardJpaRepository = creditCardJpaRepository;
     }
 
     @Override

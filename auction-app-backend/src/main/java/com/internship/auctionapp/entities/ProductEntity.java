@@ -75,7 +75,7 @@ public class ProductEntity {
     @Formula("(SELECT b.price FROM bids b " +
             "INNER JOIN products p on p.id = b.product_id " +
             "WHERE id = b.product_id ORDER BY b.price DESC LIMIT 1)")
-    private Double highestBid;
+    private Double highestBidPrice;
 
     @OneToMany(
             mappedBy = "product",
@@ -116,7 +116,7 @@ public class ProductEntity {
             UserEntity user,
             CategoryEntity category,
             UUID highestBidder,
-            Double highestBid
+            Double highestBidPrice
     ) {
         this.name = name;
         this.description = description;
@@ -127,7 +127,7 @@ public class ProductEntity {
         this.user = user;
         this.category = category;
         this.highestBidder = highestBidder;
-        this.highestBid = highestBid;
+        this.highestBidPrice = highestBidPrice;
     }
 
     public Product toDomainModel() {
@@ -145,17 +145,15 @@ public class ProductEntity {
                 this.user,
                 this.category,
                 this.highestBidder,
-                this.highestBid
+                this.highestBidPrice
         );
 
-        Product product = new Product(
+        return new Product(
                 this.id,
                 productEntity,
                 bids,
                 DateUtils.calculateDateDiffVerbose(this.expirationDateTime)
         );
-
-        return product;
     }
 
     public ProductWithoutBid toDomainModelWithoutBids() {
@@ -175,7 +173,7 @@ public class ProductEntity {
         productWithoutBid.setUser(this.user.toDomainModel());
         productWithoutBid.setCategory(this.category.toDomainModel());
         productWithoutBid.setHighestBidder(this.highestBidder);
-        productWithoutBid.setHighestBid(this.highestBid);
+        productWithoutBid.setHighestBidPrice(this.highestBidPrice);
 
         return productWithoutBid;
     }

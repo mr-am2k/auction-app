@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Formula;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -41,7 +40,7 @@ public class Product {
 
     private UUID highestBidder;
 
-    private Double highestBid;
+    private Double highestBidPrice;
 
     public Product(UUID productId, ProductEntity productEntity, List<Bid> bids, String remainingTime) {
         this.id = productId;
@@ -56,6 +55,6 @@ public class Product {
         this.user = productEntity.getUser().toDomainModel();
         this.category = productEntity.getCategory().toDomainModel();
         this.highestBidder = productEntity.getHighestBidder();
-        this.highestBid = productEntity.getHighestBid();
+        this.highestBidPrice = productEntity.getHighestBidPrice();
     }
 }

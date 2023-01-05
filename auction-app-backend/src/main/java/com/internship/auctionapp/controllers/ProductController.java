@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -27,13 +26,13 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping()
+    @PostMapping
     @SecurityRequirement(name = "Bearer Authentication")
-    public Product addProduct(@Valid @RequestBody CreateProductRequest createProductRequest, HttpServletRequest request) {
-        return productService.addProduct(createProductRequest, request);
+    public Product addProduct(@Valid @RequestBody CreateProductRequest createProductRequest) {
+        return productService.addProduct(createProductRequest);
     }
 
-    @GetMapping()
+    @GetMapping
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
@@ -65,9 +64,9 @@ public class ProductController {
         return productService.getProductsByCriteria(criteria);
     }
 
-    @GetMapping("/user-products")
+    @GetMapping("/user/{userId}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public List<Product> getProductsForUser(HttpServletRequest request){
-        return productService.getProductsForUser(request);
+    public List<Product> getUserProducts(@PathVariable("userId") UUID userId){
+        return productService.getUserProducts(userId);
     }
 }

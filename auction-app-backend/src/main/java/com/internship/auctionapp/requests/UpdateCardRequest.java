@@ -8,7 +8,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class UpdateCardRequest {
-    private String holderName;
+    private String holderFullName;
 
     private String number;
 

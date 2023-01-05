@@ -2,7 +2,7 @@ package com.internship.auctionapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.internship.auctionapp.models.Card;
+import com.internship.auctionapp.models.CreditCard;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.util.UserRole;
 
@@ -55,11 +55,11 @@ public class UserEntity {
     @Column(name = "role", nullable = false)
     private UserRole role = UserRole.ROLE_USER;
 
-    @Column(name = "is_active", nullable = false)
-    private boolean isActive = true;
+    @Column(name = "active", nullable = false)
+    private boolean active = true;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
 
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
@@ -81,7 +81,7 @@ public class UserEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "card_id", referencedColumnName = "id")
-    private CardEntity card;
+    private CreditCardEntity card;
 
     public User toDomainModel() {
         User user = new User();
@@ -91,7 +91,7 @@ public class UserEntity {
         user.setLastName(this.lastName);
         user.setEmail(this.email);
         user.setPhoneNumber(this.phoneNumber);
-        user.setImageUrl(this.imageUrl);
+        user.setProfileImageUrl(this.profileImageUrl);
         user.setDateOfBirth(this.dateOfBirth);
         user.setStreet(this.street);
         user.setCity(this.city);
@@ -99,10 +99,10 @@ public class UserEntity {
         user.setState(this.state);
         user.setCountry(this.country);
 
-        if(this.card != null){
+        if (this.card != null) {
             user.setCard(this.card.toDomainModel());
-        }else{
-            user.setCard(new Card());
+        } else {
+            user.setCard(new CreditCard());
         }
 
         return user;

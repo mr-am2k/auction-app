@@ -1,18 +1,15 @@
 package com.internship.auctionapp.services.category;
 
 import com.internship.auctionapp.entities.CategoryEntity;
-import com.internship.auctionapp.middleware.exception.InvalidCategoryIdException;
+import com.internship.auctionapp.middleware.exception.CategoryNotFoundException;
 import com.internship.auctionapp.middleware.exception.SubcategoryAlreadyExistsException;
 import com.internship.auctionapp.models.Category;
 import com.internship.auctionapp.repositories.category.CategoryJpaRepository;
 import com.internship.auctionapp.repositories.category.CategoryRepository;
 import com.internship.auctionapp.requests.CreateCategoryRequest;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @Service
 public class DefaultCategoryService implements CategoryService {
@@ -31,7 +28,7 @@ public class DefaultCategoryService implements CategoryService {
             CategoryEntity category = categoryJpaRepository.findById(createCategoryRequest.getParentCategoryId()).orElse(null);
 
             if(!categoryJpaRepository.existsById(createCategoryRequest.getParentCategoryId())){
-                throw new InvalidCategoryIdException(createCategoryRequest.getParentCategoryId().toString());
+                throw new CategoryNotFoundException(createCategoryRequest.getParentCategoryId().toString());
             }
 
             if (category != null && category.getParentCategoryId() != null) {

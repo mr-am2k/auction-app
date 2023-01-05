@@ -39,18 +39,18 @@ public class BidController {
     }
 
     @GetMapping()
-    public List<BidWithProduct> getAllBids() {
+    public List<Bid> getAllBids() {
         return bidService.getAllBids();
     }
 
     @GetMapping("/product/{productId}")
-    public Double getHighestBid(@PathVariable("productId") UUID productId) {
+    public Double getHighestBidPrice(@PathVariable("productId") UUID productId) {
         return bidService.getHighestBidPrice(productId);
     }
 
-    @GetMapping("/user-bids")
+    @GetMapping("/user/{userId}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public List<BidWithProduct> getBidsForUser(HttpServletRequest request){
-        return bidService.getBidsForUser(request);
+    public List<BidWithProduct> getUserBids(@PathVariable("userId") UUID userId){
+        return bidService.getUserBids(userId);
     }
 }

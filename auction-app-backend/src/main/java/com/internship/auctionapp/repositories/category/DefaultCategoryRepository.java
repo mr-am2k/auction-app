@@ -2,7 +2,7 @@ package com.internship.auctionapp.repositories.category;
 
 import com.internship.auctionapp.entities.CategoryEntity;
 import com.internship.auctionapp.models.Category;
-import com.internship.auctionapp.repositories.card.CardJpaRepository;
+import com.internship.auctionapp.repositories.creditCard.CreditCardJpaRepository;
 import com.internship.auctionapp.requests.CreateCategoryRequest;
 import org.springframework.stereotype.Repository;
 
@@ -13,14 +13,13 @@ import java.util.stream.Collectors;
 public class DefaultCategoryRepository implements CategoryRepository{
     private final CategoryJpaRepository categoryJpaRepository;
 
-    public DefaultCategoryRepository(CategoryJpaRepository categoryJpaRepository,
-                                     CardJpaRepository cardJpaRepository) {
+    public DefaultCategoryRepository(CategoryJpaRepository categoryJpaRepository) {
         this.categoryJpaRepository = categoryJpaRepository;
     }
 
     @Override
     public Category addCategory(CreateCategoryRequest createCategoryRequest) {
-        CategoryEntity category = new CategoryEntity();
+        final CategoryEntity category = new CategoryEntity();
 
         category.setName(createCategoryRequest.getName());
 

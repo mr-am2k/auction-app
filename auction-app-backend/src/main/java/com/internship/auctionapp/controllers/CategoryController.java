@@ -25,13 +25,13 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @PostMapping()
+    @PostMapping
     @SecurityRequirement(name = "Bearer Authentication")
     public Category addCategory(@RequestBody CreateCategoryRequest createCategoryRequest) {
         return categoryService.addCategory(createCategoryRequest);
     }
 
-    @GetMapping()
+    @GetMapping
     public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
     }
