@@ -27,6 +27,7 @@ public class ProductController {
     }
 
     @PostMapping
+    @SecurityRequirement(name = "Bearer Authentication")
     public Product addProduct(@Valid @RequestBody CreateProductRequest createProductRequest) {
         return productService.addProduct(createProductRequest);
     }
@@ -42,11 +43,13 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public Product updateProduct(@PathVariable("id") UUID id, @RequestBody ProductEntity product) {
         return productService.updateProduct(id, product);
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public void deleteProduct(@PathVariable("id") UUID id) {
         productService.deleteProduct(id);
     }
@@ -62,6 +65,7 @@ public class ProductController {
     }
 
     @GetMapping("/user/{userId}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public List<Product> getUserProducts(@PathVariable("userId") UUID userId){
         return productService.getUserProducts(userId);
     }
