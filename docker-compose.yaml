@@ -23,9 +23,9 @@ services:
     deploy: 
         resources:
           limits:
-            memory: 1024M
+            memory: 1000M
           reservations:
-            memory: 512M
+            memory: 500M
     build:
       context: ./auction-app-ui
     ports:
