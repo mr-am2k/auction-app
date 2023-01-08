@@ -1,7 +1,7 @@
-import { createBidRequest } from 'requestModels/createBidRequest';
+import { createBidRequest } from 'requestModels/create/createBidRequest';
 
 import agent from 'lib/agent';
-import { BidWithProduct } from 'models/bidWithProduct';
+import { Bid } from 'models/bid';
 
 const BASE_URL = '/bids';
 
@@ -10,8 +10,8 @@ const bidService = {
     agent.get<number>(`${BASE_URL}/product/${productId}`),
   addBid: (createBidRequest: createBidRequest) =>
     agent.post(BASE_URL, createBidRequest),
-  getBidsForUser: (userId: string) => 
-    agent.get<BidWithProduct[]>(`${BASE_URL}/user/${userId}`)
+  getUserBids: (userId: string) => 
+    agent.get<Bid[]>(`${BASE_URL}/user/${userId}`)
 };
 
 export default bidService;

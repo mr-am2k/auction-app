@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { CardForm } from 'components';
+import { CreditCardForm } from 'components';
 import { User } from 'models/user';
 import arrowUp from 'assets/images/arrow-up.png';
 import arrowDown from 'assets/images/arrow-down.png';
@@ -16,17 +16,17 @@ type Props = {
 };
 
 const Card: React.FC<Props> = ({ user }) => {
-  const [displayCard, setDisplayCard] = useState(true);
+  const [cardDisplayed, setCardDisplayed] = useState(true);
 
   const changeDisplayCard = () => {
-    setDisplayCard((prevState) => !prevState);
+    setCardDisplayed((prevCardDisplayed) => !prevCardDisplayed);
   };
 
   return (
     <div className='c-card-wrapper'>
       <div className='c-card-header' onClick={changeDisplayCard}>
         <img
-          src={!displayCard ? arrowUp : arrowDown}
+          src={!cardDisplayed ? arrowUp : arrowDown}
           alt={EN_STRINGS.PROFILE.CARD}
         />
         
@@ -35,11 +35,11 @@ const Card: React.FC<Props> = ({ user }) => {
 
       <div
         className={classNames({
-          'c-display-card': displayCard,
-          'c-card-content': !displayCard,
+          'c-display-card': cardDisplayed,
+          'c-card-content': !cardDisplayed,
         })}
       >
-        <CardForm user={user} />
+        <CreditCardForm user={user} />
       </div>
     </div>
   );

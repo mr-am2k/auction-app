@@ -1,4 +1,5 @@
 import EN_STRINGS from 'translation/en';
+import { VALIDATION } from 'util/constants';
 
 export const validate = (date: string) => {
   const dateOfBirth = new Date(date);
@@ -20,7 +21,7 @@ export const validate = (date: string) => {
     diffInYears--;
   }
 
-  if (diffInYears < 18) {
+  if (diffInYears < VALIDATION.DATE_OF_BIRTH_MIN) {
     return {
       valid: false,
       message: EN_STRINGS.ERROR_MESSAGE.DATE_OF_BIRTH,

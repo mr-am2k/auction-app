@@ -25,12 +25,12 @@ const Header = () => {
       LOCAL_STORAGE.REFRESH_TOKEN,
       LOCAL_STORAGE.ID,
       LOCAL_STORAGE.FULL_NAME,
-      LOCAL_STORAGE.ROLE,
+      LOCAL_STORAGE.ROLE
     ]);
 
-    navigate('/')
-
     resetLoggedInUser();
+
+    navigate('/')
   };
 
   return (

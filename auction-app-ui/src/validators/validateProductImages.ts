@@ -1,6 +1,6 @@
 import EN_STRINGS from 'translation/en';
 
-export const validate = (images: string[]) => {
+export const validate = (images: File[]) => {
   if (images.length < 3) {
     return {
       valid: false,

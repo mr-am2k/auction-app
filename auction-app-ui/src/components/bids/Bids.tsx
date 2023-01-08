@@ -3,38 +3,41 @@ import { useEffect, useState } from 'react';
 import { usePage } from 'hooks/usePage';
 
 import bidService from 'services/bidService';
+import productsService from 'services/productService';
+import { storageService } from 'services/storageService';
 
-import ItemList from 'components/UI/item-list/ItemList';
-import EmptyCart from 'components/UI/empty-cart/EmptyCart';
-import { Item } from 'models/item';
+import { ItemList, EmptyList } from 'components';
+import { ProductList } from 'models/productList';
 import { ROUTES } from 'util/routes';
-import HammerIcon from 'assets/icons/HammerIcon';
+import { LOCAL_STORAGE } from 'util/constants';
 import EN_STRINGS from 'translation/en';
+import HammerIcon from 'assets/icons/HammerIcon';
 
 import './bids.scss';
-import { storageService } from 'services/storageService';
-import { LOCAL_STORAGE } from 'util/constants';
 
 const Bids = () => {
-  const [bids, setBids] = useState<Item[]>([]);
-
+  const [bids, setBids] = useState<ProductList[]>([]);
   const { setNavbarTitle, setNavbarItems } = usePage();
 
-  const fetchBidsForUser = () => {
-    bidService.getBidsForUser(storageService.get(LOCAL_STORAGE.ID)!).then((bids) => {
-      bids.forEach((bid) => {
-        const newItem: Item = {
-          id: bid.product.id,
-          imageUrl: bid.product.imageURLs[0],
-          name: bid.product.name,
-          remainingTime: bid.product.remainingTime,
-          price: bid.price,
-          numberOfBids: bid.product.numberOfBids,
-          highestBid: bid.product.highestBidPrice,
-        };
+  const fetchBidsForUser = async () => {
+    const bids = await bidService.getUserBids(
+      storageService.get(LOCAL_STORAGE.ID)!
+    );
 
-        setBids((prevValues) => [...prevValues, newItem]);
-      });
+    bids.forEach(async (bid) => {
+      const product = await productsService.getSingleProduct(bid.productId);
+
+      const newProduct: ProductList = {
+        id: bid.productId,
+        imageUrl: product.imageURLs[0],
+        name: product.name,
+        remainingTime: product.remainingTime,
+        price: product.startPrice,
+        numberOfBids: product.bids.length,
+        highestBid: product.highestBidPrice,
+      };
+
+      setBids((prevProducts) => [...prevProducts, newProduct]);
     });
   };
 
@@ -51,23 +54,23 @@ const Bids = () => {
       <table>
         <thead>
           <tr>
-            <td>{EN_STRINGS.TABLE.ITEM}</td>
-            <td>{EN_STRINGS.TABLE.NAME}</td>
-            <td>{EN_STRINGS.TABLE.TIME_LEFT}</td>
-            <td>{EN_STRINGS.TABLE.YOUR_PRICE}</td>
-            <td>{EN_STRINGS.TABLE.NUMBER_OF_BIDS}</td>
-            <td>{EN_STRINGS.TABLE.HIGHEST_BID}</td>
+            <td>{EN_STRINGS.PRODUCTS_TABLE.ITEM}</td>
+            <td>{EN_STRINGS.PRODUCTS_TABLE.NAME}</td>
+            <td>{EN_STRINGS.PRODUCTS_TABLE.TIME_LEFT}</td>
+            <td>{EN_STRINGS.PRODUCTS_TABLE.YOUR_PRICE}</td>
+            <td>{EN_STRINGS.PRODUCTS_TABLE.NUMBER_OF_BIDS}</td>
+            <td>{EN_STRINGS.PRODUCTS_TABLE.HIGHEST_BID}</td>
           </tr>
         </thead>
 
         <ItemList
           elements={bids}
-          emptyCart={
-            <EmptyCart
+          emptyList={
+            <EmptyList
               icon={<HammerIcon />}
               message={EN_STRINGS.BIDS.MESSAGE}
               route={ROUTES.SHOP}
-              buttonMessage={EN_STRINGS.BIDS.BUTTON}
+              buttonLabel={EN_STRINGS.BIDS.BUTTON}
             />
           }
           buttonLabel={EN_STRINGS.BIDS.BID}

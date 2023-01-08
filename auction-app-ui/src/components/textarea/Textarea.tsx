@@ -35,7 +35,7 @@ const Textarea: React.FC<Props> = ({
 
   type ObjectKey = keyof typeof fieldValidationResults;
 
-  const existingError = fieldValidationResults[name as ObjectKey]?.valid;
+  const hasError = !fieldValidationResults[name as ObjectKey]?.valid;
 
   const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setFieldValues({
@@ -79,7 +79,7 @@ const Textarea: React.FC<Props> = ({
 
       <textarea
         className={classNames({
-          'c-textarea-error': !existingError,
+          'c-textarea-error': hasError,
         })}
         maxLength={maxLength}
         value={value}
@@ -90,7 +90,7 @@ const Textarea: React.FC<Props> = ({
 
       <p className='c-message'>{message}</p>
 
-      {!existingError && (
+      {hasError && (
         <p className='c-error-message'>
           {fieldValidationResults[name as ObjectKey]?.message}
         </p>

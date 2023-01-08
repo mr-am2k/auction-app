@@ -1,7 +1,7 @@
-import { userRegisterRequest } from 'requestModels/userRegisterRequest';
-import { userLoginRequest } from 'requestModels/userLoginRequest';
-import { LoginResponse } from 'models/loginResponse';
-import { AuthResponse } from 'models/authResponse';
+import { userRegisterRequest } from 'requestModels/auth/userRegisterRequest';
+import { userLoginRequest } from 'requestModels/auth/userLoginRequest';
+import { LoginResponse } from 'models/response/loginResponse';
+import { AuthResponse } from 'models/response/authResponse';
 
 import agent from 'lib/agent';
 
@@ -17,9 +17,9 @@ const authService = {
   login: (userLoginRequest: userLoginRequest) =>
     agent.post<LoginResponse>(`${BASE_URL}/login`, userLoginRequest),
 
-  logout: () => agent.get<any>(`${BASE_URL}/logout`),
-  
-  refreshToken: () => agent.get<AuthResponse>(`${BASE_URL}/refresh-token`)
+  logout: () => agent.post<any>(`${BASE_URL}/logout`, {}),
+
+  refreshToken: () => agent.get<AuthResponse>(`${BASE_URL}/refresh-token`),
 };
 
 export default authService;

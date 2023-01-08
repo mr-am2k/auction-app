@@ -4,56 +4,59 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'hooks/useForm';
 
 import { Form, Input } from 'components';
-import { FORM, INPUT_TYPE_DATE, INPUT_TYPE_NUMBER } from 'util/constants';
+import {
+  PRODUCT_FORM,
+  INPUT_TYPE_DATE,
+  INPUT_TYPE_NUMBER,
+} from 'util/constants';
 import { ROUTES } from 'util/routes';
-import { validate as validateStartPrice } from 'validators/validateStartPrice';
-import { validate as validateStartDate } from 'validators/validateStartDate';
-import { validate as validateEndDate } from 'validators/validateEndDate';
+import { validate as validateProductStartPrice } from 'validators/validateProductStartPrice';
+import { validate as validateDateIsInPast } from 'validators/validateDateIsInPast';
 import EN_STRINGS from 'translation/en';
 
 import './prices.scss';
+import 'scss/settings.scss';
 
 type Props = {
   children?: React.ReactNode;
-  handleNext: () => void;
-  handlePrevious: () => void;
+  handleNextStep: () => void;
+  handleBackStep: () => void;
 };
 
-const Prices: React.FC<Props> = ({ handleNext, handlePrevious }) => {
+const Prices: React.FC<Props> = ({ handleNextStep, handleBackStep }) => {
   const { fieldValues } = useForm();
 
   const children = [
     <Input
-      key={FORM.PRICE}
+      key={PRODUCT_FORM.PRICE}
       type={INPUT_TYPE_NUMBER}
-      name={FORM.PRICE}
-      title={FORM.PRICE_TITLE}
-      placeholder={FORM.PRICE_PLACEHOLDER}
-      validator={validateStartPrice}
-      value={fieldValues[FORM.PRICE]}
+      name={PRODUCT_FORM.PRICE}
+      title={EN_STRINGS.PRODUCT_FORM.PRICE_TITLE}
+      placeholder={PRODUCT_FORM.PRICE_PLACEHOLDER}
+      validator={validateProductStartPrice}
+      value={fieldValues[PRODUCT_FORM.PRICE]}
       required
     />,
 
     <Input
-      key={FORM.START_DATE}
+      key={PRODUCT_FORM.START_DATE}
       type={INPUT_TYPE_DATE}
-      name={FORM.START_DATE}
-      title={FORM.START_DATE_TITLE}
-      placeholder={''}
-      validator={validateStartDate}
-      value={fieldValues[FORM.START_DATE]}
+      name={PRODUCT_FORM.START_DATE}
+      title={EN_STRINGS.PRODUCT_FORM.START_DATE_TITLE}
+      optionalValidator={(new Date()).toISOString()}
+      validator={validateDateIsInPast}
+      value={fieldValues[PRODUCT_FORM.START_DATE]}
       required
     />,
 
     <Input
-      key={FORM.END_DATE}
+      key={PRODUCT_FORM.END_DATE}
       type={INPUT_TYPE_DATE}
-      name={FORM.END_DATE}
-      title={FORM.END_DATE_TITLE}
-      placeholder={''}
-      optionalValidator={FORM.START_DATE}
-      validator={validateEndDate}
-      value={fieldValues[FORM.END_DATE]}
+      name={PRODUCT_FORM.END_DATE}
+      title={EN_STRINGS.PRODUCT_FORM.END_DATE_TITLE}
+      optionalValidator={fieldValues[PRODUCT_FORM.START_DATE]}
+      validator={validateDateIsInPast}
+      value={fieldValues[PRODUCT_FORM.END_DATE]}
       required
     />,
   ];
@@ -71,11 +74,14 @@ const Prices: React.FC<Props> = ({ handleNext, handlePrevious }) => {
         </Link>
 
         <div className='c-control-buttons'>
-          <button onClick={handlePrevious}>
+          <button className='c-default-button' onClick={handleBackStep}>
             {EN_STRINGS.PRICES_FORM.BACK_BUTTON}
           </button>
-          
-          <button className='c-next-button' onClick={handleNext}>
+
+          <button
+            className='c-next-button c-default-button'
+            onClick={handleNextStep}
+          >
             {EN_STRINGS.PRICES_FORM.NEXT_BUTTON}
           </button>
         </div>

@@ -8,7 +8,7 @@
   font-family: $latoFont;
 
   .c-my-account-navbar {
-    width: 100%;
+    min-width: 100%;
     @include flexDisplay(space-between, center);
 
     .c-navbar-list {
@@ -27,7 +27,7 @@
         }
       }
 
-      .c-navbar-element-focused {
+      .c-navbar-element--focused {
         background-color: $purpleColor;
         color: white;
       }

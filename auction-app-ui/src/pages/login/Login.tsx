@@ -6,10 +6,11 @@ import { useUser } from 'hooks/useUser';
 import { useForm } from 'hooks/useForm';
 
 import authService from 'services/authService';
-
-import LoginForm from 'components/login-form/LoginForm';
-import { userLoginRequest } from 'requestModels/userLoginRequest';
 import { storageService } from 'services/storageService';
+
+import LoginForm from 'components/LoginForm/LoginForm';
+import { LoggedInUser } from 'models/loggedInUser';
+import { userLoginRequest } from 'requestModels/auth/userLoginRequest';
 import { LOCAL_STORAGE } from 'util/constants';
 import logo from 'assets/logo/auction-app-logo.svg';
 
@@ -33,9 +34,9 @@ const Login = () => {
         storageService.add(LOCAL_STORAGE.FULL_NAME, authResponse.fullName);
         storageService.add(LOCAL_STORAGE.ROLE, authResponse.roles[0]);
 
-        const user = {
+        const user: LoggedInUser = {
           id: authResponse.id,
-          token: authResponse.accessToken,
+          accessToken: authResponse.accessToken,
         };
 
         setLoggedInUser(user);

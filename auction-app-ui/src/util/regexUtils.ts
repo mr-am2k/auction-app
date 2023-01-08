@@ -5,5 +5,5 @@ export const PASSWORD_REGEX = {
   lowercase: /[a-z]/,
   digit: /[0-9]/,
   character: /[!@#$%^&*]/,
-  full: /^[A-Za-z0-9!@#$%^&*]{7,}$/,
+  full: /^[A-Za-z0-9!@#$%^&*]{8,}$/,
 };

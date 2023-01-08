@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 type Props = {
   children?: React.ReactNode;
-  placeholder: string | undefined;
+  placeholder?: string | undefined;
   name: string;
   type: string;
   title: string;
@@ -108,7 +108,7 @@ const Input: React.FC<Props> = ({
         pattern={pattern}
         required={required}
         disabled={disabled}
-        value={value ? value : ''}
+        value={value}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           inputFieldChange(event);
         }}

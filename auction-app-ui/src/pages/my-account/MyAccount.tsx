@@ -1,7 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Profile, Seller, Bids, Wishlist, Settings } from 'components';
+import { useUser } from 'hooks/useUser';
+
+import {
+  UserProfile,
+  SellerDetails,
+  Bids,
+  Wishlist,
+  UserSettings,
+} from 'components';
 import { Error } from 'pages';
 import { ProfileIcon, SellerIcon, BidIcon } from 'assets/icons';
 import { AiOutlineHeart } from 'react-icons/ai';
@@ -11,7 +19,6 @@ import EN_STRINGS from 'translation/en';
 
 import './my-account.scss';
 import classNames from 'classnames';
-import { useUser } from 'hooks/useUser';
 
 type Props = {
   children?: React.ReactNode;
@@ -20,34 +27,30 @@ type Props = {
 
 const initialNavbarElements = [
   {
-    page: <Profile />,
+    page: <UserProfile />,
     icon: <ProfileIcon />,
     name: EN_STRINGS.MY_ACCOUNT.PROFILE,
     focused: true,
   },
   {
-    page: <Seller />,
+    page: <SellerDetails />,
     icon: <SellerIcon />,
     name: EN_STRINGS.MY_ACCOUNT.SELLER,
-    focused: false,
   },
   {
     page: <Bids />,
     icon: <BidIcon />,
     name: EN_STRINGS.MY_ACCOUNT.BIDS,
-    focused: false,
   },
   {
     page: <Wishlist />,
     icon: <AiOutlineHeart className='c-icon-style' />,
     name: EN_STRINGS.MY_ACCOUNT.WISHLIST,
-    focused: false,
   },
   {
-    page: <Settings />,
+    page: <UserSettings />,
     icon: <CiSettings className='c-icon-style' />,
     name: EN_STRINGS.MY_ACCOUNT.SETTINGS,
-    focused: false,
   },
 ];
 
@@ -76,7 +79,7 @@ const MyAccount = () => {
             onClick={() => changeActivePage(index)}
             className={classNames({
               'c-navbar-element': true,
-              'c-navbar-element-focused': page.focused,
+              'c-navbar-element--focused': page.focused,
             })}
             key={index}
           >
@@ -89,7 +92,7 @@ const MyAccount = () => {
   };
 
   useEffect(() => {
-    setPage(<Profile />);
+    setPage(<UserProfile />);
   }, []);
 
   if (!isUserLoggedIn()) {
@@ -104,8 +107,8 @@ const MyAccount = () => {
         </div>
 
         <div className='c-add-button'>
-          <Link to={`${ROUTES.MY_ACCOUNT}/${ROUTES.ADD_PRODUCT}`}>
-            <button>+ ADD ITEM</button>
+          <Link to={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`}>
+            <button>{EN_STRINGS.MY_ACCOUNT.ADD_ITEM}</button>
           </Link>
         </div>
       </div>

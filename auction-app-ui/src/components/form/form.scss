@@ -40,7 +40,7 @@
       @include flexDisplay(flex-start, center);
       width: 500px;
       text-align: left;
-      color: #f44336;
+      color: $errorColor;
       font-weight: $fontBold;
       font-size: 19px;
     }

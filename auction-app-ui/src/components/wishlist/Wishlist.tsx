@@ -26,12 +26,12 @@ const Wishlist = () => {
       <table>
         <thead>
           <tr>
-            <td>{EN_STRINGS.TABLE.ITEM}</td>
-            <td>{EN_STRINGS.TABLE.NAME}</td>
-            <td>{EN_STRINGS.TABLE.TIME_LEFT}</td>
-            <td>{EN_STRINGS.TABLE.YOUR_PRICE}</td>
-            <td>{EN_STRINGS.TABLE.NUMBER_OF_BIDS}</td>
-            <td>{EN_STRINGS.TABLE.HIGHEST_BID}</td>
+            <td>{EN_STRINGS.PRODUCTS_TABLE.ITEM}</td>
+            <td>{EN_STRINGS.PRODUCTS_TABLE.NAME}</td>
+            <td>{EN_STRINGS.PRODUCTS_TABLE.TIME_LEFT}</td>
+            <td>{EN_STRINGS.PRODUCTS_TABLE.YOUR_PRICE}</td>
+            <td>{EN_STRINGS.PRODUCTS_TABLE.NUMBER_OF_BIDS}</td>
+            <td>{EN_STRINGS.PRODUCTS_TABLE.HIGHEST_BID}</td>
           </tr>
         </thead>
 

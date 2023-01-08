@@ -20,14 +20,6 @@
     width: 500px;
     margin-bottom: 2rem;
 
-    button {
-      border: 2px solid $smokeWhiteColor;
-
-      &:hover {
-        scale: 1.02;
-      }
-    }
-
     .c-control-buttons {
       @include flexDisplay(center, center);
       gap: 20px;

@@ -1,0 +1,89 @@
+@import '/src/scss/mixin';
+@import '/src/scss/variables';
+
+.c-profile-wrapper {
+  font-family: $textBase;
+
+  .c-display-shipping {
+    display: none;
+  }
+
+  .c-profile-information {
+    border: 1px solid $smokeWhiteColor;
+    margin-top: 1rem;
+
+    .c-display-card {
+      display: none;
+    }
+
+    .c-profile-header {
+      @include flexDisplay(flex-start, center);
+      gap: 16px;
+      padding: 0 1rem;
+      border-bottom: 1px solid $smokeWhiteColor;
+      font-weight: $fontBold;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .c-personal-information {
+      @include flexDisplay(space-between, flex-start);
+      padding: 0 4rem;
+
+      .c-personal-image {
+        padding: 6rem 0 0 1rem;
+        @include flexDisplay(flex-start, center);
+        flex-direction: column;
+
+        img {
+          object-fit: cover;
+          width: 360px;
+          height: 360px;
+          border-radius: 100%;
+        }
+
+        label {
+          @include flexDisplay(center, center);
+          margin-top: 2rem;
+          width: 22.5rem;
+          height: 2rem;
+          border: 2px solid $purpleColor;
+          text-align: center;
+          padding: 0.5rem;
+          font-size: $textBase;
+          font-weight: $fontBold;
+
+          &:hover {
+            cursor: pointer;
+          }
+
+          input {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .c-profile-content {
+      @include flexDisplay(flex-end, flex-start);
+      padding: 0 4rem;
+    }
+  }
+
+  button {
+    margin-top: 1rem;
+    border: 2px solid $purpleColor;
+    float: right;
+    width: 10rem;
+  }
+
+  .c-error-message{
+    @include flexDisplay(flex-end, center);
+    font-size: 19px;
+    font-weight: $fontBold;
+    color: $errorColor;
+    width: 100%;
+  }
+}

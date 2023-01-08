@@ -15,7 +15,7 @@ type Props = {
   options: Option[];
   placeholder: string;
   required: boolean;
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 const Dropdown: React.FC<Props> = ({
@@ -30,22 +30,38 @@ const Dropdown: React.FC<Props> = ({
   const {
     fieldValues,
     fieldValidationResults,
+    additionalFieldsInfo,
     setFieldValues,
     setFieldValidationResults,
     setAdditionalFieldsInfo,
+    validateSingleField,
   } = useForm();
 
   type ObjectKey = keyof typeof fieldValidationResults;
 
-  const existingError = fieldValidationResults[name as ObjectKey]?.valid;
+  const hasError = !fieldValidationResults[name as ObjectKey]?.valid;
 
   const onDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFieldValues({
       ...fieldValues,
       [name]: event.target.value,
     });
+
     setSelectedOption(event.target.value);
-    onChange(event);
+
+    setFieldValidationResults({
+      ...fieldValidationResults,
+      [name]: validateSingleField(
+        name,
+        event.target.value,
+        additionalFieldsInfo[name]?.pattern,
+        required
+      ),
+    });
+
+    if (onChange) {
+      onChange(event);
+    }
   };
 
   useEffect(() => {
@@ -72,7 +88,7 @@ const Dropdown: React.FC<Props> = ({
       <select
         className={classNames({
           'c-dropdown': true,
-          'c-error-border': !existingError,
+          'c-dropdown-error-border': hasError,
         })}
         value={selectedOption ? selectedOption : placeholder}
         onChange={onDropdownChange}
@@ -86,8 +102,8 @@ const Dropdown: React.FC<Props> = ({
         ))}
       </select>
 
-      {!existingError && (
-        <p className='c-error-message'>
+      {hasError && (
+        <p className='c-dropdown-error-message'>
           {fieldValidationResults[name as ObjectKey]?.message}
         </p>
       )}

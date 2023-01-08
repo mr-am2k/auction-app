@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import { usePage } from 'hooks/usePage';
 import { useUser } from 'hooks/useUser';
@@ -7,22 +8,19 @@ import { useUser } from 'hooks/useUser';
 import productsService from 'services/productService';
 import bidService from 'services/bidService';
 import notificationService from 'services/notificationService';
+import { storageService } from 'services/storageService';
 
 import { Loading, ImagePicker, NotificationBar } from 'components';
-import { createBidRequest } from 'requestModels/createBidRequest';
-import { Notification } from 'models/notification';
-import { GreaterIcon } from 'assets/icons';
 import { Product } from 'models/product';
+import { Notification } from 'models/notification';
+import { createBidRequest } from 'requestModels/create/createBidRequest';
+import { GreaterIcon } from 'assets/icons';
+import { INPUT_TYPE_NUMBER } from 'util/constants';
 import EN_STRINGS from 'translation/en';
 
 import './single-product.scss';
-import { storageService } from 'services/storageService';
-import { Link } from 'react-router-dom';
 
 const SingleProduct = () => {
-  const { setNavbarTitle, setNavbarItems } = usePage();
-  const { loggedInUser, isUserLoggedIn } = useUser();
-  const { id } = useParams();
   const bidInputRef = useRef<HTMLInputElement>(null);
   const [singleProduct, setSingleProduct] = useState<Product>();
   const [highestBid, setHighestBid] = useState<number>();
@@ -31,6 +29,10 @@ const SingleProduct = () => {
     Notification | undefined
   >();
   const [inputPlaceholderValue, setInputPlaceholderValue] = useState(0);
+
+  const { setNavbarTitle, setNavbarItems } = usePage();
+  const { loggedInUser, isUserLoggedIn } = useUser();
+  const { id } = useParams();
 
   const currentDate = new Date();
 
@@ -104,9 +106,9 @@ const SingleProduct = () => {
   }, []);
 
   useEffect(() => {
-    loggedInUser
-      ? getLatestNotification(loggedInUser!.id, id!)
-      : setLatestNotification(undefined);
+    loggedInUser ? 
+      getLatestNotification(loggedInUser!.id, id!) :
+      setLatestNotification(undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedInUser, singleProduct]);
 
@@ -144,9 +146,9 @@ const SingleProduct = () => {
                 <p>
                   {`${EN_STRINGS.SINGLE_PRODUCT.TIME_LEFT}: `}
                   <span>
-                    {new Date(singleProduct.expirationDateTime) < currentDate
-                      ? 'EXPIRED'
-                      : singleProduct.remainingTime}
+                    {new Date(singleProduct.expirationDateTime) < currentDate ? 
+                      EN_STRINGS.SINGLE_PRODUCT.EXPIRED : 
+                      singleProduct.remainingTime}
                   </span>
                 </p>
               </div>
@@ -167,7 +169,7 @@ const SingleProduct = () => {
                 <>
                   <input
                     ref={bidInputRef}
-                    type='number'
+                    type={INPUT_TYPE_NUMBER}
                     placeholder={`${EN_STRINGS.SINGLE_PRODUCT.INPUT_PLACEHOLDER}${inputPlaceholderValue}`}
                     disabled={!isUserLoggedIn()}
                   />

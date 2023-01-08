@@ -47,6 +47,7 @@ const EN_STRINGS = {
     INPUT_BID_ERROR: 'You must enter price first',
     PAY: 'PAY',
     LOST_MESSAGE: 'Auction is finished, more luck next time.',
+    EXPIRED: 'EXPIRED'
   },
 
   IMAGE_PICKER: {
@@ -84,8 +85,7 @@ const EN_STRINGS = {
     PHONE_NUMBER: 'Phone number needs to be between 5 and 15 digits!',
     PRODUCT_IMAGES: 'You need to upload at least 3 photos!',
     START_PRICE: 'Price needs to be 1$ or greater!',
-    START_DATE: "Start date can't be in the past!",
-    END_DATE: "End date can't be before start date!",
+    DATE: "Date can't be in the past or before start date!",
   },
 
   MY_ACCOUNT: {
@@ -107,9 +107,10 @@ const EN_STRINGS = {
     ACCOUNT: 'Account',
     ACCOUNT_TITLE: 'Do you want to deactivate account?',
     DEACTIVATE: 'DEACTIVATE',
+    ADD_ITEM: '+ ADD ITEM'
   },
 
-  TABLE: {
+  PRODUCTS_TABLE: {
     ITEM: 'Item',
     NAME: 'Name',
     TIME_LEFT: 'Time left',
@@ -191,6 +192,38 @@ const EN_STRINGS = {
     DRAG_AND_DROP: 'or just drag and drop',
     LIMITATION: '(Add at least 3 photos)',
     DND_ACTIVE: 'Drop the image here ...',
+  },
+
+  USER_FORM: {
+    FIRST_NAME_TITLE: 'First Name',
+    LAST_NAME_TITLE: 'Last Name',
+    EMAIL_TITLE: 'Email',
+    PASSWORD_TITLE: 'Password',
+    DATE_TITLE: 'Date of birth',
+    PHONE_NUMBER_TITLE: 'Phone number',
+  },
+
+  CREDIT_CARD_FORM: {
+    CREDIT_CARD_NAME_TITLE: 'Name on Card',
+    CREDIT_CARD_NUMBER_TITLE: 'Card Number',
+    CREDIT_CARD_EXPIRATION_DATE_TITLE: 'Expiration date',
+    CREDIT_CARD_CVV_TITLE: 'CVV',
+  },
+
+  ADDRESS_FORM: {
+    STREET_TITLE: 'Street',
+    CITY_TITLE: 'City',
+    ZIP_CODE_TITLE: 'Zip Code',
+    STATE_TITLE: 'State',
+    COUNTRY_TITLE: 'Country',
+  },
+
+  PRODUCT_FORM: {
+    PRODUCT_TITLE: 'What do you sell?',
+    DESCRIPTION_TITLE: 'Description',
+    PRICE_TITLE: 'Your start Price',
+    START_DATE_TITLE: 'Start date',
+    END_DATE_TITLE: 'End date',
   },
 };
 

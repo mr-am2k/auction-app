@@ -1,0 +1,25 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
+
+
+tbody {
+  font-weight: $fontBold;
+
+  .c-bid-color{
+    color: $bidColor;
+  }
+}
+
+button {
+    width: 7rem;
+    height: 3rem;
+    background-color: transparent;
+    outline: none;
+    border: 2px solid $greyColor;
+    font-size: $textBase;
+    font-weight: $fontBold;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }

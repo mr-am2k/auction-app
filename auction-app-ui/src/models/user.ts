@@ -1,3 +1,4 @@
+import { Address } from './address';
 import { Card } from './card';
 
 export type User = {
@@ -8,10 +9,6 @@ export type User = {
   phoneNumber: string;
   profileImageUrl: string;
   dateOfBirth: Date;
-  street: string;
-  city: string;
-  zipCode: string;
-  state: string;
-  country: string;
+  address: Address
   card: Card;
 };

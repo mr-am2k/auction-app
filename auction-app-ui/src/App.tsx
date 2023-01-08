@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import { useUser } from 'hooks/useUser';
 
@@ -21,11 +21,13 @@ import {
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import { ROUTES } from './util/routes';
 import { LOCAL_STORAGE } from 'util/constants';
+import { userLogin } from 'util/userLogin';
+import { userLogout } from 'util/userLogout';
+import { getTokenExpirationDate } from 'util/getTokenExpirationDate';
 
 import './app.scss';
-import authService from 'services/authService';
 
-const ROUTES_WITH_NAVBAR = [
+const PAGES_WITH_NAVBAR_COMPONENT = [
   '/',
   ROUTES.ABOUT_US,
   ROUTES.ADD_PRODUCT,
@@ -34,48 +36,67 @@ const ROUTES_WITH_NAVBAR = [
   ROUTES.PRODUCT,
   ROUTES.SHOP,
   ROUTES.TERMS_AND_CONDITIONS,
+  `${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`,
 ];
 
 const App = () => {
+  const { loggedInUser, setLoggedInUser, resetLoggedInUser } = useUser();
   const location = useLocation();
-  const { setLoggedInUser } = useUser();
+  const navigate = useNavigate();
 
+  const refreshToken = storageService.get(LOCAL_STORAGE.REFRESH_TOKEN);
+
+  const setUser = async () => {
+    const user = await userLogin();
+    setLoggedInUser(user);
+  };
+
+  //This one handles creating new access token on page reload and also logout if refresh token has expired
   useEffect(() => {
-    const id = storageService.get(LOCAL_STORAGE.ID);
-    const token = storageService.get(LOCAL_STORAGE.ACCESS_TOKEN);
-
-    if (id?.length && token?.length) {
-      const user = {
-        id: id!,
-        token: token!,
-      };
-      setLoggedInUser(user);
+    if (refreshToken && loggedInUser?.accessToken === undefined) {
+      if (getTokenExpirationDate(refreshToken)! < new Date()) {
+        userLogout();
+        resetLoggedInUser();
+        navigate('/');
+      } else {
+        setUser();
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  //This one handles logic for getting access token based on refresh token and also handles case for logout if refresh token has expired
   useEffect(() => {
     setInterval(() => {
-      authService.refreshToken().then((response) => {
-        storageService.remove(LOCAL_STORAGE.ACCESS_TOKEN);
-        storageService.add(LOCAL_STORAGE.ACCESS_TOKEN, response.accessToken);
-      });
-    }, 120000);
-  }, []);
+      if(!storageService.get(LOCAL_STORAGE.REFRESH_TOKEN)){
+        return;
+      }
 
-  useEffect(() => {
-    authService.refreshToken().then((response) => {
-      storageService.remove(LOCAL_STORAGE.ACCESS_TOKEN);
-      storageService.add(LOCAL_STORAGE.ACCESS_TOKEN, response.accessToken);
-    });
-  })
+      if (
+        storageService.get(LOCAL_STORAGE.REFRESH_TOKEN) &&
+        getTokenExpirationDate(
+          storageService.get(LOCAL_STORAGE.REFRESH_TOKEN)!
+        )! < new Date()
+      ) {
+        userLogout();
+        resetLoggedInUser();
+        navigate('/');
+        return;
+      }
+
+      if (storageService.get(LOCAL_STORAGE.REFRESH_TOKEN)) {
+        setUser();
+      }
+    }, 120000);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <PageProvider>
       <FormProvider>
         <Header />
 
-        {ROUTES_WITH_NAVBAR.includes(location.pathname) && (
+        {PAGES_WITH_NAVBAR_COMPONENT.includes(location.pathname) && (
           <>
             <Navbar />
             <NavbarTracker />
@@ -110,11 +131,9 @@ const App = () => {
                 />
                 <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
                 <Route
-                  path={`${ROUTES.MY_ACCOUNT}/${ROUTES.ADD_PRODUCT}`}
+                  path={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`}
                   element={
                     <>
-                      <Navbar />
-                      <NavbarTracker />
                       <AddItem />
                     </>
                   }

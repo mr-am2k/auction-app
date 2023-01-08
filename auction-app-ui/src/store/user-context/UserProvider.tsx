@@ -1,14 +1,14 @@
 import { useState } from 'react';
 
 import UserContext from './user-context';
-import { User } from 'models/user';
+import { LoggedInUser } from 'models/loggedInUser';
 
 type Props = {
   children?: React.ReactNode;
 };
 
 const UserProvider: React.FC<Props> = ({ children }) => {
-  const [loggedInUser, setLoggedInUser] = useState<User | undefined>();
+  const [loggedInUser, setLoggedInUser] = useState<LoggedInUser | undefined>();
 
   const isUserLoggedIn = () => {
     if (loggedInUser) {

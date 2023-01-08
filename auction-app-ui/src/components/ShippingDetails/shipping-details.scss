@@ -1,0 +1,53 @@
+@import '/src/scss/mixin';
+@import '/src/scss/variables';
+
+.c-location-shipping-page {
+  @include flexDisplay(center, center);
+  flex-direction: column;
+  padding: 1rem 12rem 0;
+  font-family: $latoFont;
+  border: 1px solid $smokeWhiteColor;
+
+  .c-buttons {
+    @include flexDisplay(space-between, center);
+    width: 500px;
+    margin-bottom: 2rem;
+
+    .c-control-buttons {
+      @include flexDisplay(center, center);
+      gap: 20px;
+
+      .c-next-button {
+        border: none;
+        background-color: $purpleColor;
+        color: $whiteColor;
+      }
+    }
+  }
+
+  .c-location-part,
+  .c-card-part {
+    @include flexDisplay(center, center);
+    flex-direction: column;
+  }
+
+  h4 {
+    width: 500px;
+  }
+
+  .c-card-part {
+    .c-allowed-cards {
+      @include flexDisplay(space-between, center);
+      width: 500px;
+
+      .c-allowed-message {
+        color: $greyColor;
+      }
+
+      .c-cards {
+        @include flexDisplay(space-between, center);
+        width: 200px;
+      }
+    }
+  }
+}

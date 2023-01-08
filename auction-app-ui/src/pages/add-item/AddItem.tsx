@@ -1,25 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import userService from 'services/userService';
-import productsService from 'services/productService';
-import { imageService } from 'services/imageService';
-
 import { useForm } from 'hooks/useForm';
 
-import { ItemForm, LocationShipping, Prices } from 'components';
+import userService from 'services/userService';
+import productsService from 'services/productService';
+import { fileUploadService } from 'services/fileUploadService';
+import { storageService } from 'services/storageService';
+
+
+import { ItemForm, ShippingDetails, Prices } from 'components';
 import { User } from 'models/user';
-import { CreateProductRequest } from 'requestModels/createProductRequest';
-import { UpdateUserDataRequest } from 'requestModels/updateUserDataRequest';
-import { getUserData } from 'util/getUserData';
-import { getCardData } from 'util/getCardData';
-import { FOLDERS, FORM, LOCAL_STORAGE } from 'util/constants';
+import { CreateProductRequest } from 'requestModels/create/createProductRequest';
+import { CreateProductDataRequest } from 'requestModels/create/createProductDataRequest';
+import { getCardData } from 'util/getCreditCardData';
+import { getAddressData } from 'util/getAddressData';
+import { FOLDERS, PRODUCT_FORM, LOCAL_STORAGE, ADD_ITEM } from 'util/constants';
 import { ROUTES } from 'util/routes';
 
 import './add-item.scss';
 
 import classNames from 'classnames';
-import { storageService } from 'services/storageService';
 
 const AddItem = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -41,7 +42,7 @@ const AddItem = () => {
       .then((user) => setUser(user));
   };
 
-  const handleNext = () => {
+  const handleNextStep = () => {
     const isValid = validateForm();
 
     if (isValid) {
@@ -49,40 +50,39 @@ const AddItem = () => {
     }
   };
 
-  const handlePrevious = () => {
+  const handleBackStep = () => {
     setPageNumber((prevNumber) => prevNumber - 1);
   };
 
   const addProduct = async () => {
     setSaving(true);
 
-    const updateUserRequest = getUserData(fieldValues, user!);
-    const updateCardRequest = getCardData(fieldValues, user!);
+    const createCreditCardRequest = getCardData(fieldValues, user!);
+    const createAddressRequest = getAddressData(fieldValues, user!);
 
-    const updateUserDataRequest: UpdateUserDataRequest = {
-      updateUserRequest,
-      updateCardRequest,
-    };
-
-    await userService.updateUser(user!.id, updateUserDataRequest);
-
-    const imageURLs = await imageService.uploadImages(
+    const imageURLs = await fileUploadService.uploadFiles(
       FOLDERS.PRODUCT,
-      fieldValues[FORM.IMAGES]
+      fieldValues[PRODUCT_FORM.IMAGES]
     );
 
-    const product: CreateProductRequest = {
-      name: fieldValues[FORM.PRODUCT],
-      description: fieldValues[FORM.DESCRIPTION],
+    const createProductRequest: CreateProductRequest = {
+      name: fieldValues[PRODUCT_FORM.PRODUCT],
+      description: fieldValues[PRODUCT_FORM.DESCRIPTION],
       imageURLs: imageURLs,
-      startPrice: fieldValues[FORM.PRICE],
-      categoryId: fieldValues[FORM.SUBCATEGORY],
-      creationDateTime: fieldValues[FORM.START_DATE],
-      expirationDateTime: fieldValues[FORM.END_DATE],
+      startPrice: fieldValues[PRODUCT_FORM.PRICE],
+      categoryId: fieldValues[PRODUCT_FORM.SUBCATEGORY],
+      creationDateTime: fieldValues[PRODUCT_FORM.START_DATE],
+      expirationDateTime: fieldValues[PRODUCT_FORM.END_DATE],
       userId: storageService.get(LOCAL_STORAGE.ID)!,
     };
 
-    productsService.addProduct(product).then(() => {
+    const createProductDataRequest: CreateProductDataRequest = {
+      createProductRequest,
+      createAddressRequest, 
+      createCreditCardRequest
+    }
+
+    productsService.addProduct(createProductDataRequest).then(() => {
       setSaving(false);
       navigate(ROUTES.MY_ACCOUNT);
     });
@@ -90,6 +90,7 @@ const AddItem = () => {
 
   useEffect(() => {
     getUser();
+    
     return () => {
       resetFieldValues();
       setFieldValidationResults({});
@@ -100,42 +101,42 @@ const AddItem = () => {
   return (
     <div className='c-add-item-wrapper'>
       <div className='c-dots'>
-        <span className='c-dot c-dot-active' />
+        <span className='c-dot c-dot--active' />
 
         <hr
           className={classNames({
-            'c-hr-active': pageNumber >= 2,
+            'c-hr--active': pageNumber >= ADD_ITEM.PAGE_NUMBER_2,
           })}
         />
 
         <span
           className={classNames({
             'c-dot': true,
-            'c-dot-active': pageNumber >= 2,
+            'c-dot--active': pageNumber >= ADD_ITEM.PAGE_NUMBER_2,
           })}
         />
 
         <hr
           className={classNames({
-            'c-hr-active': pageNumber === 3,
+            'c-hr--active': pageNumber === ADD_ITEM.PAGE_NUMBER_3,
           })}
         />
 
         <span
           className={classNames({
             'c-dot': true,
-            'c-dot-active': pageNumber === 3,
+            'c-dot--active': pageNumber === ADD_ITEM.PAGE_NUMBER_3,
           })}
         />
       </div>
-      {pageNumber === 1 && <ItemForm handleNext={handleNext} />}
+      {pageNumber === 1 && <ItemForm handleNextStep={handleNextStep} />}
       {pageNumber === 2 && (
-        <Prices handleNext={handleNext} handlePrevious={handlePrevious} />
+        <Prices handleNextStep={handleNextStep} handleBackStep={handleBackStep} />
       )}
       {pageNumber === 3 && (
-        <LocationShipping
+        <ShippingDetails
           user={user}
-          handlePrevious={handlePrevious}
+          handleBackStep={handleBackStep}
           onSubmit={addProduct}
           saving={saving}
         />
