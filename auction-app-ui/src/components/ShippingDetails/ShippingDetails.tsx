@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'hooks/useForm';
 
 import { User } from 'models/user';
-import { CreditCardForm, Divider, LocationForm } from '../index';
+import { CreditCardForm, Splitter, LocationForm } from '../index';
 import EN_STRINGS from 'translation/en';
 import { ROUTES } from 'util/routes';
 import maestro from 'assets/images/maestro.png';
@@ -79,7 +79,7 @@ const ShippingDetails: React.FC<Props> = ({
           <h4>{EN_STRINGS.LOCATION_SHIPPING.FEATURED}</h4>
 
           <div className='c-card-part c-buttons'>
-            <Divider />
+            <Splitter />
 
             <div className='c-allowed-cards'>
               <p className='c-allowed-message'>

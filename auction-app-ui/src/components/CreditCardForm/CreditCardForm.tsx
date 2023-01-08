@@ -14,7 +14,7 @@ import { validate as validateCardCVV } from 'validators/validateCardCVV';
 import { validate as validateCardExpirationDate } from 'validators/validateCardExpirationDate';
 import EN_STRINGS from 'translation/en';
 
-import '../Form/form.scss';
+import '../form/form.scss';
 
 type Props = {
   children?: React.ReactNode;
