@@ -23,15 +23,7 @@ public class User {
 
     private Date dateOfBirth;
 
-    private String street;
-
-    private String city;
-
-    private String zipCode;
-
-    private String state;
-
-    private String country;
+    private Address address;
 
     private CreditCard card;
 }

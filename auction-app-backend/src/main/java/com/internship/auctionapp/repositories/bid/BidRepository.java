@@ -1,7 +1,6 @@
 package com.internship.auctionapp.repositories.bid;
 
 import com.internship.auctionapp.models.Bid;
-import com.internship.auctionapp.models.BidWithProduct;
 import com.internship.auctionapp.requests.CreateBidRequest;
 
 import java.util.List;
@@ -14,5 +13,5 @@ public interface BidRepository {
 
     Bid getHighestBid(UUID productId);
 
-    List<BidWithProduct> getUserBids(UUID userId);
+    List<Bid> getUserBids(UUID userId);
 }

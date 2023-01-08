@@ -12,7 +12,9 @@ import com.internship.auctionapp.models.LoginResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.repositories.user.UserRepository;
-import com.internship.auctionapp.requests.UpdateCardRequest;
+import com.internship.auctionapp.requests.CreateAddressRequest;
+import com.internship.auctionapp.requests.CreateCreditCardRequest;
+import com.internship.auctionapp.requests.UpdateUserDataRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
@@ -68,12 +70,11 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public User updateUser(UUID id, UpdateUserRequest updateUserRequest, UpdateCardRequest updateCardRequest, String username) {
+    public User updateUser(UpdateUserDataRequest updateUserDataRequest, String username) {
         UserEntity userEntity = userJpaRepository.findByUsername(username);
-
-        if(!id.toString().equalsIgnoreCase(userEntity.getId().toString())){
-            throw new InvalidUserException();
-        }
+        final UpdateUserRequest updateUserRequest = updateUserDataRequest.getUpdateUserRequest();
+        final CreateAddressRequest updateAddressRequest = updateUserDataRequest.getUpdateAddressRequest();
+        final CreateCreditCardRequest updateCreditCardRequest = updateUserDataRequest.getUpdateCreditCardRequest();
 
         if (updateUserRequest.getDateOfBirth() != null && DateUtils.isInFuture(updateUserRequest.getDateOfBirth())) {
             throw new InvalidBirthDateException();
@@ -83,19 +84,21 @@ public class DefaultUserService implements UserService {
             throw new EmailNotValidException();
         }
 
-        if (updateCardRequest.getExpirationDate() != null && DateUtils.isInPast(updateCardRequest.getExpirationDate())) {
-            throw new InvalidCardExpirationDateException();
+        if (updateCreditCardRequest != null) {
+            if (updateCreditCardRequest.getExpirationDate() != null && DateUtils.isInPast(updateCreditCardRequest.getExpirationDate())) {
+                throw new InvalidCardExpirationDateException();
+            }
+
+            if (updateCreditCardRequest.getNumber() != null && updateCreditCardRequest.getNumber().length() != EXPECTED_CREDIT_CARD_NUMBER_LENGTH) {
+                throw new InvalidCardNumberException();
+            }
+
+            if (updateCreditCardRequest.getVerificationValue() != null && updateCreditCardRequest.getVerificationValue().length() != EXPECTED_CVV_LENGTH) {
+                throw new InvalidCVVException();
+            }
         }
 
-        if (updateCardRequest.getNumber() != null && updateCardRequest.getNumber().length() != EXPECTED_CREDIT_CARD_NUMBER_LENGTH) {
-            throw new InvalidCardNumberException();
-        }
-
-        if (updateCardRequest.getVerificationValue() != null && updateCardRequest.getVerificationValue().length() != EXPECTED_CVV_LENGTH) {
-            throw new InvalidCVVException();
-        }
-
-        return userRepository.updateUser(id, updateUserRequest, updateCardRequest);
+        return userRepository.updateUser(username, updateUserRequest, updateCreditCardRequest, updateAddressRequest);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.internship.auctionapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.internship.auctionapp.models.Address;
 import com.internship.auctionapp.models.CreditCard;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.util.UserRole;
@@ -17,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -64,24 +66,13 @@ public class UserEntity {
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
-    @Column(name = "street")
-    private String street;
-
-    @Column(name = "city")
-    private String city;
-
-    @Column(name = "zip_code")
-    private String zipCode;
-
-    @Column(name = "state")
-    private String state;
-
-    @Column(name = "country")
-    private String country;
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private AddressEntity address;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "card_id", referencedColumnName = "id")
-    private CreditCardEntity card;
+    @JoinColumn(name = "credit_card_id", referencedColumnName = "id")
+    private CreditCardEntity creditCard;
 
     public User toDomainModel() {
         User user = new User();
@@ -93,16 +84,17 @@ public class UserEntity {
         user.setPhoneNumber(this.phoneNumber);
         user.setProfileImageUrl(this.profileImageUrl);
         user.setDateOfBirth(this.dateOfBirth);
-        user.setStreet(this.street);
-        user.setCity(this.city);
-        user.setZipCode(this.zipCode);
-        user.setState(this.state);
-        user.setCountry(this.country);
 
-        if (this.card != null) {
-            user.setCard(this.card.toDomainModel());
+        if (this.address != null) {
+            user.setAddress(this.address.toDomainModel());
         } else {
-            user.setCard(new CreditCard());
+            user.setAddress(null);
+        }
+
+        if (this.creditCard != null) {
+            user.setCard(this.creditCard.toDomainModel());
+        } else {
+            user.setCard(null);
         }
 
         return user;

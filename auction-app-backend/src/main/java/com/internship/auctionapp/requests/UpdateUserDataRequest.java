@@ -8,5 +8,7 @@ import lombok.NoArgsConstructor;
 public class UpdateUserDataRequest {
     private UpdateUserRequest updateUserRequest;
 
-    private UpdateCardRequest updateCardRequest;
+    private CreateCreditCardRequest updateCreditCardRequest;
+
+    private CreateAddressRequest updateAddressRequest;
 }

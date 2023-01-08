@@ -40,26 +40,17 @@ public class UserController {
 
     @PutMapping("/{id}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public User updateUser(
-            @PathVariable("id") UUID id,
-            @RequestBody UpdateUserDataRequest updateUserDataRequest,
-            HttpServletRequest request
-    ) {
-        final String token = RequestUtils.getAccessToken(request);
+    public User updateUser(@RequestBody UpdateUserDataRequest updateUserDataRequest, HttpServletRequest request) {
+        final String token = RequestUtils.getToken(request, RequestUtils.AUTHORIZATION_HEADER, RequestUtils.BEARER);
         final String username = jwtUtils.getEmailFromJwtToken(token, true);
 
-        return userService.updateUser(
-                id,
-                updateUserDataRequest.getUpdateUserRequest(),
-                updateUserDataRequest.getUpdateCardRequest(),
-                username
-        );
+        return userService.updateUser(updateUserDataRequest, username);
     }
 
     @PostMapping("/current/deactivate")
     @SecurityRequirement(name = "Bearer Authentication")
     public void deactivate(HttpServletRequest request) {
-        final String token = RequestUtils.getAccessToken(request);
+        final String token = RequestUtils.getToken(request, RequestUtils.AUTHORIZATION_HEADER, RequestUtils.BEARER);
         final String username = jwtUtils.getEmailFromJwtToken(token, true);
 
         userService.deactivate(username);

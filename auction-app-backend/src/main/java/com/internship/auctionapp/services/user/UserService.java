@@ -3,7 +3,9 @@ package com.internship.auctionapp.services.user;
 import com.internship.auctionapp.models.AuthResponse;
 import com.internship.auctionapp.models.LoginResponse;
 import com.internship.auctionapp.models.User;
-import com.internship.auctionapp.requests.UpdateCardRequest;
+import com.internship.auctionapp.requests.CreateAddressRequest;
+import com.internship.auctionapp.requests.CreateCreditCardRequest;
+import com.internship.auctionapp.requests.UpdateUserDataRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
@@ -21,7 +23,7 @@ public interface UserService {
 
     User getUser(UUID userId);
 
-    User updateUser(UUID id, UpdateUserRequest updateUserRequest, UpdateCardRequest updateCardRequest, String username);
+    User updateUser(UpdateUserDataRequest updateUserDataRequest, String username);
 
     void deactivate(String username);
 }

@@ -23,14 +23,4 @@ public class UpdateUserRequest {
     private String profileImageUrl;
 
     private Date dateOfBirth;
-
-    private String street;
-
-    private String city;
-
-    private String zipCode;
-
-    private String state;
-
-    private String country;
 }

@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-public class UpdateCreditCardRequest {
+public class CreateCreditCardRequest {
     private String holderFullName;
 
     private String number;

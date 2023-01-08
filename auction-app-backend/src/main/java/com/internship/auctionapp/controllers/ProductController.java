@@ -2,6 +2,7 @@ package com.internship.auctionapp.controllers;
 
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.services.product.ProductService;
 
@@ -28,8 +29,8 @@ public class ProductController {
 
     @PostMapping
     @SecurityRequirement(name = "Bearer Authentication")
-    public Product addProduct(@Valid @RequestBody CreateProductRequest createProductRequest) {
-        return productService.addProduct(createProductRequest);
+    public Product addProduct(@Valid @RequestBody CreateProductDataRequest createProductDataRequest) {
+        return productService.addProduct(createProductDataRequest);
     }
 
     @GetMapping

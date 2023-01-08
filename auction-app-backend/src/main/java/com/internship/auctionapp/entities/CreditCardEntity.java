@@ -20,7 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "cards")
+@Table(name = "credit_cards")
 public class CreditCardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

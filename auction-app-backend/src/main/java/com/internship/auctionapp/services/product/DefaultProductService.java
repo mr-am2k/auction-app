@@ -8,13 +8,12 @@ import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
-import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
+import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.NotificationType;
 
-import com.internship.auctionapp.util.security.jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,8 +43,6 @@ public class DefaultProductService implements ProductService {
 
     private final NotificationRepository notificationRepository;
 
-    private final JwtUtils jwtUtils;
-
     private static final Integer DEFAULT_ELEMENTS_PER_PAGE = 8;
 
     private static final String LAST_CHANCE = "last-chance";
@@ -54,19 +51,12 @@ public class DefaultProductService implements ProductService {
 
     private static final String CREATION_DATE_TIME = "creationDateTime";
 
-    private final String AUTHORIZATION_HEADER = "Authorization";
-    private final String BEARER = "Bearer ";
-
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
-    private final UserJpaRepository userJpaRepository;
 
-    public DefaultProductService(ProductRepository productCRUDRepository, BidRepository bidRepository, NotificationRepository notificationRepository, JwtUtils jwtUtils,
-                                 UserJpaRepository userJpaRepository) {
+    public DefaultProductService(ProductRepository productCRUDRepository, BidRepository bidRepository, NotificationRepository notificationRepository) {
         this.productRepository = productCRUDRepository;
         this.bidRepository = bidRepository;
         this.notificationRepository = notificationRepository;
-        this.jwtUtils = jwtUtils;
-        this.userJpaRepository = userJpaRepository;
     }
 
     @Override
@@ -79,16 +69,17 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Product addProduct(CreateProductRequest createProductRequest) {
-        final LocalDateTime expirationDateTime = createProductRequest.getExpirationDateTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
+    public Product addProduct(CreateProductDataRequest createProductDataRequest) {
+        final LocalDateTime expirationDateTime = createProductDataRequest.getCreateProductRequest().getExpirationDateTime()
+                .toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
 
         if (DateUtils.isInPast(expirationDateTime)) {
-            LOGGER.error("Product expiration date is before product creation date. Product={}", createProductRequest);
+            LOGGER.error("Product expiration date is before product creation date. Product={}", createProductDataRequest.getCreateProductRequest());
 
             throw new ProductExpirationDateException();
         }
 
-        Product savedProduct = productRepository.addProduct(createProductRequest);
+        Product savedProduct = productRepository.addProduct(createProductDataRequest);
 
         LOGGER.info("Successfully added product={} to the database.", savedProduct);
 

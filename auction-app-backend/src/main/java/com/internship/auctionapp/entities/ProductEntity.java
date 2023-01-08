@@ -1,9 +1,7 @@
 package com.internship.auctionapp.entities;
 
 import com.internship.auctionapp.models.Bid;
-import com.internship.auctionapp.models.Category;
 import com.internship.auctionapp.models.Product;
-import com.internship.auctionapp.models.ProductWithoutBid;
 import com.internship.auctionapp.util.DateUtils;
 
 import lombok.AllArgsConstructor;
@@ -27,7 +25,6 @@ import javax.persistence.Table;
 
 import javax.validation.constraints.DecimalMin;
 
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 import java.util.ArrayList;
@@ -90,12 +87,21 @@ public class ProductEntity {
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "categoryId", nullable = false)
+    @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id", nullable = false)
+    private AddressEntity address;
+
+    @ManyToOne
+    @JoinColumn(name = "credit_card_id", nullable = false)
+    private CreditCardEntity creditCard;
 
     public ProductEntity(String name, String description, List<String> imageURLs, Double startPrice,
                          ZonedDateTime creationDateTime, ZonedDateTime expirationDateTime,
-                         UserEntity user, CategoryEntity category) {
+                         UserEntity user, CategoryEntity category, AddressEntity address,
+                         CreditCardEntity creditCard) {
         this.name = name;
         this.description = description;
         this.imageURLs = imageURLs;
@@ -104,6 +110,8 @@ public class ProductEntity {
         this.expirationDateTime = expirationDateTime;
         this.user = user;
         this.category = category;
+        this.address = address;
+        this.creditCard = creditCard;
     }
 
     public ProductEntity(
@@ -115,6 +123,8 @@ public class ProductEntity {
             ZonedDateTime expirationDateTime,
             UserEntity user,
             CategoryEntity category,
+            AddressEntity address,
+            CreditCardEntity creditCard,
             UUID highestBidder,
             Double highestBidPrice
     ) {
@@ -126,6 +136,8 @@ public class ProductEntity {
         this.expirationDateTime = expirationDateTime;
         this.user = user;
         this.category = category;
+        this.address = address;
+        this.creditCard = creditCard;
         this.highestBidder = highestBidder;
         this.highestBidPrice = highestBidPrice;
     }
@@ -144,6 +156,8 @@ public class ProductEntity {
                 this.expirationDateTime,
                 this.user,
                 this.category,
+                this.address,
+                this.creditCard,
                 this.highestBidder,
                 this.highestBidPrice
         );
@@ -154,27 +168,5 @@ public class ProductEntity {
                 bids,
                 DateUtils.calculateDateDiffVerbose(this.expirationDateTime)
         );
-    }
-
-    public ProductWithoutBid toDomainModelWithoutBids() {
-        ProductWithoutBid productWithoutBid = new ProductWithoutBid();
-
-        final String remainingTime = DateUtils.calculateDateDiffVerbose(this.expirationDateTime);
-
-        productWithoutBid.setId(this.id);
-        productWithoutBid.setName(this.name);
-        productWithoutBid.setDescription(this.description);
-        productWithoutBid.setImageURLs(this.imageURLs);
-        productWithoutBid.setStartPrice(this.startPrice);
-        productWithoutBid.setCreationDateTime(this.creationDateTime);
-        productWithoutBid.setExpirationDateTime(this.expirationDateTime);
-        productWithoutBid.setRemainingTime(remainingTime);
-        productWithoutBid.setNumberOfBids(this.bidEntities.size());
-        productWithoutBid.setUser(this.user.toDomainModel());
-        productWithoutBid.setCategory(this.category.toDomainModel());
-        productWithoutBid.setHighestBidder(this.highestBidder);
-        productWithoutBid.setHighestBidPrice(this.highestBidPrice);
-
-        return productWithoutBid;
     }
 }

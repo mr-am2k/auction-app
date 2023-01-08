@@ -2,6 +2,7 @@ package com.internship.auctionapp.services.category;
 
 import com.internship.auctionapp.entities.CategoryEntity;
 import com.internship.auctionapp.middleware.exception.CategoryNotFoundException;
+import com.internship.auctionapp.middleware.exception.CreditCardNotFoundException;
 import com.internship.auctionapp.middleware.exception.SubcategoryAlreadyExistsException;
 import com.internship.auctionapp.models.Category;
 import com.internship.auctionapp.repositories.category.CategoryJpaRepository;
@@ -25,11 +26,8 @@ public class DefaultCategoryService implements CategoryService {
     @Override
     public Category addCategory(CreateCategoryRequest createCategoryRequest) {
         if (createCategoryRequest.getParentCategoryId() != null) {
-            CategoryEntity category = categoryJpaRepository.findById(createCategoryRequest.getParentCategoryId()).orElse(null);
-
-            if(!categoryJpaRepository.existsById(createCategoryRequest.getParentCategoryId())){
-                throw new CategoryNotFoundException(createCategoryRequest.getParentCategoryId().toString());
-            }
+            final CategoryEntity category = categoryJpaRepository.findById(createCategoryRequest.getParentCategoryId()).
+                    orElseThrow(() -> new CreditCardNotFoundException(createCategoryRequest.getParentCategoryId().toString()));
 
             if (category != null && category.getParentCategoryId() != null) {
                 throw new SubcategoryAlreadyExistsException();

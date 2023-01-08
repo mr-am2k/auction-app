@@ -1,12 +1,17 @@
 package com.internship.auctionapp.repositories.product;
 
+import com.internship.auctionapp.entities.AddressEntity;
 import com.internship.auctionapp.entities.CategoryEntity;
+import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.repositories.address.AddressRepository;
 import com.internship.auctionapp.repositories.category.CategoryJpaRepository;
+import com.internship.auctionapp.repositories.creditCard.CreditCardRepository;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
+import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.CreateProductRequest;
 
 import org.modelmapper.ModelMapper;
@@ -29,13 +34,20 @@ public class DefaultProductRepository implements ProductRepository {
     private final ProductJpaRepository productJpaRepository;
 
     private final UserJpaRepository userJpaRepository;
+
     private final CategoryJpaRepository categoryJpaRepository;
 
+    private final AddressRepository addressRepository;
+
+    private final CreditCardRepository creditCardRepository;
+
     public DefaultProductRepository(ProductJpaRepository productJpaRepository, UserJpaRepository userJpaRepository,
-                                    CategoryJpaRepository categoryJpaRepository) {
+                                    CategoryJpaRepository categoryJpaRepository, AddressRepository addressRepository, CreditCardRepository creditCardRepository) {
         this.productJpaRepository = productJpaRepository;
         this.userJpaRepository = userJpaRepository;
         this.categoryJpaRepository = categoryJpaRepository;
+        this.addressRepository = addressRepository;
+        this.creditCardRepository = creditCardRepository;
     }
 
     @Override
@@ -46,8 +58,10 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public Product addProduct(CreateProductRequest createProductRequest) {
+    public Product addProduct(CreateProductDataRequest createProductDataRequest) {
         ProductEntity productEntity = new ProductEntity();
+
+        final CreateProductRequest createProductRequest = createProductDataRequest.getCreateProductRequest();
 
         final LocalDateTime creationDateTime = createProductRequest.getCreationDateTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
         final LocalDateTime expirationDateTime = createProductRequest.getExpirationDateTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
@@ -63,8 +77,15 @@ public class DefaultProductRepository implements ProductRepository {
         productEntity.setCategory(category);
 
         final UserEntity user = userJpaRepository.findById(createProductRequest.getUserId()).orElseThrow(() ->
-                new UserNotFoundByIdException(createProductRequest.getUserId().toString()));
+                new UserNotFoundByIdException(createProductRequest.getUserId().toString())
+        );
         productEntity.setUser(user);
+
+        AddressEntity address = addressRepository.addAddress(createProductDataRequest.getCreateAddressRequest());
+        productEntity.setAddress(address);
+
+        CreditCardEntity creditCard = creditCardRepository.addCreditCard(createProductDataRequest.getCreateCreditCardRequest());
+        productEntity.setCreditCard(creditCard);
 
         return productJpaRepository
                 .save(productEntity)

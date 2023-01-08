@@ -1,14 +1,20 @@
 package com.internship.auctionapp.util.seed;
 
+import com.internship.auctionapp.entities.AddressEntity;
 import com.internship.auctionapp.entities.CategoryEntity;
+import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.entities.UserEntity;
+import com.internship.auctionapp.repositories.address.AddressJpaRepository;
 import com.internship.auctionapp.repositories.creditCard.CreditCardJpaRepository;
 import com.internship.auctionapp.repositories.category.CategoryJpaRepository;
 import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
+import com.internship.auctionapp.services.bid.DefaultBidService;
 import com.internship.auctionapp.util.UserRole;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -36,15 +42,18 @@ public class ProductSeeder implements CommandLineRunner {
     String USER_ID = "ccd5d47b-a868-4a3d-ba39-6e966ccaa24e";
     private final CategoryJpaRepository categoryJpaRepository;
     private final CreditCardJpaRepository creditCardJpaRepository;
+    private final AddressJpaRepository addressJpaRepository;
 
     public ProductSeeder(ProductJpaRepository productRepository, UserJpaRepository userRepository, PasswordEncoder encoder,
                          CategoryJpaRepository categoryJpaRepository,
-                         CreditCardJpaRepository creditCardJpaRepository) {
+                         CreditCardJpaRepository creditCardJpaRepository,
+                         AddressJpaRepository addressJpaRepository) {
         this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.encoder = encoder;
         this.categoryJpaRepository = categoryJpaRepository;
         this.creditCardJpaRepository = creditCardJpaRepository;
+        this.addressJpaRepository = addressJpaRepository;
     }
 
     @Override
@@ -102,6 +111,10 @@ public class ProductSeeder implements CommandLineRunner {
 
             List<CategoryEntity> subcategories = categoryJpaRepository.findAll();
 
+            AddressEntity address = addressJpaRepository.save(new AddressEntity());
+
+            CreditCardEntity creditCard = creditCardJpaRepository.save(new CreditCardEntity());
+
             final ProductEntity product1 = new ProductEntity("Running Shoes",
                     PRODUCT_DESCRIPTION,
                     List.of("https://media.cntraveler.com/photos/62e7cbd7af14e65bfedc7cd0/master/w_2100,h_1500,c_limit/" +
@@ -112,7 +125,7 @@ public class ProductSeeder implements CommandLineRunner {
                     55.50,
                     ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2023, 12, 12, 19, 30, 40), ZoneOffset.UTC),
-                    user1, subcategories.get(1));
+                    user1, subcategories.get(1), address, creditCard);
 
             final ProductEntity product2 = new ProductEntity("Black shirt",
                     PRODUCT_DESCRIPTION,
@@ -126,7 +139,7 @@ public class ProductSeeder implements CommandLineRunner {
                     25.25,
                     ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2023, 05, 11, 11, 20, 23), ZoneOffset.UTC),
-                    user1, subcategories.get(2));
+                    user1, subcategories.get(2), address, creditCard);
 
             final ProductEntity product3 = new ProductEntity("Nike Air Force",
                     PRODUCT_DESCRIPTION,
@@ -140,7 +153,7 @@ public class ProductSeeder implements CommandLineRunner {
                     125.50,
                     ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2022, 12, 12, 15, 15, 15), ZoneOffset.UTC),
-                    user1, subcategories.get(3));
+                    user1, subcategories.get(3), address, creditCard);
 
             final ProductEntity product4 = new ProductEntity("Coat",
                     PRODUCT_DESCRIPTION,
@@ -153,7 +166,7 @@ public class ProductSeeder implements CommandLineRunner {
                     91.99,
                     ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2023, 4, 9, 21, 14, 44), ZoneOffset.UTC),
-                    user1, subcategories.get(4));
+                    user1, subcategories.get(4), address, creditCard);
 
             final ProductEntity product5 = new ProductEntity("Summer shirt",
                     PRODUCT_DESCRIPTION,
@@ -166,7 +179,7 @@ public class ProductSeeder implements CommandLineRunner {
                     15.50,
                     ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2024, 12, 12, 12, 12, 12), ZoneOffset.UTC),
-                    user1, subcategories.get(1));
+                    user1, subcategories.get(1), address, creditCard);
 
             final ProductEntity product6 = new ProductEntity("Shorts",
                     PRODUCT_DESCRIPTION,
@@ -181,7 +194,7 @@ public class ProductSeeder implements CommandLineRunner {
                     25.25,
                     ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2024, 9, 12, 9, 45, 11), ZoneOffset.UTC),
-                    user1, subcategories.get(1));
+                    user1, subcategories.get(1), address, creditCard);
 
             final ProductEntity product7 = new ProductEntity("Jacket",
                     PRODUCT_DESCRIPTION,
@@ -195,7 +208,7 @@ public class ProductSeeder implements CommandLineRunner {
                     75.50,
                     ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2023, 3, 3, 3, 3, 3), ZoneOffset.UTC),
-                    user1, subcategories.get(2));
+                    user1, subcategories.get(2), address, creditCard);
 
             final ProductEntity product8 = new ProductEntity("Simpson Socks",
                     PRODUCT_DESCRIPTION,
@@ -211,7 +224,7 @@ public class ProductSeeder implements CommandLineRunner {
                     9.50,
                     ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2023, 11, 11, 12, 12, 11), ZoneOffset.UTC),
-                    user1, subcategories.get(3));
+                    user1, subcategories.get(3), address, creditCard);
 
             final ProductEntity product9 = new ProductEntity("Ring",
                     PRODUCT_DESCRIPTION,
@@ -223,7 +236,7 @@ public class ProductSeeder implements CommandLineRunner {
                     12.45,
                     ZonedDateTime.now(ZoneOffset.UTC),
                     LocalDateTime.of(2025, 12, 12, 7, 23, 12).atZone(ZoneOffset.UTC),
-                    user1, subcategories.get(4));
+                    user1, subcategories.get(4), address, creditCard);
 
             final ProductEntity product10 = new ProductEntity("Watch",
                     PRODUCT_DESCRIPTION,
@@ -234,7 +247,7 @@ public class ProductSeeder implements CommandLineRunner {
                     85.50,
                     ZonedDateTime.now(ZoneOffset.UTC),
                     ZonedDateTime.of(LocalDateTime.of(2024, 7, 12, 14, 12, 9), ZoneOffset.UTC),
-                    user1, subcategories.get(4));
+                    user1, subcategories.get(4), address, creditCard);
 
             productRepository.save(product1);
             productRepository.save(product2);

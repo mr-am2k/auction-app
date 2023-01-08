@@ -4,7 +4,6 @@ import com.internship.auctionapp.middleware.exception.BidCreationFailedException
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanHighestBidPriceException;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanProductPriceException;
 import com.internship.auctionapp.middleware.exception.ProductExpiredException;
-import com.internship.auctionapp.models.BidWithProduct;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
@@ -100,7 +99,7 @@ public class DefaultBidService implements BidService {
     }
 
     @Override
-    public List<BidWithProduct> getUserBids(UUID userId) {
+    public List<Bid> getUserBids(UUID userId) {
         return bidRepository.getUserBids(userId);
     }
 }

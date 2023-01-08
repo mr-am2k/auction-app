@@ -147,6 +147,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Provided user is invalid!"));
     }
 
+    @ExceptionHandler(AddressNotFoundException.class)
+    public ResponseEntity<Object> handleAddressNotFoundException(HttpServletRequest req, AddressNotFoundException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "There is no address with the id: " + ex.getMessage() + "!"));
+    }
+
+    @ExceptionHandler(CreditCardNotFoundException.class)
+    public ResponseEntity<Object> handleCreditCardNotFoundException(HttpServletRequest req, CreditCardNotFoundException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "There is no credit card with the id: " + ex.getMessage() + "!"));
+    }
+
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
     }

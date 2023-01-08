@@ -38,6 +38,10 @@ public class Product {
 
     private Category category;
 
+    private Address address;
+
+    private CreditCard creditCard;
+
     private UUID highestBidder;
 
     private Double highestBidPrice;
@@ -54,6 +58,8 @@ public class Product {
         this.remainingTime = remainingTime;
         this.user = productEntity.getUser().toDomainModel();
         this.category = productEntity.getCategory().toDomainModel();
+        this.address = productEntity.getAddress().toDomainModel();
+        this.creditCard=productEntity.getCreditCard().toDomainModel();
         this.highestBidder = productEntity.getHighestBidder();
         this.highestBidPrice = productEntity.getHighestBidPrice();
     }

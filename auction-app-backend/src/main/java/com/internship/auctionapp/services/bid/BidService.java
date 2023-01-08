@@ -1,6 +1,5 @@
 package com.internship.auctionapp.services.bid;
 
-import com.internship.auctionapp.models.BidWithProduct;
 import com.internship.auctionapp.requests.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;
 
@@ -14,5 +13,5 @@ public interface BidService {
 
     Double getHighestBidPrice(UUID productId);
 
-    List<BidWithProduct> getUserBids(UUID userId);
+    List<Bid> getUserBids(UUID userId);
 }

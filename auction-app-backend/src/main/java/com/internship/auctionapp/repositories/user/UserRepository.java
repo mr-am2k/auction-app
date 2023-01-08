@@ -2,7 +2,8 @@ package com.internship.auctionapp.repositories.user;
 
 import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.models.User;
-import com.internship.auctionapp.requests.UpdateCardRequest;
+import com.internship.auctionapp.requests.CreateAddressRequest;
+import com.internship.auctionapp.requests.CreateCreditCardRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 
@@ -20,7 +21,12 @@ public interface UserRepository {
 
     User getUser(UUID userId);
 
-    User updateUser(UUID id, UpdateUserRequest updateUserRequest, UpdateCardRequest updateCardRequest);
+    User updateUser(
+            String username,
+            UpdateUserRequest updateUserRequest,
+            CreateCreditCardRequest createCreditCardRequest,
+            CreateAddressRequest updateAddressRequest
+    );
 
     void deactivate(String username);
 }

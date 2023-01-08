@@ -3,6 +3,7 @@ package com.internship.auctionapp.util.security;
 import com.internship.auctionapp.util.UserRole;
 import com.internship.auctionapp.util.security.jwt.AuthEntryPoint;
 import com.internship.auctionapp.util.security.jwt.AuthTokenFilter;
+import com.internship.auctionapp.util.security.jwt.JwtUtils;
 import com.internship.auctionapp.util.security.services.DefaultAuthService;
 
 import org.springframework.context.annotation.Bean;
