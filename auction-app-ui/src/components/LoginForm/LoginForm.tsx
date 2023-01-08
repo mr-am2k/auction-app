@@ -1,4 +1,4 @@
-import { Input, Form } from 'components/index';
+import { Input, Form } from '../index';
 import { useForm } from 'hooks/useForm';
 import { useEffect } from 'react';
 import EN_STRINGS from 'translation/en';

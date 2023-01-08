@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { LocationForm } from 'components';
+import { LocationForm } from '../index';
 import { User } from 'models/user';
 import arrowUp from 'assets/images/arrow-up.png';
 import arrowDown from 'assets/images/arrow-down.png';

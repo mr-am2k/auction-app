@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { useForm } from 'hooks/useForm';
 
-import { Form, Input } from 'components';
+import { Form, Input } from '../index';
 import {
   PRODUCT_FORM,
   INPUT_TYPE_DATE,

@@ -6,7 +6,7 @@ import bidService from 'services/bidService';
 import productsService from 'services/productService';
 import { storageService } from 'services/storageService';
 
-import { ItemList, EmptyList } from 'components';
+import { ItemList, EmptyList } from '../index';
 import { ProductList } from 'models/productList';
 import { ROUTES } from 'util/routes';
 import { LOCAL_STORAGE } from 'util/constants';

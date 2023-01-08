@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'hooks/useForm';
 
 import { User } from 'models/user';
-import { CreditCardForm, Divider, LocationForm } from 'components';
+import { CreditCardForm, Divider, LocationForm } from '../index';
 import EN_STRINGS from 'translation/en';
 import { ROUTES } from 'util/routes';
 import maestro from 'assets/images/maestro.png';

@@ -5,9 +5,7 @@ import categoryService from 'services/categoryService';
 
 import { useForm } from 'hooks/useForm';
 
-import { Dropdown, ImageUploader, Textarea } from 'components';
-import Input from 'components/Input/Input';
-import Form from 'components/Form/Form';
+import { Dropdown, ImageUploader, Textarea, Input, Form } from '../index';
 import { PRODUCT_FORM, INPUT_TYPE_TEXT } from 'util/constants';
 import { ROUTES } from 'util/routes';
 import { Category } from 'models/category';

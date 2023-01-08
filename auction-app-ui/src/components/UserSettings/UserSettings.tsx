@@ -19,7 +19,7 @@ const UserSettings = () => {
   const navigate = useNavigate();
   
   const deactivateAccount = () => {
-    userService.deactivate().then((response) => {
+    userService.deactivate().then(() => {
       storageService.clear();
       resetLoggedInUser();
       navigate('/');

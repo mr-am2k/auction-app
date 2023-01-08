@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { useForm } from 'hooks/useForm';
 
-import { Input, Form } from 'components/index';
+import { Input, Form } from '../index';
 import EN_STRINGS from 'translation/en';
 import {
   INPUT_TYPE_TEXT,

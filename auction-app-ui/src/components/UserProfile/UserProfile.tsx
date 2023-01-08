@@ -8,7 +8,7 @@ import userService from 'services/userService';
 import { fileUploadService } from 'services/fileUploadService';
 import { storageService } from 'services/storageService';
 
-import { PersonalForm, LocationDetails, Card } from 'components';
+import { PersonalForm, LocationDetails, Card } from '../index';
 import { UpdateUserDataRequest } from 'requestModels/update/updateUserDataRequest';
 import { User } from 'models/user';
 import userImage from 'assets/images/user.png';

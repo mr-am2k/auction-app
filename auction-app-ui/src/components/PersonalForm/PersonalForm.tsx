@@ -1,6 +1,6 @@
 import { useForm } from 'hooks/useForm';
 
-import { Input, Form } from 'components/index';
+import { Input, Form } from '../index';
 import { User } from 'models/user';
 import {
   INPUT_TYPE_TEXT,
