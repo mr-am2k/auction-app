@@ -2,8 +2,6 @@ package com.internship.auctionapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.internship.auctionapp.models.Address;
-import com.internship.auctionapp.models.CreditCard;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.util.UserRole;
 
@@ -13,12 +11,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -66,8 +64,7 @@ public class UserEntity {
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id")
+    @Embedded
     private AddressEntity address;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -84,18 +81,8 @@ public class UserEntity {
         user.setPhoneNumber(this.phoneNumber);
         user.setProfileImageUrl(this.profileImageUrl);
         user.setDateOfBirth(this.dateOfBirth);
-
-        if (this.address != null) {
-            user.setAddress(this.address.toDomainModel());
-        } else {
-            user.setAddress(null);
-        }
-
-        if (this.creditCard != null) {
-            user.setCard(this.creditCard.toDomainModel());
-        } else {
-            user.setCard(null);
-        }
+        user.setAddress(this.address);
+        user.setCard(this.creditCard != null ? this.creditCard.toDomainModel() : null);
 
         return user;
     }

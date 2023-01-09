@@ -5,16 +5,13 @@ import com.internship.auctionapp.entities.CategoryEntity;
 import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.entities.UserEntity;
-import com.internship.auctionapp.repositories.address.AddressJpaRepository;
 import com.internship.auctionapp.repositories.creditCard.CreditCardJpaRepository;
 import com.internship.auctionapp.repositories.category.CategoryJpaRepository;
 import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
-import com.internship.auctionapp.services.bid.DefaultBidService;
 import com.internship.auctionapp.util.UserRole;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -42,18 +39,16 @@ public class ProductSeeder implements CommandLineRunner {
     String USER_ID = "ccd5d47b-a868-4a3d-ba39-6e966ccaa24e";
     private final CategoryJpaRepository categoryJpaRepository;
     private final CreditCardJpaRepository creditCardJpaRepository;
-    private final AddressJpaRepository addressJpaRepository;
 
     public ProductSeeder(ProductJpaRepository productRepository, UserJpaRepository userRepository, PasswordEncoder encoder,
                          CategoryJpaRepository categoryJpaRepository,
-                         CreditCardJpaRepository creditCardJpaRepository,
-                         AddressJpaRepository addressJpaRepository) {
+                         CreditCardJpaRepository creditCardJpaRepository
+    ) {
         this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.encoder = encoder;
         this.categoryJpaRepository = categoryJpaRepository;
         this.creditCardJpaRepository = creditCardJpaRepository;
-        this.addressJpaRepository = addressJpaRepository;
     }
 
     @Override
@@ -111,7 +106,7 @@ public class ProductSeeder implements CommandLineRunner {
 
             List<CategoryEntity> subcategories = categoryJpaRepository.findAll();
 
-            AddressEntity address = addressJpaRepository.save(new AddressEntity());
+            AddressEntity address = new AddressEntity();
 
             CreditCardEntity creditCard = creditCardJpaRepository.save(new CreditCardEntity());
 

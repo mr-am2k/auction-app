@@ -1,5 +1,6 @@
 package com.internship.auctionapp.models;
 
+import com.internship.auctionapp.entities.AddressEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 
 import lombok.AllArgsConstructor;
@@ -38,7 +39,7 @@ public class Product {
 
     private Category category;
 
-    private Address address;
+    private AddressEntity address;
 
     private CreditCard creditCard;
 
@@ -58,7 +59,7 @@ public class Product {
         this.remainingTime = remainingTime;
         this.user = productEntity.getUser().toDomainModel();
         this.category = productEntity.getCategory().toDomainModel();
-        this.address = productEntity.getAddress().toDomainModel();
+        this.address = productEntity.getAddress();
         this.creditCard=productEntity.getCreditCard().toDomainModel();
         this.highestBidder = productEntity.getHighestBidder();
         this.highestBidPrice = productEntity.getHighestBidPrice();

@@ -1,5 +1,6 @@
 package com.internship.auctionapp.requests;
 
+import com.internship.auctionapp.entities.AddressEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,6 @@ public class UpdateUserRequest {
     private String profileImageUrl;
 
     private Date dateOfBirth;
+
+    private AddressEntity address;
 }

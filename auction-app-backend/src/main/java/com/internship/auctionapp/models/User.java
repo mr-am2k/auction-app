@@ -1,5 +1,6 @@
 package com.internship.auctionapp.models;
 
+import com.internship.auctionapp.entities.AddressEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,7 +24,7 @@ public class User {
 
     private Date dateOfBirth;
 
-    private Address address;
+    private AddressEntity address;
 
     private CreditCard card;
 }

@@ -7,7 +7,6 @@ import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
-import com.internship.auctionapp.repositories.address.AddressRepository;
 import com.internship.auctionapp.repositories.category.CategoryJpaRepository;
 import com.internship.auctionapp.repositories.creditCard.CreditCardRepository;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
@@ -37,16 +36,13 @@ public class DefaultProductRepository implements ProductRepository {
 
     private final CategoryJpaRepository categoryJpaRepository;
 
-    private final AddressRepository addressRepository;
-
     private final CreditCardRepository creditCardRepository;
 
     public DefaultProductRepository(ProductJpaRepository productJpaRepository, UserJpaRepository userJpaRepository,
-                                    CategoryJpaRepository categoryJpaRepository, AddressRepository addressRepository, CreditCardRepository creditCardRepository) {
+                                    CategoryJpaRepository categoryJpaRepository, CreditCardRepository creditCardRepository) {
         this.productJpaRepository = productJpaRepository;
         this.userJpaRepository = userJpaRepository;
         this.categoryJpaRepository = categoryJpaRepository;
-        this.addressRepository = addressRepository;
         this.creditCardRepository = creditCardRepository;
     }
 
@@ -62,6 +58,7 @@ public class DefaultProductRepository implements ProductRepository {
         ProductEntity productEntity = new ProductEntity();
 
         final CreateProductRequest createProductRequest = createProductDataRequest.getCreateProductRequest();
+        final AddressEntity address = createProductDataRequest.getCreateProductRequest().getAddress();
 
         final LocalDateTime creationDateTime = createProductRequest.getCreationDateTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
         final LocalDateTime expirationDateTime = createProductRequest.getExpirationDateTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
@@ -72,6 +69,7 @@ public class DefaultProductRepository implements ProductRepository {
         productEntity.setStartPrice(createProductRequest.getStartPrice());
         productEntity.setCreationDateTime(creationDateTime.atZone(ZoneOffset.UTC));
         productEntity.setExpirationDateTime(expirationDateTime.atZone(ZoneOffset.UTC));
+        productEntity.setAddress(address);
 
         final CategoryEntity category = categoryJpaRepository.findById(createProductRequest.getCategoryId()).get();
         productEntity.setCategory(category);
@@ -81,10 +79,7 @@ public class DefaultProductRepository implements ProductRepository {
         );
         productEntity.setUser(user);
 
-        AddressEntity address = addressRepository.addAddress(createProductDataRequest.getCreateAddressRequest());
-        productEntity.setAddress(address);
-
-        CreditCardEntity creditCard = creditCardRepository.addCreditCard(createProductDataRequest.getCreateCreditCardRequest());
+        final CreditCardEntity creditCard = creditCardRepository.addCreditCard(createProductDataRequest.getCreateCreditCardRequest());
         productEntity.setCreditCard(creditCard);
 
         return productJpaRepository

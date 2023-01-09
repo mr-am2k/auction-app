@@ -13,6 +13,7 @@ import org.hibernate.annotations.Formula;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -90,8 +91,7 @@ public class ProductEntity {
     @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id", nullable = false)
+    @Embedded
     private AddressEntity address;
 
     @ManyToOne

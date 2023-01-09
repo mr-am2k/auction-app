@@ -10,7 +10,6 @@ import com.internship.auctionapp.repositories.notification.NotificationRepositor
 import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
-import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.NotificationType;
 
@@ -79,7 +78,7 @@ public class DefaultProductService implements ProductService {
             throw new ProductExpirationDateException();
         }
 
-        Product savedProduct = productRepository.addProduct(createProductDataRequest);
+        final Product savedProduct = productRepository.addProduct(createProductDataRequest);
 
         LOGGER.info("Successfully added product={} to the database.", savedProduct);
 

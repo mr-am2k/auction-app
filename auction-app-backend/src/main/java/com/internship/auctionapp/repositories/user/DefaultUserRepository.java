@@ -5,12 +5,9 @@ import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.User;
-import com.internship.auctionapp.repositories.creditCard.CreditCardJpaRepository;
-import com.internship.auctionapp.requests.CreateAddressRequest;
 import com.internship.auctionapp.requests.CreateCreditCardRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
-import com.internship.auctionapp.services.address.AddressService;
 import com.internship.auctionapp.services.creditCard.CreditCardService;
 import com.internship.auctionapp.util.UserRole;
 
@@ -26,15 +23,12 @@ import java.util.stream.Collectors;
 public class DefaultUserRepository implements UserRepository {
     private final UserJpaRepository userJpaRepository;
 
-    private final AddressService addressService;
-
     private final CreditCardService creditCardService;
 
     private static final ModelMapper modelMapper = new ModelMapper();
 
-    public DefaultUserRepository(UserJpaRepository userJpaRepository, AddressService addressService, CreditCardService creditCardService) {
+    public DefaultUserRepository(UserJpaRepository userJpaRepository, CreditCardService creditCardService) {
         this.userJpaRepository = userJpaRepository;
-        this.addressService = addressService;
         this.creditCardService = creditCardService;
     }
 
@@ -85,7 +79,7 @@ public class DefaultUserRepository implements UserRepository {
             String username,
             UpdateUserRequest updateUserRequest,
             CreateCreditCardRequest createCreditCardRequest,
-            CreateAddressRequest updateAddressRequest
+            AddressEntity address
     ) {
         UserEntity user = userJpaRepository.findByUsername(username);
 
@@ -96,17 +90,12 @@ public class DefaultUserRepository implements UserRepository {
         updatedUser.setPasswordHash(user.getPasswordHash());
         updatedUser.setRole(user.getRole());
         updatedUser.setActive(user.isActive());
-
-        if (updateAddressRequest != null) {
-            AddressEntity address = addressService.updateAddress(user.getAddress(), updateAddressRequest);
-            updatedUser.setAddress(address);
-        }
+        updatedUser.setAddress(address);
 
         if (createCreditCardRequest != null) {
             CreditCardEntity creditCard = creditCardService.updateCreditCard(user.getCreditCard(), createCreditCardRequest);
             updatedUser.setCreditCard(creditCard);
         }
-
 
         return userJpaRepository.save(updatedUser).toDomainModel();
     }

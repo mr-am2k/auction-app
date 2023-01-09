@@ -1,8 +1,8 @@
 package com.internship.auctionapp.repositories.user;
 
+import com.internship.auctionapp.entities.AddressEntity;
 import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.models.User;
-import com.internship.auctionapp.requests.CreateAddressRequest;
 import com.internship.auctionapp.requests.CreateCreditCardRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
@@ -25,7 +25,7 @@ public interface UserRepository {
             String username,
             UpdateUserRequest updateUserRequest,
             CreateCreditCardRequest createCreditCardRequest,
-            CreateAddressRequest updateAddressRequest
+            AddressEntity address
     );
 
     void deactivate(String username);

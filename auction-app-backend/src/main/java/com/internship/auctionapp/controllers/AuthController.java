@@ -46,14 +46,14 @@ public class AuthController {
 
     @PostMapping("/logout")
     public void logout(HttpServletRequest request) {
-        final String token = RequestUtils.getToken(request, RequestUtils.AUTHORIZATION_HEADER_REFRESH, RequestUtils.REFRESH);
+        final String token = RequestUtils.getToken(request, RequestUtils.REFRESH);
 
         userService.logout(token);
     }
 
     @GetMapping("/refresh-token")
     public AuthResponse refreshToken(HttpServletRequest request) {
-        final String token = RequestUtils.getToken(request, RequestUtils.AUTHORIZATION_HEADER_REFRESH, RequestUtils.REFRESH);
+        final String token = RequestUtils.getToken(request, RequestUtils.REFRESH);
         final String username = jwtUtils.getEmailFromJwtToken(token, false);
 
         return userService.refreshToken(username);

@@ -1,18 +1,16 @@
 package com.internship.auctionapp.services.user;
 
-import com.internship.auctionapp.entities.UserEntity;
+import com.internship.auctionapp.entities.AddressEntity;
 import com.internship.auctionapp.middleware.exception.EmailNotValidException;
 import com.internship.auctionapp.middleware.exception.InvalidBirthDateException;
 import com.internship.auctionapp.middleware.exception.InvalidCVVException;
 import com.internship.auctionapp.middleware.exception.InvalidCardExpirationDateException;
 import com.internship.auctionapp.middleware.exception.InvalidCardNumberException;
-import com.internship.auctionapp.middleware.exception.InvalidUserException;
 import com.internship.auctionapp.models.AuthResponse;
 import com.internship.auctionapp.models.LoginResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.repositories.user.UserRepository;
-import com.internship.auctionapp.requests.CreateAddressRequest;
 import com.internship.auctionapp.requests.CreateCreditCardRequest;
 import com.internship.auctionapp.requests.UpdateUserDataRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
@@ -35,13 +33,9 @@ public class DefaultUserService implements UserService {
     private final Integer EXPECTED_CREDIT_CARD_NUMBER_LENGTH = 16;
     private final Integer EXPECTED_CVV_LENGTH = 3;
 
-    private final UserJpaRepository userJpaRepository;
-
-    public DefaultUserService(AuthService authService, UserRepository userRepository,
-                              UserJpaRepository userJpaRepository) {
+    public DefaultUserService(AuthService authService, UserRepository userRepository) {
         this.authService = authService;
         this.userRepository = userRepository;
-        this.userJpaRepository = userJpaRepository;
     }
 
     @Override
@@ -71,9 +65,8 @@ public class DefaultUserService implements UserService {
 
     @Override
     public User updateUser(UpdateUserDataRequest updateUserDataRequest, String username) {
-        UserEntity userEntity = userJpaRepository.findByUsername(username);
         final UpdateUserRequest updateUserRequest = updateUserDataRequest.getUpdateUserRequest();
-        final CreateAddressRequest updateAddressRequest = updateUserDataRequest.getUpdateAddressRequest();
+        final AddressEntity address = updateUserDataRequest.getUpdateUserRequest().getAddress();
         final CreateCreditCardRequest updateCreditCardRequest = updateUserDataRequest.getUpdateCreditCardRequest();
 
         if (updateUserRequest.getDateOfBirth() != null && DateUtils.isInFuture(updateUserRequest.getDateOfBirth())) {
@@ -98,7 +91,7 @@ public class DefaultUserService implements UserService {
             }
         }
 
-        return userRepository.updateUser(username, updateUserRequest, updateCreditCardRequest, updateAddressRequest);
+        return userRepository.updateUser(username, updateUserRequest, updateCreditCardRequest, address);
     }
 
     @Override

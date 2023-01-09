@@ -9,6 +9,4 @@ public class UpdateUserDataRequest {
     private UpdateUserRequest updateUserRequest;
 
     private CreateCreditCardRequest updateCreditCardRequest;
-
-    private CreateAddressRequest updateAddressRequest;
 }

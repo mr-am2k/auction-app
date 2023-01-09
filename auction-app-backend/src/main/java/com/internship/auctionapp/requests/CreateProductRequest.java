@@ -1,5 +1,6 @@
 package com.internship.auctionapp.requests;
 
+import com.internship.auctionapp.entities.AddressEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,4 +30,6 @@ public class CreateProductRequest {
     private Date expirationDateTime;
 
     private UUID userId;
+
+    private AddressEntity address;
 }

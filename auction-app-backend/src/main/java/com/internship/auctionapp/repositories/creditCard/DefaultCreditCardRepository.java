@@ -17,7 +17,7 @@ public class DefaultCreditCardRepository implements CreditCardRepository {
 
     @Override
     public CreditCardEntity addCreditCard(CreateCreditCardRequest createCreditCardRequest) {
-        CreditCardEntity creditCardEntity = new CreditCardEntity();
+        final CreditCardEntity creditCardEntity = new CreditCardEntity();
 
         creditCardEntity.setHolderFullName(createCreditCardRequest.getHolderFullName());
         creditCardEntity.setNumber(createCreditCardRequest.getNumber());
@@ -34,7 +34,7 @@ public class DefaultCreditCardRepository implements CreditCardRepository {
 
     @Override
     public CreditCardEntity updateCreditCard(UUID id, CreateCreditCardRequest updateCreditCardRequest) {
-        CreditCardEntity existingCreditCard = getSingleCreditCard(id);
+        final CreditCardEntity existingCreditCard = getSingleCreditCard(id);
 
         existingCreditCard.setHolderFullName(updateCreditCardRequest.getHolderFullName());
         existingCreditCard.setNumber(updateCreditCardRequest.getNumber());

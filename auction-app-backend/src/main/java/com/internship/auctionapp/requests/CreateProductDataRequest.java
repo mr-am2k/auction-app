@@ -8,7 +8,5 @@ import lombok.NoArgsConstructor;
 public class CreateProductDataRequest {
     private CreateProductRequest createProductRequest;
 
-    private CreateAddressRequest createAddressRequest;
-
     private CreateCreditCardRequest createCreditCardRequest;
 }

@@ -9,8 +9,13 @@ public class RequestUtils {
     public static final String AUTHORIZATION_HEADER_REFRESH = "AuthorizationRefresh";
     public static final String REFRESH = "Refresh";
 
-    public static String getToken(HttpServletRequest request, String header, String tokenType) {
-        final String requestTokenHeader = request.getHeader(header);
+    public static String getToken(HttpServletRequest request, String tokenType) {
+        final String requestTokenHeader = switch (tokenType) {
+            case BEARER -> request.getHeader(AUTHORIZATION_HEADER);
+            case REFRESH -> request.getHeader(AUTHORIZATION_HEADER_REFRESH);
+            default -> "";
+        };
+
 
         String token = null;
 
