@@ -21,7 +21,7 @@ type Props = {
 };
 
 const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
-  const { fieldValues, resetFieldValues, setFieldValidationResults } = useForm();
+  const { resetFieldValues, setFieldValidationResults } = useForm();
 
   const children = [
     <Input
@@ -30,7 +30,6 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       name={USER_FORM.FIRST_NAME}
       title={USER.FIRST_NAME_TITLE}
       placeholder={USER_FORM.FIRST_NAME_PLACEHOLDER}
-      value={fieldValues[USER_FORM.FIRST_NAME]}
       required
     />,
 
@@ -40,7 +39,6 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       name={USER_FORM.LAST_NAME}
       title={USER.LAST_NAME_TITLE}
       placeholder={USER_FORM.LAST_NAME_PLACEHOLDER}
-      value={fieldValues[USER_FORM.LAST_NAME]}
       required
     />,
 
@@ -50,7 +48,6 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       name={USER_FORM.EMAIL}
       title={USER.EMAIL_TITLE}
       placeholder={USER_FORM.EMAIL_PLACEHOLDER}
-      value={fieldValues[USER_FORM.EMAIL]}
       pattern={USER_FORM.EMAIL_PATTERN}
       validator={validateEmail}
       required
@@ -62,7 +59,6 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       name={USER_FORM.PASSWORD}
       title={USER.PASSWORD_TITLE}
       placeholder={USER_FORM.PASSWORD_PLACEHOLDER}
-      value={fieldValues[USER_FORM.PASSWORD]}
       pattern={USER_FORM.PASSWORD_PATTERN}
       validator={validatePassword}
       required
