@@ -1,5 +1,5 @@
-import { userRegisterRequest } from 'requestModels/auth/userRegisterRequest';
-import { userLoginRequest } from 'requestModels/auth/userLoginRequest';
+import { userRegisterRequest } from 'models/request/auth/userRegisterRequest';
+import { userLoginRequest } from 'models/request/auth/userLoginRequest';
 import { LoginResponse } from 'models/response/loginResponse';
 import { AuthResponse } from 'models/response/authResponse';
 

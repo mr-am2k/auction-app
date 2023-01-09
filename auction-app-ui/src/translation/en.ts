@@ -1,4 +1,4 @@
-const EN_STRINGS = {
+export const EN_STRINGS = {
   FOOTER: {
     ABOUT_US: 'About US',
     TERMS_AND_CONDITIONS: 'Terms and Conditions',
@@ -47,7 +47,7 @@ const EN_STRINGS = {
     INPUT_BID_ERROR: 'You must enter price first',
     PAY: 'PAY',
     LOST_MESSAGE: 'Auction is finished, more luck next time.',
-    EXPIRED: 'EXPIRED'
+    EXPIRED: 'EXPIRED',
   },
 
   IMAGE_PICKER: {
@@ -107,7 +107,7 @@ const EN_STRINGS = {
     ACCOUNT: 'Account',
     ACCOUNT_TITLE: 'Do you want to deactivate account?',
     DEACTIVATE: 'DEACTIVATE',
-    ADD_ITEM: '+ ADD ITEM'
+    ADD_ITEM: '+ ADD ITEM',
   },
 
   PRODUCTS_TABLE: {
@@ -193,38 +193,36 @@ const EN_STRINGS = {
     LIMITATION: '(Add at least 3 photos)',
     DND_ACTIVE: 'Drop the image here ...',
   },
-
-  USER_FORM: {
-    FIRST_NAME_TITLE: 'First Name',
-    LAST_NAME_TITLE: 'Last Name',
-    EMAIL_TITLE: 'Email',
-    PASSWORD_TITLE: 'Password',
-    DATE_TITLE: 'Date of birth',
-    PHONE_NUMBER_TITLE: 'Phone number',
-  },
-
-  CREDIT_CARD_FORM: {
-    CREDIT_CARD_NAME_TITLE: 'Name on Card',
-    CREDIT_CARD_NUMBER_TITLE: 'Card Number',
-    CREDIT_CARD_EXPIRATION_DATE_TITLE: 'Expiration date',
-    CREDIT_CARD_CVV_TITLE: 'CVV',
-  },
-
-  ADDRESS_FORM: {
-    STREET_TITLE: 'Street',
-    CITY_TITLE: 'City',
-    ZIP_CODE_TITLE: 'Zip Code',
-    STATE_TITLE: 'State',
-    COUNTRY_TITLE: 'Country',
-  },
-
-  PRODUCT_FORM: {
-    PRODUCT_TITLE: 'What do you sell?',
-    DESCRIPTION_TITLE: 'Description',
-    PRICE_TITLE: 'Your start Price',
-    START_DATE_TITLE: 'Start date',
-    END_DATE_TITLE: 'End date',
-  },
 };
 
-export default EN_STRINGS;
+export const USER = {
+  FIRST_NAME_TITLE: 'First Name',
+  LAST_NAME_TITLE: 'Last Name',
+  EMAIL_TITLE: 'Email',
+  PASSWORD_TITLE: 'Password',
+  DATE_TITLE: 'Date of birth',
+  PHONE_NUMBER_TITLE: 'Phone number',
+};
+
+export const CREDIT_CARD = {
+  CREDIT_CARD_NAME_TITLE: 'Name on Card',
+  CREDIT_CARD_NUMBER_TITLE: 'Card Number',
+  CREDIT_CARD_EXPIRATION_DATE_TITLE: 'Expiration date',
+  CREDIT_CARD_CVV_TITLE: 'CVV',
+};
+
+export const ADDRESS = {
+  STREET_TITLE: 'Street',
+  CITY_TITLE: 'City',
+  ZIP_CODE_TITLE: 'Zip Code',
+  STATE_TITLE: 'State',
+  COUNTRY_TITLE: 'Country',
+};
+
+export const PRODUCT = {
+  PRODUCT_TITLE: 'What do you sell?',
+  DESCRIPTION_TITLE: 'Description',
+  PRICE_TITLE: 'Your start Price',
+  START_DATE_TITLE: 'Start date',
+  END_DATE_TITLE: 'End date',
+};

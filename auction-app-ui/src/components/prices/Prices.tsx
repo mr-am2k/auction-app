@@ -12,7 +12,7 @@ import {
 import { ROUTES } from 'util/routes';
 import { validate as validateProductStartPrice } from 'validators/validateProductStartPrice';
 import { validate as validateDateIsInPast } from 'validators/validateDateIsInPast';
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS, PRODUCT } from 'translation/en';
 
 import './prices.scss';
 import 'scss/settings.scss';
@@ -31,7 +31,7 @@ const Prices: React.FC<Props> = ({ handleNextStep, handleBackStep }) => {
       key={PRODUCT_FORM.PRICE}
       type={INPUT_TYPE_NUMBER}
       name={PRODUCT_FORM.PRICE}
-      title={EN_STRINGS.PRODUCT_FORM.PRICE_TITLE}
+      title={PRODUCT.PRICE_TITLE}
       placeholder={PRODUCT_FORM.PRICE_PLACEHOLDER}
       validator={validateProductStartPrice}
       value={fieldValues[PRODUCT_FORM.PRICE]}
@@ -42,8 +42,7 @@ const Prices: React.FC<Props> = ({ handleNextStep, handleBackStep }) => {
       key={PRODUCT_FORM.START_DATE}
       type={INPUT_TYPE_DATE}
       name={PRODUCT_FORM.START_DATE}
-      title={EN_STRINGS.PRODUCT_FORM.START_DATE_TITLE}
-      optionalValidator={(new Date()).toISOString()}
+      title={PRODUCT.START_DATE_TITLE}
       validator={validateDateIsInPast}
       value={fieldValues[PRODUCT_FORM.START_DATE]}
       required
@@ -53,7 +52,7 @@ const Prices: React.FC<Props> = ({ handleNextStep, handleBackStep }) => {
       key={PRODUCT_FORM.END_DATE}
       type={INPUT_TYPE_DATE}
       name={PRODUCT_FORM.END_DATE}
-      title={EN_STRINGS.PRODUCT_FORM.END_DATE_TITLE}
+      title={PRODUCT.END_DATE_TITLE}
       optionalValidator={fieldValues[PRODUCT_FORM.START_DATE]}
       validator={validateDateIsInPast}
       value={fieldValues[PRODUCT_FORM.END_DATE]}

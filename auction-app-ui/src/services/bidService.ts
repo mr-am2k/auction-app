@@ -1,4 +1,4 @@
-import { createBidRequest } from 'requestModels/create/createBidRequest';
+import { createBidRequest } from 'models/request/create/createBidRequest';
 
 import agent from 'lib/agent';
 import { Bid } from 'models/bid';

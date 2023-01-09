@@ -4,7 +4,7 @@ import { useDropzone, DropzoneProps } from 'react-dropzone';
 import { useForm } from 'hooks/useForm';
 
 import { validate as validateProductImages } from 'validators/validateProductImages';
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 import { v4 } from 'uuid';
 
 import './image-uploader.scss';
@@ -36,7 +36,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ name, value }) => {
   const onDropAccepted = (acceptedImages: File[]) => {
     setUploadedImages((prevImages) => [...prevImages, ...acceptedImages]);
 
-    let imagesForUpload: File[] = [];
+    let imagesForUpload: any = [];
 
     if (fieldValues[name] !== undefined) {
       imagesForUpload = [
@@ -53,13 +53,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ name, value }) => {
       [name]: imagesForUpload,
     });
 
-    const imagesForValidation: any = imagesForUpload;
-
     setFieldValidationResults({
       ...fieldValidationResults,
       [name]: validateSingleField(
         name,
-        imagesForValidation,
+        imagesForUpload,
         additionalFieldsInfo[name]?.pattern,
         true,
         additionalFieldsInfo[name]?.optionalValidator,
@@ -80,7 +78,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ name, value }) => {
 
     setUploadedImages((prevImages) => [...prevImages, ...acceptedImages]);
 
-    let imagesForUpload: File[] = [];
+    let imagesForUpload: any = [];
 
     if (fieldValues[name] !== undefined) {
       imagesForUpload = [
@@ -97,13 +95,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ name, value }) => {
       [name]: imagesForUpload,
     });
 
-    const imagesForValidation: any = imagesForUpload;
-
     setFieldValidationResults({
       ...fieldValidationResults,
       [name]: validateSingleField(
         name,
-        imagesForValidation,
+        imagesForUpload,
         additionalFieldsInfo[name]?.pattern,
         true,
         additionalFieldsInfo[name]?.optionalValidator,
@@ -136,8 +132,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ name, value }) => {
 
   return (
     <div
-      className={classNames({
-        'c-image-upload': true,
+      className={classNames('c-image-upload', {
         'c-error-border': hasError,
       })}
       {...getRootProps()}

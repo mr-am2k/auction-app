@@ -1,3 +1,5 @@
+import { CreateAddressRequest } from './createAddressRequest';
+
 export type CreateProductRequest = {
   name: string;
   description: string;
@@ -7,4 +9,5 @@ export type CreateProductRequest = {
   creationDateTime: Date;
   expirationDateTime: Date;
   userId: string;
+  address: CreateAddressRequest;
 };

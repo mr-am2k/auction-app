@@ -6,30 +6,23 @@ import productsService from 'services/productService';
 import { storageService } from 'services/storageService';
 
 import { ItemList, EmptyList } from '../index';
-import CartIcon from 'assets/icons/CartIcon';
 import { ProductList } from 'models/productList';
 import { LOCAL_STORAGE } from 'util/constants';
 import { ROUTES } from 'util/routes';
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 
 import './seller-details.scss';
+
+import CartIcon from 'assets/icons/CartIcon';
 
 import classNames from 'classnames';
 
 const SellerDetails = () => {
   const [activeProducts, setActiveProducts] = useState<ProductList[]>([]);
-  const [soldProducts, setSoledProducts] = useState<ProductList[]>([]);
+  const [soldProducts, setSoldProducts] = useState<ProductList[]>([]);
   const [activeProductsDisplayed, setActiveProductsDisplayed] = useState(true);
 
   const { setNavbarTitle, setNavbarItems } = usePage();
-
-  const changeOnActive = () => {
-    setActiveProductsDisplayed(true);
-  };
-
-  const changeOnSold = () => {
-    setActiveProductsDisplayed(false);
-  };
 
   const getProductsForUser = () => {
     productsService
@@ -52,19 +45,19 @@ const SellerDetails = () => {
             };
 
             if (productDate < currentDate) {
-              return !soldProducts?.length
-                ? setSoledProducts((prevProducts) => [
-                    ...prevProducts!,
-                    newProduct,
-                  ])
-                : setSoledProducts([newProduct]);
+              return !soldProducts?.length ? 
+                    setSoldProducts((prevProducts) => [
+                      ...prevProducts!,
+                      newProduct,
+                    ]) : 
+                    setSoldProducts([newProduct]);
             } else {
-              return !activeProducts?.length
-                ? setActiveProducts((prevProducts) => [
+              return !activeProducts?.length ? 
+                    setActiveProducts((prevProducts) => [
                     ...prevProducts!,
                     newProduct,
-                  ])
-                : setActiveProducts([newProduct]);
+                    ]) : 
+                    setActiveProducts([newProduct]);
             }
           });
         }
@@ -86,18 +79,16 @@ const SellerDetails = () => {
     <div className='c-seller-wrapper'>
       <div className='c-seller-options'>
         <div
-          onClick={changeOnActive}
-          className={classNames({
-            'c-seller-option': true,
+          onClick={() => setActiveProductsDisplayed(true)}
+          className={classNames('c-seller-option', {
             'c-seller-option--active': activeProductsDisplayed,
           })}
         >
           <p>{EN_STRINGS.SELLER.ACTIVE}</p>
         </div>
         <div
-          onClick={changeOnSold}
-          className={classNames({
-            'c-seller-option': true,
+          onClick={() => setActiveProductsDisplayed(false)}
+          className={classNames('c-seller-option', {
             'c-seller-option--active': !activeProductsDisplayed,
           })}
         >

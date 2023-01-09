@@ -8,7 +8,7 @@ import userService from 'services/userService';
 import { storageService } from 'services/storageService';
 
 import { MY_ACCOUNT } from 'util/constants';
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 
 import './user-settings.scss';
 

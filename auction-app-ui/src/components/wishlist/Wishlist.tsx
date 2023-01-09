@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import { usePage } from 'hooks/usePage';
 
 import { ROUTES } from 'util/routes';
-import { AiOutlineHeart } from 'react-icons/ai';
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 
 import './wishlist.scss';
+
+import { AiOutlineHeart } from 'react-icons/ai';
 
 const Wishlist = () => {
   const { setNavbarTitle, setNavbarItems } = usePage();

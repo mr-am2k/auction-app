@@ -1,6 +1,6 @@
 import agent from 'lib/agent';
 import { User } from 'models/user';
-import { UpdateUserDataRequest } from 'requestModels/update/updateUserDataRequest';
+import { UpdateUserDataRequest } from 'models/request/update/updateUserDataRequest';
 
 const BASE_URL = '/users';
 

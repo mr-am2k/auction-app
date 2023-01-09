@@ -10,16 +10,17 @@ import { ItemList, EmptyList } from '../index';
 import { ProductList } from 'models/productList';
 import { ROUTES } from 'util/routes';
 import { LOCAL_STORAGE } from 'util/constants';
-import EN_STRINGS from 'translation/en';
-import HammerIcon from 'assets/icons/HammerIcon';
+import { EN_STRINGS } from 'translation/en';
 
 import './bids.scss';
+
+import HammerIcon from 'assets/icons/HammerIcon';
 
 const Bids = () => {
   const [bids, setBids] = useState<ProductList[]>([]);
   const { setNavbarTitle, setNavbarItems } = usePage();
 
-  const fetchBidsForUser = async () => {
+  const fetchUserBids = async () => {
     const bids = await bidService.getUserBids(
       storageService.get(LOCAL_STORAGE.ID)!
     );
@@ -45,7 +46,7 @@ const Bids = () => {
     setNavbarTitle(EN_STRINGS.MY_ACCOUNT.BIDS);
     setNavbarItems([EN_STRINGS.NAVBAR.MY_ACCOUNT, EN_STRINGS.MY_ACCOUNT.BIDS]);
 
-    fetchBidsForUser();
+    fetchUserBids();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

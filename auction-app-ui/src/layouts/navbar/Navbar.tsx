@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { SearchIcon, CloseIcon } from 'assets/icons';
 import auctionAppLogo from 'assets/logo/auction-app-logo.svg';
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 import { ROUTES } from 'util/routes';
 
 import './navbar.scss';
+
+import { SearchIcon, CloseIcon } from 'assets/icons';
 
 const Navbar = () => {
   const [inputContent, setInputContent] = useState('');

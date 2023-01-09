@@ -1,4 +1,5 @@
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
+
 import './notification-bar.scss';
 
 const SCSS_NOTIFICATION_CLASSES = {

@@ -4,7 +4,7 @@ import { CreditCardForm } from '../index';
 import { User } from 'models/user';
 import arrowUp from 'assets/images/arrow-up.png';
 import arrowDown from 'assets/images/arrow-down.png';
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 
 import './card.scss';
 
@@ -29,7 +29,7 @@ const Card: React.FC<Props> = ({ user }) => {
           src={!cardDisplayed ? arrowUp : arrowDown}
           alt={EN_STRINGS.PROFILE.CARD}
         />
-        
+
         <p>{EN_STRINGS.PROFILE.CARD}</p>
       </div>
 

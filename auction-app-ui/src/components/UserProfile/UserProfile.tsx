@@ -9,15 +9,14 @@ import { fileUploadService } from 'services/fileUploadService';
 import { storageService } from 'services/storageService';
 
 import { PersonalForm, LocationDetails, Card } from '../index';
-import { UpdateUserDataRequest } from 'requestModels/update/updateUserDataRequest';
+import { UpdateUserDataRequest } from 'models/request/update/updateUserDataRequest';
 import { User } from 'models/user';
 import userImage from 'assets/images/user.png';
-import { getUserData } from 'util/getUserData';
-import { getCardData } from 'util/getCreditCardData';
+import { getUserData } from 'util/userUtils';
+import { getCardData } from 'util/creditCardUtils';
 import { INPUT_TYPE_FILE, LOCAL_STORAGE } from 'util/constants';
-import { getAddressData } from 'util/getAddressData';
-import isEmpty from 'util/objectUtils';
-import EN_STRINGS from 'translation/en';
+import { getAddressData } from 'util/addressUtils';
+import { EN_STRINGS } from 'translation/en';
 
 import './user-profile.scss';
 import 'scss/settings.scss'
@@ -29,7 +28,7 @@ const UserProfile = () => {
   const [uploading, setUploading] = useState(false);
 
   const { setNavbarTitle, setNavbarItems } = usePage();
-  const { fieldValues, validateForm } = useForm();
+  const { fieldValues, validateForm, resetFieldValues, setFieldValidationResults } = useForm();
 
   const imageRef = useRef<HTMLInputElement>(null);
 
@@ -47,18 +46,14 @@ const UserProfile = () => {
     setImageUpload(imageRef.current!.files![0]);
   };
 
+  const isFormValid = () => {
+    return validateForm() ? true : false;   
+  }
+
   const submitForm = async () => {
-    let isValid = true;
-
-    if (!isEmpty(fieldValues)) {
-      isValid = validateForm();
-    }
-
-    if (!isValid) {
-      setUpdateError(EN_STRINGS.PROFILE.ERROR);
+    if(!isFormValid()){
+      setUpdateError(EN_STRINGS.PROFILE.ERROR)
       return;
-    } else {
-      setUpdateError('');
     }
 
     setUploading(true);
@@ -66,6 +61,8 @@ const UserProfile = () => {
     const updateUserRequest = getUserData(fieldValues, user!);
     const updateCreditCardRequest = getCardData(fieldValues, user!);
     const updateAddressRequest = getAddressData(fieldValues, user!);
+
+    updateUserRequest.address = updateAddressRequest;
 
     let profileImageUrl = undefined;
 
@@ -80,14 +77,13 @@ const UserProfile = () => {
     const updateUserDataRequest: UpdateUserDataRequest = {
       updateUserRequest,
       updateCreditCardRequest,
-      updateAddressRequest,
     };
 
     userService
       .updateUser(user!.id, updateUserDataRequest)
       .then(() => {
         setUploading(false);
-        navigate('/')
+        navigate('/');
       })
       .catch((error) => setUpdateError(error.data.response.message));
   };
@@ -100,6 +96,11 @@ const UserProfile = () => {
     ]);
 
     fetchUser();
+
+    return () => {
+      resetFieldValues();
+      setFieldValidationResults({});
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

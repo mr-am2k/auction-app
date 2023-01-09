@@ -11,10 +11,10 @@ import { storageService } from 'services/storageService';
 
 import { ItemForm, ShippingDetails, Prices } from 'components';
 import { User } from 'models/user';
-import { CreateProductRequest } from 'requestModels/create/createProductRequest';
-import { CreateProductDataRequest } from 'requestModels/create/createProductDataRequest';
-import { getCardData } from 'util/getCreditCardData';
-import { getAddressData } from 'util/getAddressData';
+import { CreateProductRequest } from 'models/request/create/createProductRequest';
+import { CreateProductDataRequest } from 'models/request/create/createProductDataRequest';
+import { getCardData } from 'util/creditCardUtils';
+import { getAddressData } from 'util/addressUtils';
 import { FOLDERS, PRODUCT_FORM, LOCAL_STORAGE, ADD_ITEM } from 'util/constants';
 import { ROUTES } from 'util/routes';
 
@@ -74,11 +74,11 @@ const AddItem = () => {
       creationDateTime: fieldValues[PRODUCT_FORM.START_DATE],
       expirationDateTime: fieldValues[PRODUCT_FORM.END_DATE],
       userId: storageService.get(LOCAL_STORAGE.ID)!,
+      address: createAddressRequest
     };
 
     const createProductDataRequest: CreateProductDataRequest = {
       createProductRequest,
-      createAddressRequest, 
       createCreditCardRequest
     }
 
@@ -110,8 +110,7 @@ const AddItem = () => {
         />
 
         <span
-          className={classNames({
-            'c-dot': true,
+          className={classNames('c-dot', {
             'c-dot--active': pageNumber >= ADD_ITEM.PAGE_NUMBER_2,
           })}
         />
@@ -123,8 +122,7 @@ const AddItem = () => {
         />
 
         <span
-          className={classNames({
-            'c-dot': true,
+          className={classNames('c-dot', {
             'c-dot--active': pageNumber === ADD_ITEM.PAGE_NUMBER_3,
           })}
         />

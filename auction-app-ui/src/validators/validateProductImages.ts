@@ -1,4 +1,4 @@
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 
 export const validate = (images: File[]) => {
   if (images.length < 3) {

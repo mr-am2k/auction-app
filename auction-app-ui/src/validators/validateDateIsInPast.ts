@@ -1,25 +1,19 @@
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 
-export const validate = (startDate: string, endDate?: string) => {
-  let start: Date;
-  let end: Date;
+//TODO: update in future
+export const validate = (firstDate: string, secondDate?: string) => {
+  let startDate: Date;
+  let endDate: Date;
 
-  if (endDate) {
-    start = new Date(startDate);
-    end = new Date(endDate);
+  if (secondDate) {
+    startDate = new Date(firstDate);
+    endDate = new Date(secondDate);
   } else {
-    start = new Date();
-    end = new Date(startDate);
+    startDate = new Date();
+    endDate = new Date(firstDate);
   }
 
-  if (end < start) {
-    return {
-      valid: false,
-      message: EN_STRINGS.ERROR_MESSAGE.DATE,
-    };
-  }
-
-  return {
-    valid: true,
-  };
+  return endDate < startDate ? 
+    { valid: false, message: EN_STRINGS.ERROR_MESSAGE.DATE } : 
+    { valid: true };
 };

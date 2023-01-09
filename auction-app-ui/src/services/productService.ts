@@ -1,6 +1,6 @@
 import { Product } from 'models/product';
 import agent from 'lib/agent';
-import { CreateProductDataRequest } from 'requestModels/create/createProductDataRequest';
+import { CreateProductDataRequest } from 'models/request/create/createProductDataRequest';
 
 const BASE_URL = '/products';
 

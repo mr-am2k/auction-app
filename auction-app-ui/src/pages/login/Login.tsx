@@ -10,7 +10,7 @@ import { storageService } from 'services/storageService';
 
 import LoginForm from 'components/LoginForm/LoginForm';
 import { LoggedInUser } from 'models/loggedInUser';
-import { userLoginRequest } from 'requestModels/auth/userLoginRequest';
+import { userLoginRequest } from 'models/request/auth/userLoginRequest';
 import { LOCAL_STORAGE } from 'util/constants';
 import logo from 'assets/logo/auction-app-logo.svg';
 

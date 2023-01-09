@@ -21,9 +21,7 @@ import {
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import { ROUTES } from './util/routes';
 import { LOCAL_STORAGE } from 'util/constants';
-import { userLogin } from 'util/userLogin';
-import { userLogout } from 'util/userLogout';
-import { getTokenExpirationDate } from 'util/getTokenExpirationDate';
+import { getTokenExpirationDate } from 'util/jwtUtils';
 
 import './app.scss';
 
@@ -40,35 +38,40 @@ const PAGES_WITH_NAVBAR_COMPONENT = [
 ];
 
 const App = () => {
-  const { loggedInUser, setLoggedInUser, resetLoggedInUser } = useUser();
+  const {
+    loggedInUser,
+    setLoggedInUser,
+    resetLoggedInUser,
+    loginUser,
+    logoutUser,
+    isUserLoggedIn,
+  } = useUser();
   const location = useLocation();
   const navigate = useNavigate();
 
   const refreshToken = storageService.get(LOCAL_STORAGE.REFRESH_TOKEN);
 
   const setUser = async () => {
-    const user = await userLogin();
+    const user = await loginUser();
     setLoggedInUser(user);
   };
 
-  //This one handles creating new access token on page reload and also logout if refresh token has expired
   useEffect(() => {
     if (refreshToken && loggedInUser?.accessToken === undefined) {
       if (getTokenExpirationDate(refreshToken)! < new Date()) {
-        userLogout();
+        logoutUser();
         resetLoggedInUser();
         navigate('/');
       } else {
         setUser();
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //This one handles logic for getting access token based on refresh token and also handles case for logout if refresh token has expired
   useEffect(() => {
     setInterval(() => {
-      if(!storageService.get(LOCAL_STORAGE.REFRESH_TOKEN)){
+      if (!storageService.get(LOCAL_STORAGE.REFRESH_TOKEN)) {
         return;
       }
 
@@ -78,7 +81,7 @@ const App = () => {
           storageService.get(LOCAL_STORAGE.REFRESH_TOKEN)!
         )! < new Date()
       ) {
-        userLogout();
+        logoutUser();
         resetLoggedInUser();
         navigate('/');
         return;
@@ -88,7 +91,7 @@ const App = () => {
         setUser();
       }
     }, 120000);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -129,14 +132,13 @@ const App = () => {
                     </>
                   }
                 />
-                <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
+                <Route
+                  path={ROUTES.MY_ACCOUNT}
+                  element={isUserLoggedIn() ? <MyAccount /> : <Error />}
+                />
                 <Route
                   path={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`}
-                  element={
-                    <>
-                      <AddItem />
-                    </>
-                  }
+                  element={isUserLoggedIn() ? <AddItem /> : <Error />}
                 />
                 <Route path='*' element={<Error />} />
               </Routes>

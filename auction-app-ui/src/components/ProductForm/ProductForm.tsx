@@ -10,7 +10,7 @@ import { PRODUCT_FORM, INPUT_TYPE_TEXT } from 'util/constants';
 import { ROUTES } from 'util/routes';
 import { Category } from 'models/category';
 import { Option } from 'models/option';
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS, PRODUCT } from 'translation/en';
 
 import './product-form.scss';
 
@@ -48,7 +48,7 @@ const ProductForm: React.FC<Props> = ({ handleNextStep }) => {
   ) => {
     setSubcategoryOptions([]);
 
-    let availableOptions: Option[] = [];
+    const availableOptions: Option[] = [];
 
     allCategories?.forEach((category) => {
       if (category.parentCategoryId === event.target.value) {
@@ -68,7 +68,7 @@ const ProductForm: React.FC<Props> = ({ handleNextStep }) => {
       key={PRODUCT_FORM.PRODUCT}
       type={INPUT_TYPE_TEXT}
       name={PRODUCT_FORM.PRODUCT}
-      title={EN_STRINGS.PRODUCT_FORM.PRODUCT_TITLE}
+      title={PRODUCT.PRODUCT_TITLE}
       placeholder={PRODUCT_FORM.PRODUCT_PLACEHOLDER}
       value={fieldValues[PRODUCT_FORM.PRODUCT]}
       required
@@ -105,7 +105,7 @@ const ProductForm: React.FC<Props> = ({ handleNextStep }) => {
 
         <Textarea
           maxLength={PRODUCT_FORM.TEXTAREA_MAX_LENGTH}
-          title={EN_STRINGS.PRODUCT_FORM.DESCRIPTION_TITLE}
+          title={PRODUCT.DESCRIPTION_TITLE}
           name={PRODUCT_FORM.DESCRIPTION}
           required={true}
           message={EN_STRINGS.ITEM_FORM.DESCRIPTION_MESSAGE}

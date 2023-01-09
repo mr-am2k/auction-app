@@ -1,8 +1,9 @@
 import { usePage } from 'hooks/usePage';
 
-import { ArrowIcon } from 'assets/icons';
 
 import './navbar-tracker.scss';
+
+import { ArrowIcon } from 'assets/icons';
 
 const NavbarTracker = () => {
   const { navbarTitle, navbarItems } = usePage();

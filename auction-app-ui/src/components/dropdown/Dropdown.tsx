@@ -86,8 +86,7 @@ const Dropdown: React.FC<Props> = ({
   return (
     <div className='c-dropdown-wrapper'>
       <select
-        className={classNames({
-          'c-dropdown': true,
+        className={classNames('c-dropdown', {
           'c-dropdown-error-border': hasError,
         })}
         value={selectedOption ? selectedOption : placeholder}

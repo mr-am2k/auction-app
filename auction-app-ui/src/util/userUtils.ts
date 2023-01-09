@@ -1,5 +1,5 @@
 import { User } from 'models/user';
-import { UpdateUserRequest } from 'requestModels/update/updateUserRequest';
+import { UpdateUserRequest } from 'models/request/update/updateUserRequest';
 
 export const getUserData = (fieldValues: any, user: User) => {
   const updateUserRequest: UpdateUserRequest = {
@@ -13,6 +13,7 @@ export const getUserData = (fieldValues: any, user: User) => {
     dateOfBirth: fieldValues?.dateOfBirth ?   
       fieldValues.dateOfBirth : 
       user?.dateOfBirth,
+    address: null
   };
 
   return updateUserRequest;

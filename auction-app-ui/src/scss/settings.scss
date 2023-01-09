@@ -9,6 +9,6 @@
   }
 
   &:disabled {
-    background-color: $smokeWhiteColor;
+    background-color: $smokeWhiteColor !important;
   }
 }

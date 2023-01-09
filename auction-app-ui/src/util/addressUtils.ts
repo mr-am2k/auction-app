@@ -1,5 +1,5 @@
 import { User } from 'models/user';
-import { CreateAddressRequest } from 'requestModels/create/createAddressRequest';
+import { CreateAddressRequest } from 'models/request/create/createAddressRequest';
 
 export const getAddressData = (fieldValues: any, user: User) => {
   const updateAddressRequest: CreateAddressRequest = {

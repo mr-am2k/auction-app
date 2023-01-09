@@ -13,12 +13,13 @@ import { storageService } from 'services/storageService';
 import { Loading, ImagePicker, NotificationBar } from 'components';
 import { Product } from 'models/product';
 import { Notification } from 'models/notification';
-import { createBidRequest } from 'requestModels/create/createBidRequest';
-import { GreaterIcon } from 'assets/icons';
+import { createBidRequest } from 'models/request/create/createBidRequest';
 import { INPUT_TYPE_NUMBER } from 'util/constants';
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 
 import './single-product.scss';
+
+import { GreaterIcon } from 'assets/icons';
 
 const SingleProduct = () => {
   const bidInputRef = useRef<HTMLInputElement>(null);

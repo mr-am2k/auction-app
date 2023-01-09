@@ -1,4 +1,4 @@
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 import { VALIDATION } from 'util/constants';
 import { EMAIL_REGEX } from 'util/regexUtils';
 

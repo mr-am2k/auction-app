@@ -1,5 +1,5 @@
 import { User } from 'models/user';
-import { CreateCreditCardRequest } from 'requestModels/create/createCreditCardRequest';
+import { CreateCreditCardRequest } from 'models/request/create/createCreditCardRequest';
 
 export const getCardData = (fieldValues: any, user: User) => {
   const updateCreditCardRequest: CreateCreditCardRequest = {

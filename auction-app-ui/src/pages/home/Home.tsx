@@ -7,12 +7,13 @@ import productsService from 'services/productService';
 
 import { Category, HomeProducts, Loading } from 'components';
 import { Product } from 'models/product';
-import { GreaterIcon } from 'assets/icons';
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 import { LAST_CHANCE, NEW_ARRIVAL } from 'util/constants';
 import { ROUTES } from 'util/routes';
 
 import './home.scss';
+
+import { GreaterIcon } from 'assets/icons';
 
 const DUMMY_CATEGORIES = [
   'Fashion',

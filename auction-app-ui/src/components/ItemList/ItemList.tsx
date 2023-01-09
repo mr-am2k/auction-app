@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 import { ROUTES } from 'util/routes';
 import { ITEM_LIST } from 'util/constants';
 
@@ -43,8 +43,11 @@ const ItemList: React.FC<Props> = ({
 
             <td>{element.numberOfBids}</td>
 
-            <td className='c-bid-color'>
-              {element.highestBid ? `$ ${element.highestBid?.toFixed(ITEM_LIST.PRICE_DECIMALS)}` : EN_STRINGS.ITEM_LIST.NO_BIDS}
+            <td>
+              <span>
+                {element.highestBid ? `$ ${element.highestBid?.toFixed(ITEM_LIST.PRICE_DECIMALS)}` : 
+                  EN_STRINGS.ITEM_LIST.NO_BIDS}
+              </span>
             </td>
 
             <td>
@@ -52,10 +55,11 @@ const ItemList: React.FC<Props> = ({
                 <button>{buttonLabel}</button>
               </Link>
             </td>
-
           </tr>
         ))
-      ) : (<tr>{emptyList}</tr>)}
+      ) : (
+        <tr>{emptyList}</tr>
+      )}
     </tbody>
   );
 };

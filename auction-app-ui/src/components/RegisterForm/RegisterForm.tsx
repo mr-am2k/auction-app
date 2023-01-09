@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'hooks/useForm';
 
 import { Input, Form } from '../index';
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS, USER } from 'translation/en';
 import {
   INPUT_TYPE_TEXT,
   INPUT_TYPE_EMAIL,
@@ -28,7 +28,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       key={USER_FORM.FIRST_NAME}
       type={INPUT_TYPE_TEXT}
       name={USER_FORM.FIRST_NAME}
-      title={EN_STRINGS.USER_FORM.FIRST_NAME_TITLE}
+      title={USER.FIRST_NAME_TITLE}
       placeholder={USER_FORM.FIRST_NAME_PLACEHOLDER}
       value={fieldValues[USER_FORM.FIRST_NAME]}
       required
@@ -38,7 +38,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       key={USER_FORM.LAST_NAME}
       type={INPUT_TYPE_TEXT}
       name={USER_FORM.LAST_NAME}
-      title={EN_STRINGS.USER_FORM.LAST_NAME_TITLE}
+      title={USER.LAST_NAME_TITLE}
       placeholder={USER_FORM.LAST_NAME_PLACEHOLDER}
       value={fieldValues[USER_FORM.LAST_NAME]}
       required
@@ -48,7 +48,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       key={USER_FORM.EMAIL}
       type={INPUT_TYPE_EMAIL}
       name={USER_FORM.EMAIL}
-      title={EN_STRINGS.USER_FORM.EMAIL_TITLE}
+      title={USER.EMAIL_TITLE}
       placeholder={USER_FORM.EMAIL_PLACEHOLDER}
       value={fieldValues[USER_FORM.EMAIL]}
       pattern={USER_FORM.EMAIL_PATTERN}
@@ -60,7 +60,7 @@ const RegisterForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
       key={USER_FORM.PASSWORD}
       type={INPUT_TYPE_PASSWORD}
       name={USER_FORM.PASSWORD}
-      title={EN_STRINGS.USER_FORM.PASSWORD_TITLE}
+      title={USER.PASSWORD_TITLE}
       placeholder={USER_FORM.PASSWORD_PLACEHOLDER}
       value={fieldValues[USER_FORM.PASSWORD]}
       pattern={USER_FORM.PASSWORD_PATTERN}

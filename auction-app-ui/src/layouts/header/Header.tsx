@@ -4,13 +4,14 @@ import { useUser } from 'hooks/useUser';
 
 import authService from 'services/authService';
 
-import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 import { storageService } from 'services/storageService';
 import { LOCAL_STORAGE } from 'util/constants';
 import { ROUTES } from 'util/routes';
 
 import './header.scss';
+
+import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
 
 const Header = () => {
   const { isUserLoggedIn, resetLoggedInUser } = useUser();

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 
 import './image-picker.scss';
 

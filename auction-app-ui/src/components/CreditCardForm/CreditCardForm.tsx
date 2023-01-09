@@ -12,7 +12,7 @@ import {
 import { validate as validateCardNumber } from 'validators/validateCardNumber';
 import { validate as validateCardCVV } from 'validators/validateCardCVV';
 import { validate as validateCardExpirationDate } from 'validators/validateCardExpirationDate';
-import EN_STRINGS from 'translation/en';
+import { CREDIT_CARD } from 'translation/en';
 
 import '../form/form.scss';
 
@@ -30,36 +30,28 @@ const CreditCardForm: React.FC<Props> = ({ user, required }) => {
       key={CREDIT_CARD_FORM.CREDIT_CARD_NAME}
       type={INPUT_TYPE_TEXT}
       name={CREDIT_CARD_FORM.CREDIT_CARD_NAME}
-      title={EN_STRINGS.CREDIT_CARD_FORM.CREDIT_CARD_NAME_TITLE}
+      title={CREDIT_CARD.CREDIT_CARD_NAME_TITLE}
       placeholder={
-        user?.card?.holderFullName ?
-          user.card.holderFullName :
-          CREDIT_CARD_FORM.CREDIT_CARD_NAME_PLACEHOLDER
+        user?.card?.holderFullName ? 
+        user.card.holderFullName : 
+        CREDIT_CARD_FORM.CREDIT_CARD_NAME_PLACEHOLDER
       }
       value={fieldValues[CREDIT_CARD_FORM.CREDIT_CARD_NAME]}
-      required={
-        required ? user?.card?.holderFullName === undefined ||
-          user?.card?.holderFullName === null :
-          false
-      }
+      required={required ? !user?.card?.holderFullName : false}
     />,
 
     <Input
       key={CREDIT_CARD_FORM.CREDIT_CARD_NUMBER}
       type={INPUT_TYPE_NUMBER}
       name={CREDIT_CARD_FORM.CREDIT_CARD_NUMBER}
-      title={EN_STRINGS.CREDIT_CARD_FORM.CREDIT_CARD_NUMBER_TITLE}
+      title={CREDIT_CARD.CREDIT_CARD_NUMBER_TITLE}
       placeholder={
-        user?.card?.number ?
-          user.card.number.toString() :
-          CREDIT_CARD_FORM.CREDIT_CARD_NUMBER_PLACEHOLDER
+        user?.card?.number ? 
+        user.card.number.toString() : 
+        CREDIT_CARD_FORM.CREDIT_CARD_NUMBER_PLACEHOLDER
       }
       value={fieldValues[CREDIT_CARD_FORM.CREDIT_CARD_NUMBER]}
-      required={
-        required ?
-          user?.card?.number === undefined || user?.card?.number === null :
-          false
-      }
+      required={required ? !user?.card?.number : false}
       validator={validateCardNumber}
     />,
 
@@ -67,33 +59,24 @@ const CreditCardForm: React.FC<Props> = ({ user, required }) => {
       key={CREDIT_CARD_FORM.CREDIT_CARD_EXPIRATION_DATE}
       type={INPUT_TYPE_DATE}
       name={CREDIT_CARD_FORM.CREDIT_CARD_EXPIRATION_DATE}
-      title={EN_STRINGS.CREDIT_CARD_FORM.CREDIT_CARD_EXPIRATION_DATE_TITLE}
+      title={CREDIT_CARD.CREDIT_CARD_EXPIRATION_DATE_TITLE}
       value={fieldValues[CREDIT_CARD_FORM.CREDIT_CARD_EXPIRATION_DATE]}
-      required={
-        required ?
-          user?.card?.expirationDate === undefined ||
-          user?.card?.expirationDate === null :
-          false
-      }
+      required={required ? !user?.card?.expirationDate : false}
       validator={validateCardExpirationDate}
     />,
+
     <Input
       key={CREDIT_CARD_FORM.CREDIT_CARD_CVV}
       type={INPUT_TYPE_PASSWORD}
       name={CREDIT_CARD_FORM.CREDIT_CARD_CVV}
-      title={EN_STRINGS.CREDIT_CARD_FORM.CREDIT_CARD_CVV_TITLE}
+      title={CREDIT_CARD.CREDIT_CARD_CVV_TITLE}
       placeholder={
-        user?.card?.verificationValue ?
-          user.card.verificationValue.toString() :
-          CREDIT_CARD_FORM.CREDIT_CARD_CVV_PLACEHOLDER
+        user?.card?.verificationValue ? 
+        user.card.verificationValue.toString() : 
+        CREDIT_CARD_FORM.CREDIT_CARD_CVV_PLACEHOLDER
       }
       value={fieldValues[CREDIT_CARD_FORM.CREDIT_CARD_CVV]}
-      required={
-        required ?
-          user?.card?.verificationValue === undefined ||
-          user?.card?.verificationValue === null :
-          false
-      }
+      required={required ? !user?.card?.verificationValue : false}
       validator={validateCardCVV}
     />,
   ];

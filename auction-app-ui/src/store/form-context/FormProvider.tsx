@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import FormContext from './form-context';
 
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 import { isEmptyString } from 'util/stringUtils';
 
 type Props = {
