@@ -1,15 +1,18 @@
-package com.internship.auctionapp.models;
+package com.internship.auctionapp.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
+import javax.persistence.Embeddable;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
-public class Address {
-    private UUID id;
-
+@Builder
+@Embeddable
+public class AddressEntity {
     private String street;
 
     private String city;

@@ -21,6 +21,10 @@
         border: none;
         background-color: $purpleColor;
         color: $whiteColor;
+
+        &:disabled{
+          background-color: $smokeWhiteColor;
+        }
       }
     }
   }

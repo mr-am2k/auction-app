@@ -117,8 +117,8 @@ const ShippingDetails: React.FC<Props> = ({
                   disabled={saving}
                   onClick={handleFormSubmit}
                 >
-                  {!saving ? 
-                    EN_STRINGS.LOCATION_SHIPPING.DONE_BUTTON : 
+                  {!saving ?
+                    EN_STRINGS.LOCATION_SHIPPING.DONE_BUTTON :
                     EN_STRINGS.LOCATION_SHIPPING.SAVING}
                 </button>
               </div>

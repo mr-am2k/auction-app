@@ -32,9 +32,9 @@ const CreditCardForm: React.FC<Props> = ({ user, required }) => {
       name={CREDIT_CARD_FORM.CREDIT_CARD_NAME}
       title={CREDIT_CARD.CREDIT_CARD_NAME_TITLE}
       placeholder={
-        user?.card?.holderFullName ? 
-        user.card.holderFullName : 
-        CREDIT_CARD_FORM.CREDIT_CARD_NAME_PLACEHOLDER
+        user?.card?.holderFullName ?
+          user.card.holderFullName :
+          CREDIT_CARD_FORM.CREDIT_CARD_NAME_PLACEHOLDER
       }
       value={fieldValues[CREDIT_CARD_FORM.CREDIT_CARD_NAME]}
       required={required ? !user?.card?.holderFullName : false}
@@ -46,9 +46,9 @@ const CreditCardForm: React.FC<Props> = ({ user, required }) => {
       name={CREDIT_CARD_FORM.CREDIT_CARD_NUMBER}
       title={CREDIT_CARD.CREDIT_CARD_NUMBER_TITLE}
       placeholder={
-        user?.card?.number ? 
-        user.card.number.toString() : 
-        CREDIT_CARD_FORM.CREDIT_CARD_NUMBER_PLACEHOLDER
+        user?.card?.number ?
+          user.card.number.toString() :
+          CREDIT_CARD_FORM.CREDIT_CARD_NUMBER_PLACEHOLDER
       }
       value={fieldValues[CREDIT_CARD_FORM.CREDIT_CARD_NUMBER]}
       required={required ? !user?.card?.number : false}
@@ -71,9 +71,9 @@ const CreditCardForm: React.FC<Props> = ({ user, required }) => {
       name={CREDIT_CARD_FORM.CREDIT_CARD_CVV}
       title={CREDIT_CARD.CREDIT_CARD_CVV_TITLE}
       placeholder={
-        user?.card?.verificationValue ? 
-        user.card.verificationValue.toString() : 
-        CREDIT_CARD_FORM.CREDIT_CARD_CVV_PLACEHOLDER
+        user?.card?.verificationValue ?
+          user.card.verificationValue.toString() :
+          CREDIT_CARD_FORM.CREDIT_CARD_CVV_PLACEHOLDER
       }
       value={fieldValues[CREDIT_CARD_FORM.CREDIT_CARD_CVV]}
       required={required ? !user?.card?.verificationValue : false}

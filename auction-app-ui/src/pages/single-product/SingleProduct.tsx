@@ -14,7 +14,7 @@ import { Loading, ImagePicker, NotificationBar } from 'components';
 import { Product } from 'models/product';
 import { Notification } from 'models/notification';
 import { createBidRequest } from 'models/request/create/createBidRequest';
-import { INPUT_TYPE_NUMBER } from 'util/constants';
+import { INPUT_TYPE_NUMBER, LOCAL_STORAGE } from 'util/constants';
 import { EN_STRINGS } from 'translation/en';
 
 import './single-product.scss';
@@ -36,29 +36,22 @@ const SingleProduct = () => {
   const { id } = useParams();
 
   const currentDate = new Date();
+  const biddingDisabled = !isUserLoggedIn() || storageService.get(LOCAL_STORAGE.ID) === singleProduct?.user.id;
 
   const fetchSingleProduct = async (productId: string) => {
-    try {
-      const product = await productsService.getSingleProduct(productId);
-      setNavbarTitle(product.name);
-      setNavbarItems([EN_STRINGS.NAVBAR.SHOP, EN_STRINGS.SHOP.SINGLE_PRODUCT]);
-      setSingleProduct(product);
-      if (!product.bids.length) {
-        setInputPlaceholderValue(product.startPrice);
-      }
-    } catch (error) {
-      console.log(error);
+    const product = await productsService.getSingleProduct(productId);
+    setNavbarTitle(product.name);
+    setNavbarItems([EN_STRINGS.NAVBAR.SHOP, EN_STRINGS.SHOP.SINGLE_PRODUCT]);
+    setSingleProduct(product);
+    if (!product.bids.length) {
+      setInputPlaceholderValue(product.startPrice);
     }
   };
 
   const fetchHighestBid = async (productId: string) => {
-    try {
-      const highestBid = await bidService.getHighestBid(productId);
-      setHighestBid(highestBid);
-      setInputPlaceholderValue(highestBid);
-    } catch (error) {
-      console.log(error);
-    }
+    const highestBid = await bidService.getHighestBid(productId);
+    setHighestBid(highestBid);
+    setInputPlaceholderValue(highestBid);
   };
 
   const sendBid = () => {
@@ -107,7 +100,7 @@ const SingleProduct = () => {
   }, []);
 
   useEffect(() => {
-    loggedInUser ? 
+    loggedInUser ?
       getLatestNotification(loggedInUser!.id, id!) :
       setLatestNotification(undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -147,8 +140,8 @@ const SingleProduct = () => {
                 <p>
                   {`${EN_STRINGS.SINGLE_PRODUCT.TIME_LEFT}: `}
                   <span>
-                    {new Date(singleProduct.expirationDateTime) < currentDate ? 
-                      EN_STRINGS.SINGLE_PRODUCT.EXPIRED : 
+                    {new Date(singleProduct.expirationDateTime) < currentDate ?
+                      EN_STRINGS.SINGLE_PRODUCT.EXPIRED :
                       singleProduct.remainingTime}
                   </span>
                 </p>
@@ -172,9 +165,9 @@ const SingleProduct = () => {
                     ref={bidInputRef}
                     type={INPUT_TYPE_NUMBER}
                     placeholder={`${EN_STRINGS.SINGLE_PRODUCT.INPUT_PLACEHOLDER}${inputPlaceholderValue}`}
-                    disabled={!isUserLoggedIn()}
+                    disabled={biddingDisabled}
                   />
-                  <button disabled={!isUserLoggedIn()} onClick={sendBid}>
+                  <button disabled={biddingDisabled} onClick={sendBid}>
                     {EN_STRINGS.SINGLE_PRODUCT.PLACE_BID} <GreaterIcon />
                   </button>
                 </>

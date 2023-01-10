@@ -1,6 +1,6 @@
 import { EN_STRINGS } from 'translation/en';
 
-//TODO: update in future
+// TODO: update in future
 export const validate = (firstDate: string, secondDate?: string) => {
   let startDate: Date;
   let endDate: Date;

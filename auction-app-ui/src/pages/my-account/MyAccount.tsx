@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useUser } from 'hooks/useUser';
+
 import {
   UserProfile,
   SellerDetails,
@@ -8,6 +10,7 @@ import {
   Wishlist,
   UserSettings,
 } from 'components';
+import { Error } from '../index'
 import { ROUTES } from 'util/routes';
 import { EN_STRINGS } from 'translation/en';
 
@@ -57,6 +60,8 @@ const MyAccount = () => {
   const [navbarElements, setNavbarElements] = useState(initialNavbarElements);
   const [page, setPage] = useState<JSX.Element>();
 
+  const {isUserLoggedIn} = useUser();
+
   const changeActivePage = (i: number) => {
     const newState = navbarElements.map((element, index) => {
       if (index === i) {
@@ -90,6 +95,10 @@ const MyAccount = () => {
   useEffect(() => {
     setPage(<UserProfile />);
   }, []);
+
+  if (!isUserLoggedIn()) {
+    return <Error />;
+  }
 
   return (
     <div className='c-my-account-wrapper'>

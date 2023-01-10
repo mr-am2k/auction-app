@@ -45,7 +45,7 @@ const ItemList: React.FC<Props> = ({
 
             <td>
               <span>
-                {element.highestBid ? `$ ${element.highestBid?.toFixed(ITEM_LIST.PRICE_DECIMALS)}` : 
+                {element.highestBid ? `$ ${element.highestBid?.toFixed(ITEM_LIST.PRICE_DECIMALS)}` :
                   EN_STRINGS.ITEM_LIST.NO_BIDS}
               </span>
             </td>

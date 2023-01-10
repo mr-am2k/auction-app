@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { useForm } from 'hooks/useForm';
+import { useUser } from 'hooks/useUser';
 
 import userService from 'services/userService';
 import productsService from 'services/productService';
@@ -10,6 +11,7 @@ import { storageService } from 'services/storageService';
 
 
 import { ItemForm, ShippingDetails, Prices } from 'components';
+import { Error } from '../index'
 import { User } from 'models/user';
 import { CreateProductRequest } from 'models/request/create/createProductRequest';
 import { CreateProductDataRequest } from 'models/request/create/createProductDataRequest';
@@ -33,6 +35,9 @@ const AddItem = () => {
     resetFieldValues,
     setFieldValidationResults,
   } = useForm();
+
+  const {isUserLoggedIn} = useUser();
+
 
   const navigate = useNavigate();
 
@@ -97,6 +102,10 @@ const AddItem = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (!isUserLoggedIn()) {
+    return <Error />;
+  }
 
   return (
     <div className='c-add-item-wrapper'>

@@ -17,7 +17,7 @@ type Props = {
   disabled?: boolean;
   optionalValidator?: string;
   value?: string | number | undefined;
-  validator?: (param: string, param2?: string) => void;
+  validator?: (firstParam: string, secondParam?: string) => void;
 };
 
 const Input: React.FC<Props> = ({

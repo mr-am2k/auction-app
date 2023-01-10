@@ -44,16 +44,16 @@ const App = () => {
     resetLoggedInUser,
     loginUser,
     logoutUser,
-    isUserLoggedIn,
   } = useUser();
   const location = useLocation();
   const navigate = useNavigate();
 
   const refreshToken = storageService.get(LOCAL_STORAGE.REFRESH_TOKEN);
 
-  const setUser = async () => {
-    const user = await loginUser();
-    setLoggedInUser(user);
+  const setUser = () => {
+    loginUser().then((user) => {
+      setLoggedInUser(user);
+    });
   };
 
   useEffect(() => {
@@ -132,13 +132,10 @@ const App = () => {
                     </>
                   }
                 />
-                <Route
-                  path={ROUTES.MY_ACCOUNT}
-                  element={isUserLoggedIn() ? <MyAccount /> : <Error />}
-                />
+                <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
                 <Route
                   path={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`}
-                  element={isUserLoggedIn() ? <AddItem /> : <Error />}
+                  element={<AddItem />}
                 />
                 <Route path='*' element={<Error />} />
               </Routes>
