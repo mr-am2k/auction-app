@@ -1,6 +1,6 @@
 package com.internship.auctionapp.repositories.user;
 
-import com.internship.auctionapp.entities.AddressEntity;
+import com.internship.auctionapp.models.Address;
 import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
@@ -79,7 +79,7 @@ public class DefaultUserRepository implements UserRepository {
             String username,
             UpdateUserRequest updateUserRequest,
             CreateCreditCardRequest createCreditCardRequest,
-            AddressEntity address
+            Address address
     ) {
         UserEntity user = userJpaRepository.findByUsername(username);
 

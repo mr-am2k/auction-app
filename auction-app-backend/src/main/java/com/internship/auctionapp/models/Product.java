@@ -1,6 +1,5 @@
 package com.internship.auctionapp.models;
 
-import com.internship.auctionapp.entities.AddressEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 
 import lombok.AllArgsConstructor;
@@ -39,7 +38,7 @@ public class Product {
 
     private Category category;
 
-    private AddressEntity address;
+    private Address address;
 
     private CreditCard creditCard;
 

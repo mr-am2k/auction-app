@@ -1,5 +1,6 @@
 package com.internship.auctionapp.entities;
 
+import com.internship.auctionapp.models.Address;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.util.DateUtils;
@@ -92,7 +93,7 @@ public class ProductEntity {
     private CategoryEntity category;
 
     @Embedded
-    private AddressEntity address;
+    private Address address;
 
     @ManyToOne
     @JoinColumn(name = "credit_card_id", nullable = false)
@@ -100,7 +101,7 @@ public class ProductEntity {
 
     public ProductEntity(String name, String description, List<String> imageURLs, Double startPrice,
                          ZonedDateTime creationDateTime, ZonedDateTime expirationDateTime,
-                         UserEntity user, CategoryEntity category, AddressEntity address,
+                         UserEntity user, CategoryEntity category, Address address,
                          CreditCardEntity creditCard) {
         this.name = name;
         this.description = description;
@@ -123,7 +124,7 @@ public class ProductEntity {
             ZonedDateTime expirationDateTime,
             UserEntity user,
             CategoryEntity category,
-            AddressEntity address,
+            Address address,
             CreditCardEntity creditCard,
             UUID highestBidder,
             Double highestBidPrice

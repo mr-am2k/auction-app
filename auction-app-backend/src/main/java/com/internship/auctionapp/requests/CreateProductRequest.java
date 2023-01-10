@@ -1,6 +1,6 @@
 package com.internship.auctionapp.requests;
 
-import com.internship.auctionapp.entities.AddressEntity;
+import com.internship.auctionapp.models.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,5 +31,5 @@ public class CreateProductRequest {
 
     private UUID userId;
 
-    private AddressEntity address;
+    private Address address;
 }

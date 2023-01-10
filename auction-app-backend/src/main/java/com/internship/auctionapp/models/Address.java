@@ -1,4 +1,4 @@
-package com.internship.auctionapp.entities;
+package com.internship.auctionapp.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @Builder
 @Embeddable
-public class AddressEntity {
+public class Address {
     private String street;
 
     private String city;

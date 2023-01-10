@@ -1,6 +1,6 @@
 package com.internship.auctionapp.requests;
 
-import com.internship.auctionapp.entities.AddressEntity;
+import com.internship.auctionapp.models.Address;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,5 +25,5 @@ public class UpdateUserRequest {
 
     private Date dateOfBirth;
 
-    private AddressEntity address;
+    private Address address;
 }

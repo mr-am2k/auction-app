@@ -1,6 +1,6 @@
 package com.internship.auctionapp.services.user;
 
-import com.internship.auctionapp.entities.AddressEntity;
+import com.internship.auctionapp.models.Address;
 import com.internship.auctionapp.middleware.exception.EmailNotValidException;
 import com.internship.auctionapp.middleware.exception.InvalidBirthDateException;
 import com.internship.auctionapp.middleware.exception.InvalidCVVException;
@@ -9,7 +9,6 @@ import com.internship.auctionapp.middleware.exception.InvalidCardNumberException
 import com.internship.auctionapp.models.AuthResponse;
 import com.internship.auctionapp.models.LoginResponse;
 import com.internship.auctionapp.models.User;
-import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.repositories.user.UserRepository;
 import com.internship.auctionapp.requests.CreateCreditCardRequest;
 import com.internship.auctionapp.requests.UpdateUserDataRequest;
@@ -66,7 +65,7 @@ public class DefaultUserService implements UserService {
     @Override
     public User updateUser(UpdateUserDataRequest updateUserDataRequest, String username) {
         final UpdateUserRequest updateUserRequest = updateUserDataRequest.getUpdateUserRequest();
-        final AddressEntity address = updateUserDataRequest.getUpdateUserRequest().getAddress();
+        final Address address = updateUserDataRequest.getUpdateUserRequest().getAddress();
         final CreateCreditCardRequest updateCreditCardRequest = updateUserDataRequest.getUpdateCreditCardRequest();
 
         if (updateUserRequest.getDateOfBirth() != null && DateUtils.isInFuture(updateUserRequest.getDateOfBirth())) {

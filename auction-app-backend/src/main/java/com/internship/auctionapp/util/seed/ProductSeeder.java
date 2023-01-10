@@ -1,6 +1,6 @@
 package com.internship.auctionapp.util.seed;
 
-import com.internship.auctionapp.entities.AddressEntity;
+import com.internship.auctionapp.models.Address;
 import com.internship.auctionapp.entities.CategoryEntity;
 import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.ProductEntity;
@@ -106,7 +106,7 @@ public class ProductSeeder implements CommandLineRunner {
 
             List<CategoryEntity> subcategories = categoryJpaRepository.findAll();
 
-            AddressEntity address = new AddressEntity();
+            Address address = new Address();
 
             CreditCardEntity creditCard = creditCardJpaRepository.save(new CreditCardEntity());
 

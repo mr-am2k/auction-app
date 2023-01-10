@@ -27,10 +27,8 @@ public class DefaultCreditCardService implements CreditCardService {
 
     @Override
     public CreditCardEntity updateCreditCard(CreditCardEntity creditCard, CreateCreditCardRequest updateCreditCardRequest) {
-        if (creditCard == null) {
-            return addCreditCard(updateCreditCardRequest);
-        }
-
-        return creditCardRepository.updateCreditCard(creditCard.getId(), updateCreditCardRequest);
+        return creditCard == null ?
+                addCreditCard(updateCreditCardRequest) :
+                creditCardRepository.updateCreditCard(creditCard.getId(), updateCreditCardRequest);
     }
 }

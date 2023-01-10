@@ -1,6 +1,6 @@
 package com.internship.auctionapp.repositories.product;
 
-import com.internship.auctionapp.entities.AddressEntity;
+import com.internship.auctionapp.models.Address;
 import com.internship.auctionapp.entities.CategoryEntity;
 import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.UserEntity;
@@ -58,7 +58,7 @@ public class DefaultProductRepository implements ProductRepository {
         ProductEntity productEntity = new ProductEntity();
 
         final CreateProductRequest createProductRequest = createProductDataRequest.getCreateProductRequest();
-        final AddressEntity address = createProductDataRequest.getCreateProductRequest().getAddress();
+        final Address address = createProductDataRequest.getCreateProductRequest().getAddress();
 
         final LocalDateTime creationDateTime = createProductRequest.getCreationDateTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
         final LocalDateTime expirationDateTime = createProductRequest.getExpirationDateTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();

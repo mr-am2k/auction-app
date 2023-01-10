@@ -2,6 +2,7 @@ package com.internship.auctionapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.internship.auctionapp.models.Address;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.util.UserRole;
 
@@ -65,7 +66,7 @@ public class UserEntity {
     private Date dateOfBirth;
 
     @Embedded
-    private AddressEntity address;
+    private Address address;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "credit_card_id", referencedColumnName = "id")
