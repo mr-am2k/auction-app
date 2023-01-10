@@ -116,7 +116,7 @@ const SellerDetails = () => {
                 <EmptyList
                   icon={<CartIcon />}
                   message={EN_STRINGS.SELLER.MESSAGE}
-                  route={ROUTES.SHOP}
+                  route={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`}
                   buttonLabel={EN_STRINGS.SELLER.BUTTON}
                 />
               }
