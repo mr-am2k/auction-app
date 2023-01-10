@@ -36,10 +36,9 @@ const AddItem = () => {
     setFieldValidationResults,
   } = useForm();
 
-  const {isUserLoggedIn} = useUser();
-
-
   const navigate = useNavigate();
+
+  const { isUserLoggedIn } = useUser();
 
   const getUser = () => {
     userService
@@ -104,7 +103,7 @@ const AddItem = () => {
   }, []);
 
   if (!isUserLoggedIn()) {
-    return <Error />;
+    return <Error/>
   }
 
   return (

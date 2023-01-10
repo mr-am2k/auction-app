@@ -43,6 +43,7 @@ const SingleProduct = () => {
     setNavbarTitle(product.name);
     setNavbarItems([EN_STRINGS.NAVBAR.SHOP, EN_STRINGS.SHOP.SINGLE_PRODUCT]);
     setSingleProduct(product);
+    
     if (!product.bids.length) {
       setInputPlaceholderValue(product.startPrice);
     }

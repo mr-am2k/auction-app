@@ -60,7 +60,7 @@ const MyAccount = () => {
   const [navbarElements, setNavbarElements] = useState(initialNavbarElements);
   const [page, setPage] = useState<JSX.Element>();
 
-  const {isUserLoggedIn} = useUser();
+  const { isUserLoggedIn } = useUser();
 
   const changeActivePage = (i: number) => {
     const newState = navbarElements.map((element, index) => {
