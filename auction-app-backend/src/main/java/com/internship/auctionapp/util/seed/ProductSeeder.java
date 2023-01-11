@@ -75,11 +75,17 @@ public class ProductSeeder implements CommandLineRunner {
 
             final UserEntity user1 = userRepository.findAll().get(0);
 
-            final CategoryEntity category = new CategoryEntity();
+            final CategoryEntity firstCategory = new CategoryEntity();
 
-            category.setName("Woman");
+            firstCategory.setName("Woman");
 
-            categoryJpaRepository.save(category);
+            categoryJpaRepository.save(firstCategory);
+
+            final CategoryEntity secondCategory = new CategoryEntity();
+
+            secondCategory.setName("Man");
+
+            categoryJpaRepository.save(secondCategory);
 
             final CategoryEntity category1 = categoryJpaRepository.findAll().get(0);
 
@@ -103,6 +109,29 @@ public class ProductSeeder implements CommandLineRunner {
             subcategory4.setName("Spot Tops & Shoes");
             subcategory4.setParentCategoryId(category1.getId());
             categoryJpaRepository.save(subcategory4);
+
+            final CategoryEntity category2 = categoryJpaRepository.findAll().get(1);
+
+            final CategoryEntity subcategory5 = new CategoryEntity();
+            final CategoryEntity subcategory6 = new CategoryEntity();
+            final CategoryEntity subcategory7 = new CategoryEntity();
+            final CategoryEntity subcategory8 = new CategoryEntity();
+
+            subcategory5.setName("Jackets");
+            subcategory5.setParentCategoryId(category2.getId());
+            categoryJpaRepository.save(subcategory5);
+
+            subcategory6.setName("Suits");
+            subcategory6.setParentCategoryId(category2.getId());
+            categoryJpaRepository.save(subcategory6);
+
+            subcategory7.setName("Polo shirts");
+            subcategory7.setParentCategoryId(category2.getId());
+            categoryJpaRepository.save(subcategory7);
+
+            subcategory8.setName("Jeans");
+            subcategory8.setParentCategoryId(category2.getId());
+            categoryJpaRepository.save(subcategory8);
 
             List<CategoryEntity> subcategories = categoryJpaRepository.findAll();
 
