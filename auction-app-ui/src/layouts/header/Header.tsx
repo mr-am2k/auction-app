@@ -4,13 +4,14 @@ import { useUser } from 'hooks/useUser';
 
 import authService from 'services/authService';
 
-import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 import { storageService } from 'services/storageService';
 import { LOCAL_STORAGE } from 'util/constants';
 import { ROUTES } from 'util/routes';
 
 import './header.scss';
+
+import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
 
 const Header = () => {
   const { isUserLoggedIn, resetLoggedInUser } = useUser();
@@ -21,15 +22,16 @@ const Header = () => {
     authService.logout();
 
     storageService.removeAll([
-      LOCAL_STORAGE.TOKEN,
+      LOCAL_STORAGE.ACCESS_TOKEN,
+      LOCAL_STORAGE.REFRESH_TOKEN,
       LOCAL_STORAGE.ID,
       LOCAL_STORAGE.FULL_NAME,
-      LOCAL_STORAGE.ROLE,
+      LOCAL_STORAGE.ROLE
     ]);
 
-    navigate('/')
-
     resetLoggedInUser();
+
+    navigate('/')
   };
 
   return (

@@ -1,7 +1,6 @@
 package com.internship.auctionapp.util.security.jwt;
 
 import com.internship.auctionapp.services.blacklistedToken.AuthTokenService;
-import com.internship.auctionapp.util.security.services.DefaultUserDetails;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -14,24 +13,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
     @Value("${app.jwt_secret}")
-    private String jwtSecret;
+    private String accessTokenSecret;
 
     @Value("${app.jwt_expiration_ms}")
-    private Integer jwtExpirationMs;
+    private Integer accessTokenExpiration;
+
+    @Value("${app.jwt_refresh_secret}")
+    private String refreshTokenSecret;
+
+    @Value("${app.jwt_refresh_expiration_ms}")
+    private Integer refreshTokenExpiration;
 
     private final AuthTokenService authTokenService;
 
@@ -39,23 +41,29 @@ public class JwtUtils {
         this.authTokenService = authTokenService;
     }
 
-    public String generateJwtToken(Authentication authentication) {
-        final DefaultUserDetails userPrincipal = (DefaultUserDetails) authentication.getPrincipal();
+    public String generateJwtAccessToken(String username) {
+        return generateJwtTokenFromUsername(username, accessTokenExpiration, accessTokenSecret);
+    }
 
-        Map<String, Object> claims = new HashMap<>();
+    public String generateJwtRefreshToken(String username) {
+        return generateJwtTokenFromUsername(username, refreshTokenExpiration, refreshTokenSecret);
+    }
 
+    public String generateJwtTokenFromUsername(String username, Integer expiration, String secret) {
         return Jwts.builder()
-                .setIssuer("App")
-                .setClaims(claims)
-                .setSubject((userPrincipal.getUsername()))
+                .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .setExpiration(new Date((new Date()).getTime() + expiration))
+                .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
 
-    public String getEmailFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+    public String getEmailFromJwtToken(String token, boolean accessToken) {
+        if (accessToken) {
+            return Jwts.parser().setSigningKey(accessTokenSecret).parseClaimsJws(token).getBody().getSubject();
+        }
+
+        return Jwts.parser().setSigningKey(refreshTokenSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
     public void blacklistToken(String token) {
@@ -63,7 +71,7 @@ public class JwtUtils {
     }
 
     public LocalDateTime getTokenExpirationTime(String token) {
-        Date expirationDate = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getExpiration();
+        Date expirationDate = Jwts.parser().setSigningKey(accessTokenSecret).parseClaimsJws(token).getBody().getExpiration();
 
         return LocalDateTime.ofInstant(expirationDate.toInstant(), ZoneId.systemDefault());
     }
@@ -74,7 +82,7 @@ public class JwtUtils {
         }
 
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody();
+            Jwts.parser().setSigningKey(accessTokenSecret).parseClaimsJws(authToken).getBody();
 
             return true;
         } catch (SignatureException e) {

@@ -1,9 +1,16 @@
 package com.internship.auctionapp.repositories.product;
 
+import com.internship.auctionapp.models.Address;
+import com.internship.auctionapp.entities.CategoryEntity;
+import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.UserEntity;
+import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.repositories.category.CategoryJpaRepository;
+import com.internship.auctionapp.repositories.creditCard.CreditCardRepository;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
+import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.CreateProductRequest;
 
 import org.modelmapper.ModelMapper;
@@ -13,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
@@ -26,31 +34,53 @@ public class DefaultProductRepository implements ProductRepository {
 
     private final UserJpaRepository userJpaRepository;
 
-    public DefaultProductRepository(ProductJpaRepository productJpaRepository, UserJpaRepository userJpaRepository) {
+    private final CategoryJpaRepository categoryJpaRepository;
+
+    private final CreditCardRepository creditCardRepository;
+
+    public DefaultProductRepository(ProductJpaRepository productJpaRepository, UserJpaRepository userJpaRepository,
+                                    CategoryJpaRepository categoryJpaRepository, CreditCardRepository creditCardRepository) {
         this.productJpaRepository = productJpaRepository;
         this.userJpaRepository = userJpaRepository;
+        this.categoryJpaRepository = categoryJpaRepository;
+        this.creditCardRepository = creditCardRepository;
     }
 
     @Override
     public List<Product> getAllProducts() {
         return productJpaRepository.findAll().stream()
-                .map(product -> product.toDomainModel())
+                .map(ProductEntity::toDomainModel)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Product addProduct(CreateProductRequest createProductRequest) {
+    public Product addProduct(CreateProductDataRequest createProductDataRequest) {
         ProductEntity productEntity = new ProductEntity();
+
+        final CreateProductRequest createProductRequest = createProductDataRequest.getCreateProductRequest();
+        final Address address = createProductDataRequest.getCreateProductRequest().getAddress();
+
+        final LocalDateTime creationDateTime = createProductRequest.getCreationDateTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
+        final LocalDateTime expirationDateTime = createProductRequest.getExpirationDateTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
 
         productEntity.setName(createProductRequest.getName());
         productEntity.setDescription(createProductRequest.getDescription());
         productEntity.setImageURLs(createProductRequest.getImageURLs());
         productEntity.setStartPrice(createProductRequest.getStartPrice());
-        productEntity.setExpirationDateTime(createProductRequest.getExpirationDateTime().atZone(ZoneOffset.UTC));
+        productEntity.setCreationDateTime(creationDateTime.atZone(ZoneOffset.UTC));
+        productEntity.setExpirationDateTime(expirationDateTime.atZone(ZoneOffset.UTC));
+        productEntity.setAddress(address);
 
-        final UserEntity user = userJpaRepository.findById(createProductRequest.getUserId()).get();
+        final CategoryEntity category = categoryJpaRepository.findById(createProductRequest.getCategoryId()).get();
+        productEntity.setCategory(category);
 
+        final UserEntity user = userJpaRepository.findById(createProductRequest.getUserId()).orElseThrow(() ->
+                new UserNotFoundByIdException(createProductRequest.getUserId().toString())
+        );
         productEntity.setUser(user);
+
+        final CreditCardEntity creditCard = creditCardRepository.addCreditCard(createProductDataRequest.getCreateCreditCardRequest());
+        productEntity.setCreditCard(creditCard);
 
         return productJpaRepository
                 .save(productEntity)
@@ -78,19 +108,28 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public Product getRandomProduct() {
-        return productJpaRepository.getRandomProduct().toDomainModel();
+    public Page<Product> getRandomProduct(Pageable page) {
+        return productJpaRepository.findAllByExpirationDateTimeAfter(ZonedDateTime.now(), page).map(ProductEntity::toDomainModel);
     }
 
     @Override
     public Page<Product> getProductsByCriteria(Pageable page) {
-        return productJpaRepository.findAll(page).map(productEntity -> productEntity.toDomainModel());
+        return productJpaRepository.findAllByExpirationDateTimeAfter(ZonedDateTime.now(), page).map(ProductEntity::toDomainModel);
     }
 
     @Override
     public List<Product> getProductsBetweenTwoDates(ZonedDateTime startDate, ZonedDateTime endDate) {
         return productJpaRepository.findAllByExpirationDateTimeBetween(startDate, endDate).stream()
-                .map(productEntity -> productEntity.toDomainModel())
+                .map(ProductEntity::toDomainModel)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Product> getUserProducts(UUID userId) {
+        UserEntity user = userJpaRepository.findById(userId).orElseThrow(() -> new UserNotFoundByIdException(userId.toString()));
+
+        return productJpaRepository.findAllByUserId(user.getId()).stream()
+                .map(ProductEntity::toDomainModel)
                 .collect(Collectors.toList());
     }
 }

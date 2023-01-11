@@ -9,10 +9,12 @@ interface FormInterface {
     name: string,
     value: string | undefined,
     pattern?: string | undefined,
-    validator?: (param: string) => void
+    required?: boolean | undefined,
+    optionalValidator?: string | undefined,
+    validator?: (param: string, param2?:string) => void
   ) => void;
   isValid: boolean;
-  validateForm: () => void;
+  validateForm: () => boolean;
   additionalFieldsInfo: any;
   setAdditionalFieldsInfo: (values: {}) => void;
   resetFieldValues: () => void;
@@ -25,7 +27,7 @@ const FormContext = createContext<FormInterface>({
   setFieldValidationResults: () => {},
   validateSingleField: () => {},
   isValid: false,
-  validateForm: () => {},
+  validateForm: () => true,
   additionalFieldsInfo: {},
   setAdditionalFieldsInfo: () => {},
   resetFieldValues: () => {},

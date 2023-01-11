@@ -36,7 +36,17 @@ public class Product {
 
     private User user;
 
-    public Product(UUID productId, ProductEntity productEntity, List<Bid> bids, String remainingTime){
+    private Category category;
+
+    private Address address;
+
+    private CreditCard creditCard;
+
+    private UUID highestBidder;
+
+    private Double highestBidPrice;
+
+    public Product(UUID productId, ProductEntity productEntity, List<Bid> bids, String remainingTime) {
         this.id = productId;
         this.name = productEntity.getName();
         this.description = productEntity.getDescription();
@@ -47,5 +57,10 @@ public class Product {
         this.bids = bids;
         this.remainingTime = remainingTime;
         this.user = productEntity.getUser().toDomainModel();
+        this.category = productEntity.getCategory().toDomainModel();
+        this.address = productEntity.getAddress();
+        this.creditCard=productEntity.getCreditCard().toDomainModel();
+        this.highestBidder = productEntity.getHighestBidder();
+        this.highestBidPrice = productEntity.getHighestBidPrice();
     }
 }

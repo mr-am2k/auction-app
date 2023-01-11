@@ -2,7 +2,7 @@ package com.internship.auctionapp.repositories.product;
 
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
-import com.internship.auctionapp.requests.CreateProductRequest;
+import com.internship.auctionapp.requests.CreateProductDataRequest;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +15,7 @@ import java.util.UUID;
 public interface ProductRepository {
     List<Product> getAllProducts();
 
-    Product addProduct(CreateProductRequest createProductRequest);
+    Product addProduct(CreateProductDataRequest createProductDataRequest);
 
     Product getSingleProduct(UUID id);
 
@@ -23,9 +23,11 @@ public interface ProductRepository {
 
     void deleteProduct(UUID id);
 
-    Product getRandomProduct();
+    Page<Product> getRandomProduct(Pageable page);
 
     Page<Product> getProductsByCriteria(Pageable page);
 
     List<Product> getProductsBetweenTwoDates(ZonedDateTime startDate, ZonedDateTime endDate);
+
+    List<Product> getUserProducts(UUID userId);
 }

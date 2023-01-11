@@ -1,0 +1,30 @@
+@import '/src/scss/mixin';
+@import '/src/scss/variables';
+
+.c-location-wrapper {
+  border: 1px solid $smokeWhiteColor;
+  margin-top: 1rem;
+
+  .c-display-card {
+    display: none;
+  }
+
+  .c-location-header {
+    @include flexDisplay(flex-start, center);
+    gap: 16px;
+    padding: 0 1rem;
+    border-bottom: 1px solid $smokeWhiteColor;
+    font-weight: $fontBold;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .c-location-content {
+    @include flexDisplay(flex-end, flex-start);
+    padding: 0 4rem;
+  }
+}
+
+

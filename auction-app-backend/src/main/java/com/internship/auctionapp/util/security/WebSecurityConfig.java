@@ -3,6 +3,7 @@ package com.internship.auctionapp.util.security;
 import com.internship.auctionapp.util.UserRole;
 import com.internship.auctionapp.util.security.jwt.AuthEntryPoint;
 import com.internship.auctionapp.util.security.jwt.AuthTokenFilter;
+import com.internship.auctionapp.util.security.jwt.JwtUtils;
 import com.internship.auctionapp.util.security.services.DefaultAuthService;
 
 import org.springframework.context.annotation.Bean;
@@ -78,7 +79,7 @@ public class WebSecurityConfig {
                 .authorizeRequests().antMatchers(SWAGGER_WHITELIST).permitAll()
                 .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/**").permitAll()
-                .antMatchers("/api/v1/**").hasAnyAuthority(UserRole.ROLE_USER.getValue())
+                .antMatchers("/api/v1/**").hasAnyAuthority(UserRole.ROLE_USER.getValue(), UserRole.ROLE_ADMIN.getValue())
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());

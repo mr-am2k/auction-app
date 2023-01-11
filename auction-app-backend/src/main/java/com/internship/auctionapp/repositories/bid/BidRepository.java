@@ -11,7 +11,7 @@ public interface BidRepository {
 
     List<Bid> getAllBids();
 
-    void deleteBid(UUID id);
-
     Bid getHighestBid(UUID productId);
+
+    List<Bid> getUserBids(UUID userId);
 }

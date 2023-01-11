@@ -50,7 +50,6 @@ class DefaultProductServiceTest {
                 .expirationDateTime(ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC))
                 .build();
         Mockito.when(productJPARepository.findById(UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"))).thenReturn(Optional.of(product));
-        Mockito.when(productJPARepository.getRandomProduct()).thenReturn(product);
     }
 
     @Test
@@ -61,22 +60,6 @@ class DefaultProductServiceTest {
         Double price = 52.20;
 
         Product wantedProduct = productService.getSingleProduct(PRODUCT_ID);
-
-        assertEquals(PRODUCT_ID, wantedProduct.getId());
-        assertEquals(name, wantedProduct.getName());
-        assertEquals(description, wantedProduct.getDescription());
-        assertEquals(imageURL, wantedProduct.getImageURLs());
-        assertEquals(price, wantedProduct.getStartPrice());
-    }
-
-    @Test
-    public void getRandomProduct() {
-        String name = "Shirt";
-        List<String> imageURL = IMAGES;
-        String description = "Black shirt";
-        Double price = 52.20;
-
-        Product wantedProduct = productService.getRandomProduct();
 
         assertEquals(PRODUCT_ID, wantedProduct.getId());
         assertEquals(name, wantedProduct.getName());

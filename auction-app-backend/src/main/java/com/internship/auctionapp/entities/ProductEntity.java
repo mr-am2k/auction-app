@@ -1,5 +1,6 @@
 package com.internship.auctionapp.entities;
 
+import com.internship.auctionapp.models.Address;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.util.DateUtils;
@@ -8,10 +9,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,7 +27,6 @@ import javax.persistence.Table;
 
 import javax.validation.constraints.DecimalMin;
 
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 import java.util.ArrayList;
@@ -59,10 +61,20 @@ public class ProductEntity {
     private Double startPrice;
 
     @Column(name = "creation_date_time", nullable = false, columnDefinition = "timestamp with time zone")
-    private ZonedDateTime creationDateTime = ZonedDateTime.now(ZoneOffset.UTC);
+    private ZonedDateTime creationDateTime;
 
     @Column(name = "expiration_date_time", nullable = false, columnDefinition = "timestamp with time zone")
     private ZonedDateTime expirationDateTime;
+
+    @Formula("(SELECT b.user_id FROM bids b " +
+            "INNER JOIN products p on p.id = b.product_id " +
+            "WHERE id = b.product_id ORDER BY b.price DESC LIMIT 1)")
+    private UUID highestBidder;
+
+    @Formula("(SELECT b.price FROM bids b " +
+            "INNER JOIN products p on p.id = b.product_id " +
+            "WHERE id = b.product_id ORDER BY b.price DESC LIMIT 1)")
+    private Double highestBidPrice;
 
     @OneToMany(
             mappedBy = "product",
@@ -76,14 +88,31 @@ public class ProductEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private CategoryEntity category;
+
+    @Embedded
+    private Address address;
+
+    @ManyToOne
+    @JoinColumn(name = "credit_card_id", nullable = false)
+    private CreditCardEntity creditCard;
+
     public ProductEntity(String name, String description, List<String> imageURLs, Double startPrice,
-                         ZonedDateTime expirationDateTime, UserEntity user) {
+                         ZonedDateTime creationDateTime, ZonedDateTime expirationDateTime,
+                         UserEntity user, CategoryEntity category, Address address,
+                         CreditCardEntity creditCard) {
         this.name = name;
         this.description = description;
         this.imageURLs = imageURLs;
         this.startPrice = startPrice;
+        this.creationDateTime = creationDateTime;
         this.expirationDateTime = expirationDateTime;
         this.user = user;
+        this.category = category;
+        this.address = address;
+        this.creditCard = creditCard;
     }
 
     public ProductEntity(
@@ -93,7 +122,12 @@ public class ProductEntity {
             Double startPrice,
             ZonedDateTime creationDateTime,
             ZonedDateTime expirationDateTime,
-            UserEntity user
+            UserEntity user,
+            CategoryEntity category,
+            Address address,
+            CreditCardEntity creditCard,
+            UUID highestBidder,
+            Double highestBidPrice
     ) {
         this.name = name;
         this.description = description;
@@ -102,12 +136,17 @@ public class ProductEntity {
         this.creationDateTime = creationDateTime;
         this.expirationDateTime = expirationDateTime;
         this.user = user;
+        this.category = category;
+        this.address = address;
+        this.creditCard = creditCard;
+        this.highestBidder = highestBidder;
+        this.highestBidPrice = highestBidPrice;
     }
 
     public Product toDomainModel() {
         List<Bid> bids = this.bidEntities != null ?
                 this.bidEntities.stream()
-                        .map(bidEntity -> bidEntity.toDomainModel()).collect(Collectors.toList()) : new ArrayList<>();
+                        .map(BidEntity::toDomainModel).collect(Collectors.toList()) : new ArrayList<>();
 
         ProductEntity productEntity = new ProductEntity(
                 this.name,
@@ -116,16 +155,19 @@ public class ProductEntity {
                 this.startPrice,
                 this.creationDateTime,
                 this.expirationDateTime,
-                this.user
+                this.user,
+                this.category,
+                this.address,
+                this.creditCard,
+                this.highestBidder,
+                this.highestBidPrice
         );
 
-        Product product = new Product(
+        return new Product(
                 this.id,
                 productEntity,
                 bids,
                 DateUtils.calculateDateDiffVerbose(this.expirationDateTime)
         );
-
-        return product;
     }
 }

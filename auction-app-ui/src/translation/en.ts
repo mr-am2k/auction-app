@@ -1,4 +1,4 @@
-const EN_STRINGS = {
+export const EN_STRINGS = {
   FOOTER: {
     ABOUT_US: 'About US',
     TERMS_AND_CONDITIONS: 'Terms and Conditions',
@@ -45,6 +45,9 @@ const EN_STRINGS = {
     NO_BID_MESSAGE: 'Be first to bid for this product',
     INPUT_PLACEHOLDER: 'Enter higher than $',
     INPUT_BID_ERROR: 'You must enter price first',
+    PAY: 'PAY',
+    LOST_MESSAGE: 'Auction is finished, more luck next time.',
+    EXPIRED: 'EXPIRED',
   },
 
   IMAGE_PICKER: {
@@ -74,7 +77,152 @@ const EN_STRINGS = {
     PASSWORD:
       'Password needs to have 8 characters, one upper case and one lower case letter and one special character',
     EMAIL: 'The email should be in format: user@domain.com',
+    EMAIL_LENGTH: "The email can't be over 255 characters",
+    CARD_NUMBER: 'The card number needs to contain exactly 16 numbers.',
+    CARD_CVV: 'The card CVV needs to contain exactly 3 numbers.',
+    DATE_OF_BIRTH: 'You need to be over 18 years.',
+    CARD_EXPIRATION_DATE: 'Your card needs to be at least one year valid!',
+    PHONE_NUMBER: 'Phone number needs to be between 5 and 15 digits!',
+    PRODUCT_IMAGES: 'You need to upload at least 3 photos!',
+    START_PRICE: 'Price needs to be 1$ or greater!',
+    DATE: "Date can't be in the past or before start date!",
+  },
+
+  MY_ACCOUNT: {
+    PROFILE: 'Profile',
+    SELLER: 'Seller',
+    BIDS: 'Bids',
+    WISHLIST: 'Wishlist',
+    SETTINGS: 'Settings',
+    EMAIL: 'Email',
+    POLICY_AND_COMMUNITY: 'Policy and Community',
+    POLICY_AND_COMMUNITY_TITLE:
+      "Receive updates on bids and seller's offers. Stay informed through:",
+    PUSH_NOTIFICATION: 'Push Notifications',
+    SMS_NOTIFICATION: 'SMS Notifications',
+    CONTACT_INFORMATION: 'Contact Information',
+    CONTACT_INFORMATION_TITLE:
+      'This information can be edited on your profile.',
+    PHONE: 'Phone',
+    ACCOUNT: 'Account',
+    ACCOUNT_TITLE: 'Do you want to deactivate account?',
+    DEACTIVATE: 'DEACTIVATE',
+    ADD_ITEM: '+ ADD ITEM',
+  },
+
+  PRODUCTS_TABLE: {
+    ITEM: 'Item',
+    NAME: 'Name',
+    TIME_LEFT: 'Time left',
+    YOUR_PRICE: 'Your price',
+    NUMBER_OF_BIDS: 'No. bids',
+    HIGHEST_BID: 'Highest bid',
+  },
+
+  WISHLIST: {
+    MESSAGE: 'Your wishlist is empty! Start browsing the shop.',
+    BUTTON: 'VISIT SHOP',
+  },
+
+  BIDS: {
+    BID: 'BID',
+    MESSAGE:
+      'You don’t have any bids and there are so many cool products available for sale.',
+    BUTTON: 'START BIDDING',
+  },
+
+  SELLER: {
+    MESSAGE: 'You do not have any scheduled items for sale.',
+    BUTTON: 'START SELLING',
+    ACTIVE: 'Active',
+    SOLD: 'Sold',
+    VIEW: 'VIEW',
+  },
+
+  ITEM_LIST: {
+    ALT_MESSAGE: 'Product',
+    EXPIRED: 'EXPIRED',
+    NO_BIDS: 'No bids',
+  },
+
+  PROFILE: {
+    PERSONAL: 'Personal Information',
+    CHANGE_PHOTO: 'CHANGE PHOTO',
+    CARD: 'Card Information (Optional)',
+    SHIPPING: 'Shipping Information (Optional)',
+    BUTTON: 'SAVE INFO',
+    UPDATING: 'UPDATING...',
+    ERROR: 'There is a problem with provided values!',
+  },
+
+  ERROR_PAGE: {
+    ERROR_NUMBER: '404',
+    MESSAGE: 'Ooops! Looks like the page is Not Found',
+    BUTTON_MESSAGE: 'GO BACK',
+  },
+
+  ITEM_FORM: {
+    ADD_ITEM: 'ADD ITEM',
+    DESCRIPTION_MESSAGE: '100 words (700 characters)',
+    CANCEL_BUTTON: 'CANCEL',
+    NEXT_BUTTON: 'NEXT',
+  },
+
+  PRICES_FORM: {
+    SET_PRICES: 'SET PRICES',
+    CANCEL_BUTTON: 'CANCEL',
+    BACK_BUTTON: 'BACK',
+    NEXT_BUTTON: 'NEXT',
+    MESSAGE:
+      'The auction will be automatically closed when the end time comes. The highest bid will win the auction.',
+  },
+
+  LOCATION_SHIPPING: {
+    LOCATION_SHIPPING: 'LOCATION&SHIPPING',
+    CANCEL_BUTTON: 'CANCEL',
+    BACK_BUTTON: 'BACK',
+    DONE_BUTTON: 'NEXT',
+    FEATURED: 'Featured Products',
+    CARD_MESSAGE: 'We accept the following credit cards',
+    SAVING: 'SAVING...',
+  },
+
+  IMAGE_UPLOADER: {
+    UPLOAD_PHOTOS: 'Upload photos',
+    DRAG_AND_DROP: 'or just drag and drop',
+    LIMITATION: '(Add at least 3 photos)',
+    DND_ACTIVE: 'Drop the image here ...',
   },
 };
 
-export default EN_STRINGS;
+export const USER = {
+  FIRST_NAME_TITLE: 'First Name',
+  LAST_NAME_TITLE: 'Last Name',
+  EMAIL_TITLE: 'Email',
+  PASSWORD_TITLE: 'Password',
+  DATE_TITLE: 'Date of birth',
+  PHONE_NUMBER_TITLE: 'Phone number',
+};
+
+export const CREDIT_CARD = {
+  CREDIT_CARD_NAME_TITLE: 'Name on Card',
+  CREDIT_CARD_NUMBER_TITLE: 'Card Number',
+  CREDIT_CARD_EXPIRATION_DATE_TITLE: 'Expiration date',
+  CREDIT_CARD_CVV_TITLE: 'CVV',
+};
+
+export const ADDRESS = {
+  STREET_TITLE: 'Street',
+  CITY_TITLE: 'City',
+  ZIP_CODE_TITLE: 'Zip Code',
+  STATE_TITLE: 'State',
+  COUNTRY_TITLE: 'Country',
+};
+
+export const PRODUCT = {
+  PRODUCT_TITLE: 'What do you sell?',
+  DESCRIPTION_TITLE: 'Description',
+  PRICE_TITLE: 'Your start Price',
+  START_DATE_TITLE: 'Start date',
+  END_DATE_TITLE: 'End date',
+};

@@ -3,7 +3,7 @@ package com.internship.auctionapp.services.bid;
 import com.internship.auctionapp.middleware.exception.BidCreationFailedException;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanHighestBidPriceException;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanProductPriceException;
-import com.internship.auctionapp.middleware.exception.BidNotFoundException;
+import com.internship.auctionapp.middleware.exception.ProductExpiredException;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,8 +35,7 @@ public class DefaultBidService implements BidService {
     public DefaultBidService(
             BidRepository bidRepository,
             ProductRepository productRepository,
-            NotificationService notificationService
-    ) {
+            NotificationService notificationService) {
         this.bidRepository = bidRepository;
         this.productRepository = productRepository;
         this.notificationService = notificationService;
@@ -57,6 +57,10 @@ public class DefaultBidService implements BidService {
                 LOGGER.info("Bid price={} is lower than product highest bid price={}", createBidRequest.getPrice(), highestBidPrice);
                 throw new BidPriceLowerThanHighestBidPriceException();
             }
+        }
+
+        if (product.getExpirationDateTime().isBefore(ZonedDateTime.now())) {
+            throw new ProductExpiredException();
         }
 
         try {
@@ -86,22 +90,16 @@ public class DefaultBidService implements BidService {
     }
 
     @Override
-    public void deleteBid(UUID id) {
-        try {
-            bidRepository.deleteBid(id);
-
-            LOGGER.info("Deleted bid, with id={}", id);
-        } catch (RuntimeException ex) {
-            throw new BidNotFoundException(String.valueOf(id));
-        }
-    }
-
-    @Override
     public Double getHighestBidPrice(UUID productId) {
         Bid highestBid = bidRepository.getHighestBid(productId);
 
         LOGGER.info("Fetched bid with the highest price, bid={}", highestBid);
 
         return highestBid.getPrice();
+    }
+
+    @Override
+    public List<Bid> getUserBids(UUID userId) {
+        return bidRepository.getUserBids(userId);
     }
 }

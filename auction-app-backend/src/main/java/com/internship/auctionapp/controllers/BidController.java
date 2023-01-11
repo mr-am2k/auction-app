@@ -4,10 +4,10 @@ import com.internship.auctionapp.requests.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.services.bid.BidService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +30,7 @@ public class BidController {
     }
 
     @PostMapping()
+    @SecurityRequirement(name = "Bearer Authentication")
     public Bid addBid(@RequestBody CreateBidRequest createBidRequest) {
         return bidService.addBid(createBidRequest);
     }
@@ -40,12 +41,13 @@ public class BidController {
     }
 
     @GetMapping("/product/{productId}")
-    public Double getHighestBid(@PathVariable("productId") UUID productId) {
+    public Double getHighestBidPrice(@PathVariable("productId") UUID productId) {
         return bidService.getHighestBidPrice(productId);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteBid(@PathVariable("id") UUID id) {
-        bidService.deleteBid(id);
+    @GetMapping("/user/{userId}")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public List<Bid> getUserBids(@PathVariable("userId") UUID userId){
+        return bidService.getUserBids(userId);
     }
 }

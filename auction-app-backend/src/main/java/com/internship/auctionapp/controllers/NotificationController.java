@@ -4,6 +4,7 @@ import com.internship.auctionapp.models.Notification;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.services.notification.NotificationService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,6 +35,7 @@ public class NotificationController {
     }
 
     @PostMapping()
+    @SecurityRequirement(name = "Bearer Authentication")
     public Notification createNotification(@RequestBody CreateNotificationRequest createNotificationRequest) {
         return notificationService.createNotification(createNotificationRequest);
     }

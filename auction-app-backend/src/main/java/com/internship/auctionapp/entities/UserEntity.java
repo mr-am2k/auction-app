@@ -2,6 +2,7 @@ package com.internship.auctionapp.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.internship.auctionapp.models.Address;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.util.UserRole;
 
@@ -11,15 +12,16 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import java.util.List;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -54,29 +56,21 @@ public class UserEntity {
     @Column(name = "role", nullable = false)
     private UserRole role = UserRole.ROLE_USER;
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
-    )
-    private List<ProductEntity> productEntities;
+    @Column(name = "active", nullable = false)
+    private boolean active = true;
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
-    )
-    private List<BidEntity> bidEntities;
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true
-    )
-    private List<NotificationEntity> notificationEntities;
+    @Column(name = "date_of_birth")
+    private Date dateOfBirth;
+
+    @Embedded
+    private Address address;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "credit_card_id", referencedColumnName = "id")
+    private CreditCardEntity creditCard;
 
     public User toDomainModel() {
         User user = new User();
@@ -86,7 +80,10 @@ public class UserEntity {
         user.setLastName(this.lastName);
         user.setEmail(this.email);
         user.setPhoneNumber(this.phoneNumber);
-        user.setRole(this.role.getValue());
+        user.setProfileImageUrl(this.profileImageUrl);
+        user.setDateOfBirth(this.dateOfBirth);
+        user.setAddress(this.address);
+        user.setCard(this.creditCard != null ? this.creditCard.toDomainModel() : null);
 
         return user;
     }

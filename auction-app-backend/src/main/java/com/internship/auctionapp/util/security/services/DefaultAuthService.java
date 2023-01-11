@@ -1,11 +1,13 @@
 package com.internship.auctionapp.util.security.services;
 
 import com.internship.auctionapp.entities.UserEntity;
+import com.internship.auctionapp.middleware.exception.AccountDeactivatedException;
 import com.internship.auctionapp.middleware.exception.EmailNotValidException;
 import com.internship.auctionapp.middleware.exception.PasswordNotValidException;
 import com.internship.auctionapp.middleware.exception.UserAlreadyExistsException;
-import com.internship.auctionapp.middleware.exception.UserNotFoundByUsernameException;
+import com.internship.auctionapp.middleware.exception.UsernameNotFoundException;
 import com.internship.auctionapp.models.AuthResponse;
+import com.internship.auctionapp.models.LoginResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.repositories.user.UserRepository;
 import com.internship.auctionapp.requests.UserLoginRequest;
@@ -18,14 +20,13 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,9 +42,6 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
 
     private final AuthTokenService authTokenService;
 
-    private final String AUTHORIZATION_HEADER = "Authorization";
-    private final String BEARER = "Bearer";
-
     public DefaultAuthService(
             UserRepository userRepository,
             @Lazy AuthenticationManager authenticationManager,
@@ -58,35 +56,43 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws org.springframework.security.core.userdetails.UsernameNotFoundException {
         final UserEntity user = userRepository.findByUsername(username);
 
         if (user == null) {
-            throw new UserNotFoundByUsernameException(username);
+            throw new UsernameNotFoundException(username);
+        }
+
+        if(!user.isActive()){
+            throw new AccountDeactivatedException();
         }
 
         return DefaultUserDetails.build(user);
     }
 
     @Override
-    public AuthResponse login(UserLoginRequest loginRequest) {
+    public LoginResponse login(UserLoginRequest loginRequest) {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        final String jwt = jwtUtils.generateJwtToken(authentication);
+        final DefaultUserDetails userPrincipal = (DefaultUserDetails) authentication.getPrincipal();
+
+        final String accessToken = jwtUtils.generateJwtAccessToken(userPrincipal.getUsername());
+
+        final String refreshToken = jwtUtils.generateJwtRefreshToken(loginRequest.getUsername());
 
         final DefaultUserDetails userDetails = (DefaultUserDetails) authentication.getPrincipal();
 
         final List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        authTokenService.addToken(jwt, false);
+        authTokenService.addToken(accessToken, false);
 
-        return new AuthResponse(jwt, userDetails.getId(), userDetails.getEmail(), userDetails.getFullName(), roles);
+        return new LoginResponse(accessToken, refreshToken, userDetails.getId(), userDetails.getEmail(), userDetails.getFullName(), roles);
     }
 
     @Override
@@ -109,14 +115,12 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
     }
 
     @Override
-    public void logout(HttpServletRequest request) {
-        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
-        String token = null;
-
-        if (requestTokenHeader != null && requestTokenHeader.startsWith(BEARER)) {
-            token = requestTokenHeader.substring(BEARER.length());
-        }
-
+    public void logout(String token) {
         jwtUtils.blacklistToken(token);
+    }
+
+    @Override
+    public AuthResponse refreshToken(String username) {
+        return new AuthResponse(jwtUtils.generateJwtAccessToken(username));
     }
 }

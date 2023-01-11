@@ -2,9 +2,11 @@ package com.internship.auctionapp.controllers;
 
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.services.product.ProductService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.data.domain.Page;
@@ -25,12 +27,13 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping()
-    public Product addProduct(@Valid @RequestBody CreateProductRequest createProductRequest) {
-        return productService.addProduct(createProductRequest);
+    @PostMapping
+    @SecurityRequirement(name = "Bearer Authentication")
+    public Product addProduct(@Valid @RequestBody CreateProductDataRequest createProductDataRequest) {
+        return productService.addProduct(createProductDataRequest);
     }
 
-    @GetMapping()
+    @GetMapping
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
@@ -41,22 +44,30 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public Product updateProduct(@PathVariable("id") UUID id, @RequestBody ProductEntity product) {
         return productService.updateProduct(id, product);
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public void deleteProduct(@PathVariable("id") UUID id) {
         productService.deleteProduct(id);
     }
 
     @GetMapping("/random")
-    public Product getRandomProduct() {
+    public Page<Product> getRandomProduct() {
         return productService.getRandomProduct();
     }
 
     @GetMapping("/search")
     public Page<Product> getProductsByCriteria(@RequestParam(required = false) String criteria) {
         return productService.getProductsByCriteria(criteria);
+    }
+
+    @GetMapping("/user/{userId}")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public List<Product> getUserProducts(@PathVariable("userId") UUID userId){
+        return productService.getUserProducts(userId);
     }
 }

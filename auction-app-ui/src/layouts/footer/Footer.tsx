@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 
-import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
-import EN_STRINGS from '../../translation/en';
+import { EN_STRINGS } from '../../translation/en';
 import { PHONE_NUMBER, EMAIL } from 'util/constants';
 
 import './footer.scss';
+
+import { FacebookIcon, InstagramIcon, TwitterIcon } from 'assets/icons';
 
 const Footer = () => {
   return (

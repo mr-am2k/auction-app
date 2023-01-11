@@ -23,9 +23,9 @@ services:
     deploy: 
         resources:
           limits:
-            memory: 768M
+            memory: 1000M
           reservations:
-            memory: 384M
+            memory: 500M
     build:
       context: ./auction-app-ui
     ports:
@@ -34,6 +34,7 @@ services:
       - backend
     environment:
       REACT_APP_BASE_URL: "${REACT_APP_BASE_URL}"
+      FIREBASE_API_KEY: "${FIREBASE_API_KEY}"
     restart: always
   db:
     image: postgres:13.9

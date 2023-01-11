@@ -20,26 +20,36 @@
     background: $lightGreyColor;
     border: 1px solid $borderGreyColor;
     outline: none;
-    color: $greyColor;
+    color: $blackColor;
     font-family: $latoFont;
     font-weight: $fontNormal;
     font-size: 18px;
     line-height: 27px;
 
-    ::placeholder {
-      color: inherit;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &::placeholder {
+      color: $greyColor;
       font-family: inherit;
       font-weight: inherit;
       font-size: inherit;
       line-height: inherit;
     }
+
+    &:disabled {
+      background-color: $smokeWhiteColor;
+    }
   }
 
   .c-input-error {
-    border: 2px solid #f44336;
+    border: 2px solid $errorColor;
   }
 
   p {
-    color: #f44336;
+    color: $errorColor;
   }
 }

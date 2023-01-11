@@ -9,7 +9,7 @@ import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
-import com.internship.auctionapp.requests.CreateProductRequest;
+import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.NotificationType;
 
@@ -68,14 +68,17 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Product addProduct(CreateProductRequest createProductRequest) {
-        if (DateUtils.isInPast(createProductRequest.getExpirationDateTime())) {
-            LOGGER.error("Product expiration date is before product creation date. Product={}", createProductRequest);
+    public Product addProduct(CreateProductDataRequest createProductDataRequest) {
+        final LocalDateTime expirationDateTime = createProductDataRequest.getCreateProductRequest().getExpirationDateTime()
+                .toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
+
+        if (DateUtils.isInPast(expirationDateTime)) {
+            LOGGER.error("Product expiration date is before product creation date. Product={}", createProductDataRequest.getCreateProductRequest());
 
             throw new ProductExpirationDateException();
         }
 
-        Product savedProduct = productRepository.addProduct(createProductRequest);
+        final Product savedProduct = productRepository.addProduct(createProductDataRequest);
 
         LOGGER.info("Successfully added product={} to the database.", savedProduct);
 
@@ -112,12 +115,10 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Product getRandomProduct() {
-        final Product randomProduct = productRepository.getRandomProduct();
+    public Page<Product> getRandomProduct() {
+        final Pageable page = PageRequest.of(0, 1);
 
-        LOGGER.info("Fetched random product={}", randomProduct);
-
-        return randomProduct;
+        return productRepository.getRandomProduct(page);
     }
 
     @Override
@@ -131,6 +132,11 @@ public class DefaultProductService implements ProductService {
         LOGGER.info("Fetched page of 8 products from the database, based on criteria={} ", criteria);
 
         return returnedPage;
+    }
+
+    @Override
+    public List<Product> getUserProducts(UUID userId) {
+        return productRepository.getUserProducts(userId);
     }
 
     @Override

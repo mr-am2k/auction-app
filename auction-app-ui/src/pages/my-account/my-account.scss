@@ -1,0 +1,70 @@
+@import '/src/scss/mixin';
+@import '/src/scss/variables';
+
+.c-my-account-wrapper {
+  @include flexDisplay(space-between, flex-start);
+  flex-direction: column;
+  padding: 1rem 12rem 0;
+  font-family: $latoFont;
+
+  .c-my-account-navbar {
+    min-width: 100%;
+    @include flexDisplay(space-between, center);
+
+    .c-navbar-list {
+      display: flex;
+
+      .c-navbar-element {
+        @include flexDisplay(space-between, center);
+        width: 5rem;
+        height: 1.5rem;
+        padding: 16px 34px;
+        color: black;
+        font-size: 1rem;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .c-navbar-element--focused {
+        background-color: $purpleColor;
+        color: white;
+      }
+    }
+
+    .c-add-button {
+      a {
+        text-decoration: none;
+      }
+
+      button {
+        @include flexDisplay(center, center);
+        padding: 16px 32px;
+        gap: 32px;
+        width: 17rem;
+        height: 4rem;
+        font-size: $textBase;
+        font-weight: $fontBold;
+        color: $whiteColor;
+        background-color: $purpleColor;
+        border: none;
+        outline: none;
+
+        &:hover {
+          cursor: pointer;
+          scale: 1.02;
+        }
+      }
+    }
+  }
+
+  .c-page-content {
+    margin-top: 3rem;
+    width: 100%;
+  }
+}
+
+.c-icon-style {
+  font-size: 1.3rem;
+}

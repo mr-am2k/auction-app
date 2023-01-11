@@ -1,11 +1,12 @@
 package com.internship.auctionapp.requests;
 
+import com.internship.auctionapp.models.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,13 @@ public class CreateProductRequest {
 
     private double startPrice;
 
-    private LocalDateTime expirationDateTime;
+    private UUID categoryId;
+
+    private Date creationDateTime;
+
+    private Date expirationDateTime;
 
     private UUID userId;
+
+    private Address address;
 }

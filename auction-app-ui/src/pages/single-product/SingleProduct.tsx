@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import { usePage } from 'hooks/usePage';
 import { useUser } from 'hooks/useUser';
@@ -7,20 +8,20 @@ import { useUser } from 'hooks/useUser';
 import productsService from 'services/productService';
 import bidService from 'services/bidService';
 import notificationService from 'services/notificationService';
+import { storageService } from 'services/storageService';
 
 import { Loading, ImagePicker, NotificationBar } from 'components';
-import { createBidRequest } from 'requestModels/createBidRequest';
-import { Notification } from 'models/notification';
-import { GreaterIcon } from 'assets/icons';
 import { Product } from 'models/product';
-import EN_STRINGS from 'translation/en';
+import { Notification } from 'models/notification';
+import { createBidRequest } from 'models/request/create/createBidRequest';
+import { INPUT_TYPE_NUMBER, LOCAL_STORAGE } from 'util/constants';
+import { EN_STRINGS } from 'translation/en';
 
 import './single-product.scss';
 
+import { GreaterIcon } from 'assets/icons';
+
 const SingleProduct = () => {
-  const { setNavbarTitle, setNavbarItems } = usePage();
-  const { loggedInUser, isUserLoggedIn } = useUser();
-  const { id } = useParams();
   const bidInputRef = useRef<HTMLInputElement>(null);
   const [singleProduct, setSingleProduct] = useState<Product>();
   const [highestBid, setHighestBid] = useState<number>();
@@ -30,28 +31,28 @@ const SingleProduct = () => {
   >();
   const [inputPlaceholderValue, setInputPlaceholderValue] = useState(0);
 
+  const { setNavbarTitle, setNavbarItems } = usePage();
+  const { loggedInUser, isUserLoggedIn } = useUser();
+  const { id } = useParams();
+
+  const currentDate = new Date();
+  const biddingDisabled = !isUserLoggedIn() || storageService.get(LOCAL_STORAGE.ID) === singleProduct?.user.id;
+
   const fetchSingleProduct = async (productId: string) => {
-    try {
-      const product = await productsService.getSingleProduct(productId);
-      setNavbarTitle(product.name);
-      setNavbarItems([EN_STRINGS.NAVBAR.SHOP, EN_STRINGS.SHOP.SINGLE_PRODUCT]);
-      setSingleProduct(product);
-      if (!product.bids.length) {
-        setInputPlaceholderValue(product.startPrice);
-      }
-    } catch (error) {
-      console.log(error);
+    const product = await productsService.getSingleProduct(productId);
+    setNavbarTitle(product.name);
+    setNavbarItems([EN_STRINGS.NAVBAR.SHOP, EN_STRINGS.SHOP.SINGLE_PRODUCT]);
+    setSingleProduct(product);
+    
+    if (!product.bids.length) {
+      setInputPlaceholderValue(product.startPrice);
     }
   };
 
   const fetchHighestBid = async (productId: string) => {
-    try {
-      const highestBid = await bidService.getHighestBid(productId);
-      setHighestBid(highestBid);
-      setInputPlaceholderValue(highestBid);
-    } catch (error) {
-      console.log(error);
-    }
+    const highestBid = await bidService.getHighestBid(productId);
+    setHighestBid(highestBid);
+    setInputPlaceholderValue(highestBid);
   };
 
   const sendBid = () => {
@@ -100,9 +101,9 @@ const SingleProduct = () => {
   }, []);
 
   useEffect(() => {
-    loggedInUser
-      ? getLatestNotification(loggedInUser!.id, id!)
-      : setLatestNotification(undefined);
+    loggedInUser ?
+      getLatestNotification(loggedInUser!.id, id!) :
+      setLatestNotification(undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedInUser, singleProduct]);
 
@@ -139,7 +140,11 @@ const SingleProduct = () => {
                 </p>
                 <p>
                   {`${EN_STRINGS.SINGLE_PRODUCT.TIME_LEFT}: `}
-                  <span>{singleProduct.remainingTime}</span>
+                  <span>
+                    {new Date(singleProduct.expirationDateTime) < currentDate ?
+                      EN_STRINGS.SINGLE_PRODUCT.EXPIRED :
+                      singleProduct.remainingTime}
+                  </span>
                 </p>
               </div>
             ) : (
@@ -147,15 +152,27 @@ const SingleProduct = () => {
             )}
 
             <div className='c-send-bid'>
-              <input
-                ref={bidInputRef}
-                type='number'
-                placeholder={`${EN_STRINGS.SINGLE_PRODUCT.INPUT_PLACEHOLDER}${inputPlaceholderValue}`}
-                disabled={!isUserLoggedIn()}
-              />
-              <button disabled={!isUserLoggedIn()} onClick={sendBid}>
-                {EN_STRINGS.SINGLE_PRODUCT.PLACE_BID} <GreaterIcon />
-              </button>
+              {new Date(singleProduct.expirationDateTime) < currentDate ? (
+                singleProduct.highestBidder === storageService.get('id') ? (
+                  <Link to='/'>
+                    <button>{EN_STRINGS.SINGLE_PRODUCT.PAY}</button>
+                  </Link>
+                ) : (
+                  <p className='c-lost-message'>{EN_STRINGS.SINGLE_PRODUCT.LOST_MESSAGE}</p>
+                )
+              ) : (
+                <>
+                  <input
+                    ref={bidInputRef}
+                    type={INPUT_TYPE_NUMBER}
+                    placeholder={`${EN_STRINGS.SINGLE_PRODUCT.INPUT_PLACEHOLDER}${inputPlaceholderValue}`}
+                    disabled={biddingDisabled}
+                  />
+                  <button disabled={biddingDisabled} onClick={sendBid}>
+                    {EN_STRINGS.SINGLE_PRODUCT.PLACE_BID} <GreaterIcon />
+                  </button>
+                </>
+              )}
             </div>
 
             {bidInputError?.length ? (

@@ -1,11 +1,12 @@
 package com.internship.auctionapp.repositories.bid;
 
 import com.internship.auctionapp.entities.UserEntity;
+import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.entities.BidEntity;
 import com.internship.auctionapp.entities.ProductEntity;
-import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
+import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.requests.CreateBidRequest;
 
 import org.springframework.stereotype.Repository;
@@ -50,17 +51,21 @@ public class DefaultBidRepository implements BidRepository {
     @Override
     public List<Bid> getAllBids() {
         return bidJpaRepository.findAll().stream()
-                .map(bidEntity -> bidEntity.toDomainModel())
+                .map(BidEntity::toDomainModel)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public void deleteBid(UUID id) {
-        bidJpaRepository.deleteById(id);
     }
 
     @Override
     public Bid getHighestBid(UUID productId) {
         return bidJpaRepository.findTopByProductIdOrderByPriceDesc(productId).toDomainModel();
+    }
+
+    @Override
+    public List<Bid> getUserBids(UUID userId) {
+        final UserEntity user = userJpaRepository.findById(userId).orElseThrow(() -> new UserNotFoundByIdException(userId.toString()));
+
+        return bidJpaRepository.findAllByUserIdOrderByCreationDateTimeDesc(user.getId()).stream()
+                .map(BidEntity::toDomainModel)
+                .collect(Collectors.toList());
     }
 }

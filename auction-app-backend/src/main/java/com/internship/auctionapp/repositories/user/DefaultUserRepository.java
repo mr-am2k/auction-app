@@ -1,13 +1,20 @@
 package com.internship.auctionapp.repositories.user;
 
+import com.internship.auctionapp.models.Address;
+import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.User;
+import com.internship.auctionapp.requests.CreateCreditCardRequest;
+import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
+import com.internship.auctionapp.services.creditCard.CreditCardService;
 import com.internship.auctionapp.util.UserRole;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -16,8 +23,13 @@ import java.util.stream.Collectors;
 public class DefaultUserRepository implements UserRepository {
     private final UserJpaRepository userJpaRepository;
 
-    public DefaultUserRepository(UserJpaRepository userJpaRepository) {
+    private final CreditCardService creditCardService;
+
+    private static final ModelMapper modelMapper = new ModelMapper();
+
+    public DefaultUserRepository(UserJpaRepository userJpaRepository, CreditCardService creditCardService) {
         this.userJpaRepository = userJpaRepository;
+        this.creditCardService = creditCardService;
     }
 
     @Override
@@ -50,18 +62,49 @@ public class DefaultUserRepository implements UserRepository {
     @Override
     public List<User> getUsers() {
         return userJpaRepository.findAll().stream()
-                .map(userEntity -> userEntity.toDomainModel())
+                .map(UserEntity::toDomainModel)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public User getUserById(UUID id) {
-        final User user = userJpaRepository.findById(id).get().toDomainModel();
+    public User getUser(UUID userId) {
+        final UserEntity user = userJpaRepository.findById(userId).orElseThrow(() -> new UserNotFoundByIdException(userId.toString()));
 
-        if (user == null) {
-            throw new UserNotFoundByIdException(String.valueOf(id));
+        return user.toDomainModel();
+    }
+
+    @Override
+    @Transactional
+    public User updateUser(
+            String username,
+            UpdateUserRequest updateUserRequest,
+            CreateCreditCardRequest createCreditCardRequest,
+            Address address
+    ) {
+        UserEntity user = userJpaRepository.findByUsername(username);
+
+        UserEntity updatedUser = modelMapper.map(updateUserRequest, UserEntity.class);
+
+        updatedUser.setId(user.getId());
+        updatedUser.setUsername(updatedUser.getEmail());
+        updatedUser.setPasswordHash(user.getPasswordHash());
+        updatedUser.setRole(user.getRole());
+        updatedUser.setActive(user.isActive());
+        updatedUser.setAddress(address);
+
+        if (createCreditCardRequest != null) {
+            CreditCardEntity creditCard = creditCardService.updateCreditCard(user.getCreditCard(), createCreditCardRequest);
+            updatedUser.setCreditCard(creditCard);
         }
 
-        return user;
+        return userJpaRepository.save(updatedUser).toDomainModel();
+    }
+
+    @Override
+    public void deactivate(String username) {
+        UserEntity user = userJpaRepository.findByUsername(username);
+        user.setActive(false);
+
+        userJpaRepository.save(user);
     }
 }

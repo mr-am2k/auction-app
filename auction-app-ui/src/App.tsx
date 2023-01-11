@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import { useUser } from 'hooks/useUser';
 
@@ -14,29 +14,83 @@ import {
   SingleProduct,
   Register,
   Login,
+  MyAccount,
+  AddItem,
+  Error,
 } from './pages';
-import { User } from 'models/user';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import { ROUTES } from './util/routes';
 import { LOCAL_STORAGE } from 'util/constants';
+import { getTokenExpirationDate } from 'util/jwtUtils';
 
 import './app.scss';
 
+const PAGES_WITH_NAVBAR_COMPONENT = [
+  '/',
+  ROUTES.ABOUT_US,
+  ROUTES.ADD_PRODUCT,
+  ROUTES.MY_ACCOUNT,
+  ROUTES.PRIVACY_AND_POLICY,
+  ROUTES.PRODUCT,
+  ROUTES.SHOP,
+  ROUTES.TERMS_AND_CONDITIONS,
+  `${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`,
+];
+
 const App = () => {
+  const {
+    loggedInUser,
+    setLoggedInUser,
+    resetLoggedInUser,
+    loginUser,
+    logoutUser,
+  } = useUser();
   const location = useLocation();
-  const { setLoggedInUser } = useUser();
+  const navigate = useNavigate();
+
+  const refreshToken = storageService.get(LOCAL_STORAGE.REFRESH_TOKEN);
+
+  const setUser = () => {
+    loginUser().then((user) => {
+      setLoggedInUser(user);
+    });
+  };
 
   useEffect(() => {
-    const id = storageService.get(LOCAL_STORAGE.ID);
-    const token = storageService.get(LOCAL_STORAGE.TOKEN);
-
-    if (id?.length && token?.length) {
-      const user: User = {
-        id: id!,
-        token: token!,
-      };
-      setLoggedInUser(user);
+    if (refreshToken && loggedInUser?.accessToken === undefined) {
+      if (getTokenExpirationDate(refreshToken)! < new Date()) {
+        logoutUser();
+        resetLoggedInUser();
+        navigate('/');
+      } else {
+        setUser();
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setInterval(() => {
+      if (!storageService.get(LOCAL_STORAGE.REFRESH_TOKEN)) {
+        return;
+      }
+
+      if (
+        storageService.get(LOCAL_STORAGE.REFRESH_TOKEN) &&
+        getTokenExpirationDate(
+          storageService.get(LOCAL_STORAGE.REFRESH_TOKEN)!
+        )! < new Date()
+      ) {
+        logoutUser();
+        resetLoggedInUser();
+        navigate('/');
+        return;
+      }
+
+      if (storageService.get(LOCAL_STORAGE.REFRESH_TOKEN)) {
+        setUser();
+      }
+    }, 120000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -45,7 +99,7 @@ const App = () => {
       <FormProvider>
         <Header />
 
-        {![ROUTES.REGISTER, ROUTES.LOGIN].includes(location.pathname) && (
+        {PAGES_WITH_NAVBAR_COMPONENT.includes(location.pathname) && (
           <>
             <Navbar />
             <NavbarTracker />
@@ -70,8 +124,20 @@ const App = () => {
                 <Route path='/' element={<Home />} />
                 <Route
                   path={`${ROUTES.PRODUCT}/:id`}
-                  element={<SingleProduct />}
+                  element={
+                    <>
+                      <Navbar />
+                      <NavbarTracker />
+                      <SingleProduct />
+                    </>
+                  }
                 />
+                <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
+                <Route
+                  path={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`}
+                  element={<AddItem />}
+                />
+                <Route path='*' element={<Error />} />
               </Routes>
             </main>
           </>

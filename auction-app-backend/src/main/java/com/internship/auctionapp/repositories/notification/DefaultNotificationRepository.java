@@ -35,7 +35,7 @@ public class DefaultNotificationRepository implements NotificationRepository {
     @Override
     public List<Notification> getAllNotifications() {
         return notificationJpaRepository.findAll().stream()
-                .map(notificationEntity -> notificationEntity.toDomainModel())
+                .map(NotificationEntity::toDomainModel)
                 .collect(Collectors.toList());
     }
 
@@ -64,7 +64,7 @@ public class DefaultNotificationRepository implements NotificationRepository {
     public List<Notification> getNotificationsByProductIdForAllUsersExcept(UUID userId, UUID productId) {
         return notificationJpaRepository
                 .findDistinctByUserIdNotAndProductId(userId, productId).stream()
-                .map(notificationEntity -> notificationEntity.toDomainModel())
+                .map(NotificationEntity::toDomainModel)
                 .collect(Collectors.toList());
     }
 }

@@ -1,4 +1,7 @@
+import { Address } from './address';
 import { Bid } from './bid';
+import { Category } from './category';
+import { User } from './user';
 
 export type Product = {
     id: string;
@@ -10,6 +13,11 @@ export type Product = {
     expirationDateTime: Date;
     bids: Bid[];
     remainingTime: string
-    userId: string;
+    user: User;
+    category: Category;
+    address: Address;
+    highestBidder: string | null;
+    highestBidPrice: number | null;
+    numberOfBids: number | null;
 }
 

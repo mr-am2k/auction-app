@@ -8,12 +8,16 @@ import classNames from 'classnames';
 
 type Props = {
   children?: React.ReactNode;
-  placeholder: string;
+  placeholder?: string | undefined;
   name: string;
   type: string;
   title: string;
   pattern?: string;
-  validator?: (param: string) => void;
+  required?: boolean;
+  disabled?: boolean;
+  optionalValidator?: string;
+  value?: string | number | undefined;
+  validator?: (firstParam: string, secondParam?: string) => void;
 };
 
 const Input: React.FC<Props> = ({
@@ -22,6 +26,10 @@ const Input: React.FC<Props> = ({
   type,
   title,
   pattern,
+  required,
+  disabled,
+  optionalValidator,
+  value,
   validator,
 }) => {
   type ObjectKey = keyof typeof fieldValidationResults;
@@ -54,6 +62,8 @@ const Input: React.FC<Props> = ({
         name,
         value,
         additionalFieldsInfo[name]?.pattern,
+        required,
+        optionalValidator,
         additionalFieldsInfo[name]?.validator
       ),
     });
@@ -72,7 +82,9 @@ const Input: React.FC<Props> = ({
         ...additionalFieldsInfo,
         [name]: {
           pattern,
+          optionalValidator,
           validator,
+          required,
         },
       };
     });
@@ -88,11 +100,15 @@ const Input: React.FC<Props> = ({
       <input
         className={classNames({
           'c-input-error': hasErrorMessage,
+          'c-input-disabled': disabled,
         })}
         placeholder={placeholder}
         type={type}
         name={name}
         pattern={pattern}
+        required={required}
+        disabled={disabled}
+        value={value}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
           inputFieldChange(event);
         }}

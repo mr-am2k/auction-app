@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { usePage } from 'hooks/usePage';
 
-import EN_STRINGS from 'translation/en';
+import { EN_STRINGS } from 'translation/en';
 
 import './about-us.scss';
 

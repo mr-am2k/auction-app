@@ -3,6 +3,7 @@ package com.internship.auctionapp.models;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -18,5 +19,11 @@ public class User {
 
     private String phoneNumber;
 
-    private String role;
+    private String profileImageUrl;
+
+    private Date dateOfBirth;
+
+    private Address address;
+
+    private CreditCard card;
 }
