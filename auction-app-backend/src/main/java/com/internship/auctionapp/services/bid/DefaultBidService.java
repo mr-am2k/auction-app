@@ -35,7 +35,7 @@ public class DefaultBidService implements BidService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
 
-    private Integer pageSize = 4;
+    private final Integer PAGE_SIZE = 4;
 
     public DefaultBidService(
             BidRepository bidRepository,
@@ -110,7 +110,7 @@ public class DefaultBidService implements BidService {
 
     @Override
     public Page<Bid> getProductBids(UUID productId, Integer pageNumber) {
-        final Pageable page = PageRequest.of(pageNumber, pageSize);
+        final Pageable page = PageRequest.of(pageNumber, PAGE_SIZE);
 
         return bidRepository.getProductBids(productId, page);
     }

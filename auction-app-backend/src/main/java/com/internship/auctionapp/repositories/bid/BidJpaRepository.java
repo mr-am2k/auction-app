@@ -20,5 +20,5 @@ public interface BidJpaRepository extends JpaRepository<BidEntity, UUID> {
 
     List<BidEntity> findAllByUserIdOrderByCreationDateTimeDesc(UUID userId);
 
-    Page<BidEntity> findAllByProductId(UUID productId, Pageable page);
+    Page<BidEntity> findAllByProductIdOrderByPriceDesc(UUID productId, Pageable page);
 }

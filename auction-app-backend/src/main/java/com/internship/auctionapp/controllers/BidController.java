@@ -4,9 +4,12 @@ import com.internship.auctionapp.requests.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.services.bid.BidService;
 
+import com.internship.auctionapp.services.bid.DefaultBidService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +29,9 @@ import java.util.UUID;
 @Tag(name = "Bids")
 public class BidController {
     private final BidService bidService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
+
 
     public BidController(BidService bidService) {
         this.bidService = bidService;
@@ -56,6 +62,7 @@ public class BidController {
     @GetMapping("/{productId}")
     @SecurityRequirement(name = "Bearer Authentication")
     public Page<Bid> getProductBids(@PathVariable("productId") UUID productId, @RequestParam(defaultValue = "0") Integer pageNumber){
+        LOGGER.warn(pageNumber.toString());
         return bidService.getProductBids(productId, pageNumber);
     }
 }

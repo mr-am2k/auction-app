@@ -73,6 +73,6 @@ public class DefaultBidRepository implements BidRepository {
 
     @Override
     public Page<Bid> getProductBids(UUID productId, Pageable page) {
-        return bidJpaRepository.findAllByProductId(productId, page).map(BidEntity::toDomainModel);
+        return bidJpaRepository.findAllByProductIdOrderByPriceDesc(productId, page).map(BidEntity::toDomainModel);
     }
 }
