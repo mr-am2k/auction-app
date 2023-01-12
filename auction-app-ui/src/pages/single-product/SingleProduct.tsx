@@ -10,7 +10,7 @@ import bidService from 'services/bidService';
 import notificationService from 'services/notificationService';
 import { storageService } from 'services/storageService';
 
-import { Loading, ImagePicker, NotificationBar } from 'components';
+import { Loading, ImagePicker, NotificationBar, BiddersList } from 'components';
 import { Product } from 'models/product';
 import { Notification } from 'models/notification';
 import { createBidRequest } from 'models/request/create/createBidRequest';
@@ -36,14 +36,16 @@ const SingleProduct = () => {
   const { id } = useParams();
 
   const currentDate = new Date();
-  const biddingDisabled = !isUserLoggedIn() || storageService.get(LOCAL_STORAGE.ID) === singleProduct?.user.id;
+  const biddingDisabled =
+    !isUserLoggedIn() ||
+    storageService.get(LOCAL_STORAGE.ID) === singleProduct?.user.id;
 
   const fetchSingleProduct = async (productId: string) => {
     const product = await productsService.getSingleProduct(productId);
     setNavbarTitle(product.name);
     setNavbarItems([EN_STRINGS.NAVBAR.SHOP, EN_STRINGS.SHOP.SINGLE_PRODUCT]);
     setSingleProduct(product);
-    
+
     if (!product.bids.length) {
       setInputPlaceholderValue(product.startPrice);
     }
@@ -101,9 +103,9 @@ const SingleProduct = () => {
   }, []);
 
   useEffect(() => {
-    loggedInUser ?
-      getLatestNotification(loggedInUser!.id, id!) :
-      setLatestNotification(undefined);
+    loggedInUser
+      ? getLatestNotification(loggedInUser!.id, id!)
+      : setLatestNotification(undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedInUser, singleProduct]);
 
@@ -141,9 +143,9 @@ const SingleProduct = () => {
                 <p>
                   {`${EN_STRINGS.SINGLE_PRODUCT.TIME_LEFT}: `}
                   <span>
-                    {new Date(singleProduct.expirationDateTime) < currentDate ?
-                      EN_STRINGS.SINGLE_PRODUCT.EXPIRED :
-                      singleProduct.remainingTime}
+                    {new Date(singleProduct.expirationDateTime) < currentDate
+                      ? EN_STRINGS.SINGLE_PRODUCT.EXPIRED
+                      : singleProduct.remainingTime}
                   </span>
                 </p>
               </div>
@@ -158,7 +160,9 @@ const SingleProduct = () => {
                     <button>{EN_STRINGS.SINGLE_PRODUCT.PAY}</button>
                   </Link>
                 ) : (
-                  <p className='c-lost-message'>{EN_STRINGS.SINGLE_PRODUCT.LOST_MESSAGE}</p>
+                  <p className='c-lost-message'>
+                    {EN_STRINGS.SINGLE_PRODUCT.LOST_MESSAGE}
+                  </p>
                 )
               ) : (
                 <>
@@ -202,6 +206,13 @@ const SingleProduct = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className='c-additional-info'>
+        {storageService.get(LOCAL_STORAGE.ID) === singleProduct.user.id ? (
+          <BiddersList productId={singleProduct.id} />
+        ) : (
+          'Part for related products'
+        )}
       </div>
     </>
   );

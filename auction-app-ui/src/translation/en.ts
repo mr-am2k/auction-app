@@ -226,3 +226,11 @@ export const PRODUCT = {
   START_DATE_TITLE: 'Start date',
   END_DATE_TITLE: 'End date',
 };
+
+export const BIDDER_LIST = {
+  BIDDERS: 'Bidders',
+  BIDDER: 'Bidder',
+  DATE: 'Date',
+  BID: 'Bid',
+  LOAD_MORE: 'LOAD MORE'
+}
