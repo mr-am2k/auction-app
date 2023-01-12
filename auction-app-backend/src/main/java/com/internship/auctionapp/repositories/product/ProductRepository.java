@@ -30,4 +30,6 @@ public interface ProductRepository {
     List<Product> getProductsBetweenTwoDates(ZonedDateTime startDate, ZonedDateTime endDate);
 
     List<Product> getUserProducts(UUID userId);
+
+    Page<Product> getRelatedProducts(UUID categoryId,UUID productId, Pageable page);
 }

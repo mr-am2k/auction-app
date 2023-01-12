@@ -70,4 +70,9 @@ public class ProductController {
     public List<Product> getUserProducts(@PathVariable("userId") UUID userId){
         return productService.getUserProducts(userId);
     }
+
+    @GetMapping("/related-products")
+    public Page<Product> getRelatedProducts(@RequestParam UUID categoryId, @RequestParam UUID productId){
+        return productService.getRelatedProducts(categoryId, productId);
+    }
 }
