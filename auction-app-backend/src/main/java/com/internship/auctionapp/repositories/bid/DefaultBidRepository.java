@@ -9,6 +9,8 @@ import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.requests.CreateBidRequest;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -67,5 +69,10 @@ public class DefaultBidRepository implements BidRepository {
         return bidJpaRepository.findAllByUserIdOrderByCreationDateTimeDesc(user.getId()).stream()
                 .map(BidEntity::toDomainModel)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<Bid> getProductBids(UUID productId, Pageable page) {
+        return bidJpaRepository.findAllByProductId(productId, page).map(BidEntity::toDomainModel);
     }
 }
