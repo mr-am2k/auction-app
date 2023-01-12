@@ -10,7 +10,7 @@ import bidService from 'services/bidService';
 import notificationService from 'services/notificationService';
 import { storageService } from 'services/storageService';
 
-import { Loading, ImagePicker, NotificationBar, BiddersList } from 'components';
+import { Loading, ImagePicker, NotificationBar, BiddersList, RelatedProducts } from 'components';
 import { Product } from 'models/product';
 import { Notification } from 'models/notification';
 import { createBidRequest } from 'models/request/create/createBidRequest';
@@ -211,7 +211,7 @@ const SingleProduct = () => {
         {storageService.get(LOCAL_STORAGE.ID) === singleProduct.user.id ? (
           <BiddersList productId={singleProduct.id} />
         ) : (
-          'Part for related products'
+          <RelatedProducts categoryId={singleProduct.category.id} productId={singleProduct.id}/>
         )}
       </div>
     </>

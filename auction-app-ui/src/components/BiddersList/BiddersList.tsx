@@ -64,8 +64,7 @@ const BiddersList: React.FC<Props> = ({ productId }) => {
     <div className='c-bidders-list-container'>
       <h2>{BIDDER_LIST.BIDDERS}</h2>
       <Splitter />
-
-      <div className='c-bidders-table'>
+      {bidders.length ? (  <div className='c-bidders-table'>
         <table>
           <thead>
             <tr className='c-table-rows c-table-header'>
@@ -101,7 +100,8 @@ const BiddersList: React.FC<Props> = ({ productId }) => {
             ))}
           </tbody>
         </table>
-      </div>
+      </div>) : (<h2>{BIDDER_LIST.WITHOUT_BIDDERS}</h2>)}
+    
 
       {!lastPage ? (
         <button onClick={sendRequest}>{BIDDER_LIST.LOAD_MORE}</button>

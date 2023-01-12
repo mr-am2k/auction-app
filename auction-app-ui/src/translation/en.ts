@@ -232,5 +232,11 @@ export const BIDDER_LIST = {
   BIDDER: 'Bidder',
   DATE: 'Date',
   BID: 'Bid',
-  LOAD_MORE: 'LOAD MORE'
+  LOAD_MORE: 'LOAD MORE',
+  WITHOUT_BIDDERS: 'There is no bidders for this product!'
+}
+
+export const RELATED_PRODUCTS ={ 
+  RELATED_PRODUCTS: 'Related Products',
+  WITHOUT_PRODUCTS: 'There is no related products to this one!'
 }

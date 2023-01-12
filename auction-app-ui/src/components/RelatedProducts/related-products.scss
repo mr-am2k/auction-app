@@ -1,0 +1,45 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
+
+.c-related-products-container {
+  @include flexDisplay(flex-start, center);
+  flex-direction: column;
+  padding: 1rem 12rem 0;
+  font-family: $latoFont;
+
+  .c-related-products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+    margin-top: 2rem;
+
+    .c-product-card {
+      a {
+        text-decoration: none;
+      }
+
+      img {
+        object-fit: cover;
+        height: 362px;
+        width: 362px;
+      }
+
+      h3 {
+        color: $blackColor;
+      }
+
+      p {
+        font-weight: 500;
+        font-size: $textBase;
+        line-height: 19px;
+        letter-spacing: $letterSpacing;
+        color: $greyColor;
+
+        span {
+          color: $purpleColor;
+        }
+      }
+    }
+  }
+}
