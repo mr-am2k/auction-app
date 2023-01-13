@@ -28,6 +28,7 @@ const BiddersList: React.FC<Props> = ({ productId }) => {
   const getUsers = async (params: {}) => {
     let fetchedBids: Bid[] = []
     let bids: any;
+    
     bidService.getProductBids(productId, { params })
     .then(bidsPage => {
       bids = bidsPage;

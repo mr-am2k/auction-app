@@ -8,6 +8,7 @@ import { storageService } from 'services/storageService';
 
 import { ItemList, EmptyList } from '../index';
 import { ProductList } from 'models/productList';
+import { Bid } from 'models/bid';
 import { ROUTES } from 'util/routes';
 import { LOCAL_STORAGE } from 'util/constants';
 import { EN_STRINGS } from 'translation/en';
@@ -20,26 +21,34 @@ const Bids = () => {
   const [bids, setBids] = useState<ProductList[]>([]);
   const { setNavbarTitle, setNavbarItems } = usePage();
 
-  const fetchUserBids = async () => {
-    const bids = await bidService.getUserBids(
-      storageService.get(LOCAL_STORAGE.ID)!
-    );
+  const fetchUserBids = () => {
+    let bids: Bid[];
 
-    bids.forEach(async (bid) => {
-      const product = await productsService.getSingleProduct(bid.productId);
+    bidService
+      .getUserBids(storageService.get(LOCAL_STORAGE.ID)!)
+      .then((fetchedBids) => {
+        bids = fetchedBids;
+        
+        const productPromises = fetchedBids.map((bid) =>
+          productsService.getSingleProduct(bid.productId)
+        );
+        return Promise.all(productPromises);
+      })
+      .then((products) => {
+        const newProducts = products.map((product, index) => {
+          return {
+            id: bids[index].productId,
+            imageUrl: product.imageURLs[0],
+            name: product.name,
+            remainingTime: product.remainingTime,
+            price: product.startPrice,
+            numberOfBids: product.bids.length,
+            highestBid: product.highestBidPrice,
+          };
+        });
 
-      const newProduct: ProductList = {
-        id: bid.productId,
-        imageUrl: product.imageURLs[0],
-        name: product.name,
-        remainingTime: product.remainingTime,
-        price: product.startPrice,
-        numberOfBids: product.bids.length,
-        highestBid: product.highestBidPrice,
-      };
-
-      setBids((prevProducts) => [...prevProducts, newProduct]);
-    });
+        setBids((prevProducts) => [...prevProducts, ...newProducts]);
+      });
   };
 
   useEffect(() => {
