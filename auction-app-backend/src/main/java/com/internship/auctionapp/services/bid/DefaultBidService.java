@@ -35,7 +35,7 @@ public class DefaultBidService implements BidService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
 
-    private final Integer PAGE_SIZE = 4;
+    private final Integer DEFAULT_PAGE_SIZE = 5;
 
     public DefaultBidService(
             BidRepository bidRepository,
@@ -86,15 +86,6 @@ public class DefaultBidService implements BidService {
     }
 
     @Override
-    public List<Bid> getAllBids() {
-        List<Bid> bids = bidRepository.getAllBids();
-
-        LOGGER.info("Fetched bids={}", bids);
-
-        return bids;
-    }
-
-    @Override
     public Double getHighestBidPrice(UUID productId) {
         Bid highestBid = bidRepository.getHighestBid(productId);
 
@@ -110,7 +101,7 @@ public class DefaultBidService implements BidService {
 
     @Override
     public Page<Bid> getProductBids(UUID productId, Integer pageNumber) {
-        final Pageable page = PageRequest.of(pageNumber, PAGE_SIZE);
+        final Pageable page = PageRequest.of(pageNumber, DEFAULT_PAGE_SIZE);
 
         return bidRepository.getProductBids(productId, page);
     }

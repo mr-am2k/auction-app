@@ -10,8 +10,6 @@ import java.util.UUID;
 public interface BidService {
     Bid addBid(CreateBidRequest createBidRequest);
 
-    List<Bid> getAllBids();
-
     Double getHighestBidPrice(UUID productId);
 
     List<Bid> getUserBids(UUID userId);

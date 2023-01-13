@@ -11,8 +11,6 @@ import java.util.UUID;
 public interface BidRepository {
     Bid addBid(CreateBidRequest createBidRequest);
 
-    List<Bid> getAllBids();
-
     Bid getHighestBid(UUID productId);
 
     List<Bid> getUserBids(UUID userId);

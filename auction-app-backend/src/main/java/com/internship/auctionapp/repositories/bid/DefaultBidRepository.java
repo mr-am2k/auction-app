@@ -51,13 +51,6 @@ public class DefaultBidRepository implements BidRepository {
     }
 
     @Override
-    public List<Bid> getAllBids() {
-        return bidJpaRepository.findAll().stream()
-                .map(BidEntity::toDomainModel)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public Bid getHighestBid(UUID productId) {
         return bidJpaRepository.findTopByProductIdOrderByPriceDesc(productId).toDomainModel();
     }
