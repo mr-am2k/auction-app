@@ -26,27 +26,30 @@ const BiddersList: React.FC<Props> = ({ productId }) => {
 
   //I user here async await, because using promises here leads to confusing code and code that is hard to read
   const getUsers = async (params: {}) => {
-    const bidsPage = await bidService.getProductBids(productId, { params });
-
-    const fetchedBids: Bid[] = bidsPage.content;
-
-    const userPromises = fetchedBids.map((bid) =>
-      userService.getUser(bid.userId)
-    );
-    const users = await Promise.all(userPromises);
-
-    const newBidders = users.map((user, index) => {
-      return {
-        profileImageUrl: user.profileImageUrl,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        creationDateTime: fetchedBids[index].creationDateTime,
-        bidPrice: fetchedBids[index].price,
-      };
-    });
-
-    setBidders((prevBidders) => [...prevBidders, ...newBidders]);
-    setLastPage(bidsPage.last);
+    let fetchedBids: Bid[] = []
+    let bids: any;
+    bidService.getProductBids(productId, { params })
+    .then(bidsPage => {
+      bids = bidsPage;
+      fetchedBids = bidsPage.content;
+      const userPromises = fetchedBids.map(bid => userService.getUser(bid.userId));
+      return Promise.all(userPromises);
+    })
+    .then(users => {
+      const newBidders = users.map((user, index) => {
+        return {
+          profileImageUrl: user.profileImageUrl,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          creationDateTime: fetchedBids[index].creationDateTime,
+          bidPrice: fetchedBids[index].price,
+        };
+      });
+  
+      setBidders((prevBidders) => [...prevBidders, ...newBidders]);
+      setLastPage(bids.last);
+    })
+    .catch(error => console.error(error));
   };
 
   const sendRequest = () => {
@@ -63,8 +66,10 @@ const BiddersList: React.FC<Props> = ({ productId }) => {
   return (
     <div className='c-bidders-list-container'>
       <h2>{BIDDER_LIST.BIDDERS}</h2>
+
       <Splitter />
-      {bidders.length ? (  <div className='c-bidders-table'>
+
+      {bidders.length ? (<div className='c-bidders-table'>
         <table>
           <thead>
             <tr className='c-table-rows c-table-header'>

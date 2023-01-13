@@ -36,9 +36,7 @@ const SingleProduct = () => {
   const { id } = useParams();
 
   const currentDate = new Date();
-  const biddingDisabled =
-    !isUserLoggedIn() ||
-    storageService.get(LOCAL_STORAGE.ID) === singleProduct?.user.id;
+  const biddingDisabled = !isUserLoggedIn() || storageService.get(LOCAL_STORAGE.ID) === singleProduct?.user.id;
 
   const fetchSingleProduct = async (productId: string) => {
     const product = await productsService.getSingleProduct(productId);
@@ -74,7 +72,7 @@ const SingleProduct = () => {
     setBidInputError('');
 
     bidService
-      .addBid(createBidRequest)
+      .addBid(createBidRequest, singleProduct!.id)
       .then(() => {
         bidInputRef.current!.value = '';
         fetchSingleProduct(id!);
@@ -103,9 +101,7 @@ const SingleProduct = () => {
   }, []);
 
   useEffect(() => {
-    loggedInUser
-      ? getLatestNotification(loggedInUser!.id, id!)
-      : setLatestNotification(undefined);
+    loggedInUser ? getLatestNotification(loggedInUser!.id, id!) : setLatestNotification(undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedInUser, singleProduct]);
 
@@ -143,9 +139,7 @@ const SingleProduct = () => {
                 <p>
                   {`${EN_STRINGS.SINGLE_PRODUCT.TIME_LEFT}: `}
                   <span>
-                    {new Date(singleProduct.expirationDateTime) < currentDate
-                      ? EN_STRINGS.SINGLE_PRODUCT.EXPIRED
-                      : singleProduct.remainingTime}
+                    {new Date(singleProduct.expirationDateTime) < currentDate ? EN_STRINGS.SINGLE_PRODUCT.EXPIRED : singleProduct.remainingTime}
                   </span>
                 </p>
               </div>
