@@ -110,15 +110,6 @@ export const EN_STRINGS = {
     ADD_ITEM: '+ ADD ITEM',
   },
 
-  PRODUCTS_TABLE: {
-    ITEM: 'Item',
-    NAME: 'Name',
-    TIME_LEFT: 'Time left',
-    YOUR_PRICE: 'Your price',
-    NUMBER_OF_BIDS: 'No. bids',
-    HIGHEST_BID: 'Highest bid',
-  },
-
   WISHLIST: {
     MESSAGE: 'Your wishlist is empty! Start browsing the shop.',
     BUTTON: 'VISIT SHOP',
@@ -233,10 +224,20 @@ export const BIDDER_LIST = {
   DATE: 'Date',
   BID: 'Bid',
   LOAD_MORE: 'LOAD MORE',
-  WITHOUT_BIDDERS: 'There is no bidders for this product!'
-}
+  WITHOUT_BIDDERS: 'There is no bidders for this product!',
+};
 
-export const RELATED_PRODUCTS ={ 
+export const RELATED_PRODUCTS = {
   RELATED_PRODUCTS: 'Related Products',
-  WITHOUT_PRODUCTS: 'There is no related products to this one!'
-}
+  WITHOUT_PRODUCTS: 'There is no related products to this one!',
+};
+
+export const PRODUCTS_TABLE = {
+  ITEM: 'Item',
+  NAME: 'Name',
+  TIME_LEFT: 'Time left',
+  YOUR_PRICE: 'Your price',
+  START_PRICE: 'Start price',
+  NUMBER_OF_BIDS: 'No. bids',
+  HIGHEST_BID: 'Highest bid',
+};

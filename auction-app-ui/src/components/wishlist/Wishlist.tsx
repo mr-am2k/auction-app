@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { usePage } from 'hooks/usePage';
 
 import { ROUTES } from 'util/routes';
-import { EN_STRINGS } from 'translation/en';
+import { EN_STRINGS, PRODUCTS_TABLE } from 'translation/en';
 
 import './wishlist.scss';
 
@@ -27,12 +27,12 @@ const Wishlist = () => {
       <table>
         <thead>
           <tr>
-            <td>{EN_STRINGS.PRODUCTS_TABLE.ITEM}</td>
-            <td>{EN_STRINGS.PRODUCTS_TABLE.NAME}</td>
-            <td>{EN_STRINGS.PRODUCTS_TABLE.TIME_LEFT}</td>
-            <td>{EN_STRINGS.PRODUCTS_TABLE.YOUR_PRICE}</td>
-            <td>{EN_STRINGS.PRODUCTS_TABLE.NUMBER_OF_BIDS}</td>
-            <td>{EN_STRINGS.PRODUCTS_TABLE.HIGHEST_BID}</td>
+            <td>{PRODUCTS_TABLE.ITEM}</td>
+            <td>{PRODUCTS_TABLE.NAME}</td>
+            <td>{PRODUCTS_TABLE.TIME_LEFT}</td>
+            <td>{PRODUCTS_TABLE.YOUR_PRICE}</td>
+            <td>{PRODUCTS_TABLE.NUMBER_OF_BIDS}</td>
+            <td>{PRODUCTS_TABLE.HIGHEST_BID}</td>
           </tr>
         </thead>
 
