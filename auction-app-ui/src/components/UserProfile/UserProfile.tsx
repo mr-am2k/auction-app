@@ -26,6 +26,7 @@ const UserProfile = () => {
   const [user, setUser] = useState<User>();
   const [imageUpload, setImageUpload] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null | undefined>(null);
 
   const { setNavbarTitle, setNavbarItems } = usePage();
   const { fieldValues, validateForm, resetFieldValues, setFieldValidationResults } = useForm();
@@ -104,6 +105,20 @@ const UserProfile = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (!imageUpload) {
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      setImagePreview(event.target?.result as string);
+    };
+    
+    reader.readAsDataURL(imageUpload);
+  }, [imageUpload]);
+
   const error = updateError ? (
     <div className='c-error-message'>
       <p>{updateError}</p>
@@ -122,7 +137,7 @@ const UserProfile = () => {
         <div className='c-personal-information'>
           <div className='c-personal-image'>
             <img
-              src={user?.profileImageUrl ? user.profileImageUrl : userImage}
+              src={imageUpload ? imagePreview! : (user?.profileImageUrl ? user.profileImageUrl : userImage)}
               alt='Profile'
             />
 
