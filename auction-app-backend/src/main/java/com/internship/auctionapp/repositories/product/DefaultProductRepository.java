@@ -13,8 +13,11 @@ import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.CreateProductRequest;
 
+import com.internship.auctionapp.services.bid.DefaultBidService;
 import org.modelmapper.ModelMapper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -73,6 +76,9 @@ public class DefaultProductRepository implements ProductRepository {
 
         final CategoryEntity category = categoryJpaRepository.findById(createProductRequest.getCategoryId()).get();
         productEntity.setCategory(category);
+
+        final CategoryEntity subcategory = categoryJpaRepository.findById(createProductRequest.getSubcategoryId()).get();
+        productEntity.setSubcategory(subcategory);
 
         final UserEntity user = userJpaRepository.findById(createProductRequest.getUserId()).orElseThrow(() ->
                 new UserNotFoundByIdException(createProductRequest.getUserId().toString())

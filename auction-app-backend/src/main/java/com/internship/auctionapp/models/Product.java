@@ -38,6 +38,8 @@ public class Product {
 
     private Category category;
 
+    private Category subcategory;
+
     private Address address;
 
     private CreditCard creditCard;
@@ -58,6 +60,7 @@ public class Product {
         this.remainingTime = remainingTime;
         this.user = productEntity.getUser().toDomainModel();
         this.category = productEntity.getCategory().toDomainModel();
+        this.subcategory = productEntity.getSubcategory().toDomainModel();
         this.address = productEntity.getAddress();
         this.creditCard=productEntity.getCreditCard().toDomainModel();
         this.highestBidder = productEntity.getHighestBidder();

@@ -25,6 +25,8 @@ public class CreateProductRequest {
 
     private UUID categoryId;
 
+    private UUID subcategoryId;
+
     private Date creationDateTime;
 
     private Date expirationDateTime;
