@@ -10,7 +10,7 @@ import bidService from 'services/bidService';
 import notificationService from 'services/notificationService';
 import { storageService } from 'services/storageService';
 
-import { Loading, ImagePicker, NotificationBar } from 'components';
+import { Loading, ImagePicker, NotificationBar, BiddersList, RelatedProducts } from 'components';
 import { Product } from 'models/product';
 import { Notification } from 'models/notification';
 import { createBidRequest } from 'models/request/create/createBidRequest';
@@ -26,9 +26,7 @@ const SingleProduct = () => {
   const [singleProduct, setSingleProduct] = useState<Product>();
   const [highestBid, setHighestBid] = useState<number>();
   const [bidInputError, setBidInputError] = useState<string>();
-  const [latestNotification, setLatestNotification] = useState<
-    Notification | undefined
-  >();
+  const [latestNotification, setLatestNotification] = useState<Notification | undefined>();
   const [inputPlaceholderValue, setInputPlaceholderValue] = useState(0);
 
   const { setNavbarTitle, setNavbarItems } = usePage();
@@ -43,7 +41,7 @@ const SingleProduct = () => {
     setNavbarTitle(product.name);
     setNavbarItems([EN_STRINGS.NAVBAR.SHOP, EN_STRINGS.SHOP.SINGLE_PRODUCT]);
     setSingleProduct(product);
-    
+
     if (!product.bids.length) {
       setInputPlaceholderValue(product.startPrice);
     }
@@ -72,21 +70,19 @@ const SingleProduct = () => {
     setBidInputError('');
 
     bidService
-      .addBid(createBidRequest)
+      .addBid(createBidRequest, singleProduct!.id)
       .then(() => {
         bidInputRef.current!.value = '';
         fetchSingleProduct(id!);
         fetchHighestBid(id!);
       })
-      .catch((error) => {
+      .catch(error => {
         setBidInputError(error.response.data.message);
       });
   };
 
   const getLatestNotification = (userId: string, productId: string) => {
-    notificationService
-      .getLatestNotification(userId, productId)
-      .then((latestNotification) => setLatestNotification(latestNotification));
+    notificationService.getLatestNotification(userId, productId).then(latestNotification => setLatestNotification(latestNotification));
   };
 
   const initialLoad = async () => {
@@ -101,9 +97,7 @@ const SingleProduct = () => {
   }, []);
 
   useEffect(() => {
-    loggedInUser ?
-      getLatestNotification(loggedInUser!.id, id!) :
-      setLatestNotification(undefined);
+    loggedInUser ? getLatestNotification(loggedInUser!.id, id!) : setLatestNotification(undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedInUser, singleProduct]);
 
@@ -113,9 +107,7 @@ const SingleProduct = () => {
 
   return (
     <>
-      {latestNotification && (
-        <NotificationBar notificationMessage={latestNotification!.type} />
-      )}
+      {latestNotification && <NotificationBar notificationMessage={latestNotification!.type} />}
 
       <div className='c-single-product'>
         <ImagePicker images={singleProduct.imageURLs} />
@@ -179,22 +171,14 @@ const SingleProduct = () => {
               <div className='c-bid-error'>
                 <p>{bidInputError}</p>
               </div>
-            ) : (
-              ''
-            )}
+            ) : null}
           </div>
 
           <div className='c-details'>
             <div className='c-navbar'>
-              <p className='c-navbar-item c-focus'>
-                {EN_STRINGS.SINGLE_PRODUCT.DETAILS}
-              </p>
-              <p className='c-navbar-item'>
-                {EN_STRINGS.SINGLE_PRODUCT.SELLER_INFORMATION}
-              </p>
-              <p className='c-navbar-item'>
-                {EN_STRINGS.SINGLE_PRODUCT.CUSTOM_REVIEWS}
-              </p>
+              <p className='c-navbar-item c-focus'>{EN_STRINGS.SINGLE_PRODUCT.DETAILS}</p>
+              <p className='c-navbar-item'>{EN_STRINGS.SINGLE_PRODUCT.SELLER_INFORMATION}</p>
+              <p className='c-navbar-item'>{EN_STRINGS.SINGLE_PRODUCT.CUSTOM_REVIEWS}</p>
             </div>
 
             <div className='c-details-description'>
@@ -202,6 +186,13 @@ const SingleProduct = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className='c-additional-info'>
+        {storageService.get(LOCAL_STORAGE.ID) === singleProduct.user.id ? (
+          <BiddersList productId={singleProduct.id} />
+        ) : (
+          <RelatedProducts categoryId={singleProduct.category.id} productId={singleProduct.id} />
+        )}
       </div>
     </>
   );

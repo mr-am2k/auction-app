@@ -16,6 +16,9 @@ import com.internship.auctionapp.util.NotificationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -31,6 +34,8 @@ public class DefaultBidService implements BidService {
     private final NotificationService notificationService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
+
+    private final Integer DEFAULT_PAGE_SIZE = 5;
 
     public DefaultBidService(
             BidRepository bidRepository,
@@ -81,15 +86,6 @@ public class DefaultBidService implements BidService {
     }
 
     @Override
-    public List<Bid> getAllBids() {
-        List<Bid> bids = bidRepository.getAllBids();
-
-        LOGGER.info("Fetched bids={}", bids);
-
-        return bids;
-    }
-
-    @Override
     public Double getHighestBidPrice(UUID productId) {
         Bid highestBid = bidRepository.getHighestBid(productId);
 
@@ -101,5 +97,12 @@ public class DefaultBidService implements BidService {
     @Override
     public List<Bid> getUserBids(UUID userId) {
         return bidRepository.getUserBids(userId);
+    }
+
+    @Override
+    public Page<Bid> getProductBids(UUID productId, Integer pageNumber) {
+        final Pageable page = PageRequest.of(pageNumber, DEFAULT_PAGE_SIZE);
+
+        return bidRepository.getProductBids(productId, page);
     }
 }

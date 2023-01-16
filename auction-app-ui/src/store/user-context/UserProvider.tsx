@@ -30,11 +30,8 @@ const UserProvider: React.FC<Props> = ({ children }) => {
     return new Promise<LoggedInUser>((resolve, reject) => {
       authService
         .refreshToken()
-        .then((authResponse) => {
-          storageService.add(
-            LOCAL_STORAGE.ACCESS_TOKEN,
-            authResponse.accessToken
-          );
+        .then(authResponse => {
+          storageService.add(LOCAL_STORAGE.ACCESS_TOKEN, authResponse.accessToken);
 
           const user: LoggedInUser = {
             id: storageService.get(LOCAL_STORAGE.ID)!,
@@ -43,7 +40,7 @@ const UserProvider: React.FC<Props> = ({ children }) => {
 
           resolve(user);
         })
-        .catch((err) => {
+        .catch(err => {
           reject(err);
         });
     });

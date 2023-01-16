@@ -16,21 +16,14 @@ type Props = {
   value?: string;
 };
 
-const Textarea: React.FC<Props> = ({
-  maxLength,
-  title,
-  name,
-  required,
-  message,
-  value,
-}) => {
-  const {
-    fieldValues,
-    fieldValidationResults,
-    setFieldValues,
-    setFieldValidationResults,
-    setAdditionalFieldsInfo,
-    validateSingleField,
+const Textarea: React.FC<Props> = ({ maxLength, title, name, required, message, value }) => {
+  const { 
+    fieldValues, 
+    fieldValidationResults, 
+    setFieldValues, 
+    setFieldValidationResults, 
+    setAdditionalFieldsInfo, 
+    validateSingleField 
   } = useForm();
 
   type ObjectKey = keyof typeof fieldValidationResults;
@@ -45,12 +38,7 @@ const Textarea: React.FC<Props> = ({
 
     setFieldValidationResults({
       ...fieldValidationResults,
-      [name]: validateSingleField(
-        name,
-        event.target.value,
-        undefined,
-        required
-      ),
+      [name]: validateSingleField(name, event.target.value, undefined, required),
     });
   };
 
@@ -83,18 +71,12 @@ const Textarea: React.FC<Props> = ({
         })}
         maxLength={maxLength}
         value={value}
-        onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
-          onChange(event)
-        }
+        onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => onChange(event)}
       />
 
       <p className='c-message'>{message}</p>
 
-      {hasError && (
-        <p className='c-error-message'>
-          {fieldValidationResults[name as ObjectKey]?.message}
-        </p>
-      )}
+      {hasError && <p className='c-error-message'>{fieldValidationResults[name as ObjectKey]?.message}</p>}
     </div>
   );
 };

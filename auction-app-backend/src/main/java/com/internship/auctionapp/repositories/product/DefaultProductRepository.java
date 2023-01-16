@@ -132,4 +132,9 @@ public class DefaultProductRepository implements ProductRepository {
                 .map(ProductEntity::toDomainModel)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Page<Product> getRelatedProducts(UUID categoryId, UUID productId, Pageable page) {
+        return productJpaRepository.findAllByCategoryIdAndIdNot(categoryId, productId, page).map(ProductEntity::toDomainModel);
+    }
 }

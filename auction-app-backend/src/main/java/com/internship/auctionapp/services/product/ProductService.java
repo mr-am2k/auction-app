@@ -27,5 +27,7 @@ public interface ProductService {
 
     List<Product> getUserProducts(UUID userId);
 
+    Page<Product> getRelatedProducts(UUID categoryId, UUID productId);
+
     void createNotificationsAfterProductExpires();
 }

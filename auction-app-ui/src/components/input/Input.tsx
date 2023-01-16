@@ -20,18 +20,7 @@ type Props = {
   validator?: (firstParam: string, secondParam?: string) => void;
 };
 
-const Input: React.FC<Props> = ({
-  placeholder,
-  name,
-  type,
-  title,
-  pattern,
-  required,
-  disabled,
-  optionalValidator,
-  value,
-  validator,
-}) => {
+const Input: React.FC<Props> = ({ placeholder, name, type, title, pattern, required, disabled, optionalValidator, value, validator }) => {
   type ObjectKey = keyof typeof fieldValidationResults;
 
   const {
@@ -44,9 +33,7 @@ const Input: React.FC<Props> = ({
     setAdditionalFieldsInfo,
   } = useForm();
 
-  const hasErrorMessage: boolean =
-    !fieldValidationResults[name as ObjectKey]?.valid &&
-    fieldValidationResults[name as ObjectKey]?.message;
+  const hasErrorMessage: boolean = !fieldValidationResults[name as ObjectKey]?.valid && fieldValidationResults[name as ObjectKey]?.message;
 
   const inputFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.currentTarget;
@@ -114,9 +101,7 @@ const Input: React.FC<Props> = ({
         }}
       />
 
-      {hasErrorMessage && (
-        <p>{fieldValidationResults[name as ObjectKey]!.message}</p>
-      )}
+      {hasErrorMessage && <p>{fieldValidationResults[name as ObjectKey]!.message}</p>}
     </div>
   );
 };

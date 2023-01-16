@@ -11,14 +11,7 @@ type Props = {
   className?: string;
 };
 
-export const Form: React.FC<Props> = ({
-  children,
-  onSubmit,
-  primaryActionLabel,
-  otherOptions,
-  errorMessage,
-  className,
-}) => {
+export const Form: React.FC<Props> = ({ children, onSubmit, primaryActionLabel, otherOptions, errorMessage, className }) => {
   const { validateForm } = useForm();
 
   const formClass = `c-form ${className}`;

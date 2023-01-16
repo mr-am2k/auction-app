@@ -2,6 +2,8 @@ package com.internship.auctionapp.repositories.bid;
 
 import com.internship.auctionapp.entities.BidEntity;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
@@ -17,4 +19,6 @@ public interface BidJpaRepository extends JpaRepository<BidEntity, UUID> {
     );
 
     List<BidEntity> findAllByUserIdOrderByCreationDateTimeDesc(UUID userId);
+
+    Page<BidEntity> findAllByProductIdOrderByPriceDesc(UUID productId, Pageable page);
 }

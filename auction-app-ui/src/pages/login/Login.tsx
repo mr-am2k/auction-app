@@ -27,7 +27,7 @@ const Login = () => {
   const loginUser = async (loginRequest: userLoginRequest) => {
     authService
       .login(loginRequest)
-      .then((authResponse) => {
+      .then(authResponse => {
         storageService.add(LOCAL_STORAGE.ACCESS_TOKEN, authResponse.accessToken);
         storageService.add(LOCAL_STORAGE.REFRESH_TOKEN, authResponse.refreshToken);
         storageService.add(LOCAL_STORAGE.ID, authResponse.id);
@@ -42,7 +42,7 @@ const Login = () => {
         setLoggedInUser(user);
         navigate('/');
       })
-      .catch((error) => {
+      .catch(error => {
         setLoginError(error.response.data.message);
       });
   };

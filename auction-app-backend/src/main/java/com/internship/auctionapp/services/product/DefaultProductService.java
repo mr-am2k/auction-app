@@ -44,6 +44,8 @@ public class DefaultProductService implements ProductService {
 
     private static final Integer DEFAULT_ELEMENTS_PER_PAGE = 8;
 
+    private static final Integer RELATED_PRODUCTS_PER_PAGE = 3;
+
     private static final String LAST_CHANCE = "last-chance";
 
     private static final String EXPIRATION_DATE_TIME = "expirationDateTime";
@@ -137,6 +139,13 @@ public class DefaultProductService implements ProductService {
     @Override
     public List<Product> getUserProducts(UUID userId) {
         return productRepository.getUserProducts(userId);
+    }
+
+    @Override
+    public Page<Product> getRelatedProducts(UUID categoryId, UUID productId) {
+        final Pageable page = PageRequest.of(0, RELATED_PRODUCTS_PER_PAGE);
+
+        return productRepository.getRelatedProducts(categoryId, productId, page);
     }
 
     @Override

@@ -8,9 +8,10 @@ import { storageService } from 'services/storageService';
 
 import { ItemList, EmptyList } from '../index';
 import { ProductList } from 'models/productList';
+import { Bid } from 'models/bid';
 import { ROUTES } from 'util/routes';
 import { LOCAL_STORAGE } from 'util/constants';
-import { EN_STRINGS } from 'translation/en';
+import { EN_STRINGS, PRODUCTS_TABLE } from 'translation/en';
 
 import './bids.scss';
 
@@ -20,26 +21,35 @@ const Bids = () => {
   const [bids, setBids] = useState<ProductList[]>([]);
   const { setNavbarTitle, setNavbarItems } = usePage();
 
-  const fetchUserBids = async () => {
-    const bids = await bidService.getUserBids(
-      storageService.get(LOCAL_STORAGE.ID)!
-    );
+  const fetchUserBids = () => {
+    let bids: Bid[];
 
-    bids.forEach(async (bid) => {
-      const product = await productsService.getSingleProduct(bid.productId);
+    bidService
+      .getUserBids(storageService.get(LOCAL_STORAGE.ID)!)
+      .then(fetchedBids => {
+        bids = fetchedBids;
 
-      const newProduct: ProductList = {
-        id: bid.productId,
-        imageUrl: product.imageURLs[0],
-        name: product.name,
-        remainingTime: product.remainingTime,
-        price: product.startPrice,
-        numberOfBids: product.bids.length,
-        highestBid: product.highestBidPrice,
-      };
+        const productPromises = fetchedBids.map(bid => productsService.getSingleProduct(bid.productId));
 
-      setBids((prevProducts) => [...prevProducts, newProduct]);
-    });
+        return Promise.all(productPromises);
+      })
+      .then(products => {
+        const updatedProducts = products.map((product, index) => {
+          const bid = bids[index];
+
+          return {
+            id: bid.productId,
+            imageUrl: product.imageURLs[0],
+            name: product.name,
+            remainingTime: product.remainingTime,
+            price: bid.price,
+            numberOfBids: product.bids.length,
+            highestBid: product.highestBidPrice,
+          };
+        });
+
+        setBids(products => [...products, ...updatedProducts]);
+      });
   };
 
   useEffect(() => {
@@ -55,24 +65,19 @@ const Bids = () => {
       <table>
         <thead>
           <tr>
-            <td>{EN_STRINGS.PRODUCTS_TABLE.ITEM}</td>
-            <td>{EN_STRINGS.PRODUCTS_TABLE.NAME}</td>
-            <td>{EN_STRINGS.PRODUCTS_TABLE.TIME_LEFT}</td>
-            <td>{EN_STRINGS.PRODUCTS_TABLE.YOUR_PRICE}</td>
-            <td>{EN_STRINGS.PRODUCTS_TABLE.NUMBER_OF_BIDS}</td>
-            <td>{EN_STRINGS.PRODUCTS_TABLE.HIGHEST_BID}</td>
+            <td>{PRODUCTS_TABLE.ITEM}</td>
+            <td>{PRODUCTS_TABLE.NAME}</td>
+            <td>{PRODUCTS_TABLE.TIME_LEFT}</td>
+            <td>{PRODUCTS_TABLE.YOUR_PRICE}</td>
+            <td>{PRODUCTS_TABLE.NUMBER_OF_BIDS}</td>
+            <td>{PRODUCTS_TABLE.HIGHEST_BID}</td>
           </tr>
         </thead>
 
         <ItemList
           elements={bids}
           emptyList={
-            <EmptyList
-              icon={<HammerIcon />}
-              message={EN_STRINGS.BIDS.MESSAGE}
-              route={ROUTES.SHOP}
-              buttonLabel={EN_STRINGS.BIDS.BUTTON}
-            />
+            <EmptyList icon={<HammerIcon />} message={EN_STRINGS.BIDS.MESSAGE} route={ROUTES.SHOP} buttonLabel={EN_STRINGS.BIDS.BUTTON} />
           }
           buttonLabel={EN_STRINGS.BIDS.BID}
         />

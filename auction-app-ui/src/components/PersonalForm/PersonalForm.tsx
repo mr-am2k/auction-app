@@ -2,13 +2,7 @@ import { useForm } from 'hooks/useForm';
 
 import { Input, Form } from '../index';
 import { User } from 'models/user';
-import {
-  INPUT_TYPE_TEXT,
-  USER_FORM,
-  INPUT_TYPE_EMAIL,
-  INPUT_TYPE_DATE,
-  INPUT_TYPE_NUMBER,
-} from 'util/constants';
+import { INPUT_TYPE_TEXT, USER_FORM, INPUT_TYPE_EMAIL, INPUT_TYPE_DATE, INPUT_TYPE_NUMBER } from 'util/constants';
 import { validate as validateDateOfBirth } from 'validators/validateDateOfBirth';
 import { validate as validatePhoneNumber } from 'validators/validatePhoneNumber';
 import { USER } from 'translation/en';
@@ -19,17 +13,15 @@ type Props = {
 };
 
 const PersonalForm: React.FC<Props> = ({ user }) => {
-  const {fieldValues} = useForm()
-  
+  const { fieldValues } = useForm();
+
   const children = [
     <Input
       key={USER_FORM.FIRST_NAME}
       type={INPUT_TYPE_TEXT}
       name={USER_FORM.FIRST_NAME}
       title={USER.FIRST_NAME_TITLE}
-      placeholder={
-        user?.firstName ? user.firstName : USER_FORM.FIRST_NAME_PLACEHOLDER
-      }
+      placeholder={user?.firstName ? user.firstName : USER_FORM.FIRST_NAME_PLACEHOLDER}
       value={fieldValues[USER_FORM.FIRST_NAME]}
     />,
 
@@ -65,9 +57,7 @@ const PersonalForm: React.FC<Props> = ({ user }) => {
       type={INPUT_TYPE_NUMBER}
       name={USER_FORM.PHONE_NUMBER}
       title={USER.PHONE_NUMBER_TITLE}
-      placeholder={
-        user?.phoneNumber ? user.phoneNumber : USER_FORM.PHONE_NUMBER_PLACEHOLDER
-      }
+      placeholder={user?.phoneNumber ? user.phoneNumber : USER_FORM.PHONE_NUMBER_PLACEHOLDER}
       value={fieldValues[USER_FORM.PHONE_NUMBER]}
       validator={validatePhoneNumber}
     />,

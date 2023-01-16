@@ -27,7 +27,7 @@ const Register = () => {
       .then(() => {
         navigate(ROUTES.LOGIN);
       })
-      .catch((error) => {
+      .catch(error => {
         setRegisterError(error.response.data.message);
       });
   };

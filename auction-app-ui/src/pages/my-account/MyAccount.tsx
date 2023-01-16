@@ -3,14 +3,8 @@ import { Link } from 'react-router-dom';
 
 import { useUser } from 'hooks/useUser';
 
-import {
-  UserProfile,
-  SellerDetails,
-  Bids,
-  Wishlist,
-  UserSettings,
-} from 'components';
-import { Error } from '../index'
+import { UserProfile, SellerDetails, Bids, Wishlist, UserSettings } from 'components';
+import { Error } from '../index';
 import { ROUTES } from 'util/routes';
 import { EN_STRINGS } from 'translation/en';
 

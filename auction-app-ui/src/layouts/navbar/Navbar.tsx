@@ -25,9 +25,7 @@ const Navbar = () => {
 
       <div className='c-search-field'>
         <input
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setInputContent(event.target.value)
-          }
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => setInputContent(event.target.value)}
           type='text'
           placeholder={EN_STRINGS.NAVBAR.INPUT_PLACEHOLDER}
           value={inputContent}
@@ -48,9 +46,7 @@ const Navbar = () => {
       <div className='c-navbar-options'>
         <Link to='/'>{EN_STRINGS.NAVBAR.HOME.toUpperCase()}</Link>
         <Link to={ROUTES.SHOP}>{EN_STRINGS.NAVBAR.SHOP.toUpperCase()}</Link>
-        <Link to={ROUTES.MY_ACCOUNT}>
-          {EN_STRINGS.NAVBAR.MY_ACCOUNT.toUpperCase()}
-        </Link>
+        <Link to={ROUTES.MY_ACCOUNT}>{EN_STRINGS.NAVBAR.MY_ACCOUNT.toUpperCase()}</Link>
       </div>
     </div>
   );

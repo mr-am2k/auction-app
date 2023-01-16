@@ -14,10 +14,8 @@ type Props = {
 };
 
 const NotificationBar: React.FC<Props> = ({ notificationMessage }) => {
-  const classKey =
-    notificationMessage as keyof typeof SCSS_NOTIFICATION_CLASSES;
-  const enumKey =
-    notificationMessage as keyof typeof EN_STRINGS.NOTIFICATION_BAR;
+  const classKey = notificationMessage as keyof typeof SCSS_NOTIFICATION_CLASSES;
+  const enumKey = notificationMessage as keyof typeof EN_STRINGS.NOTIFICATION_BAR;
 
   return (
     <>

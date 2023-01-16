@@ -17,5 +17,5 @@ export const storageService = {
 
   clear: () => {
     localStorage.clear();
-  }
+  },
 };

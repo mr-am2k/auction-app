@@ -9,7 +9,7 @@ import { ItemList, EmptyList } from '../index';
 import { ProductList } from 'models/productList';
 import { LOCAL_STORAGE } from 'util/constants';
 import { ROUTES } from 'util/routes';
-import { EN_STRINGS } from 'translation/en';
+import { EN_STRINGS, PRODUCTS_TABLE } from 'translation/en';
 
 import './seller-details.scss';
 
@@ -25,51 +25,38 @@ const SellerDetails = () => {
   const { setNavbarTitle, setNavbarItems } = usePage();
 
   const getProductsForUser = () => {
-    productsService
-      .getUserProducts(storageService.get(LOCAL_STORAGE.ID)!)
-      .then((products) => {
-        if (products.length) {
-          const currentDate = new Date();
+    productsService.getUserProducts(storageService.get(LOCAL_STORAGE.ID)!).then(products => {
+      if (products.length) {
+        const currentDate = new Date();
 
-          products.forEach((product) => {
-            const productDate = new Date(product.expirationDateTime);
+        products.forEach(product => {
+          const productDate = new Date(product.expirationDateTime);
 
-            const newProduct: ProductList = {
-              id: product.id,
-              imageUrl: product.imageURLs[0],
-              name: product.name,
-              remainingTime: product.remainingTime,
-              price: product.startPrice,
-              numberOfBids: product.bids.length,
-              highestBid: product.highestBidPrice,
-            };
+          const newProduct: ProductList = {
+            id: product.id,
+            imageUrl: product.imageURLs[0],
+            name: product.name,
+            remainingTime: product.remainingTime,
+            price: product.startPrice,
+            numberOfBids: product.bids.length,
+            highestBid: product.highestBidPrice,
+          };
 
-            if (productDate < currentDate) {
-              return !soldProducts?.length ? 
-                    setSoldProducts((prevProducts) => [
-                      ...prevProducts!,
-                      newProduct,
-                    ]) : 
-                    setSoldProducts([newProduct]);
-            } else {
-              return !activeProducts?.length ? 
-                    setActiveProducts((prevProducts) => [
-                    ...prevProducts!,
-                    newProduct,
-                    ]) : 
-                    setActiveProducts([newProduct]);
-            }
-          });
-        }
-      });
+          if (productDate < currentDate) {
+            return !soldProducts?.length ? setSoldProducts(soldProducts => [...soldProducts!, newProduct]) : setSoldProducts([newProduct]);
+          } else {
+            return !activeProducts?.length ?
+              setActiveProducts(activeProducts => [...activeProducts!, newProduct]) :
+              setActiveProducts([newProduct]);
+          }
+        });
+      }
+    });
   };
 
   useEffect(() => {
     setNavbarTitle(EN_STRINGS.MY_ACCOUNT.SELLER);
-    setNavbarItems([
-      EN_STRINGS.NAVBAR.MY_ACCOUNT,
-      EN_STRINGS.MY_ACCOUNT.SELLER,
-    ]);
+    setNavbarItems([EN_STRINGS.NAVBAR.MY_ACCOUNT, EN_STRINGS.MY_ACCOUNT.SELLER]);
 
     getProductsForUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,12 +87,12 @@ const SellerDetails = () => {
         <table>
           <thead>
             <tr>
-              <td>{EN_STRINGS.PRODUCTS_TABLE.ITEM}</td>
-              <td>{EN_STRINGS.PRODUCTS_TABLE.NAME}</td>
-              <td>{EN_STRINGS.PRODUCTS_TABLE.TIME_LEFT}</td>
-              <td>{EN_STRINGS.PRODUCTS_TABLE.YOUR_PRICE}</td>
-              <td>{EN_STRINGS.PRODUCTS_TABLE.NUMBER_OF_BIDS}</td>
-              <td>{EN_STRINGS.PRODUCTS_TABLE.HIGHEST_BID}</td>
+              <td>{PRODUCTS_TABLE.ITEM}</td>
+              <td>{PRODUCTS_TABLE.NAME}</td>
+              <td>{PRODUCTS_TABLE.TIME_LEFT}</td>
+              <td>{PRODUCTS_TABLE.START_PRICE}</td>
+              <td>{PRODUCTS_TABLE.NUMBER_OF_BIDS}</td>
+              <td>{PRODUCTS_TABLE.HIGHEST_BID}</td>
             </tr>
           </thead>
 

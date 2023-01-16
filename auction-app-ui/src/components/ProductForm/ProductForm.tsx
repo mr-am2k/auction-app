@@ -27,30 +27,28 @@ const ProductForm: React.FC<Props> = ({ handleNextStep }) => {
   const { fieldValues } = useForm();
 
   const fetchCategories = () => {
-    categoryService.getCategories().then((categories) => {
+    categoryService.getCategories().then(categories => {
       setAllCategories(categories);
 
-      categories.forEach((category) => {
+      categories.forEach(category => {
         if (category.parentCategoryId === null) {
           const option: Option = {
             value: category.id,
             label: category.name,
           };
 
-          setCategoryOptions((prevValue) => [...prevValue, option]);
+          setCategoryOptions(options => [...options, option]);
         }
       });
     });
   };
 
-  const handleCategoryChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSubcategoryOptions([]);
 
     const availableOptions: Option[] = [];
 
-    allCategories?.forEach((category) => {
+    allCategories?.forEach(category => {
       if (category.parentCategoryId === event.target.value) {
         const option: Option = {
           value: category.id,
@@ -113,18 +111,11 @@ const ProductForm: React.FC<Props> = ({ handleNextStep }) => {
         />
       </div>
 
-      <ImageUploader
-        name={PRODUCT_FORM.IMAGES}
-        value={
-          fieldValues[PRODUCT_FORM.IMAGES] ? fieldValues[PRODUCT_FORM.IMAGES] : []
-        }
-      />
+      <ImageUploader name={PRODUCT_FORM.IMAGES} value={fieldValues[PRODUCT_FORM.IMAGES] ? fieldValues[PRODUCT_FORM.IMAGES] : []} />
 
       <div className='c-option-buttons'>
         <Link to={ROUTES.MY_ACCOUNT}>
-          <button className='c-cancel-button c-default-button'>
-            {EN_STRINGS.ITEM_FORM.CANCEL_BUTTON}
-          </button>
+          <button className='c-cancel-button c-default-button'>{EN_STRINGS.ITEM_FORM.CANCEL_BUTTON}</button>
         </Link>
 
         <button className='c-next-button c-default-button' onClick={handleNextStep}>

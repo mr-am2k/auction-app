@@ -15,9 +15,9 @@ import './user-settings.scss';
 const UserSettings = () => {
   const { setNavbarTitle, setNavbarItems } = usePage();
   const { resetLoggedInUser } = useUser();
-  
+
   const navigate = useNavigate();
-  
+
   const deactivateAccount = () => {
     userService.deactivate().then(() => {
       storageService.clear();
@@ -28,10 +28,7 @@ const UserSettings = () => {
 
   useEffect(() => {
     setNavbarTitle(EN_STRINGS.MY_ACCOUNT.SETTINGS);
-    setNavbarItems([
-      EN_STRINGS.NAVBAR.MY_ACCOUNT,
-      EN_STRINGS.MY_ACCOUNT.SETTINGS,
-    ]);
+    setNavbarItems([EN_STRINGS.NAVBAR.MY_ACCOUNT, EN_STRINGS.MY_ACCOUNT.SETTINGS]);
   }, [setNavbarItems, setNavbarTitle]);
 
   return (
@@ -46,13 +43,11 @@ const UserSettings = () => {
         </label>
 
         <label>
-          <input type='checkbox' />{' '}
-          <p>{EN_STRINGS.MY_ACCOUNT.PUSH_NOTIFICATION}</p>
+          <input type='checkbox' /> <p>{EN_STRINGS.MY_ACCOUNT.PUSH_NOTIFICATION}</p>
         </label>
 
         <label>
-          <input type='checkbox' />{' '}
-          <p>{EN_STRINGS.MY_ACCOUNT.SMS_NOTIFICATION}</p>
+          <input type='checkbox' /> <p>{EN_STRINGS.MY_ACCOUNT.SMS_NOTIFICATION}</p>
         </label>
       </div>
 
@@ -77,9 +72,7 @@ const UserSettings = () => {
 
         <h4>{EN_STRINGS.MY_ACCOUNT.ACCOUNT_TITLE}</h4>
 
-        <button onClick={deactivateAccount}>
-          {EN_STRINGS.MY_ACCOUNT.DEACTIVATE}
-        </button>
+        <button onClick={deactivateAccount}>{EN_STRINGS.MY_ACCOUNT.DEACTIVATE}</button>
       </div>
     </div>
   );

@@ -74,8 +74,7 @@ export const EN_STRINGS = {
 
   ERROR_MESSAGE: {
     REQUIRED: 'This field is required',
-    PASSWORD:
-      'Password needs to have 8 characters, one upper case and one lower case letter and one special character',
+    PASSWORD: 'Password needs to have 8 characters, one upper case and one lower case letter and one special character',
     EMAIL: 'The email should be in format: user@domain.com',
     EMAIL_LENGTH: "The email can't be over 255 characters",
     CARD_NUMBER: 'The card number needs to contain exactly 16 numbers.',
@@ -96,27 +95,16 @@ export const EN_STRINGS = {
     SETTINGS: 'Settings',
     EMAIL: 'Email',
     POLICY_AND_COMMUNITY: 'Policy and Community',
-    POLICY_AND_COMMUNITY_TITLE:
-      "Receive updates on bids and seller's offers. Stay informed through:",
+    POLICY_AND_COMMUNITY_TITLE: "Receive updates on bids and seller's offers. Stay informed through:",
     PUSH_NOTIFICATION: 'Push Notifications',
     SMS_NOTIFICATION: 'SMS Notifications',
     CONTACT_INFORMATION: 'Contact Information',
-    CONTACT_INFORMATION_TITLE:
-      'This information can be edited on your profile.',
+    CONTACT_INFORMATION_TITLE: 'This information can be edited on your profile.',
     PHONE: 'Phone',
     ACCOUNT: 'Account',
     ACCOUNT_TITLE: 'Do you want to deactivate account?',
     DEACTIVATE: 'DEACTIVATE',
     ADD_ITEM: '+ ADD ITEM',
-  },
-
-  PRODUCTS_TABLE: {
-    ITEM: 'Item',
-    NAME: 'Name',
-    TIME_LEFT: 'Time left',
-    YOUR_PRICE: 'Your price',
-    NUMBER_OF_BIDS: 'No. bids',
-    HIGHEST_BID: 'Highest bid',
   },
 
   WISHLIST: {
@@ -126,8 +114,7 @@ export const EN_STRINGS = {
 
   BIDS: {
     BID: 'BID',
-    MESSAGE:
-      'You don’t have any bids and there are so many cool products available for sale.',
+    MESSAGE: 'You don’t have any bids and there are so many cool products available for sale.',
     BUTTON: 'START BIDDING',
   },
 
@@ -173,8 +160,7 @@ export const EN_STRINGS = {
     CANCEL_BUTTON: 'CANCEL',
     BACK_BUTTON: 'BACK',
     NEXT_BUTTON: 'NEXT',
-    MESSAGE:
-      'The auction will be automatically closed when the end time comes. The highest bid will win the auction.',
+    MESSAGE: 'The auction will be automatically closed when the end time comes. The highest bid will win the auction.',
   },
 
   LOCATION_SHIPPING: {
@@ -225,4 +211,28 @@ export const PRODUCT = {
   PRICE_TITLE: 'Your start Price',
   START_DATE_TITLE: 'Start date',
   END_DATE_TITLE: 'End date',
+};
+
+export const BIDDER_LIST = {
+  BIDDERS: 'Bidders',
+  BIDDER: 'Bidder',
+  DATE: 'Date',
+  BID: 'Bid',
+  LOAD_MORE: 'LOAD MORE',
+  WITHOUT_BIDDERS: 'There is no bidders for this product!',
+};
+
+export const RELATED_PRODUCTS = {
+  RELATED_PRODUCTS: 'Related Products',
+  WITHOUT_PRODUCTS: 'There is no related products to this one!',
+};
+
+export const PRODUCTS_TABLE = {
+  ITEM: 'Item',
+  NAME: 'Name',
+  TIME_LEFT: 'Time left',
+  YOUR_PRICE: 'Your price',
+  START_PRICE: 'Start price',
+  NUMBER_OF_BIDS: 'No. bids',
+  HIGHEST_BID: 'Highest bid',
 };

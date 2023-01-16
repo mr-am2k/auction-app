@@ -1,5 +1,5 @@
 export type createBidRequest = {
-    price: number;
-    productId: string;
-    userId: string;
-}
+  price: number;
+  productId: string;
+  userId: string;
+};

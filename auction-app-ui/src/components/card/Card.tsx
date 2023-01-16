@@ -19,16 +19,13 @@ const Card: React.FC<Props> = ({ user }) => {
   const [cardDisplayed, setCardDisplayed] = useState(true);
 
   const changeDisplayCard = () => {
-    setCardDisplayed((prevCardDisplayed) => !prevCardDisplayed);
+    setCardDisplayed(cardDisplayed => !cardDisplayed);
   };
 
   return (
     <div className='c-card-wrapper'>
       <div className='c-card-header' onClick={changeDisplayCard}>
-        <img
-          src={!cardDisplayed ? arrowUp : arrowDown}
-          alt={EN_STRINGS.PROFILE.CARD}
-        />
+        <img src={!cardDisplayed ? arrowUp : arrowDown} alt={EN_STRINGS.PROFILE.CARD} />
 
         <p>{EN_STRINGS.PROFILE.CARD}</p>
       </div>

@@ -15,29 +15,19 @@ type Props = {
   buttonLabel: string;
 };
 
-const ItemList: React.FC<Props> = ({
-  elements,
-  expired,
-  emptyList,
-  buttonLabel,
-}) => {
+const ItemList: React.FC<Props> = ({ elements, expired, emptyList, buttonLabel }) => {
   return (
     <tbody>
       {elements.length ? (
         elements.map((element, index) => (
           <tr key={index}>
             <td>
-              <img
-                src={element.imageUrl}
-                alt={EN_STRINGS.ITEM_LIST.ALT_MESSAGE}
-              />
+              <img src={element.imageUrl} alt={EN_STRINGS.ITEM_LIST.ALT_MESSAGE} />
             </td>
 
             <td>{element.name}</td>
 
-            <td>
-              {expired ? EN_STRINGS.ITEM_LIST.EXPIRED : element.remainingTime}
-            </td>
+            <td>{expired ? EN_STRINGS.ITEM_LIST.EXPIRED : element.remainingTime}</td>
 
             <td>${element.price.toFixed(2)}</td>
 
@@ -45,8 +35,7 @@ const ItemList: React.FC<Props> = ({
 
             <td>
               <span>
-                {element.highestBid ? `$ ${element.highestBid?.toFixed(ITEM_LIST.PRICE_DECIMALS)}` :
-                  EN_STRINGS.ITEM_LIST.NO_BIDS}
+                {element.highestBid ? `$ ${element.highestBid?.toFixed(ITEM_LIST.PRICE_DECIMALS)}` : EN_STRINGS.ITEM_LIST.NO_BIDS}
               </span>
             </td>
 

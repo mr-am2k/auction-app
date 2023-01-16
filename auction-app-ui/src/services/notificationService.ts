@@ -6,9 +6,7 @@ const BASE_URL = '/notifications';
 
 const notificationService = {
   getLatestNotification: (userId: string, productId: string) =>
-    agent.get<Notification>(
-      `${BASE_URL}/search?userId=${userId}&productId=${productId}`
-    ),
+    agent.get<Notification>(`${BASE_URL}/search?userId=${userId}&productId=${productId}`),
 };
 
 export default notificationService;

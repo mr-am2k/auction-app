@@ -25,3 +25,5 @@ export { default as ShippingDetails } from './ShippingDetails/ShippingDetails';
 export { default as EmptyList } from './EmptyList/EmptyList';
 export { default as ItemList } from './ItemList/ItemList';
 export { default as Splitter } from './splitter/Splitter';
+export { default as BiddersList } from './BiddersList/BiddersList';
+export { default as RelatedProducts } from './RelatedProducts/RelatedProducts';

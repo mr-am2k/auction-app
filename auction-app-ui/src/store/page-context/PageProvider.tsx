@@ -20,13 +20,7 @@ const PageProvider: React.FC<Props> = ({ children }) => {
     }
   }, [location.pathname]);
 
-  return (
-    <PageContext.Provider
-      value={{ navbarTitle, navbarItems, setNavbarTitle, setNavbarItems }}
-    >
-      {children}
-    </PageContext.Provider>
-  );
+  return <PageContext.Provider value={{ navbarTitle, navbarItems, setNavbarTitle, setNavbarItems }}>{children}</PageContext.Provider>;
 };
 
 export default PageProvider;
