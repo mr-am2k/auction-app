@@ -6,6 +6,7 @@ export type CreateProductRequest = {
   imageURLs: string[];
   startPrice: number;
   categoryId: string;
+  subcategoryId: string;
   creationDateTime: Date;
   expirationDateTime: Date;
   userId: string;

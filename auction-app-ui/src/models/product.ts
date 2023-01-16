@@ -15,6 +15,7 @@ export type Product = {
   remainingTime: string;
   user: User;
   category: Category;
+  subcategory: Category;
   address: Address;
   highestBidder: string | null;
   highestBidPrice: number | null;
