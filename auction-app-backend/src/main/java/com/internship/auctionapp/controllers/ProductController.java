@@ -71,7 +71,7 @@ public class ProductController {
         return productService.getUserProducts(userId);
     }
 
-    @GetMapping("/related-products")
+    @GetMapping("/related")
     public Page<Product> getRelatedProducts(@RequestParam UUID categoryId, @RequestParam UUID productId){
         return productService.getRelatedProducts(categoryId, productId);
     }

@@ -50,7 +50,7 @@ public class BidController {
 
     @GetMapping("/product/{productId}/bids")
     @SecurityRequirement(name = "Bearer Authentication")
-    public Page<Bid> getProductBids(@PathVariable("productId") UUID productId, @RequestParam(defaultValue = "0") Integer pageNumber){
+    public Page<Bid> getProductBids(@PathVariable("productId") UUID productId, @RequestParam Integer pageNumber){
         return bidService.getProductBids(productId, pageNumber);
     }
 }
