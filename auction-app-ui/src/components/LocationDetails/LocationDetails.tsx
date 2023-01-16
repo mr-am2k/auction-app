@@ -25,10 +25,7 @@ const LocationDetails: React.FC<Props> = ({ user }) => {
   return (
     <div className='c-location-wrapper'>
       <div className='c-location-header' onClick={changeDisplayShipping}>
-        <img
-          src={!displayShipping ? arrowUp : arrowDown}
-          alt={EN_STRINGS.PROFILE.SHIPPING}
-        />
+        <img src={!displayShipping ? arrowUp : arrowDown} alt={EN_STRINGS.PROFILE.SHIPPING} />
         <p>{EN_STRINGS.PROFILE.SHIPPING}</p>
       </div>
 

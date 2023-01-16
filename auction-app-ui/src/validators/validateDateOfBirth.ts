@@ -14,10 +14,7 @@ export const validate = (date: string) => {
 
   let diffInYears = currentDateYear - dateOfBirthYear;
 
-  if (
-    currentDateMonth < dateOfBirthMonth ||
-    (currentDateMonth === dateOfBirthMonth && currentDateDay < dateOfBirthDay)
-  ) {
+  if (currentDateMonth < dateOfBirthMonth || (currentDateMonth === dateOfBirthMonth && currentDateDay < dateOfBirthDay)) {
     diffInYears--;
   }
 

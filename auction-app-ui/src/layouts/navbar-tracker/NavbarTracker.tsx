@@ -1,6 +1,5 @@
 import { usePage } from 'hooks/usePage';
 
-
 import './navbar-tracker.scss';
 
 import { ArrowIcon } from 'assets/icons';

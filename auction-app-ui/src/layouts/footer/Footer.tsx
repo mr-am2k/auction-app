@@ -13,12 +13,8 @@ const Footer = () => {
       <div className='c-auction-part'>
         <p className='c-title'>{EN_STRINGS.FOOTER.AUCTION}</p>
         <Link to='/about-us'>{EN_STRINGS.FOOTER.ABOUT_US}</Link>
-        <Link to='/terms-and-conditions'>
-          {EN_STRINGS.FOOTER.TERMS_AND_CONDITIONS}
-        </Link>
-        <Link to='/privacy-and-policy'>
-          {EN_STRINGS.FOOTER.PRIVACY_AND_POLICY}
-        </Link>
+        <Link to='/terms-and-conditions'>{EN_STRINGS.FOOTER.TERMS_AND_CONDITIONS}</Link>
+        <Link to='/privacy-and-policy'>{EN_STRINGS.FOOTER.PRIVACY_AND_POLICY}</Link>
       </div>
 
       <div className='c-contact-part'>

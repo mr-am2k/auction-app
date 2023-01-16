@@ -13,11 +13,7 @@ export const validate = (date: string) => {
 
   let diffInYears = expirationDateYear - currentDateYear;
 
-  if (
-    expirationDateMonth < currentDateMonth ||
-    (expirationDateMonth === currentDateMonth &&
-      expirationDateDay < currentDateDay)
-  ) {
+  if (expirationDateMonth < currentDateMonth || (expirationDateMonth === currentDateMonth && expirationDateDay < currentDateDay)) {
     diffInYears--;
   }
 

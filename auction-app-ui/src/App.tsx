@@ -6,18 +6,7 @@ import { useUser } from 'hooks/useUser';
 import { PageProvider, FormProvider } from 'store/index';
 import { storageService } from 'services/storageService';
 
-import {
-  PrivacyAndPolicy,
-  TermsAndConditions,
-  AboutUs,
-  Home,
-  SingleProduct,
-  Register,
-  Login,
-  MyAccount,
-  AddItem,
-  Error,
-} from './pages';
+import { PrivacyAndPolicy, TermsAndConditions, AboutUs, Home, SingleProduct, Register, Login, MyAccount, AddItem, Error } from './pages';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import { ROUTES } from './util/routes';
 import { LOCAL_STORAGE } from 'util/constants';
@@ -38,20 +27,14 @@ const PAGES_WITH_NAVBAR_COMPONENT = [
 ];
 
 const App = () => {
-  const {
-    loggedInUser,
-    setLoggedInUser,
-    resetLoggedInUser,
-    loginUser,
-    logoutUser,
-  } = useUser();
+  const { loggedInUser, setLoggedInUser, resetLoggedInUser, loginUser, logoutUser } = useUser();
   const location = useLocation();
   const navigate = useNavigate();
 
   const refreshToken = storageService.get(LOCAL_STORAGE.REFRESH_TOKEN);
 
   const setUser = () => {
-    loginUser().then((user) => {
+    loginUser().then(user => {
       setLoggedInUser(user);
     });
   };
@@ -77,9 +60,7 @@ const App = () => {
 
       if (
         storageService.get(LOCAL_STORAGE.REFRESH_TOKEN) &&
-        getTokenExpirationDate(
-          storageService.get(LOCAL_STORAGE.REFRESH_TOKEN)!
-        )! < new Date()
+        getTokenExpirationDate(storageService.get(LOCAL_STORAGE.REFRESH_TOKEN)!)! < new Date()
       ) {
         logoutUser();
         resetLoggedInUser();
@@ -112,14 +93,8 @@ const App = () => {
               <Routes>
                 <Route path={ROUTES.REGISTER} element={<Register />} />
                 <Route path={ROUTES.LOGIN} element={<Login />} />
-                <Route
-                  path={ROUTES.PRIVACY_AND_POLICY}
-                  element={<PrivacyAndPolicy />}
-                />
-                <Route
-                  path={ROUTES.TERMS_AND_CONDITIONS}
-                  element={<TermsAndConditions />}
-                />
+                <Route path={ROUTES.PRIVACY_AND_POLICY} element={<PrivacyAndPolicy />} />
+                <Route path={ROUTES.TERMS_AND_CONDITIONS} element={<TermsAndConditions />} />
                 <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
                 <Route path='/' element={<Home />} />
                 <Route
@@ -133,10 +108,7 @@ const App = () => {
                   }
                 />
                 <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
-                <Route
-                  path={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`}
-                  element={<AddItem />}
-                />
+                <Route path={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`} element={<AddItem />} />
                 <Route path='*' element={<Error />} />
               </Routes>
             </main>

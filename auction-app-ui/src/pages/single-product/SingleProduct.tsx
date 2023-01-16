@@ -26,9 +26,7 @@ const SingleProduct = () => {
   const [singleProduct, setSingleProduct] = useState<Product>();
   const [highestBid, setHighestBid] = useState<number>();
   const [bidInputError, setBidInputError] = useState<string>();
-  const [latestNotification, setLatestNotification] = useState<
-    Notification | undefined
-  >();
+  const [latestNotification, setLatestNotification] = useState<Notification | undefined>();
   const [inputPlaceholderValue, setInputPlaceholderValue] = useState(0);
 
   const { setNavbarTitle, setNavbarItems } = usePage();
@@ -78,15 +76,13 @@ const SingleProduct = () => {
         fetchSingleProduct(id!);
         fetchHighestBid(id!);
       })
-      .catch((error) => {
+      .catch(error => {
         setBidInputError(error.response.data.message);
       });
   };
 
   const getLatestNotification = (userId: string, productId: string) => {
-    notificationService
-      .getLatestNotification(userId, productId)
-      .then((latestNotification) => setLatestNotification(latestNotification));
+    notificationService.getLatestNotification(userId, productId).then(latestNotification => setLatestNotification(latestNotification));
   };
 
   const initialLoad = async () => {
@@ -111,9 +107,7 @@ const SingleProduct = () => {
 
   return (
     <>
-      {latestNotification && (
-        <NotificationBar notificationMessage={latestNotification!.type} />
-      )}
+      {latestNotification && <NotificationBar notificationMessage={latestNotification!.type} />}
 
       <div className='c-single-product'>
         <ImagePicker images={singleProduct.imageURLs} />
@@ -139,7 +133,9 @@ const SingleProduct = () => {
                 <p>
                   {`${EN_STRINGS.SINGLE_PRODUCT.TIME_LEFT}: `}
                   <span>
-                    {new Date(singleProduct.expirationDateTime) < currentDate ? EN_STRINGS.SINGLE_PRODUCT.EXPIRED : singleProduct.remainingTime}
+                    {new Date(singleProduct.expirationDateTime) < currentDate ?
+                      EN_STRINGS.SINGLE_PRODUCT.EXPIRED :
+                      singleProduct.remainingTime}
                   </span>
                 </p>
               </div>
@@ -154,9 +150,7 @@ const SingleProduct = () => {
                     <button>{EN_STRINGS.SINGLE_PRODUCT.PAY}</button>
                   </Link>
                 ) : (
-                  <p className='c-lost-message'>
-                    {EN_STRINGS.SINGLE_PRODUCT.LOST_MESSAGE}
-                  </p>
+                  <p className='c-lost-message'>{EN_STRINGS.SINGLE_PRODUCT.LOST_MESSAGE}</p>
                 )
               ) : (
                 <>
@@ -177,22 +171,14 @@ const SingleProduct = () => {
               <div className='c-bid-error'>
                 <p>{bidInputError}</p>
               </div>
-            ) : (
-              ''
-            )}
+            ) : null}
           </div>
 
           <div className='c-details'>
             <div className='c-navbar'>
-              <p className='c-navbar-item c-focus'>
-                {EN_STRINGS.SINGLE_PRODUCT.DETAILS}
-              </p>
-              <p className='c-navbar-item'>
-                {EN_STRINGS.SINGLE_PRODUCT.SELLER_INFORMATION}
-              </p>
-              <p className='c-navbar-item'>
-                {EN_STRINGS.SINGLE_PRODUCT.CUSTOM_REVIEWS}
-              </p>
+              <p className='c-navbar-item c-focus'>{EN_STRINGS.SINGLE_PRODUCT.DETAILS}</p>
+              <p className='c-navbar-item'>{EN_STRINGS.SINGLE_PRODUCT.SELLER_INFORMATION}</p>
+              <p className='c-navbar-item'>{EN_STRINGS.SINGLE_PRODUCT.CUSTOM_REVIEWS}</p>
             </div>
 
             <div className='c-details-description'>
@@ -205,7 +191,7 @@ const SingleProduct = () => {
         {storageService.get(LOCAL_STORAGE.ID) === singleProduct.user.id ? (
           <BiddersList productId={singleProduct.id} />
         ) : (
-          <RelatedProducts categoryId={singleProduct.category.id} productId={singleProduct.id}/>
+          <RelatedProducts categoryId={singleProduct.category.id} productId={singleProduct.id} />
         )}
       </div>
     </>

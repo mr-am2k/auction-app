@@ -8,12 +8,10 @@ const productsService = {
   getAll: () => agent.get<Product[]>(BASE_URL),
   getSingleProduct: (id: string) => agent.get<Product>(`${BASE_URL}/${id}`),
   getRandomProduct: () => agent.get<any>(`${BASE_URL}/random`),
-  search: (queryParam: string) =>
-    agent.get<any>(`${BASE_URL}/search?criteria=${queryParam}`),
-  getUserProducts: (userId:string) => agent.get<Product[]>(`${BASE_URL}/user/${userId}`),
-  addProduct: (createProductDataRequest: CreateProductDataRequest) =>
-    agent.post<Product>(BASE_URL, createProductDataRequest),
-  getRelatedProducts: (params: {}) => agent.get<any>(`${BASE_URL}/related`, params)
+  search: (queryParam: string) => agent.get<any>(`${BASE_URL}/search?criteria=${queryParam}`),
+  getUserProducts: (userId: string) => agent.get<Product[]>(`${BASE_URL}/user/${userId}`),
+  addProduct: (createProductDataRequest: CreateProductDataRequest) => agent.post<Product>(BASE_URL, createProductDataRequest),
+  getRelatedProducts: (params: {}) => agent.get<any>(`${BASE_URL}/related`, params),
 };
 
 export default productsService;

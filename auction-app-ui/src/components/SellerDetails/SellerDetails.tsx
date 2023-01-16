@@ -25,51 +25,38 @@ const SellerDetails = () => {
   const { setNavbarTitle, setNavbarItems } = usePage();
 
   const getProductsForUser = () => {
-    productsService
-      .getUserProducts(storageService.get(LOCAL_STORAGE.ID)!)
-      .then((products) => {
-        if (products.length) {
-          const currentDate = new Date();
+    productsService.getUserProducts(storageService.get(LOCAL_STORAGE.ID)!).then(products => {
+      if (products.length) {
+        const currentDate = new Date();
 
-          products.forEach((product) => {
-            const productDate = new Date(product.expirationDateTime);
+        products.forEach(product => {
+          const productDate = new Date(product.expirationDateTime);
 
-            const newProduct: ProductList = {
-              id: product.id,
-              imageUrl: product.imageURLs[0],
-              name: product.name,
-              remainingTime: product.remainingTime,
-              price: product.startPrice,
-              numberOfBids: product.bids.length,
-              highestBid: product.highestBidPrice,
-            };
+          const newProduct: ProductList = {
+            id: product.id,
+            imageUrl: product.imageURLs[0],
+            name: product.name,
+            remainingTime: product.remainingTime,
+            price: product.startPrice,
+            numberOfBids: product.bids.length,
+            highestBid: product.highestBidPrice,
+          };
 
-            if (productDate < currentDate) {
-              return !soldProducts?.length ? 
-                    setSoldProducts(soldProducts => [
-                      ...soldProducts!,
-                      newProduct,
-                    ]) : 
-                    setSoldProducts([newProduct]);
-            } else {
-              return !activeProducts?.length ? 
-                    setActiveProducts(activeProducts => [
-                    ...activeProducts!,
-                    newProduct,
-                    ]) : 
-                    setActiveProducts([newProduct]);
-            }
-          });
-        }
-      });
+          if (productDate < currentDate) {
+            return !soldProducts?.length ? setSoldProducts(soldProducts => [...soldProducts!, newProduct]) : setSoldProducts([newProduct]);
+          } else {
+            return !activeProducts?.length ?
+              setActiveProducts(activeProducts => [...activeProducts!, newProduct]) :
+              setActiveProducts([newProduct]);
+          }
+        });
+      }
+    });
   };
 
   useEffect(() => {
     setNavbarTitle(EN_STRINGS.MY_ACCOUNT.SELLER);
-    setNavbarItems([
-      EN_STRINGS.NAVBAR.MY_ACCOUNT,
-      EN_STRINGS.MY_ACCOUNT.SELLER,
-    ]);
+    setNavbarItems([EN_STRINGS.NAVBAR.MY_ACCOUNT, EN_STRINGS.MY_ACCOUNT.SELLER]);
 
     getProductsForUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps

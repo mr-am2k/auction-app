@@ -67,14 +67,12 @@ const FormProvider: React.FC<Props> = ({ children }) => {
 
     const validInputsKeys = Object.keys(fieldValidationResults);
 
-    validInputsKeys.forEach((key) => {
+    validInputsKeys.forEach(key => {
       validInputsObject = {
         ...validInputsObject,
         [key]: validateSingleField(
           key,
-          fieldValues[key as FormValuesObjectKey]
-            ? fieldValues[key as FormValuesObjectKey]
-            : '',
+          fieldValues[key as FormValuesObjectKey] ? fieldValues[key as FormValuesObjectKey] : '',
           additionalFieldsInfo[key as AdditionalFieldsObjectKey]?.patter,
           additionalFieldsInfo[key as AdditionalFieldsObjectKey]?.required,
           additionalFieldsInfo[key as AdditionalFieldsObjectKey]?.optionalValidator,
@@ -84,7 +82,7 @@ const FormProvider: React.FC<Props> = ({ children }) => {
     });
 
     setFieldValidationResults(validInputsObject);
-    validInputsKeys.forEach((key) => {
+    validInputsKeys.forEach(key => {
       if (!validInputsObject[key as ValidInputsObjectKey]?.valid) {
         setIsValid(false);
         invalidForm = true;

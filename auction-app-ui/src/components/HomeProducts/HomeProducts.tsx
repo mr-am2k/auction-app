@@ -23,7 +23,7 @@ const HomeProducts: React.FC<Props> = ({ product }) => {
           <Link to={`${ROUTES.PRODUCT}/${item.id}`}>
             <h3>{item.name}</h3>
           </Link>
-          
+
           <p>
             {EN_STRINGS.HOME.START_FROM}: {<span>${item.startPrice}</span>}
           </p>

@@ -18,13 +18,7 @@ type Props = {
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
-const Dropdown: React.FC<Props> = ({
-  name,
-  options,
-  placeholder,
-  required,
-  onChange,
-}) => {
+const Dropdown: React.FC<Props> = ({ name, options, placeholder, required, onChange }) => {
   const [selectedOption, setSelectedOption] = useState<string>();
 
   const {
@@ -51,12 +45,7 @@ const Dropdown: React.FC<Props> = ({
 
     setFieldValidationResults({
       ...fieldValidationResults,
-      [name]: validateSingleField(
-        name,
-        event.target.value,
-        additionalFieldsInfo[name]?.pattern,
-        required
-      ),
+      [name]: validateSingleField(name, event.target.value, additionalFieldsInfo[name]?.pattern, required),
     });
 
     if (onChange) {
@@ -94,18 +83,14 @@ const Dropdown: React.FC<Props> = ({
       >
         <option disabled>{placeholder}</option>
 
-        {options.map((option) => (
+        {options.map(option => (
           <option className='c-option' key={v4()} value={option.value}>
             {option.label}
           </option>
         ))}
       </select>
 
-      {hasError && (
-        <p className='c-dropdown-error-message'>
-          {fieldValidationResults[name as ObjectKey]?.message}
-        </p>
-      )}
+      {hasError && <p className='c-dropdown-error-message'>{fieldValidationResults[name as ObjectKey]?.message}</p>}
     </div>
   );
 };

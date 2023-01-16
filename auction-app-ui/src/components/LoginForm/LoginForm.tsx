@@ -14,7 +14,7 @@ type Props = {
 
 const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
   const { resetFieldValues, setFieldValidationResults } = useForm();
-  
+
   const children = [
     <Input
       key={USER_FORM.EMAIL}

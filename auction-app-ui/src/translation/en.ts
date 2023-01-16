@@ -74,8 +74,7 @@ export const EN_STRINGS = {
 
   ERROR_MESSAGE: {
     REQUIRED: 'This field is required',
-    PASSWORD:
-      'Password needs to have 8 characters, one upper case and one lower case letter and one special character',
+    PASSWORD: 'Password needs to have 8 characters, one upper case and one lower case letter and one special character',
     EMAIL: 'The email should be in format: user@domain.com',
     EMAIL_LENGTH: "The email can't be over 255 characters",
     CARD_NUMBER: 'The card number needs to contain exactly 16 numbers.',
@@ -96,13 +95,11 @@ export const EN_STRINGS = {
     SETTINGS: 'Settings',
     EMAIL: 'Email',
     POLICY_AND_COMMUNITY: 'Policy and Community',
-    POLICY_AND_COMMUNITY_TITLE:
-      "Receive updates on bids and seller's offers. Stay informed through:",
+    POLICY_AND_COMMUNITY_TITLE: "Receive updates on bids and seller's offers. Stay informed through:",
     PUSH_NOTIFICATION: 'Push Notifications',
     SMS_NOTIFICATION: 'SMS Notifications',
     CONTACT_INFORMATION: 'Contact Information',
-    CONTACT_INFORMATION_TITLE:
-      'This information can be edited on your profile.',
+    CONTACT_INFORMATION_TITLE: 'This information can be edited on your profile.',
     PHONE: 'Phone',
     ACCOUNT: 'Account',
     ACCOUNT_TITLE: 'Do you want to deactivate account?',
@@ -117,8 +114,7 @@ export const EN_STRINGS = {
 
   BIDS: {
     BID: 'BID',
-    MESSAGE:
-      'You don’t have any bids and there are so many cool products available for sale.',
+    MESSAGE: 'You don’t have any bids and there are so many cool products available for sale.',
     BUTTON: 'START BIDDING',
   },
 
@@ -164,8 +160,7 @@ export const EN_STRINGS = {
     CANCEL_BUTTON: 'CANCEL',
     BACK_BUTTON: 'BACK',
     NEXT_BUTTON: 'NEXT',
-    MESSAGE:
-      'The auction will be automatically closed when the end time comes. The highest bid will win the auction.',
+    MESSAGE: 'The auction will be automatically closed when the end time comes. The highest bid will win the auction.',
   },
 
   LOCATION_SHIPPING: {

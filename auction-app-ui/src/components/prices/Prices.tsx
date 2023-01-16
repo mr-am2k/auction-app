@@ -4,11 +4,7 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'hooks/useForm';
 
 import { Form, Input } from '../index';
-import {
-  PRODUCT_FORM,
-  INPUT_TYPE_DATE,
-  INPUT_TYPE_NUMBER,
-} from 'util/constants';
+import { PRODUCT_FORM, INPUT_TYPE_DATE, INPUT_TYPE_NUMBER } from 'util/constants';
 import { ROUTES } from 'util/routes';
 import { validate as validateProductStartPrice } from 'validators/validateProductStartPrice';
 import { validate as validateDateIsInPast } from 'validators/validateDateIsInPast';
@@ -77,10 +73,7 @@ const Prices: React.FC<Props> = ({ handleNextStep, handleBackStep }) => {
             {EN_STRINGS.PRICES_FORM.BACK_BUTTON}
           </button>
 
-          <button
-            className='c-next-button c-default-button'
-            onClick={handleNextStep}
-          >
+          <button className='c-next-button c-default-button' onClick={handleNextStep}>
             {EN_STRINGS.PRICES_FORM.NEXT_BUTTON}
           </button>
         </div>

@@ -42,24 +42,24 @@ const Home = () => {
   const fetchSingleProduct = () => {
     productsService
       .getRandomProduct()
-      .then((data) => setRandomProduct(data.content[0]))
-      .catch((error) => console.log(error));
+      .then(data => setRandomProduct(data.content[0]))
+      .catch(error => console.log(error));
   };
 
   const fetchLastChanceProducts = (queryParam: string) => {
     if (!lastChanceProducts.length) {
       productsService
         .search(queryParam)
-        .then((data) => setLastChanceProducts(data.content))
-        .catch((error) => console.log(error));
+        .then(data => setLastChanceProducts(data.content))
+        .catch(error => console.log(error));
     }
   };
 
   const fetchNewArrivalProducts = (queryParam: string) => {
     productsService
       .search(queryParam)
-      .then((data) => setNewArrivalProducts(data.content))
-      .catch((error) => console.log(error));
+      .then(data => setNewArrivalProducts(data.content))
+      .catch(error => console.log(error));
   };
 
   const handleLastChanceOnClick = () => {
@@ -108,10 +108,7 @@ const Home = () => {
             </div>
 
             <Link to={`${ROUTES.PRODUCT}/${randomProduct.id}`}>
-              <img
-                src={randomProduct?.imageURLs[0]}
-                alt={EN_STRINGS.HOME.HIGHLIGHTED_PRODUCT}
-              />
+              <img src={randomProduct?.imageURLs[0]} alt={EN_STRINGS.HOME.HIGHLIGHTED_PRODUCT} />
             </Link>
           </div>
         )}
@@ -120,9 +117,7 @@ const Home = () => {
       <div className='c-bottom-part'>
         <div className='c-navbar'>
           <p
-            className={`${
-              newArrivalsActive ? focusedNavbarItem : navbarItemClass
-            }`}
+            className={`${newArrivalsActive ? focusedNavbarItem : navbarItemClass}`}
             onClick={() => {
               setNewArrivalsActive(true);
               setLastChanceActive(false);
@@ -131,29 +126,14 @@ const Home = () => {
             {EN_STRINGS.HOME.NEW_ARRIVALS}
           </p>
 
-          <p
-            className={`${
-              lastChanceActive ? focusedNavbarItem : navbarItemClass
-            }`}
-            onClick={handleLastChanceOnClick}
-          >
+          <p className={`${lastChanceActive ? focusedNavbarItem : navbarItemClass}`} onClick={handleLastChanceOnClick}>
             {EN_STRINGS.HOME.LAST_CHANCE}
           </p>
         </div>
 
         <div className='c-items'>
-          {newArrivalsActive &&
-            (!newArrivalProducts.length ? (
-              <Loading />
-            ) : (
-              <HomeProducts product={newArrivalProducts} />
-            ))}
-          {lastChanceActive &&
-            (!lastChanceProducts.length ? (
-              <Loading />
-            ) : (
-              <HomeProducts product={lastChanceProducts} />
-            ))}
+          {newArrivalsActive && (!newArrivalProducts.length ? <Loading /> : <HomeProducts product={newArrivalProducts} />)}
+          {lastChanceActive && (!lastChanceProducts.length ? <Loading /> : <HomeProducts product={lastChanceProducts} />)}
         </div>
       </div>
     </div>

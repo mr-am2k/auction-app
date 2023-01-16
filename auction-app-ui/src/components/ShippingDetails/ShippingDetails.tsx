@@ -23,12 +23,7 @@ type Props = {
   onSubmit: () => void;
 };
 
-const ShippingDetails: React.FC<Props> = ({
-  user,
-  saving,
-  handleBackStep,
-  onSubmit,
-}) => {
+const ShippingDetails: React.FC<Props> = ({ user, saving, handleBackStep, onSubmit }) => {
   const [cardDisplayed, setCardDisplayed] = useState(false);
 
   const { validateForm } = useForm();
@@ -62,9 +57,7 @@ const ShippingDetails: React.FC<Props> = ({
             </Link>
 
             <div className='c-control-buttons'>
-              <button onClick={handleBackStep}>
-                {EN_STRINGS.PRICES_FORM.BACK_BUTTON}
-              </button>
+              <button onClick={handleBackStep}>{EN_STRINGS.PRICES_FORM.BACK_BUTTON}</button>
 
               <button className='c-next-button' onClick={handleNextStep}>
                 {EN_STRINGS.PRICES_FORM.NEXT_BUTTON}
@@ -82,9 +75,7 @@ const ShippingDetails: React.FC<Props> = ({
             <Splitter />
 
             <div className='c-allowed-cards'>
-              <p className='c-allowed-message'>
-                {EN_STRINGS.LOCATION_SHIPPING.CARD_MESSAGE}
-              </p>
+              <p className='c-allowed-message'>{EN_STRINGS.LOCATION_SHIPPING.CARD_MESSAGE}</p>
 
               <div className='c-cards'>
                 <img src={visa} alt='card' />
@@ -98,28 +89,16 @@ const ShippingDetails: React.FC<Props> = ({
 
             <div className='c-buttons'>
               <Link to={ROUTES.MY_ACCOUNT}>
-                <button disabled={saving}>
-                  {EN_STRINGS.LOCATION_SHIPPING.CANCEL_BUTTON}
-                </button>
+                <button disabled={saving}>{EN_STRINGS.LOCATION_SHIPPING.CANCEL_BUTTON}</button>
               </Link>
 
               <div className='c-control-buttons'>
-                <button
-                  className='c-default-button'
-                  disabled={saving}
-                  onClick={() => setCardDisplayed(false)}
-                >
+                <button className='c-default-button' disabled={saving} onClick={() => setCardDisplayed(false)}>
                   {EN_STRINGS.LOCATION_SHIPPING.BACK_BUTTON}
                 </button>
 
-                <button
-                  className='c-next-button c-default-button'
-                  disabled={saving}
-                  onClick={handleFormSubmit}
-                >
-                  {!saving ?
-                    EN_STRINGS.LOCATION_SHIPPING.DONE_BUTTON :
-                    EN_STRINGS.LOCATION_SHIPPING.SAVING}
+                <button className='c-next-button c-default-button' disabled={saving} onClick={handleFormSubmit}>
+                  {!saving ? EN_STRINGS.LOCATION_SHIPPING.DONE_BUTTON : EN_STRINGS.LOCATION_SHIPPING.SAVING}
                 </button>
               </div>
             </div>

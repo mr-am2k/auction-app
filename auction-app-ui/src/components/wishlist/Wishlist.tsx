@@ -15,12 +15,9 @@ const Wishlist = () => {
 
   useEffect(() => {
     setNavbarTitle(EN_STRINGS.MY_ACCOUNT.WISHLIST);
-    setNavbarItems([
-      EN_STRINGS.NAVBAR.MY_ACCOUNT,
-      EN_STRINGS.MY_ACCOUNT.WISHLIST,
-    ]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    setNavbarItems([EN_STRINGS.NAVBAR.MY_ACCOUNT, EN_STRINGS.MY_ACCOUNT.WISHLIST]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className='c-wishlist-wrapper'>

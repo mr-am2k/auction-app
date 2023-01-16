@@ -9,9 +9,8 @@ import productsService from 'services/productService';
 import { fileUploadService } from 'services/fileUploadService';
 import { storageService } from 'services/storageService';
 
-
 import { ItemForm, ShippingDetails, Prices } from 'components';
-import { Error } from '../index'
+import { Error } from '../index';
 import { User } from 'models/user';
 import { CreateProductRequest } from 'models/request/create/createProductRequest';
 import { CreateProductDataRequest } from 'models/request/create/createProductDataRequest';
@@ -29,21 +28,14 @@ const AddItem = () => {
   const [user, setUser] = useState<User>();
   const [saving, setSaving] = useState(false);
 
-  const {
-    fieldValues,
-    validateForm,
-    resetFieldValues,
-    setFieldValidationResults,
-  } = useForm();
+  const { fieldValues, validateForm, resetFieldValues, setFieldValidationResults } = useForm();
 
   const navigate = useNavigate();
 
   const { isUserLoggedIn } = useUser();
 
   const getUser = () => {
-    userService
-      .getUser(storageService.get(LOCAL_STORAGE.ID)!)
-      .then((user) => setUser(user));
+    userService.getUser(storageService.get(LOCAL_STORAGE.ID)!).then(user => setUser(user));
   };
 
   const handleNextStep = () => {
@@ -64,10 +56,7 @@ const AddItem = () => {
     const createCreditCardRequest = getCardData(fieldValues, user!);
     const createAddressRequest = getAddressData(fieldValues, user!);
 
-    const imageURLs = await fileUploadService.uploadFiles(
-      FOLDERS.PRODUCT,
-      fieldValues[PRODUCT_FORM.IMAGES]
-    );
+    const imageURLs = await fileUploadService.uploadFiles(FOLDERS.PRODUCT, fieldValues[PRODUCT_FORM.IMAGES]);
 
     const createProductRequest: CreateProductRequest = {
       name: fieldValues[PRODUCT_FORM.PRODUCT],
@@ -78,13 +67,13 @@ const AddItem = () => {
       creationDateTime: fieldValues[PRODUCT_FORM.START_DATE],
       expirationDateTime: fieldValues[PRODUCT_FORM.END_DATE],
       userId: storageService.get(LOCAL_STORAGE.ID)!,
-      address: createAddressRequest
+      address: createAddressRequest,
     };
 
     const createProductDataRequest: CreateProductDataRequest = {
       createProductRequest,
-      createCreditCardRequest
-    }
+      createCreditCardRequest,
+    };
 
     productsService.addProduct(createProductDataRequest).then(() => {
       setSaving(false);
@@ -94,7 +83,7 @@ const AddItem = () => {
 
   useEffect(() => {
     getUser();
-    
+
     return () => {
       resetFieldValues();
       setFieldValidationResults({});
@@ -103,7 +92,7 @@ const AddItem = () => {
   }, []);
 
   if (!isUserLoggedIn()) {
-    return <Error/>
+    return <Error />;
   }
 
   return (
@@ -136,17 +125,8 @@ const AddItem = () => {
         />
       </div>
       {pageNumber === 1 && <ItemForm handleNextStep={handleNextStep} />}
-      {pageNumber === 2 && (
-        <Prices handleNextStep={handleNextStep} handleBackStep={handleBackStep} />
-      )}
-      {pageNumber === 3 && (
-        <ShippingDetails
-          user={user}
-          handleBackStep={handleBackStep}
-          onSubmit={addProduct}
-          saving={saving}
-        />
-      )}
+      {pageNumber === 2 && <Prices handleNextStep={handleNextStep} handleBackStep={handleBackStep} />}
+      {pageNumber === 3 && <ShippingDetails user={user} handleBackStep={handleBackStep} onSubmit={addProduct} saving={saving} />}
     </div>
   );
 };

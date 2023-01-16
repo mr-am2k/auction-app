@@ -5,12 +5,7 @@ import { useForm } from 'hooks/useForm';
 
 import { Input, Form } from '../index';
 import { EN_STRINGS, USER } from 'translation/en';
-import {
-  INPUT_TYPE_TEXT,
-  INPUT_TYPE_EMAIL,
-  INPUT_TYPE_PASSWORD,
-  USER_FORM,
-} from 'util/constants';
+import { INPUT_TYPE_TEXT, INPUT_TYPE_EMAIL, INPUT_TYPE_PASSWORD, USER_FORM } from 'util/constants';
 import { validate as validateEmail } from 'validators/validateEmail';
 import { validate as validatePassword } from 'validators/validatePassword';
 

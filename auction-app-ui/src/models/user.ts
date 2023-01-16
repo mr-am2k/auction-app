@@ -9,6 +9,6 @@ export type User = {
   phoneNumber: string;
   profileImageUrl: string;
   dateOfBirth: Date;
-  address: Address
+  address: Address;
   card: Card;
 };

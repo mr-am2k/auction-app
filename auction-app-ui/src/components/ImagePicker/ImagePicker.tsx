@@ -15,22 +15,14 @@ const ImagePicker: React.FC<Props> = ({ images }) => {
   const otherImages = images?.map((image, index: number) =>
     index !== selectedImageIndex ? (
       // eslint-disable-next-line jsx-a11y/img-redundant-alt
-      <img
-        src={image}
-        alt='Image'
-        key={index}
-        onClick={() => setSelectedImageIndex(index)}
-      />
+      <img src={image} alt='Image' key={index} onClick={() => setSelectedImageIndex(index)} />
     ) : null
   );
 
   return (
     <div className='c-images'>
       <div className='c-main-image'>
-        <img
-          src={images[selectedImageIndex]}
-          alt={EN_STRINGS.IMAGE_PICKER.FOCUSED_IMAGED}
-        />
+        <img src={images[selectedImageIndex]} alt={EN_STRINGS.IMAGE_PICKER.FOCUSED_IMAGED} />
       </div>
 
       <div className='c-other-images'>{otherImages}</div>

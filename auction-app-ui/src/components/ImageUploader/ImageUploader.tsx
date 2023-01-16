@@ -39,11 +39,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ name, value }) => {
     let imagesForUpload: any = [];
 
     if (fieldValues[name] !== undefined) {
-      imagesForUpload = [
-        ...imagesForUpload,
-        ...fieldValues[name],
-        ...acceptedImages,
-      ];
+      imagesForUpload = [...imagesForUpload, ...fieldValues[name], ...acceptedImages];
     } else {
       imagesForUpload = [...imagesForUpload, ...acceptedImages];
     }
@@ -81,11 +77,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ name, value }) => {
     let imagesForUpload: any = [];
 
     if (fieldValues[name] !== undefined) {
-      imagesForUpload = [
-        ...imagesForUpload,
-        ...fieldValues[name],
-        ...acceptedImages,
-      ];
+      imagesForUpload = [...imagesForUpload, ...fieldValues[name], ...acceptedImages];
     } else {
       imagesForUpload = [...imagesForUpload, ...acceptedImages];
     }
@@ -144,23 +136,19 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ name, value }) => {
         <>
           <h3>{EN_STRINGS.IMAGE_UPLOADER.UPLOAD_PHOTOS}</h3>
           <p>{EN_STRINGS.IMAGE_UPLOADER.DRAG_AND_DROP}</p>
-          <p className='c-limit-message'>
-            {EN_STRINGS.IMAGE_UPLOADER.LIMITATION}
-          </p>
+          <p className='c-limit-message'>{EN_STRINGS.IMAGE_UPLOADER.LIMITATION}</p>
         </>
       )}
 
-      {uploadedImages.length ? uploadedImages.map((image) => (
-        <p className='c-added-image' key={v4()}>
-          {image.name}
-        </p>
-      )) : null}
+      {uploadedImages.length
+        ? uploadedImages.map(image => (
+            <p className='c-added-image' key={v4()}>
+              {image.name}
+            </p>
+          ))
+        : null}
 
-      {hasError && (
-        <p className='c-error-message'>
-          {fieldValidationResults[name as ObjectKey]?.message}
-        </p>
-      )}
+      {hasError && <p className='c-error-message'>{fieldValidationResults[name as ObjectKey]?.message}</p>}
     </div>
   );
 };

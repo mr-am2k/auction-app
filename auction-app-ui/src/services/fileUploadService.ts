@@ -12,17 +12,16 @@ const uploadFile = async (folder: string, file: File) => {
 };
 
 const uploadFiles = async (folder: string, files: File[]) => {
-  const uploadPromises = files.map(async (files) => {
+  const uploadPromises = files.map(async files => {
     const uploadFiles = await uploadFile(folder, files);
     return uploadFiles;
   });
   const uploadedFiles = await Promise.all(uploadPromises);
-  
+
   return uploadedFiles;
 };
 
 export const fileUploadService = {
   upload: (folder: string, image: File) => uploadFile(folder, image),
-  uploadFiles: (folder: string, images: File[]) =>
-    uploadFiles(folder, images),
+  uploadFiles: (folder: string, images: File[]) => uploadFiles(folder, images),
 };

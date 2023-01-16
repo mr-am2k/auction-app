@@ -13,7 +13,5 @@ export const validate = (firstDate: string, secondDate?: string) => {
     endDate = new Date(firstDate);
   }
 
-  return endDate < startDate ? 
-    { valid: false, message: EN_STRINGS.ERROR_MESSAGE.DATE } : 
-    { valid: true };
+  return endDate < startDate ? { valid: false, message: EN_STRINGS.ERROR_MESSAGE.DATE } : { valid: true };
 };

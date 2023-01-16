@@ -11,12 +11,7 @@ type Props = {
   buttonLabel: string;
 };
 
-const EmptyList: React.FC<Props> = ({
-  icon,
-  message,
-  route,
-  buttonLabel,
-}) => {
+const EmptyList: React.FC<Props> = ({ icon, message, route, buttonLabel }) => {
   return (
     <td colSpan={6}>
       <div className='c-empty-cart'>
