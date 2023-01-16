@@ -50,12 +50,12 @@ const AddItem = () => {
     const isValid = validateForm();
 
     if (isValid) {
-      setPageNumber((prevNumber) => prevNumber + 1);
+      setPageNumber(pageNumber => pageNumber + 1);
     }
   };
 
   const handleBackStep = () => {
-    setPageNumber((prevNumber) => prevNumber - 1);
+    setPageNumber(pageNumber => pageNumber - 1);
   };
 
   const addProduct = async () => {

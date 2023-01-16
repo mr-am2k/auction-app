@@ -35,6 +35,8 @@ const UserProfile = () => {
 
   const navigate = useNavigate();
 
+  const reader = new FileReader();
+
   const fetchUser = () => {
     userService
       .getUser(storageService.get(LOCAL_STORAGE.ID)!)
@@ -110,13 +112,12 @@ const UserProfile = () => {
       return;
     }
 
-    const reader = new FileReader();
-
     reader.onload = (event) => {
       setImagePreview(event.target?.result as string);
     };
     
     reader.readAsDataURL(imageUpload);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageUpload]);
 
   const error = updateError ? (

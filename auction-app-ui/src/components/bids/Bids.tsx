@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
-import { usePage } from 'hooks/usePage';
+import {usePage} from 'hooks/usePage';
 
 import bidService from 'services/bidService';
 import productsService from 'services/productService';
-import { storageService } from 'services/storageService';
+import {storageService} from 'services/storageService';
 
-import { ItemList, EmptyList } from '../index';
-import { ProductList } from 'models/productList';
-import { Bid } from 'models/bid';
-import { ROUTES } from 'util/routes';
-import { LOCAL_STORAGE } from 'util/constants';
-import { EN_STRINGS, PRODUCTS_TABLE } from 'translation/en';
+import {ItemList, EmptyList} from '../index';
+import {ProductList} from 'models/productList';
+import {Bid} from 'models/bid';
+import {ROUTES} from 'util/routes';
+import {LOCAL_STORAGE} from 'util/constants';
+import {EN_STRINGS, PRODUCTS_TABLE} from 'translation/en';
 
 import './bids.scss';
 
@@ -19,7 +19,7 @@ import HammerIcon from 'assets/icons/HammerIcon';
 
 const Bids = () => {
   const [bids, setBids] = useState<ProductList[]>([]);
-  const { setNavbarTitle, setNavbarItems } = usePage();
+  const {setNavbarTitle, setNavbarItems} = usePage();
 
   const fetchUserBids = () => {
     let bids: Bid[];
@@ -28,26 +28,29 @@ const Bids = () => {
       .getUserBids(storageService.get(LOCAL_STORAGE.ID)!)
       .then((fetchedBids) => {
         bids = fetchedBids;
-        
+
         const productPromises = fetchedBids.map((bid) =>
           productsService.getSingleProduct(bid.productId)
         );
+
         return Promise.all(productPromises);
       })
       .then((products) => {
-        const newProducts = products.map((product, index) => {
+        const updatedProducts = products.map((product, index) => {
+          const bid = bids[index];
+
           return {
-            id: bids[index].productId,
+            id: bid.productId,
             imageUrl: product.imageURLs[0],
             name: product.name,
             remainingTime: product.remainingTime,
-            price: bids[index].price,
+            price: bid.price,
             numberOfBids: product.bids.length,
             highestBid: product.highestBidPrice,
           };
         });
 
-        setBids((prevProducts) => [...prevProducts, ...newProducts]);
+        setBids((products) => [...products, ...updatedProducts]);
       });
   };
 
@@ -60,7 +63,7 @@ const Bids = () => {
   }, []);
 
   return (
-    <div className='c-bids-wrapper'>
+    <div className="c-bids-wrapper">
       <table>
         <thead>
           <tr>

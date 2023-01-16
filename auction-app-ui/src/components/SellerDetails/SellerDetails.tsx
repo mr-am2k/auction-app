@@ -46,15 +46,15 @@ const SellerDetails = () => {
 
             if (productDate < currentDate) {
               return !soldProducts?.length ? 
-                    setSoldProducts((prevProducts) => [
-                      ...prevProducts!,
+                    setSoldProducts(soldProducts => [
+                      ...soldProducts!,
                       newProduct,
                     ]) : 
                     setSoldProducts([newProduct]);
             } else {
               return !activeProducts?.length ? 
-                    setActiveProducts((prevProducts) => [
-                    ...prevProducts!,
+                    setActiveProducts(activeProducts => [
+                    ...activeProducts!,
                     newProduct,
                     ]) : 
                     setActiveProducts([newProduct]);

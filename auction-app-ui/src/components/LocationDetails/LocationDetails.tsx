@@ -19,7 +19,7 @@ const LocationDetails: React.FC<Props> = ({ user }) => {
   const [displayShipping, setDisplayShipping] = useState(true);
 
   const changeDisplayShipping = () => {
-    setDisplayShipping((prevState) => !prevState);
+    setDisplayShipping(displayShipping => !displayShipping);
   };
 
   return (

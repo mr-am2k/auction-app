@@ -19,7 +19,7 @@ const Card: React.FC<Props> = ({ user }) => {
   const [cardDisplayed, setCardDisplayed] = useState(true);
 
   const changeDisplayCard = () => {
-    setCardDisplayed((prevCardDisplayed) => !prevCardDisplayed);
+    setCardDisplayed(cardDisplayed => !cardDisplayed);
   };
 
   return (

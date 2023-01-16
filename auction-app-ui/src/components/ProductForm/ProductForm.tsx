@@ -37,7 +37,7 @@ const ProductForm: React.FC<Props> = ({ handleNextStep }) => {
             label: category.name,
           };
 
-          setCategoryOptions((prevValue) => [...prevValue, option]);
+          setCategoryOptions(options => [...options, option]);
         }
       });
     });

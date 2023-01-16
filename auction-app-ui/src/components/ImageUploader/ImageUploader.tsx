@@ -34,7 +34,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ name, value }) => {
   const hasError = !fieldValidationResults[name as ObjectKey]?.valid;
 
   const onDropAccepted = (acceptedImages: File[]) => {
-    setUploadedImages((prevImages) => [...prevImages, ...acceptedImages]);
+    setUploadedImages(images => [...images, ...acceptedImages]);
 
     let imagesForUpload: any = [];
 
@@ -76,7 +76,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ name, value }) => {
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const acceptedImages: File[] = Array.from(event.target.files!);
 
-    setUploadedImages((prevImages) => [...prevImages, ...acceptedImages]);
+    setUploadedImages(images => [...images, ...acceptedImages]);
 
     let imagesForUpload: any = [];
 
@@ -154,7 +154,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ name, value }) => {
         <p className='c-added-image' key={v4()}>
           {image.name}
         </p>
-      )) : ''}
+      )) : null}
 
       {hasError && (
         <p className='c-error-message'>

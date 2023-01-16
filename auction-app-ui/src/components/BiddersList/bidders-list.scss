@@ -3,6 +3,7 @@
 
 .c-bidders-list-container {
   @include flexDisplay(flex-start, center);
+  
   flex-direction: column;
   padding: 1rem 12rem 0;
   font-family: $latoFont;

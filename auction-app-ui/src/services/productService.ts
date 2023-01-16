@@ -13,7 +13,7 @@ const productsService = {
   getUserProducts: (userId:string) => agent.get<Product[]>(`${BASE_URL}/user/${userId}`),
   addProduct: (createProductDataRequest: CreateProductDataRequest) =>
     agent.post<Product>(BASE_URL, createProductDataRequest),
-  getRelatedProducts: (params: {}) => agent.get<any>(`${BASE_URL}/related-products`, params)
+  getRelatedProducts: (params: {}) => agent.get<any>(`${BASE_URL}/related`, params)
 };
 
 export default productsService;
