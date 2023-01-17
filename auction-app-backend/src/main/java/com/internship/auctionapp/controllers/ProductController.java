@@ -5,8 +5,9 @@ import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.services.product.ProductService;
 
-import com.internship.auctionapp.util.FilterAndSortCriteria;
-import com.internship.auctionapp.util.SortCriteria;
+import com.internship.auctionapp.util.ProductSortCriteria;
+import com.internship.auctionapp.util.filter.FilterAndSortBuilder;
+import com.internship.auctionapp.util.filter.FilterAndSortProduct;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -42,18 +43,18 @@ public class ProductController {
             @RequestParam(required = false) List<UUID> subcategoryIds,
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
-            @RequestParam(required = false) SortCriteria sortCriteria
+            @RequestParam(required = false) ProductSortCriteria productSortCriteria
     ) {
-        final FilterAndSortCriteria filterAndSortCriteria = new FilterAndSortCriteria.FilterAndSortCriteriaBuilder()
+        final FilterAndSortProduct filterAndSortProduct = new FilterAndSortBuilder()
                 .name(name)
                 .categoryId(categoryId)
                 .subcategoryIds(subcategoryIds)
                 .minPrice(minPrice)
                 .maxPrice(maxPrice)
-                .sortCriteria(sortCriteria)
+                .sortCriteria(productSortCriteria)
                 .build();
 
-        return productService.getProducts(filterAndSortCriteria, pageNumber);
+        return productService.getProducts(filterAndSortProduct, pageNumber);
     }
 
     @GetMapping("/{id}")

@@ -1,6 +1,6 @@
 package com.internship.auctionapp.util;
 
-public enum SortCriteria {
+public enum ProductSortCriteria {
     CREATED_NEWEST,
     EXPIRATION_SOONEST,
     PRICE_ASC,

@@ -1,76 +1,33 @@
-package com.internship.auctionapp.util;
+package com.internship.auctionapp.util.filter;
 
-import com.internship.auctionapp.entities.ProductEntity;
-import lombok.Data;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-
-import javax.persistence.criteria.Predicate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.util.ProductSortCriteria;
+import lombok.Data;
+import org.springframework.data.jpa.domain.Specification;
+
+import javax.persistence.criteria.Predicate;
 
 @Data
-public class FilterAndSortCriteria {
+public class FilterAndSortProduct {
     private String productName;
     private UUID categoryId;
     private List<UUID> subcategoryIds;
     private Double minPrice;
     private Double maxPrice;
-    private SortCriteria sortCriteria;
+    private ProductSortCriteria productSortCriteria;
 
-    private FilterAndSortCriteria(FilterAndSortCriteriaBuilder builder) {
+    public FilterAndSortProduct(FilterAndSortBuilder builder) {
         this.productName = builder.productName;
         this.categoryId = builder.categoryId;
         this.subcategoryIds = builder.subcategoryIds;
         this.minPrice = builder.minPrice;
         this.maxPrice = builder.maxPrice;
-        this.sortCriteria = builder.sortCriteria;
-    }
-
-    public static class FilterAndSortCriteriaBuilder {
-        private String productName;
-        private UUID categoryId;
-        private List<UUID> subcategoryIds;
-        private Double minPrice;
-        private Double maxPrice;
-        private SortCriteria sortCriteria;
-
-        public FilterAndSortCriteriaBuilder name(String name) {
-            this.productName = name;
-            return this;
-        }
-
-        public FilterAndSortCriteriaBuilder categoryId(UUID categoryId) {
-            this.categoryId = categoryId;
-            return this;
-        }
-
-        public FilterAndSortCriteriaBuilder subcategoryIds(List<UUID> subcategoryIds) {
-            this.subcategoryIds = subcategoryIds;
-            return this;
-        }
-
-        public FilterAndSortCriteriaBuilder minPrice(Double minPrice) {
-            this.minPrice = minPrice;
-            return this;
-        }
-
-        public FilterAndSortCriteriaBuilder maxPrice(Double maxPrice) {
-            this.maxPrice = maxPrice;
-            return this;
-        }
-
-        public FilterAndSortCriteriaBuilder sortCriteria(SortCriteria sortCriteria) {
-            this.sortCriteria = sortCriteria;
-            return this;
-        }
-
-        public FilterAndSortCriteria build() {
-            return new FilterAndSortCriteria(this);
-        }
+        this.productSortCriteria = builder.productSortCriteria;
     }
 
     public Specification<ProductEntity> toFilterSpecification() {
@@ -104,10 +61,10 @@ public class FilterAndSortCriteria {
             predicates.add(cb.lessThanOrEqualTo(root.get("creationDateTime"), currentTime));
 
 
-            if (sortCriteria == null) {
+            if (productSortCriteria == null) {
                 query.orderBy(cb.asc(root.get("name")));
             } else {
-                switch (sortCriteria) {
+                switch (productSortCriteria) {
                     case CREATED_NEWEST -> query.orderBy(cb.desc(root.get("creationDateTime")));
                     case EXPIRATION_SOONEST -> query.orderBy(cb.asc(root.get("expirationDateTime")));
                     case PRICE_ASC -> query.orderBy(cb.asc(root.get("startPrice")));
@@ -118,5 +75,4 @@ public class FilterAndSortCriteria {
             return cb.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
-
 }

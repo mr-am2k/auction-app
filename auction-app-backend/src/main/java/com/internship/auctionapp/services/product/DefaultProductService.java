@@ -11,9 +11,9 @@ import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.util.DateUtils;
-import com.internship.auctionapp.util.FilterAndSortCriteria;
 import com.internship.auctionapp.util.NotificationType;
 
+import com.internship.auctionapp.util.filter.FilterAndSortProduct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,8 +65,8 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Page<Product> getProducts(FilterAndSortCriteria filterAndSortCriteria, Integer pageNumber) {
-        final Specification<ProductEntity> filterSpecification = filterAndSortCriteria.toFilterSpecification();
+    public Page<Product> getProducts(FilterAndSortProduct filterAndSortProduct, Integer pageNumber) {
+        final Specification<ProductEntity> filterSpecification = filterAndSortProduct.toFilterSpecification();
 
         final Pageable page = PageRequest.of(pageNumber, PRODUCTS_PER_PAGE);
 
