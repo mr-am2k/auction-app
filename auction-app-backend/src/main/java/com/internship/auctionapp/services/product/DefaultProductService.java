@@ -7,10 +7,12 @@ import com.internship.auctionapp.middleware.exception.ProductExpirationDateExcep
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
+import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.util.DateUtils;
+import com.internship.auctionapp.util.FilterAndSortCriteria;
 import com.internship.auctionapp.util.NotificationType;
 
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -53,11 +56,14 @@ public class DefaultProductService implements ProductService {
     private static final String CREATION_DATE_TIME = "creationDateTime";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
+    private final ProductJpaRepository productJpaRepository;
 
-    public DefaultProductService(ProductRepository productCRUDRepository, BidRepository bidRepository, NotificationRepository notificationRepository) {
+    public DefaultProductService(ProductRepository productCRUDRepository, BidRepository bidRepository, NotificationRepository notificationRepository,
+                                 ProductJpaRepository productJpaRepository) {
         this.productRepository = productCRUDRepository;
         this.bidRepository = bidRepository;
         this.notificationRepository = notificationRepository;
+        this.productJpaRepository = productJpaRepository;
     }
 
     @Override
@@ -67,6 +73,18 @@ public class DefaultProductService implements ProductService {
         LOGGER.info("Fetched all products={}", products);
 
         return products;
+    }
+
+    @Override
+    public Page<Product> getProducts(FilterAndSortCriteria filterAndSortCriteria, Integer pageNumber) {
+        Specification<ProductEntity> specification = filterAndSortCriteria.toSpecification();
+
+        Sort sort = filterAndSortCriteria.toSort();
+
+        final Pageable page = PageRequest.of(pageNumber, 5, sort);
+
+
+        return productRepository.getProducts(specification, page);
     }
 
     @Override

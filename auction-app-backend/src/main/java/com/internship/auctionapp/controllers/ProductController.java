@@ -6,6 +6,8 @@ import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.services.product.ProductService;
 
+import com.internship.auctionapp.util.FilterAndSortCriteria;
+import com.internship.auctionapp.util.SortCriteria;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -36,6 +38,26 @@ public class ProductController {
     @GetMapping
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
+    }
+
+    @GetMapping("/prod")
+    public Page<Product> getProducts(@RequestParam(required = false) String name,
+                                     @RequestParam(required = false) UUID categoryId,
+                                     @RequestParam(required = false) List<UUID> subcategoryIds,
+                                     @RequestParam(required = false) Double minPrice,
+                                     @RequestParam(required = false) Double maxPrice,
+                                     @RequestParam(required = false) SortCriteria sortCriteria,
+                                     @RequestParam Integer pageNumber) {
+        FilterAndSortCriteria filterAndSortCriteria = new FilterAndSortCriteria.FilterAndSortCriteriaBuilder()
+                .name(name)
+                .categoryId(categoryId)
+                .subcategoryIds(subcategoryIds)
+                .minPrice(minPrice)
+                .maxPrice(maxPrice)
+                .sortCriteria(sortCriteria)
+                .build();
+
+        return productService.getProducts(filterAndSortCriteria, pageNumber);
     }
 
     @GetMapping("/{id}")

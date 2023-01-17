@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -54,6 +55,11 @@ public class DefaultProductRepository implements ProductRepository {
         return productJpaRepository.findAll().stream()
                 .map(ProductEntity::toDomainModel)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<Product> getProducts(Specification<ProductEntity> specification, Pageable page) {
+        return productJpaRepository.findAll(specification, page).map(ProductEntity::toDomainModel);
     }
 
     @Override

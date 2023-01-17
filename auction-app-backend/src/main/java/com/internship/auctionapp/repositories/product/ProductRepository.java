@@ -6,6 +6,7 @@ import com.internship.auctionapp.requests.CreateProductDataRequest;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.time.ZonedDateTime;
 
@@ -14,6 +15,8 @@ import java.util.UUID;
 
 public interface ProductRepository {
     List<Product> getAllProducts();
+
+    Page<Product> getProducts(Specification<ProductEntity> specification, Pageable page);
 
     Product addProduct(CreateProductDataRequest createProductDataRequest);
 
