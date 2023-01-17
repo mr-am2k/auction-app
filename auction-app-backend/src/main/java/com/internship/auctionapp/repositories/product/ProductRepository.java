@@ -14,9 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ProductRepository {
-    List<Product> getAllProducts();
-
-    Page<Product> getProducts(Specification<ProductEntity> specification, Pageable page);
+    Page<Product> getProducts(Specification<ProductEntity> filterSpecification, Pageable page);
 
     Product addProduct(CreateProductDataRequest createProductDataRequest);
 

@@ -3,7 +3,6 @@ package com.internship.auctionapp.controllers;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
-import com.internship.auctionapp.requests.CreateProductRequest;
 import com.internship.auctionapp.services.product.ProductService;
 
 import com.internship.auctionapp.util.FilterAndSortCriteria;
@@ -36,18 +35,15 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
-    }
-
-    @GetMapping("/prod")
-    public Page<Product> getProducts(@RequestParam(required = false) String name,
-                                     @RequestParam(required = false) UUID categoryId,
-                                     @RequestParam(required = false) List<UUID> subcategoryIds,
-                                     @RequestParam(required = false) Double minPrice,
-                                     @RequestParam(required = false) Double maxPrice,
-                                     @RequestParam(required = false) SortCriteria sortCriteria,
-                                     @RequestParam Integer pageNumber) {
+    public Page<Product> getProducts(
+            @RequestParam Integer pageNumber,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) UUID categoryId,
+            @RequestParam(required = false) List<UUID> subcategoryIds,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) SortCriteria sortCriteria
+    ) {
         FilterAndSortCriteria filterAndSortCriteria = new FilterAndSortCriteria.FilterAndSortCriteriaBuilder()
                 .name(name)
                 .categoryId(categoryId)
@@ -89,12 +85,12 @@ public class ProductController {
 
     @GetMapping("/user/{userId}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public List<Product> getUserProducts(@PathVariable("userId") UUID userId){
+    public List<Product> getUserProducts(@PathVariable("userId") UUID userId) {
         return productService.getUserProducts(userId);
     }
 
     @GetMapping("/related")
-    public Page<Product> getRelatedProducts(@RequestParam UUID categoryId, @RequestParam UUID productId){
+    public Page<Product> getRelatedProducts(@RequestParam UUID categoryId, @RequestParam UUID productId) {
         return productService.getRelatedProducts(categoryId, productId);
     }
 }

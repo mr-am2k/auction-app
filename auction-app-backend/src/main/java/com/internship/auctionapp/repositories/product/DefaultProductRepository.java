@@ -13,11 +13,8 @@ import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.CreateProductRequest;
 
-import com.internship.auctionapp.services.bid.DefaultBidService;
 import org.modelmapper.ModelMapper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -51,15 +48,8 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productJpaRepository.findAll().stream()
-                .map(ProductEntity::toDomainModel)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public Page<Product> getProducts(Specification<ProductEntity> specification, Pageable page) {
-        return productJpaRepository.findAll(specification, page).map(ProductEntity::toDomainModel);
+    public Page<Product> getProducts(Specification<ProductEntity> filterSpecification, Pageable page) {
+        return productJpaRepository.findAllWithFiltersAndSorting(filterSpecification, page).map(ProductEntity::toDomainModel);
     }
 
     @Override

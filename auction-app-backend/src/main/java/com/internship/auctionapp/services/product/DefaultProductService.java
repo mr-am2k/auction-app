@@ -7,7 +7,6 @@ import com.internship.auctionapp.middleware.exception.ProductExpirationDateExcep
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
-import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
@@ -49,6 +48,8 @@ public class DefaultProductService implements ProductService {
 
     private static final Integer RELATED_PRODUCTS_PER_PAGE = 3;
 
+    private static final Integer PRODUCTS_PER_AGE = 9;
+
     private static final String LAST_CHANCE = "last-chance";
 
     private static final String EXPIRATION_DATE_TIME = "expirationDateTime";
@@ -56,35 +57,23 @@ public class DefaultProductService implements ProductService {
     private static final String CREATION_DATE_TIME = "creationDateTime";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
-    private final ProductJpaRepository productJpaRepository;
 
-    public DefaultProductService(ProductRepository productCRUDRepository, BidRepository bidRepository, NotificationRepository notificationRepository,
-                                 ProductJpaRepository productJpaRepository) {
+    public DefaultProductService(ProductRepository productCRUDRepository, BidRepository bidRepository, NotificationRepository notificationRepository) {
         this.productRepository = productCRUDRepository;
         this.bidRepository = bidRepository;
         this.notificationRepository = notificationRepository;
-        this.productJpaRepository = productJpaRepository;
-    }
-
-    @Override
-    public List<Product> getAllProducts() {
-        final List<Product> products = productRepository.getAllProducts();
-
-        LOGGER.info("Fetched all products={}", products);
-
-        return products;
     }
 
     @Override
     public Page<Product> getProducts(FilterAndSortCriteria filterAndSortCriteria, Integer pageNumber) {
-        Specification<ProductEntity> specification = filterAndSortCriteria.toSpecification();
+        final Specification<ProductEntity> filterSpecification = filterAndSortCriteria.toFilterSpecification();
 
-        Sort sort = filterAndSortCriteria.toSort();
+        final Sort sort = filterAndSortCriteria.toSort();
 
-        final Pageable page = PageRequest.of(pageNumber, 5, sort);
+        final Pageable page = PageRequest.of(pageNumber, PRODUCTS_PER_AGE, sort);
 
 
-        return productRepository.getProducts(specification, page);
+        return productRepository.getProducts(filterSpecification, page);
     }
 
     @Override

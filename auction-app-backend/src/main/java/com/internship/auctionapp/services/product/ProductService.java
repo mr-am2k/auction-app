@@ -3,7 +3,6 @@ package com.internship.auctionapp.services.product;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
-import com.internship.auctionapp.requests.CreateProductRequest;
 
 import com.internship.auctionapp.util.FilterAndSortCriteria;
 import org.springframework.data.domain.Page;
@@ -12,8 +11,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ProductService {
-    List<Product> getAllProducts();
-
     Page<Product> getProducts(FilterAndSortCriteria filterAndSortCriteria, Integer pageNumber);
 
     Product addProduct(CreateProductDataRequest createProductDataRequest);
