@@ -48,7 +48,7 @@ public class DefaultProductService implements ProductService {
 
     private static final Integer RELATED_PRODUCTS_PER_PAGE = 3;
 
-    private static final Integer PRODUCTS_PER_AGE = 9;
+    private static final Integer PRODUCTS_PER_PAGE = 9;
 
     private static final String LAST_CHANCE = "last-chance";
 
@@ -68,10 +68,7 @@ public class DefaultProductService implements ProductService {
     public Page<Product> getProducts(FilterAndSortCriteria filterAndSortCriteria, Integer pageNumber) {
         final Specification<ProductEntity> filterSpecification = filterAndSortCriteria.toFilterSpecification();
 
-        final Sort sort = filterAndSortCriteria.toSort();
-
-        final Pageable page = PageRequest.of(pageNumber, PRODUCTS_PER_AGE, sort);
-
+        final Pageable page = PageRequest.of(pageNumber, PRODUCTS_PER_PAGE);
 
         return productRepository.getProducts(filterSpecification, page);
     }

@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Repository
 public interface ProductJpaRepository extends JpaRepository<ProductEntity, UUID> {
-    Page<ProductEntity> findAllWithFiltersAndSorting(Specification<ProductEntity> specification, Pageable page);
+    Page<ProductEntity> findAll(Specification<ProductEntity> specification, Pageable page);
 
     List<ProductEntity> findAllByExpirationDateTimeBetween(
             ZonedDateTime startDate,

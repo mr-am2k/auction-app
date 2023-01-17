@@ -49,7 +49,7 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public Page<Product> getProducts(Specification<ProductEntity> filterSpecification, Pageable page) {
-        return productJpaRepository.findAllWithFiltersAndSorting(filterSpecification, page).map(ProductEntity::toDomainModel);
+        return productJpaRepository.findAll(filterSpecification, page).map(ProductEntity::toDomainModel);
     }
 
     @Override

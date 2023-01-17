@@ -44,7 +44,7 @@ public class ProductController {
             @RequestParam(required = false) Double maxPrice,
             @RequestParam(required = false) SortCriteria sortCriteria
     ) {
-        FilterAndSortCriteria filterAndSortCriteria = new FilterAndSortCriteria.FilterAndSortCriteriaBuilder()
+        final FilterAndSortCriteria filterAndSortCriteria = new FilterAndSortCriteria.FilterAndSortCriteriaBuilder()
                 .name(name)
                 .categoryId(categoryId)
                 .subcategoryIds(subcategoryIds)

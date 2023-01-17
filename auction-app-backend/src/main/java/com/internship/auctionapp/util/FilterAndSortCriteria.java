@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -96,20 +97,26 @@ public class FilterAndSortCriteria {
                 predicates.add(cb.lessThanOrEqualTo(root.get("startPrice"), maxPrice));
             }
 
+            ZonedDateTime currentTime = ZonedDateTime.now();
+
+            predicates.add(cb.greaterThanOrEqualTo(root.get("expirationDateTime"), currentTime));
+
+            predicates.add(cb.lessThanOrEqualTo(root.get("creationDateTime"), currentTime));
+
+
+            if (sortCriteria == null) {
+                query.orderBy(cb.asc(root.get("name")));
+            } else {
+                switch (sortCriteria) {
+                    case CREATED_NEWEST -> query.orderBy(cb.desc(root.get("creationDateTime")));
+                    case EXPIRATION_SOONEST -> query.orderBy(cb.asc(root.get("expirationDateTime")));
+                    case PRICE_ASC -> query.orderBy(cb.asc(root.get("startPrice")));
+                    case PRICE_DESC -> query.orderBy(cb.desc(root.get("startPrice")));
+                } ;
+            }
+
             return cb.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }
 
-    public Sort toSort() {
-        if (sortCriteria == null) {
-            return Sort.by("name").ascending();
-        }
-
-        return switch (sortCriteria) {
-            case CREATED_NEWEST -> Sort.by("creationDateTime").descending();
-            case EXPIRATION_SOONEST -> Sort.by("expirationDateTime").ascending();
-            case PRICE_ASC -> Sort.by("startPrice").ascending();
-            case PRICE_DESC -> Sort.by("startPrice").descending();
-        };
-    }
 }
