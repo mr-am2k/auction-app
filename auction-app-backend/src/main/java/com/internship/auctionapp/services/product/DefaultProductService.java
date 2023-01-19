@@ -10,12 +10,12 @@ import com.internship.auctionapp.repositories.notification.NotificationRepositor
 import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
-import com.internship.auctionapp.requests.ProductFilterRequest;
+import com.internship.auctionapp.requests.SearchProductRequest;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.NotificationType;
 
-import com.internship.auctionapp.util.filter.FilterAndSortBuilder;
-import com.internship.auctionapp.util.filter.ProductFilter;
+import com.internship.auctionapp.util.filter.product.FilterAndSortBuilder;
+import com.internship.auctionapp.util.filter.product.ProductFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,8 +49,6 @@ public class DefaultProductService implements ProductService {
 
     private static final Integer RELATED_PRODUCTS_PER_PAGE = 3;
 
-    private static final Integer PRODUCTS_PER_PAGE = 9;
-
     private static final String LAST_CHANCE = "last-chance";
 
     private static final String EXPIRATION_DATE_TIME = "expirationDateTime";
@@ -66,17 +64,20 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Page<Product> getProducts(ProductFilterRequest productFilterRequest) {
-        final ProductFilter productFilter = new FilterAndSortBuilder()
-                .name(productFilterRequest.getName())
-                .categoryId(productFilterRequest.getCategoryId())
-                .subcategoryIds(productFilterRequest.getSubcategoryIds())
-                .minPrice(productFilterRequest.getMinPrice())
-                .maxPrice(productFilterRequest.getMaxPrice())
-                .sortCriteria(productFilterRequest.getProductSortCriteria())
+    public Page<Product> getProducts(SearchProductRequest searchProductRequest) {
+        final FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
+                .productName(searchProductRequest.getName())
+                .categoryId(searchProductRequest.getCategoryId())
+                .subcategoryIds(searchProductRequest.getSubcategoryIds())
+                .minPrice(searchProductRequest.getMinPrice())
+                .maxPrice(searchProductRequest.getMaxPrice())
+                .productSort(searchProductRequest.getProductSort())
+                .page(searchProductRequest.toPage())
                 .build();
 
-        return productRepository.getProducts(productFilter, productFilterRequest.getPageNumber());
+        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
+
+        return productRepository.getProducts(productFilter);
     }
 
     @Override

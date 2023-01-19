@@ -1,21 +1,21 @@
-package com.internship.auctionapp.util.filter;
+package com.internship.auctionapp.util.filter.product;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.util.PageableRequest;
+import lombok.Data;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
 
+@Data
 public class ProductSpecification extends PageableRequest<String> {
     private ProductFilter productFilter;
 
-    private final static Integer DEFAULT_PAGE_SIZE = 9;
-
-    public ProductSpecification(ProductFilter productFilter, Integer pageNumber) {
-        super(pageNumber, DEFAULT_PAGE_SIZE, null);
+    public ProductSpecification(ProductFilter productFilter) {
         this.productFilter = productFilter;
     }
 
@@ -50,12 +50,12 @@ public class ProductSpecification extends PageableRequest<String> {
             predicates.add(cb.lessThanOrEqualTo(root.get("creationDateTime"), currentTime));
 
 
-            if (productFilter.getProductSortCriteria() == null) {
+            if (productFilter.getProductSort() == null) {
                 query.orderBy(cb.asc(root.get("name")));
             } else {
-                switch (productFilter.getProductSortCriteria()) {
-                    case CREATED_NEWEST -> query.orderBy(cb.desc(root.get("creationDateTime")));
-                    case EXPIRATION_SOONEST -> query.orderBy(cb.asc(root.get("expirationDateTime")));
+                switch (productFilter.getProductSort()) {
+                    case CREATED_DESC -> query.orderBy(cb.desc(root.get("creationDateTime")));
+                    case EXPIRATION_ASC -> query.orderBy(cb.asc(root.get("expirationDateTime")));
                     case PRICE_ASC -> query.orderBy(cb.asc(root.get("startPrice")));
                     case PRICE_DESC -> query.orderBy(cb.desc(root.get("startPrice")));
                 }

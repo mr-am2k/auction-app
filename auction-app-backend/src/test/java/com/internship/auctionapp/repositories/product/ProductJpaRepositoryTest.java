@@ -5,17 +5,18 @@ import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.category.CategoryJpaRepository;
 import com.internship.auctionapp.repositories.creditCard.CreditCardJpaRepository;
-import com.internship.auctionapp.util.ProductSortCriteria;
-import com.internship.auctionapp.util.filter.FilterAndSortBuilder;
-import com.internship.auctionapp.util.filter.ProductFilter;
-import com.internship.auctionapp.util.filter.ProductSpecification;
+import com.internship.auctionapp.util.filter.product.ProductSort;
+import com.internship.auctionapp.util.filter.product.FilterAndSortBuilder;
+import com.internship.auctionapp.util.filter.product.ProductFilter;
+import com.internship.auctionapp.util.filter.product.ProductSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -62,6 +63,7 @@ class ProductJpaRepositoryTest {
                 .build();
 
         categoryJpaRepository.save(category);
+
         final CategoryEntity firstCategory = categoryJpaRepository.findAll().get(0);
 
         final CategoryEntity category1 = CategoryEntity.builder()
@@ -69,6 +71,7 @@ class ProductJpaRepositoryTest {
                 .build();
 
         categoryJpaRepository.save(category1);
+
         final CategoryEntity secondCategory = categoryJpaRepository.findAll().get(1);
 
         final CategoryEntity subcategory = CategoryEntity.builder()
@@ -77,6 +80,7 @@ class ProductJpaRepositoryTest {
                 .build();
 
         categoryJpaRepository.save(subcategory);
+
         final CategoryEntity firstSubcategory = categoryJpaRepository.findAll().get(2);
 
         final CategoryEntity subcategory1 = CategoryEntity.builder()
@@ -85,11 +89,13 @@ class ProductJpaRepositoryTest {
                 .build();
 
         categoryJpaRepository.save(subcategory1);
+
         final CategoryEntity secondSubcategory = categoryJpaRepository.findAll().get(3);
 
         final CreditCardEntity creditCard = CreditCardEntity.builder().build();
 
         creditCardJpaRepository.save(creditCard);
+
         final CreditCardEntity card = creditCardJpaRepository.findAll().get(0);
 
         final ProductEntity product = ProductEntity.builder()
@@ -125,15 +131,18 @@ class ProductJpaRepositoryTest {
 
     @Test
     void return_products_by_name() {
-        final ProductFilter productFilter = new FilterAndSortBuilder()
-                .name("First")
+        Pageable page = PageRequest.of(0, 9);
+
+        FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
+                .productName("First")
+                .page(page)
                 .build();
 
-        final ProductSpecification productSpecification = new ProductSpecification(productFilter, 0);
+        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
 
-        final Specification<ProductEntity> filterSpecification = productSpecification.toFilterSpecification();
+        final ProductSpecification productSpecification = new ProductSpecification(productFilter);
 
-        final Page<ProductEntity> results = productJpaRepository.findAll(filterSpecification, productSpecification.toPage());
+        final Page<ProductEntity> results = productJpaRepository.findAll(productSpecification.toFilterSpecification(), productFilter.getPage());
 
         assertEquals("First", results.getContent().get(0).getName());
         assertEquals(1, results.getContent().size());
@@ -141,104 +150,121 @@ class ProductJpaRepositoryTest {
 
     @Test
     void return_products_by_category_id() {
+        Pageable page = PageRequest.of(0, 9);
+
         final CategoryEntity category = categoryJpaRepository.findAll().get(0);
 
-        final ProductFilter productFilter = new FilterAndSortBuilder()
+        FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
                 .categoryId(category.getId())
+                .page(page)
                 .build();
 
-        final ProductSpecification productSpecification = new ProductSpecification(productFilter, 0);
+        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
 
-        final Specification<ProductEntity> filterSpecification = productSpecification.toFilterSpecification();
+        final ProductSpecification productSpecification = new ProductSpecification(productFilter);
 
-        final Page<ProductEntity> results = productJpaRepository.findAll(filterSpecification, productSpecification.toPage());
+        final Page<ProductEntity> results = productJpaRepository.findAll(productSpecification.toFilterSpecification(), productFilter.getPage());
 
         assertNotNull(results.getContent());
     }
 
     @Test
     void return_products_by_subcategory_id() {
+        Pageable page = PageRequest.of(0, 9);
+
         final CategoryEntity subcategory = categoryJpaRepository.findAll().get(3);
 
         final List<UUID> subcategoryIds = Collections.singletonList(subcategory.getId());
 
-        final ProductFilter productFilter = new FilterAndSortBuilder()
+        FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
                 .subcategoryIds(subcategoryIds)
+                .page(page)
                 .build();
 
-        final ProductSpecification productSpecification = new ProductSpecification(productFilter, 0);
+        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
 
-        final Specification<ProductEntity> filterSpecification = productSpecification.toFilterSpecification();
+        final ProductSpecification productSpecification = new ProductSpecification(productFilter);
 
-        final Page<ProductEntity> results = productJpaRepository.findAll(filterSpecification, productSpecification.toPage());
+        final Page<ProductEntity> results = productJpaRepository.findAll(productSpecification.toFilterSpecification(), productFilter.getPage());
 
         assertNotNull(results.getContent());
     }
 
     @Test
     void return_products_by_subcategory_ids() {
+        Pageable page = PageRequest.of(0, 9);
+
         final CategoryEntity subcategory1 = categoryJpaRepository.findAll().get(3);
         final CategoryEntity subcategory2 = categoryJpaRepository.findAll().get(4);
 
         final List<UUID> subcategoryIds = Arrays.asList(subcategory1.getId(), subcategory2.getId());
 
-        final ProductFilter productFilter = new FilterAndSortBuilder()
+        FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
                 .subcategoryIds(subcategoryIds)
+                .page(page)
                 .build();
 
-        final ProductSpecification productSpecification = new ProductSpecification(productFilter, 0);
+        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
 
-        final Specification<ProductEntity> filterSpecification = productSpecification.toFilterSpecification();
+        final ProductSpecification productSpecification = new ProductSpecification(productFilter);
 
-        final Page<ProductEntity> results = productJpaRepository.findAll(filterSpecification, productSpecification.toPage());
+        final Page<ProductEntity> results = productJpaRepository.findAll(productSpecification.toFilterSpecification(), productFilter.getPage());
 
         assertNotNull(results.getContent());
     }
 
     @Test
     void return_products_by_min_price() {
-        final ProductFilter productFilter = new FilterAndSortBuilder()
+        Pageable page = PageRequest.of(0, 9);
+
+        FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
                 .minPrice(40.0)
+                .page(page)
                 .build();
 
-        final ProductSpecification productSpecification = new ProductSpecification(productFilter, 0);
+        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
 
-        final Specification<ProductEntity> filterSpecification = productSpecification.toFilterSpecification();
+        final ProductSpecification productSpecification = new ProductSpecification(productFilter);
 
-        final Page<ProductEntity> results = productJpaRepository.findAll(filterSpecification, productSpecification.toPage());
+        final Page<ProductEntity> results = productJpaRepository.findAll(productSpecification.toFilterSpecification(), productFilter.getPage());
 
         assertNotNull(results.getContent());
     }
 
     @Test
     void return_products_by_max_price() {
-        final ProductFilter productFilter = new FilterAndSortBuilder()
+        Pageable page = PageRequest.of(0, 9);
+
+        FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
                 .maxPrice(40.0)
+                .page(page)
                 .build();
 
-        final ProductSpecification productSpecification = new ProductSpecification(productFilter, 0);
+        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
 
-        final Specification<ProductEntity> filterSpecification = productSpecification.toFilterSpecification();
+        final ProductSpecification productSpecification = new ProductSpecification(productFilter);
 
-        final Page<ProductEntity> results = productJpaRepository.findAll(filterSpecification, productSpecification.toPage());
-
+        final Page<ProductEntity> results = productJpaRepository.findAll(productSpecification.toFilterSpecification(), productFilter.getPage());
         assertNotNull(results.getContent());
     }
 
     @Test
     void return_products_with_several_filters() {
-        final ProductFilter productFilter = new FilterAndSortBuilder()
-                .name("First")
+        Pageable page = PageRequest.of(0, 9);
+
+        FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
+                .productName("First")
                 .minPrice(30.0)
                 .maxPrice(60.0)
-                .sortCriteria(ProductSortCriteria.PRICE_DESC)
+                .productSort(ProductSort.PRICE_DESC)
+                .page(page)
                 .build();
 
-        final ProductSpecification productSpecification = new ProductSpecification(productFilter, 0);
+        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
 
-        final Specification<ProductEntity> filterSpecification = productSpecification.toFilterSpecification();
+        final ProductSpecification productSpecification = new ProductSpecification(productFilter);
 
-        final Page<ProductEntity> results = productJpaRepository.findAll(filterSpecification, productSpecification.toPage());
+        final Page<ProductEntity> results = productJpaRepository.findAll(productSpecification.toFilterSpecification(), productFilter.getPage());
 
         assertNotNull(results.getContent());
     }

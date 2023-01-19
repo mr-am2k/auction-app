@@ -3,7 +3,7 @@ package com.internship.auctionapp.controllers;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
-import com.internship.auctionapp.requests.ProductFilterRequest;
+import com.internship.auctionapp.requests.SearchProductRequest;
 import com.internship.auctionapp.services.product.ProductService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -34,8 +34,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public Page<Product> getProducts(@ModelAttribute ProductFilterRequest productFilterRequest) {
-        return productService.getProducts(productFilterRequest);
+    public Page<Product> getProducts(@ModelAttribute SearchProductRequest searchProductRequest) {
+        return productService.getProducts(searchProductRequest);
     }
 
     @GetMapping("/{id}")

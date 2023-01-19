@@ -13,14 +13,13 @@ import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.CreateProductRequest;
 
-import com.internship.auctionapp.util.filter.ProductFilter;
-import com.internship.auctionapp.util.filter.ProductSpecification;
+import com.internship.auctionapp.util.filter.product.ProductFilter;
+import com.internship.auctionapp.util.filter.product.ProductSpecification;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -50,12 +49,10 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public Page<Product> getProducts(ProductFilter productFilter, Integer pageNumber) {
-        final ProductSpecification productSpecification = new ProductSpecification(productFilter, pageNumber);
+    public Page<Product> getProducts(ProductFilter productFilter) {
+        final ProductSpecification productSpecification = new ProductSpecification(productFilter);
 
-        final Specification<ProductEntity> specification = productSpecification.toFilterSpecification();
-
-        return productJpaRepository.findAll(specification, productSpecification.toPage()).map(ProductEntity::toDomainModel);
+        return productJpaRepository.findAll(productSpecification.toFilterSpecification(), productFilter.getPage()).map(ProductEntity::toDomainModel);
     }
 
     @Override
