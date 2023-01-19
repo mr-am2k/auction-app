@@ -4,9 +4,9 @@ import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 
+import com.internship.auctionapp.util.filter.ProductFilter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 
 import java.time.ZonedDateTime;
 
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ProductRepository {
-    Page<Product> getProducts(Specification<ProductEntity> filterSpecification, Pageable page);
+    Page<Product> getProducts(ProductFilter productFilter, Integer pageNumber);
 
     Product addProduct(CreateProductDataRequest createProductDataRequest);
 

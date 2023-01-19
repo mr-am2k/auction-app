@@ -13,6 +13,8 @@ import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.CreateProductRequest;
 
+import com.internship.auctionapp.util.filter.ProductFilter;
+import com.internship.auctionapp.util.filter.ProductSpecification;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.data.domain.Page;
@@ -48,8 +50,12 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public Page<Product> getProducts(Specification<ProductEntity> filterSpecification, Pageable page) {
-        return productJpaRepository.findAll(filterSpecification, page).map(ProductEntity::toDomainModel);
+    public Page<Product> getProducts(ProductFilter productFilter, Integer pageNumber) {
+        final ProductSpecification productSpecification = new ProductSpecification(productFilter, pageNumber);
+
+        final Specification<ProductEntity> specification = productSpecification.toFilterSpecification();
+
+        return productJpaRepository.findAll(specification, productSpecification.toPage()).map(ProductEntity::toDomainModel);
     }
 
     @Override

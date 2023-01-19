@@ -4,14 +4,14 @@ import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 
-import com.internship.auctionapp.util.filter.FilterAndSortProduct;
+import com.internship.auctionapp.requests.ProductFilterRequest;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface ProductService {
-    Page<Product> getProducts(FilterAndSortProduct filterAndSortProduct, Integer pageNumber);
+    Page<Product> getProducts(ProductFilterRequest productFilterRequest);
 
     Product addProduct(CreateProductDataRequest createProductDataRequest);
 

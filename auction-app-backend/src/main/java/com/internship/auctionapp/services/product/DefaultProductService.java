@@ -10,10 +10,12 @@ import com.internship.auctionapp.repositories.notification.NotificationRepositor
 import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
+import com.internship.auctionapp.requests.ProductFilterRequest;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.NotificationType;
 
-import com.internship.auctionapp.util.filter.FilterAndSortProduct;
+import com.internship.auctionapp.util.filter.FilterAndSortBuilder;
+import com.internship.auctionapp.util.filter.ProductFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +24,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -65,12 +66,17 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Page<Product> getProducts(FilterAndSortProduct filterAndSortProduct, Integer pageNumber) {
-        final Specification<ProductEntity> filterSpecification = filterAndSortProduct.toFilterSpecification();
+    public Page<Product> getProducts(ProductFilterRequest productFilterRequest) {
+        final ProductFilter productFilter = new FilterAndSortBuilder()
+                .name(productFilterRequest.getName())
+                .categoryId(productFilterRequest.getCategoryId())
+                .subcategoryIds(productFilterRequest.getSubcategoryIds())
+                .minPrice(productFilterRequest.getMinPrice())
+                .maxPrice(productFilterRequest.getMaxPrice())
+                .sortCriteria(productFilterRequest.getProductSortCriteria())
+                .build();
 
-        final Pageable page = PageRequest.of(pageNumber, PRODUCTS_PER_PAGE);
-
-        return productRepository.getProducts(filterSpecification, page);
+        return productRepository.getProducts(productFilter, productFilterRequest.getPageNumber());
     }
 
     @Override

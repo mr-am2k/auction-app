@@ -3,11 +3,9 @@ package com.internship.auctionapp.controllers;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
+import com.internship.auctionapp.requests.ProductFilterRequest;
 import com.internship.auctionapp.services.product.ProductService;
 
-import com.internship.auctionapp.util.ProductSortCriteria;
-import com.internship.auctionapp.util.filter.FilterAndSortBuilder;
-import com.internship.auctionapp.util.filter.FilterAndSortProduct;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -36,25 +34,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public Page<Product> getProducts(
-            @RequestParam Integer pageNumber,
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) UUID categoryId,
-            @RequestParam(required = false) List<UUID> subcategoryIds,
-            @RequestParam(required = false) Double minPrice,
-            @RequestParam(required = false) Double maxPrice,
-            @RequestParam(required = false) ProductSortCriteria productSortCriteria
-    ) {
-        final FilterAndSortProduct filterAndSortProduct = new FilterAndSortBuilder()
-                .name(name)
-                .categoryId(categoryId)
-                .subcategoryIds(subcategoryIds)
-                .minPrice(minPrice)
-                .maxPrice(maxPrice)
-                .sortCriteria(productSortCriteria)
-                .build();
-
-        return productService.getProducts(filterAndSortProduct, pageNumber);
+    public Page<Product> getProducts(@ModelAttribute ProductFilterRequest productFilterRequest) {
+        return productService.getProducts(productFilterRequest);
     }
 
     @GetMapping("/{id}")

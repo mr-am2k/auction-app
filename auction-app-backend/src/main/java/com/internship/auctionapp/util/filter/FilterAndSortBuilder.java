@@ -46,7 +46,7 @@ public class FilterAndSortBuilder {
         return this;
     }
 
-    public FilterAndSortProduct build() {
-        return new FilterAndSortProduct(this);
+    public ProductFilter build() {
+        return new ProductFilter(this);
     }
 }
