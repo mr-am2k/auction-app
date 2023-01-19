@@ -59,9 +59,7 @@ const AddItem = () => {
     const imageURLs = await fileUploadService.uploadFiles(FOLDERS.PRODUCT, fieldValues[PRODUCT_FORM.IMAGES]);
 
     const currentTime = new Date();
-
     const creationDate = new Date(fieldValues[PRODUCT_FORM.START_DATE])
-
     const expirationDate = new Date(fieldValues[PRODUCT_FORM.END_DATE])
 
     creationDate.setHours(currentTime.getHours());
