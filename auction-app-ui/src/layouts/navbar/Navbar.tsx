@@ -8,11 +8,15 @@ import { ROUTES } from 'util/routes';
 import './navbar.scss';
 
 import { SearchIcon, CloseIcon } from 'assets/icons';
+type Props = {
+  children?: React.ReactNode;
+  onSearch: (searchParam: string) => void;
+};
 
-const Navbar = () => {
+const Navbar:React.FC<Props> = ({onSearch}) => {
   const [inputContent, setInputContent] = useState('');
   const handleSearch = () => {
-    console.log(inputContent);
+    onSearch(inputContent);
   };
 
   return (

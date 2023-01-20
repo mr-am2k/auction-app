@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { usePage } from 'hooks/usePage';
 import { useUser } from 'hooks/useUser';

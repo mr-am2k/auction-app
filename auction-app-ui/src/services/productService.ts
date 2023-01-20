@@ -5,7 +5,7 @@ import { CreateProductDataRequest } from 'models/request/create/createProductDat
 const BASE_URL = '/products';
 
 const productsService = {
-  getAll: () => agent.get<Product[]>(BASE_URL),
+  getProducts: (params: {}) => agent.get<any>(BASE_URL, params),
   getSingleProduct: (id: string) => agent.get<Product>(`${BASE_URL}/${id}`),
   getRandomProduct: () => agent.get<any>(`${BASE_URL}/random`),
   search: (queryParam: string) => agent.get<any>(`${BASE_URL}/search?criteria=${queryParam}`),

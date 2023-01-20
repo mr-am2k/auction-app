@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import { useUser } from 'hooks/useUser';
@@ -6,7 +6,19 @@ import { useUser } from 'hooks/useUser';
 import { PageProvider, FormProvider } from 'store/index';
 import { storageService } from 'services/storageService';
 
-import { PrivacyAndPolicy, TermsAndConditions, AboutUs, Home, SingleProduct, Register, Login, MyAccount, AddItem, Error } from './pages';
+import {
+  PrivacyAndPolicy,
+  TermsAndConditions,
+  AboutUs,
+  Home,
+  SingleProduct,
+  Register,
+  Login,
+  MyAccount,
+  AddItem,
+  Error,
+  Shop,
+} from './pages';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import { ROUTES } from './util/routes';
 import { LOCAL_STORAGE } from 'util/constants';
@@ -27,11 +39,16 @@ const PAGES_WITH_NAVBAR_COMPONENT = [
 ];
 
 const App = () => {
+  const [searchParam, setSearchParam] = useState<string | undefined>(undefined);
   const { loggedInUser, setLoggedInUser, resetLoggedInUser, loginUser, logoutUser } = useUser();
   const location = useLocation();
   const navigate = useNavigate();
 
   const refreshToken = storageService.get(LOCAL_STORAGE.REFRESH_TOKEN);
+
+  const updateSearchParam = (searchParam: string) => {
+    setSearchParam(searchParam);
+  };
 
   const setUser = () => {
     loginUser().then(user => {
@@ -82,7 +99,7 @@ const App = () => {
 
         {PAGES_WITH_NAVBAR_COMPONENT.includes(location.pathname) && (
           <>
-            <Navbar />
+            <Navbar onSearch={updateSearchParam} />
             <NavbarTracker />
           </>
         )}
@@ -101,7 +118,7 @@ const App = () => {
                   path={`${ROUTES.PRODUCT}/:id`}
                   element={
                     <>
-                      <Navbar />
+                      <Navbar onSearch={updateSearchParam} />
                       <NavbarTracker />
                       <SingleProduct />
                     </>
@@ -109,6 +126,7 @@ const App = () => {
                 />
                 <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
                 <Route path={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`} element={<AddItem />} />
+                <Route path={ROUTES.SHOP} element={<Shop searchParam={searchParam} />} />
                 <Route path='*' element={<Error />} />
               </Routes>
             </main>

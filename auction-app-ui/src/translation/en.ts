@@ -236,3 +236,7 @@ export const PRODUCTS_TABLE = {
   NUMBER_OF_BIDS: 'No. bids',
   HIGHEST_BID: 'Highest bid',
 };
+
+export const SHOP = {
+  EXPLORE_MORE: 'Explore More',
+};
