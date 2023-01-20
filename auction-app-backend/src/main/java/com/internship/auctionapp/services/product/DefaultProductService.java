@@ -14,7 +14,6 @@ import com.internship.auctionapp.requests.SearchProductRequest;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.NotificationType;
 
-import com.internship.auctionapp.util.filter.product.FilterAndSortBuilder;
 import com.internship.auctionapp.util.filter.product.ProductFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +64,7 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public Page<Product> getProducts(SearchProductRequest searchProductRequest) {
-        final FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
+        final ProductFilter productFilter = ProductFilter.builder()
                 .productName(searchProductRequest.getName())
                 .categoryId(searchProductRequest.getCategoryId())
                 .subcategoryIds(searchProductRequest.getSubcategoryIds())
@@ -74,8 +73,6 @@ public class DefaultProductService implements ProductService {
                 .productSort(searchProductRequest.getProductSort())
                 .page(searchProductRequest.toPage())
                 .build();
-
-        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
 
         return productRepository.getProducts(productFilter);
     }

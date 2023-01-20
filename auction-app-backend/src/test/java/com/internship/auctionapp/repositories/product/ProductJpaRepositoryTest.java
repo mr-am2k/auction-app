@@ -6,7 +6,6 @@ import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.category.CategoryJpaRepository;
 import com.internship.auctionapp.repositories.creditCard.CreditCardJpaRepository;
 import com.internship.auctionapp.util.filter.product.ProductSort;
-import com.internship.auctionapp.util.filter.product.FilterAndSortBuilder;
 import com.internship.auctionapp.util.filter.product.ProductFilter;
 import com.internship.auctionapp.util.filter.product.ProductSpecification;
 import org.junit.jupiter.api.BeforeEach;
@@ -133,12 +132,10 @@ class ProductJpaRepositoryTest {
     void return_products_by_name() {
         Pageable page = PageRequest.of(0, 9);
 
-        FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
+        ProductFilter productFilter = ProductFilter.builder()
                 .productName("First")
                 .page(page)
                 .build();
-
-        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
 
         final ProductSpecification productSpecification = new ProductSpecification(productFilter);
 
@@ -154,12 +151,10 @@ class ProductJpaRepositoryTest {
 
         final CategoryEntity category = categoryJpaRepository.findAll().get(0);
 
-        FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
+        ProductFilter productFilter = ProductFilter.builder()
                 .categoryId(category.getId())
                 .page(page)
                 .build();
-
-        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
 
         final ProductSpecification productSpecification = new ProductSpecification(productFilter);
 
@@ -176,12 +171,10 @@ class ProductJpaRepositoryTest {
 
         final List<UUID> subcategoryIds = Collections.singletonList(subcategory.getId());
 
-        FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
+        ProductFilter productFilter = ProductFilter.builder()
                 .subcategoryIds(subcategoryIds)
                 .page(page)
                 .build();
-
-        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
 
         final ProductSpecification productSpecification = new ProductSpecification(productFilter);
 
@@ -199,12 +192,10 @@ class ProductJpaRepositoryTest {
 
         final List<UUID> subcategoryIds = Arrays.asList(subcategory1.getId(), subcategory2.getId());
 
-        FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
+        ProductFilter productFilter = ProductFilter.builder()
                 .subcategoryIds(subcategoryIds)
                 .page(page)
                 .build();
-
-        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
 
         final ProductSpecification productSpecification = new ProductSpecification(productFilter);
 
@@ -217,12 +208,10 @@ class ProductJpaRepositoryTest {
     void return_products_by_min_price() {
         Pageable page = PageRequest.of(0, 9);
 
-        FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
+        ProductFilter productFilter = ProductFilter.builder()
                 .minPrice(40.0)
                 .page(page)
                 .build();
-
-        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
 
         final ProductSpecification productSpecification = new ProductSpecification(productFilter);
 
@@ -235,12 +224,10 @@ class ProductJpaRepositoryTest {
     void return_products_by_max_price() {
         Pageable page = PageRequest.of(0, 9);
 
-        FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
+        ProductFilter productFilter = ProductFilter.builder()
                 .maxPrice(40.0)
                 .page(page)
                 .build();
-
-        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
 
         final ProductSpecification productSpecification = new ProductSpecification(productFilter);
 
@@ -252,15 +239,13 @@ class ProductJpaRepositoryTest {
     void return_products_with_several_filters() {
         Pageable page = PageRequest.of(0, 9);
 
-        FilterAndSortBuilder filterAndSortBuilder = FilterAndSortBuilder.builder()
+        ProductFilter productFilter = ProductFilter.builder()
                 .productName("First")
                 .minPrice(30.0)
                 .maxPrice(60.0)
                 .productSort(ProductSort.PRICE_DESC)
                 .page(page)
                 .build();
-
-        final ProductFilter productFilter = new ProductFilter(filterAndSortBuilder);
 
         final ProductSpecification productSpecification = new ProductSpecification(productFilter);
 

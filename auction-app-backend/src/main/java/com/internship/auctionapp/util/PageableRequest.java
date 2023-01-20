@@ -20,12 +20,6 @@ public abstract class PageableRequest<T> {
     }
 
     public Pageable toPage() {
-        Pageable page = PageRequest.of(pageNumber, pageSize);
-
-        if (sortCriteria != null) {
-            page = PageRequest.of(pageNumber, pageSize, (Sort) sortCriteria);
-        }
-
-        return page;
+        return sortCriteria != null ? PageRequest.of(pageNumber, pageSize, (Sort) sortCriteria) : PageRequest.of(pageNumber, pageSize);
     }
 }
