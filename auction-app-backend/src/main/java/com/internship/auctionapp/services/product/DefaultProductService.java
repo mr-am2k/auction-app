@@ -10,9 +10,11 @@ import com.internship.auctionapp.repositories.notification.NotificationRepositor
 import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
+import com.internship.auctionapp.requests.SearchProductRequest;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.NotificationType;
 
+import com.internship.auctionapp.util.filter.product.ProductFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,12 +63,18 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        final List<Product> products = productRepository.getAllProducts();
+    public Page<Product> getProducts(SearchProductRequest searchProductRequest) {
+        final ProductFilter productFilter = ProductFilter.builder()
+                .productName(searchProductRequest.getName())
+                .categoryId(searchProductRequest.getCategoryId())
+                .subcategoryIds(searchProductRequest.getSubcategoryIds())
+                .minPrice(searchProductRequest.getMinPrice())
+                .maxPrice(searchProductRequest.getMaxPrice())
+                .productSort(searchProductRequest.getProductSort())
+                .page(searchProductRequest.toPage())
+                .build();
 
-        LOGGER.info("Fetched all products={}", products);
-
-        return products;
+        return productRepository.getProducts(productFilter);
     }
 
     @Override

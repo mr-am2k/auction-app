@@ -92,6 +92,10 @@ public class ProductEntity {
     @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
 
+    @ManyToOne
+    @JoinColumn(name = "subcategory_id", nullable = false)
+    private CategoryEntity subcategory;
+
     @Embedded
     private Address address;
 
@@ -101,7 +105,7 @@ public class ProductEntity {
 
     public ProductEntity(String name, String description, List<String> imageURLs, Double startPrice,
                          ZonedDateTime creationDateTime, ZonedDateTime expirationDateTime,
-                         UserEntity user, CategoryEntity category, Address address,
+                         UserEntity user, CategoryEntity category, CategoryEntity subcategory, Address address,
                          CreditCardEntity creditCard) {
         this.name = name;
         this.description = description;
@@ -111,6 +115,7 @@ public class ProductEntity {
         this.expirationDateTime = expirationDateTime;
         this.user = user;
         this.category = category;
+        this.subcategory = subcategory;
         this.address = address;
         this.creditCard = creditCard;
     }
@@ -124,6 +129,7 @@ public class ProductEntity {
             ZonedDateTime expirationDateTime,
             UserEntity user,
             CategoryEntity category,
+            CategoryEntity subcategory,
             Address address,
             CreditCardEntity creditCard,
             UUID highestBidder,
@@ -137,6 +143,7 @@ public class ProductEntity {
         this.expirationDateTime = expirationDateTime;
         this.user = user;
         this.category = category;
+        this.subcategory = subcategory;
         this.address = address;
         this.creditCard = creditCard;
         this.highestBidder = highestBidder;
@@ -157,6 +164,7 @@ public class ProductEntity {
                 this.expirationDateTime,
                 this.user,
                 this.category,
+                this.subcategory,
                 this.address,
                 this.creditCard,
                 this.highestBidder,

@@ -3,7 +3,7 @@ package com.internship.auctionapp.controllers;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
-import com.internship.auctionapp.requests.CreateProductRequest;
+import com.internship.auctionapp.requests.SearchProductRequest;
 import com.internship.auctionapp.services.product.ProductService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -34,8 +34,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    public Page<Product> getProducts(@ModelAttribute SearchProductRequest searchProductRequest) {
+        return productService.getProducts(searchProductRequest);
     }
 
     @GetMapping("/{id}")
@@ -67,12 +67,12 @@ public class ProductController {
 
     @GetMapping("/user/{userId}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public List<Product> getUserProducts(@PathVariable("userId") UUID userId){
+    public List<Product> getUserProducts(@PathVariable("userId") UUID userId) {
         return productService.getUserProducts(userId);
     }
 
     @GetMapping("/related")
-    public Page<Product> getRelatedProducts(@RequestParam UUID categoryId, @RequestParam UUID productId){
+    public Page<Product> getRelatedProducts(@RequestParam UUID categoryId, @RequestParam UUID productId) {
         return productService.getRelatedProducts(categoryId, productId);
     }
 }

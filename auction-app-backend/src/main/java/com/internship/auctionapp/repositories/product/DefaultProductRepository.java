@@ -13,6 +13,8 @@ import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.CreateProductRequest;
 
+import com.internship.auctionapp.util.filter.product.ProductFilter;
+import com.internship.auctionapp.util.filter.product.ProductSpecification;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.data.domain.Page;
@@ -47,10 +49,10 @@ public class DefaultProductRepository implements ProductRepository {
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productJpaRepository.findAll().stream()
-                .map(ProductEntity::toDomainModel)
-                .collect(Collectors.toList());
+    public Page<Product> getProducts(ProductFilter productFilter) {
+        final ProductSpecification productSpecification = new ProductSpecification(productFilter);
+
+        return productJpaRepository.findAll(productSpecification.toFilterSpecification(), productFilter.getPage()).map(ProductEntity::toDomainModel);
     }
 
     @Override
@@ -73,6 +75,9 @@ public class DefaultProductRepository implements ProductRepository {
 
         final CategoryEntity category = categoryJpaRepository.findById(createProductRequest.getCategoryId()).get();
         productEntity.setCategory(category);
+
+        final CategoryEntity subcategory = categoryJpaRepository.findById(createProductRequest.getSubcategoryId()).get();
+        productEntity.setSubcategory(subcategory);
 
         final UserEntity user = userJpaRepository.findById(createProductRequest.getUserId()).orElseThrow(() ->
                 new UserNotFoundByIdException(createProductRequest.getUserId().toString())

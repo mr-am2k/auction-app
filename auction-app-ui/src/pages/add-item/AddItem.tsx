@@ -58,14 +58,27 @@ const AddItem = () => {
 
     const imageURLs = await fileUploadService.uploadFiles(FOLDERS.PRODUCT, fieldValues[PRODUCT_FORM.IMAGES]);
 
+    const currentTime = new Date();
+    const creationDate = new Date(fieldValues[PRODUCT_FORM.START_DATE])
+    const expirationDate = new Date(fieldValues[PRODUCT_FORM.END_DATE])
+
+    creationDate.setHours(currentTime.getHours());
+    creationDate.setMinutes(currentTime.getMinutes());
+    creationDate.setSeconds(currentTime.getSeconds());
+
+    expirationDate.setHours(currentTime.getHours());
+    expirationDate.setMinutes(currentTime.getMinutes());
+    expirationDate.setSeconds(currentTime.getSeconds());
+
     const createProductRequest: CreateProductRequest = {
       name: fieldValues[PRODUCT_FORM.PRODUCT],
       description: fieldValues[PRODUCT_FORM.DESCRIPTION],
       imageURLs: imageURLs,
       startPrice: fieldValues[PRODUCT_FORM.PRICE],
-      categoryId: fieldValues[PRODUCT_FORM.SUBCATEGORY],
-      creationDateTime: fieldValues[PRODUCT_FORM.START_DATE],
-      expirationDateTime: fieldValues[PRODUCT_FORM.END_DATE],
+      categoryId: fieldValues[PRODUCT_FORM.CATEGORY],
+      subcategoryId: fieldValues[PRODUCT_FORM.SUBCATEGORY],
+      creationDateTime: creationDate,
+      expirationDateTime: expirationDate,
       userId: storageService.get(LOCAL_STORAGE.ID)!,
       address: createAddressRequest,
     };
