@@ -28,3 +28,4 @@ export { default as Splitter } from './splitter/Splitter';
 export { default as BiddersList } from './BiddersList/BiddersList';
 export { default as RelatedProducts } from './RelatedProducts/RelatedProducts';
 export { default as ProductCard } from './ProductCard/ProductCard';
+export { default as ShopFilters } from './ShopFilters/ShopFilters';

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './shop.scss';
 import productsService from 'services/productService';
 import { Product } from 'models/product';
-import { ProductCard } from 'components';
+import { ProductCard, ShopFilters } from 'components';
 import { SHOP } from 'translation/en';
 import { useFilter } from 'hooks/useFilter';
 
@@ -56,7 +56,7 @@ const Shop = () => {
   return (
     <div className='c-shop-page-wrapper'>
       <div className='c-filters'>
-        <p>Filters</p>
+        <ShopFilters/>
       </div>
       <div className='c-products'>
         <div className='c-products-sorting'>
