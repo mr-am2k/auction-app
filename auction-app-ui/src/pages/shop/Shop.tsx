@@ -4,13 +4,11 @@ import productsService from 'services/productService';
 import { Product } from 'models/product';
 import { ProductCard } from 'components';
 import { SHOP } from 'translation/en';
+import { useFilter } from 'hooks/useFilter';
 
-type Props = {
-  children?: React.ReactNode;
-  searchParam: string | undefined;
-};
+const Shop = () => {
+  const { searchFilterValues } = useFilter();
 
-const Shop: React.FC<Props> = ({ searchParam }) => {
   const [pageNumber, setPageNumber] = useState(0);
   const [prevPageNumber, setPrevPageNumber] = useState(0);
   const [lastPage, setLastPage] = useState(false);
@@ -19,7 +17,12 @@ const Shop: React.FC<Props> = ({ searchParam }) => {
   const fetchProducts = (pageNumber: number) => {
     const productFilter = {
       pageNumber: pageNumber,
-      name: searchParam,
+      name: searchFilterValues.name,
+      categoryId: searchFilterValues.categoryId,
+      subcategoryIds: searchFilterValues.subcategoryIds,
+      minPrice: searchFilterValues.minPrice,
+      maxPrice: searchFilterValues.maxPrice,
+      productSort: searchFilterValues.productSort,
     };
 
     productsService.getProducts({ params: productFilter }).then(fetchedPage => {
@@ -48,7 +51,7 @@ const Shop: React.FC<Props> = ({ searchParam }) => {
       setPrevPageNumber(pageNumber);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParam, pageNumber]);
+  }, [searchFilterValues, pageNumber]);
 
   return (
     <div className='c-shop-page-wrapper'>

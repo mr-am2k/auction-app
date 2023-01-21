@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useFilter } from 'hooks/useFilter';
+
 import auctionAppLogo from 'assets/logo/auction-app-logo.svg';
 import { EN_STRINGS } from 'translation/en';
 import { ROUTES } from 'util/routes';
@@ -8,15 +10,18 @@ import { ROUTES } from 'util/routes';
 import './navbar.scss';
 
 import { SearchIcon, CloseIcon } from 'assets/icons';
-type Props = {
-  children?: React.ReactNode;
-  onSearch: (searchParam: string) => void;
-};
 
-const Navbar:React.FC<Props> = ({onSearch}) => {
+const Navbar = () => {
   const [inputContent, setInputContent] = useState('');
+  const { searchFilterValues, setSearchFilterValues } = useFilter();
+
   const handleSearch = () => {
-    onSearch(inputContent);
+    setSearchFilterValues({ ...searchFilterValues, name: inputContent });
+  };
+
+  const handleClear = () => {
+    setInputContent('');
+    setSearchFilterValues({ ...searchFilterValues, name: '' });
   };
 
   return (
@@ -37,7 +42,7 @@ const Navbar:React.FC<Props> = ({onSearch}) => {
 
         <div className='c-search-input-icons'>
           {inputContent.length > 0 && (
-            <span onClick={() => setInputContent('')}>
+            <span onClick={handleClear}>
               <CloseIcon />
             </span>
           )}

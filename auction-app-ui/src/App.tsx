@@ -3,7 +3,7 @@ import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import { useUser } from 'hooks/useUser';
 
-import { PageProvider, FormProvider } from 'store/index';
+import { PageProvider, FormProvider, FilterProvider } from 'store/index';
 import { storageService } from 'services/storageService';
 
 import {
@@ -39,16 +39,11 @@ const PAGES_WITH_NAVBAR_COMPONENT = [
 ];
 
 const App = () => {
-  const [searchParam, setSearchParam] = useState<string | undefined>(undefined);
   const { loggedInUser, setLoggedInUser, resetLoggedInUser, loginUser, logoutUser } = useUser();
   const location = useLocation();
   const navigate = useNavigate();
 
   const refreshToken = storageService.get(LOCAL_STORAGE.REFRESH_TOKEN);
-
-  const updateSearchParam = (searchParam: string) => {
-    setSearchParam(searchParam);
-  };
 
   const setUser = () => {
     loginUser().then(user => {
@@ -95,44 +90,46 @@ const App = () => {
   return (
     <PageProvider>
       <FormProvider>
-        <Header />
+        <FilterProvider>
+          <Header />
 
-        {PAGES_WITH_NAVBAR_COMPONENT.includes(location.pathname) && (
-          <>
-            <Navbar onSearch={updateSearchParam} />
-            <NavbarTracker />
-          </>
-        )}
+          {PAGES_WITH_NAVBAR_COMPONENT.includes(location.pathname) && (
+            <>
+              <Navbar/>
+              <NavbarTracker />
+            </>
+          )}
 
-        <div className='c-page-wrapper'>
-          <>
-            <main>
-              <Routes>
-                <Route path={ROUTES.REGISTER} element={<Register />} />
-                <Route path={ROUTES.LOGIN} element={<Login />} />
-                <Route path={ROUTES.PRIVACY_AND_POLICY} element={<PrivacyAndPolicy />} />
-                <Route path={ROUTES.TERMS_AND_CONDITIONS} element={<TermsAndConditions />} />
-                <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
-                <Route path='/' element={<Home />} />
-                <Route
-                  path={`${ROUTES.PRODUCT}/:id`}
-                  element={
-                    <>
-                      <Navbar onSearch={updateSearchParam} />
-                      <NavbarTracker />
-                      <SingleProduct />
-                    </>
-                  }
-                />
-                <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
-                <Route path={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`} element={<AddItem />} />
-                <Route path={ROUTES.SHOP} element={<Shop searchParam={searchParam} />} />
-                <Route path='*' element={<Error />} />
-              </Routes>
-            </main>
-          </>
-        </div>
-        <Footer />
+          <div className='c-page-wrapper'>
+            <>
+              <main>
+                <Routes>
+                  <Route path={ROUTES.REGISTER} element={<Register />} />
+                  <Route path={ROUTES.LOGIN} element={<Login />} />
+                  <Route path={ROUTES.PRIVACY_AND_POLICY} element={<PrivacyAndPolicy />} />
+                  <Route path={ROUTES.TERMS_AND_CONDITIONS} element={<TermsAndConditions />} />
+                  <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
+                  <Route path='/' element={<Home />} />
+                  <Route
+                    path={`${ROUTES.PRODUCT}/:id`}
+                    element={
+                      <>
+                        <Navbar/>
+                        <NavbarTracker />
+                        <SingleProduct />
+                      </>
+                    }
+                  />
+                  <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
+                  <Route path={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`} element={<AddItem />} />
+                  <Route path={ROUTES.SHOP} element={<Shop/>} />
+                  <Route path='*' element={<Error />} />
+                </Routes>
+              </main>
+            </>
+          </div>
+          <Footer />
+        </FilterProvider>
       </FormProvider>
     </PageProvider>
   );
