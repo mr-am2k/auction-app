@@ -100,6 +100,11 @@ const SingleProduct = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedInUser, singleProduct]);
 
+  useEffect(() => {
+    fetchSingleProduct(id!)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
   if (!singleProduct) {
     return <Loading />;
   }
@@ -132,9 +137,9 @@ const SingleProduct = () => {
                 <p>
                   {`${EN_STRINGS.SINGLE_PRODUCT.TIME_LEFT}: `}
                   <span>
-                    {new Date(singleProduct.expirationDateTime) < currentDate ?
-                      EN_STRINGS.SINGLE_PRODUCT.EXPIRED :
-                      singleProduct.remainingTime}
+                    {new Date(singleProduct.expirationDateTime) < currentDate
+                      ? EN_STRINGS.SINGLE_PRODUCT.EXPIRED
+                      : singleProduct.remainingTime}
                   </span>
                 </p>
               </div>

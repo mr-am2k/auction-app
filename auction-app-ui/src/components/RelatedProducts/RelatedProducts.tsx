@@ -28,7 +28,7 @@ const RelatedProducts: React.FC<Props> = ({ categoryId, productId }) => {
   useEffect(() => {
     getRelatedProducts(requestParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [categoryId, productId]);
 
   return (
     <div className='c-related-products-container'>

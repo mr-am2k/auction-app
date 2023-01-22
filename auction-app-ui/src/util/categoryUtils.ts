@@ -3,6 +3,7 @@ import { Category } from 'models/category';
 
 export const organizeCategories = (categories: Category[]) => {
   const organizedCategories: Categories[] = [];
+
   for (const category of categories) {
     if (category.parentCategoryId === null) {
       const newCategory: Categories = {
@@ -10,6 +11,7 @@ export const organizeCategories = (categories: Category[]) => {
         name: category.name,
         subcategories: [],
       };
+
       organizedCategories.push(newCategory);
     } else {
       for (const subcategory of organizedCategories) {
@@ -20,6 +22,7 @@ export const organizeCategories = (categories: Category[]) => {
             numberOfProducts: category.numberOfProducts,
             parentCategoryId: category.parentCategoryId,
           };
+
           subcategory.subcategories.push(newSubcategory);
         }
       }
