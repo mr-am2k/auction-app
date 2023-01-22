@@ -6,6 +6,7 @@ import categoryService from 'services/categoryService';
 
 import { Categories } from 'models/categories';
 import { organizeCategories } from 'util/categoryUtils';
+import { CATEGORY_FILTERS } from 'translation/en';
 
 import './category-filters.scss';
 
@@ -84,10 +85,10 @@ const CategoryFilters = () => {
 
   return (
     <div className='c-categories-wrapper'>
-      <h4 className='c-categories-title'>PRODUCT CATEGORIES</h4>
+      <h4 className='c-categories-title'>{CATEGORY_FILTERS.PRODUCT_CATEGORIES}</h4>
       <div className='c-categories-list'>
         {categories.map((category, index) => (
-          <>
+          <div key={index}>
             <h4 className='c-category' key={category.categoryId}>
               {category.name}
               {displayCategories[index]?.state ? (
@@ -106,7 +107,7 @@ const CategoryFilters = () => {
                 ))}
               </>
             )}
-          </>
+          </div>
         ))}
       </div>
     </div>

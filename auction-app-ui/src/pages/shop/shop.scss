@@ -9,13 +9,13 @@
   gap: 2rem;
 
   .c-filters {
-    width: 300px;
+    width: 370px;
   }
 
   .c-products {
     @include flexDisplay(flex-start, flex-start);
     flex-direction: column;
-    width: 1200px;
+    width: 1140px;
     gap: 2rem;
 
     .c-products-sorting {

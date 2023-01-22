@@ -11,7 +11,7 @@ type Props = {
   placeholder?: string | undefined;
   name: string;
   type: string;
-  title: string;
+  title?: string;
   pattern?: string;
   required?: boolean;
   disabled?: boolean;

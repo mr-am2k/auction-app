@@ -3,8 +3,8 @@
 
 .c-categories-wrapper {
   border: 2px solid $smokeWhiteColor;
-  width: 250px;
-  padding: 0.5rem 1rem;
+  width: 260px;
+  padding: 0.5rem 3.5rem 0.5rem 1rem;
 
   .c-categories-title {
     color: $purpleColor;
@@ -14,6 +14,8 @@
     @include flexDisplay(space-between, center);
 
     span {
+      font-size: 19px;
+
       &:hover {
         cursor: pointer;
       }

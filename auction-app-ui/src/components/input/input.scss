@@ -5,7 +5,7 @@
   @include flexDisplay(flex-start, flex-start);
   flex-direction: column;
   font-family: $latoFont;
-  width: 500px;
+  width: 100%;
   margin-bottom: 0.5rem;
 
   .c-header-text {
@@ -14,7 +14,7 @@
   }
 
   input {
-    width: 432px;
+    width: 86%;
     padding: 18px 42px 18px 24px;
     gap: 10px;
     background: $lightGreyColor;
@@ -51,5 +51,7 @@
 
   p {
     color: $errorColor;
+    margin-top: 0;
+    padding-top: 1rem;
   }
 }

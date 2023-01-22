@@ -85,6 +85,9 @@ export const EN_STRINGS = {
     PRODUCT_IMAGES: 'You need to upload at least 3 photos!',
     START_PRICE: 'Price needs to be 1$ or greater!',
     DATE: "Date can't be in the past or before start date!",
+    NEGATIVE_PRICE: "Price can't be negative",
+    MIN_PRICE: 'Min price can not be higher than max price',
+    MAX_PRICE: 'Max price can not be higher than min price',
   },
 
   MY_ACCOUNT: {
@@ -239,4 +242,12 @@ export const PRODUCTS_TABLE = {
 
 export const SHOP = {
   EXPLORE_MORE: 'Explore More',
+};
+
+export const CATEGORY_FILTERS = {
+  PRODUCT_CATEGORIES: 'PRODUCT CATEGORIES',
+};
+
+export const PRICE_FILTERS = {
+  PRICE_RANGE: 'Price Range',
 };

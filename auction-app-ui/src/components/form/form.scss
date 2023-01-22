@@ -9,6 +9,10 @@
     border: 1px solid $borderGreyColor;
   }
 
+  .c-inputs-wrapper{
+    width: 500px;
+  }
+
   .c-form {
     @include flexDisplay(flex-start, center);
     width: 700px;
