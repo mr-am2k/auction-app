@@ -10,7 +10,6 @@
 
   .c-filters {
     width: 300px;
-    background-color: red;
   }
 
   .c-products {
@@ -41,16 +40,16 @@
         width: 100%;
         margin-top: 3rem;
 
-        button{
-            width: 15rem;
-            border: 1px solid $purpleColor;
-            background-color: $purpleColor;
-            color: $whiteColor;
+        button {
+          width: 15rem;
+          border: 1px solid $purpleColor;
+          background-color: $purpleColor;
+          color: $whiteColor;
 
-            &:hover{
-                cursor: pointer;
-                scale: 1.02;
-            }
+          &:hover {
+            cursor: pointer;
+            scale: 1.02;
+          }
         }
       }
     }

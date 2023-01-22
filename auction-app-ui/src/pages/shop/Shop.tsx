@@ -15,11 +15,12 @@ const Shop = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   const fetchProducts = (pageNumber: number) => {
+    console.log(searchFilterValues.subcategoryIds)
     const productFilter = {
       pageNumber: pageNumber,
       name: searchFilterValues.name,
       categoryId: searchFilterValues.categoryId,
-      subcategoryIds: searchFilterValues.subcategoryIds,
+      subcategoryIds: searchFilterValues.subcategoryIds?.join(),
       minPrice: searchFilterValues.minPrice,
       maxPrice: searchFilterValues.maxPrice,
       productSort: searchFilterValues.productSort,

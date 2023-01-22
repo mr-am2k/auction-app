@@ -1,0 +1,9 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
+
+.c-shop-filters-wrapper {
+  @include flexDisplay(flex-start, flex-start);
+  flex-direction: column;
+  width: 300px;
+  font-family: $latoFont;
+}
