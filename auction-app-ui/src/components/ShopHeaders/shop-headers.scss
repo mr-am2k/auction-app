@@ -1,0 +1,18 @@
+@import '/src/scss/mixin';
+@import '/src/scss/variables';
+
+.c-shop-headers-wrapper {
+  @include flexDisplay(flex-start, center);
+  width: 100%;
+  font-family: $latoFont;
+
+  .c-sorting-header {
+    @include flexDisplay(space-between, center);
+    width: 100%;
+
+    .c-view-type {
+      @include flexDisplay(center, center);
+      gap: 0.5rem;
+    }
+  }
+}

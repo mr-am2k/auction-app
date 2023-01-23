@@ -16,6 +16,7 @@ const PriceFilters = () => {
       minPrice: fieldValues[PRICE_FILTER.MIN_PRICE],
       maxPrice: fieldValues[PRICE_FILTER.MAX_PRICE],
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fieldValues]);
 
   return (

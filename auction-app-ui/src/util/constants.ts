@@ -105,3 +105,7 @@ export const PRICE_FILTER = {
   MAX_PRICE: 'maxPrice',
   MAX_PRICE_PLACEHOLDER: '$1000',
 };
+
+export const SORTING = {
+  SORTING: 'sorting',
+};

@@ -251,3 +251,12 @@ export const CATEGORY_FILTERS = {
 export const PRICE_FILTERS = {
   PRICE_RANGE: 'Price Range',
 };
+
+export const SHOP_HEADERS = {
+  DEFAULT_SORTING: 'Default Sorting',
+  NEWNESS: 'Sort by Newness',
+  EXPIRATION: 'Sort by Expiration',
+  CHEAPEST: 'Sort by Cheapest',
+  MOST_EXPENSIVE: 'Sort by Most Expensive',
+  GRID: 'Grid',
+};
