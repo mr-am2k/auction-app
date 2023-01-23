@@ -35,10 +35,14 @@ const ShopHeaders = () => {
   };
 
   const handleClearAll = () => {
-    setSearchFilterValues({});
+    setSearchFilterValues({
+      ...searchFilterValues,
+      category: undefined,
+      subcategories: undefined,
+      minPrice: undefined,
+      maxPrice: undefined,
+    });
   };
-
-  console.log(searchFilterValues);
 
   useEffect(() => {
     setSearchFilterValues({ ...searchFilterValues, productSort: fieldValues[SORTING.SORTING] });
@@ -50,7 +54,8 @@ const ShopHeaders = () => {
       <div className='c-selected-filters'>
         {searchFilterValues.category && (
           <div className='c-selected-filter'>
-            <h5>Category</h5>
+            <h5>{SHOP_HEADERS.CATEGORY}</h5>
+
             <p>
               {searchFilterValues.category?.name}
               {searchFilterValues.subcategories?.map((subcategory, index) => (
@@ -65,7 +70,8 @@ const ShopHeaders = () => {
 
         {(searchFilterValues.minPrice || searchFilterValues.maxPrice) && (
           <div className='c-selected-filter'>
-            <h5>Price range</h5>
+            <h5>{SHOP_HEADERS.PRICE_RANGE}</h5>
+
             <p>
               <span>${searchFilterValues.minPrice ? searchFilterValues.minPrice : '0'}</span>
               <span>-</span>
@@ -80,7 +86,7 @@ const ShopHeaders = () => {
         {(searchFilterValues.category || searchFilterValues.minPrice || searchFilterValues.maxPrice) && (
           <div className='c-clear-button'>
             <button onClick={handleClearAll}>
-              Clear all <CloseIcon />
+              {SHOP_HEADERS.CLEAR_ALL} <CloseIcon />
             </button>
           </div>
         )}

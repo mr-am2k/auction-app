@@ -10,7 +10,7 @@ const PrivacyAndPolicy = () => {
   const { setNavbarTitle, setNavbarItems } = usePage();
 
   useEffect(() => {
-    setNavbarTitle(EN_STRINGS.NAVBAR.HOME);
+    setNavbarTitle([EN_STRINGS.NAVBAR.HOME]);
     setNavbarItems([EN_STRINGS.NAVBAR.HOME, EN_STRINGS.FOOTER.PRIVACY_AND_POLICY]);
     window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps

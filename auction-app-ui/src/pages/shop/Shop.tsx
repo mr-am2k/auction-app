@@ -1,18 +1,24 @@
 import { useEffect, useState } from 'react';
-import './shop.scss';
+
+import { useFilter } from 'hooks/useFilter';
+import { usePage } from 'hooks/usePage';
+
 import productsService from 'services/productService';
+
 import { Product } from 'models/product';
 import { ProductCard, ShopFilters, ShopHeaders } from 'components';
-import { SHOP } from 'translation/en';
-import { useFilter } from 'hooks/useFilter';
+import { EN_STRINGS, SHOP } from 'translation/en';
+
+import './shop.scss';
 
 const Shop = () => {
-  const { searchFilterValues } = useFilter();
-
   const [pageNumber, setPageNumber] = useState(0);
   const [prevPageNumber, setPrevPageNumber] = useState(0);
   const [lastPage, setLastPage] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
+
+  const { searchFilterValues } = useFilter();
+  const { setNavbarTitle, setNavbarItems } = usePage();
 
   const fetchProducts = (pageNumber: number) => {
     const subcategoryIds = searchFilterValues.subcategories?.map(subcategory => {
@@ -46,6 +52,18 @@ const Shop = () => {
   };
 
   useEffect(() => {
+    if (searchFilterValues.name === undefined || searchFilterValues.name === '') {
+      setNavbarTitle([]);
+      setNavbarItems([EN_STRINGS.NAVBAR.HOME]);
+    } else {
+      setNavbarTitle([]);
+      setNavbarItems([EN_STRINGS.NAVBAR.HOME, searchFilterValues.name]);
+    }
+    window.scrollTo(0, 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchFilterValues.name]);
+
+  useEffect(() => {
     if (prevPageNumber === pageNumber) {
       fetchProducts(0);
       setPageNumber(0);
@@ -62,20 +80,30 @@ const Shop = () => {
       <div className='c-filters'>
         <ShopFilters />
       </div>
+
       <div className='c-products'>
         <div className='c-products-sorting'>
           <ShopHeaders />
         </div>
 
         <div className='c-products-display'>
-          <div className='c-products-view'>
-            {products.map((product, index) => (
-              <ProductCard product={product} key={index} />
-            ))}
-          </div>
-          {!lastPage && (
-            <div className='c-button-container'>
-              <button onClick={handlePageChange}>{SHOP.EXPLORE_MORE}</button>
+          {products.length ? (
+            <>
+              <div className='c-products-view'>
+                {products.map((product, index) => (
+                  <ProductCard product={product} key={index} />
+                ))}
+              </div>
+
+              {!lastPage && (
+                <div className='c-button-container'>
+                  <button onClick={handlePageChange}>{SHOP.EXPLORE_MORE}</button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className='c-empty-shop'>
+              <h1>{SHOP.EMPTY_SHOP}</h1>
             </div>
           )}
         </div>

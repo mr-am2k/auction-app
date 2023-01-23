@@ -51,6 +51,13 @@
           }
         }
       }
+
+      .c-empty-shop {
+        @include flexDisplay(center, center);
+        width: 100%;
+        height: 300px;
+        color: $errorColor;
+      }
     }
   }
 }

@@ -53,7 +53,7 @@ const Bids = () => {
   };
 
   useEffect(() => {
-    setNavbarTitle(EN_STRINGS.MY_ACCOUNT.BIDS);
+    setNavbarTitle([EN_STRINGS.MY_ACCOUNT.BIDS]);
     setNavbarItems([EN_STRINGS.NAVBAR.MY_ACCOUNT, EN_STRINGS.MY_ACCOUNT.BIDS]);
 
     fetchUserBids();

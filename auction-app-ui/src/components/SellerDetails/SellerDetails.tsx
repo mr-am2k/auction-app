@@ -55,7 +55,7 @@ const SellerDetails = () => {
   };
 
   useEffect(() => {
-    setNavbarTitle(EN_STRINGS.MY_ACCOUNT.SELLER);
+    setNavbarTitle([EN_STRINGS.MY_ACCOUNT.SELLER]);
     setNavbarItems([EN_STRINGS.NAVBAR.MY_ACCOUNT, EN_STRINGS.MY_ACCOUNT.SELLER]);
 
     getProductsForUser();

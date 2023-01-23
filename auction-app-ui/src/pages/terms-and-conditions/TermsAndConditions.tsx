@@ -10,7 +10,7 @@ const TermsAndConditions = () => {
   const { setNavbarTitle, setNavbarItems } = usePage();
 
   useEffect(() => {
-    setNavbarTitle(EN_STRINGS.NAVBAR.HOME);
+    setNavbarTitle([EN_STRINGS.NAVBAR.HOME]);
     setNavbarItems([EN_STRINGS.NAVBAR.HOME, EN_STRINGS.FOOTER.TERMS_AND_CONDITIONS]);
     window.scrollTo(0, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps

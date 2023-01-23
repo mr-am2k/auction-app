@@ -1,16 +1,16 @@
 import { createContext } from 'react';
 
 interface PageInterface {
-  navbarTitle: string;
+  navbarTitle: string[];
   navbarItems: string[];
-  setNavbarTitle: (title: string) => void;
+  setNavbarTitle: (title: string[]) => void;
   setNavbarItems: (listOfNavbarItems: string[]) => void;
 }
 
 const PageContext = createContext<PageInterface>({
-  navbarTitle: '',
+  navbarTitle: [],
   navbarItems: [],
-  setNavbarTitle: (title: string) => '',
+  setNavbarTitle: (title: string[]) => '',
   setNavbarItems: (listOfNavbarItems: string[]) => {},
 });
 

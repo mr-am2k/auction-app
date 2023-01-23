@@ -7,7 +7,7 @@ type Props = {
 };
 
 const PageProvider: React.FC<Props> = ({ children }) => {
-  const [navbarTitle, setNavbarTitle] = useState<string>('');
+  const [navbarTitle, setNavbarTitle] = useState<string[]>([]);
   const [navbarItems, setNavbarItems] = useState<string[]>([]);
 
 

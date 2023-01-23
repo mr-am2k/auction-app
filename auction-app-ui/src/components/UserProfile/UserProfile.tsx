@@ -90,7 +90,7 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    setNavbarTitle(EN_STRINGS.MY_ACCOUNT.PROFILE);
+    setNavbarTitle([EN_STRINGS.MY_ACCOUNT.PROFILE]);
     setNavbarItems([EN_STRINGS.NAVBAR.MY_ACCOUNT, EN_STRINGS.MY_ACCOUNT.PROFILE]);
 
     fetchUser();

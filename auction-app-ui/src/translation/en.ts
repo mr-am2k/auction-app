@@ -242,6 +242,7 @@ export const PRODUCTS_TABLE = {
 
 export const SHOP = {
   EXPLORE_MORE: 'Explore More',
+  EMPTY_SHOP: 'There is no products'
 };
 
 export const CATEGORY_FILTERS = {
@@ -259,4 +260,7 @@ export const SHOP_HEADERS = {
   CHEAPEST: 'Sort by Cheapest',
   MOST_EXPENSIVE: 'Sort by Most Expensive',
   GRID: 'Grid',
+  CATEGORY: 'Category',
+  PRICE_RANGE: 'Price range',
+  CLEAR_ALL: 'Clear all',
 };

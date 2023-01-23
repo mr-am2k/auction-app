@@ -1,10 +1,13 @@
-import { Input } from 'components';
-import './price-filters.scss';
-import { INPUT_TYPE_NUMBER, PRICE_FILTER } from 'util/constants';
-import { useForm } from 'hooks/useForm';
 import { useEffect } from 'react';
-import { PRICE_FILTERS } from 'translation/en';
+
+import { useForm } from 'hooks/useForm';
 import { useFilter } from 'hooks/useFilter';
+
+import { Input } from 'components';
+import { INPUT_TYPE_NUMBER, PRICE_FILTER } from 'util/constants';
+import { PRICE_FILTERS } from 'translation/en';
+
+import './price-filters.scss';
 
 const PriceFilters = () => {
   const { fieldValues, setFieldValues } = useForm();
@@ -28,7 +31,6 @@ const PriceFilters = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchFilterValues.minPrice, searchFilterValues.maxPrice]);
 
-  console.log(fieldValues);
   return (
     <div className='c-price-filters-wrapper'>
       <h4>{PRICE_FILTERS.PRICE_RANGE}</h4>
@@ -42,7 +44,9 @@ const PriceFilters = () => {
             value={fieldValues[PRICE_FILTER.MIN_PRICE] ? fieldValues[PRICE_FILTER.MIN_PRICE] : ''}
           />
         </div>
+
         <span>-</span>
+
         <div className='c-input-field'>
           <Input
             key={PRICE_FILTER.MAX_PRICE}

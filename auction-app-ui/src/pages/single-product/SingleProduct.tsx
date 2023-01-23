@@ -37,7 +37,7 @@ const SingleProduct = () => {
 
   const fetchSingleProduct = async (productId: string) => {
     const product = await productsService.getSingleProduct(productId);
-    setNavbarTitle(product.name);
+    setNavbarTitle([product.name]);
     setNavbarItems([EN_STRINGS.NAVBAR.SHOP, EN_STRINGS.SHOP.SINGLE_PRODUCT]);
     setSingleProduct(product);
 

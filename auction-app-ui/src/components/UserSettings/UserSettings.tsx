@@ -27,7 +27,7 @@ const UserSettings = () => {
   };
 
   useEffect(() => {
-    setNavbarTitle(EN_STRINGS.MY_ACCOUNT.SETTINGS);
+    setNavbarTitle([EN_STRINGS.MY_ACCOUNT.SETTINGS]);
     setNavbarItems([EN_STRINGS.NAVBAR.MY_ACCOUNT, EN_STRINGS.MY_ACCOUNT.SETTINGS]);
   }, [setNavbarItems, setNavbarTitle]);
 
