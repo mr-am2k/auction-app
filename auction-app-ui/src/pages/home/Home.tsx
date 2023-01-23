@@ -14,19 +14,9 @@ import { ROUTES } from 'util/routes';
 import './home.scss';
 
 import { GreaterIcon } from 'assets/icons';
-
-const DUMMY_CATEGORIES = [
-  'Fashion',
-  'Accessories',
-  'Jewelry',
-  'Shoes',
-  'Sportware',
-  'Home',
-  'Electronics',
-  'Mobile',
-  'Computer',
-  'All Categories',
-];
+import categoryService from 'services/categoryService';
+import { Categories } from 'models/categories';
+import { organizeCategories } from 'util/categoryUtils';
 
 const Home = () => {
   const { setNavbarItems } = usePage();
@@ -35,6 +25,7 @@ const Home = () => {
   const [newArrivalProducts, setNewArrivalProducts] = useState<Product[]>([]);
   const [newArrivalsActive, setNewArrivalsActive] = useState(true);
   const [lastChanceActive, setLastChanceActive] = useState(false);
+  const [categories, setCategories] = useState<Categories[]>([]);
 
   const navbarItemClass = 'c-navbar-item';
   const focusedNavbarItem = navbarItemClass + ' c-focus';
@@ -44,6 +35,14 @@ const Home = () => {
       .getRandomProduct()
       .then(data => setRandomProduct(data.content[0]))
       .catch(error => console.log(error));
+  };
+
+  const fetchCategories = () => {
+    categoryService.getCategories().then(categories => {
+      const organizedCategories = organizeCategories(categories);
+
+      setCategories(organizedCategories);
+    });
   };
 
   const fetchLastChanceProducts = (queryParam: string) => {
@@ -72,6 +71,7 @@ const Home = () => {
     setNavbarItems([]);
     fetchSingleProduct();
     fetchNewArrivalProducts(NEW_ARRIVAL);
+    fetchCategories();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -80,8 +80,8 @@ const Home = () => {
       <div className='c-top-part'>
         <div className='c-categories'>
           <p className='c-category-heading'>{EN_STRINGS.HOME.CATEGORIES}</p>
-          {DUMMY_CATEGORIES.map((item, index: number) => (
-            <Category categoryName={item} key={index} />
+          {categories?.map((item, index: number) => (
+            <Category categoryName={item.name} categoryId={item.categoryId} key={index} />
           ))}
         </div>
 

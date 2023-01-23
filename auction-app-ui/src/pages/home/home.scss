@@ -5,7 +5,7 @@
   padding-top: 2rem;
 
   .c-top-part {
-    @include flexDisplay(space-between, center);
+    @include flexDisplay(space-between, flex-start);
     flex-direction: row;
     padding: 0 12rem;
     gap: 2rem;
