@@ -2,9 +2,47 @@
 @import '/src/scss/variables';
 
 .c-shop-headers-wrapper {
-  @include flexDisplay(flex-start, center);
+  @include flexDisplay(center, flex-start);
+  flex-direction: column;
   width: 100%;
   font-family: $latoFont;
+
+  .c-selected-filters {
+    @include flexDisplay(center, center);
+    flex-direction: row;
+    margin-bottom: 1.5rem;
+
+    h5 {
+      color: $greyColor;
+      margin-bottom: 0;
+    }
+
+    .c-selected-filter {
+      @include flexDisplay(center, flex-start);
+      flex-direction: column;
+      flex-wrap: wrap;
+      width: 250px;
+      font-family: $latoFont;
+
+      .c-close-icon {
+        margin-left: 1rem;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
+    .c-clear-button {
+      button {
+        @include flexDisplay(space-between, center);
+        padding: 0 1rem;
+        width: 8rem;
+        color: $greyColor;
+        font-family: $latoFont;
+      }
+    }
+  }
 
   .c-sorting-header {
     @include flexDisplay(space-between, center);

@@ -7,7 +7,7 @@ import { PRICE_FILTERS } from 'translation/en';
 import { useFilter } from 'hooks/useFilter';
 
 const PriceFilters = () => {
-  const { fieldValues } = useForm();
+  const { fieldValues, setFieldValues } = useForm();
   const { searchFilterValues, setSearchFilterValues } = useFilter();
 
   useEffect(() => {
@@ -16,9 +16,19 @@ const PriceFilters = () => {
       minPrice: fieldValues[PRICE_FILTER.MIN_PRICE],
       maxPrice: fieldValues[PRICE_FILTER.MAX_PRICE],
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fieldValues]);
 
+  useEffect(() => {
+    setFieldValues({
+      ...fieldValues,
+      minPrice: searchFilterValues.minPrice ? searchFilterValues.minPrice : undefined,
+      maxPrice: searchFilterValues.maxPrice ? searchFilterValues.maxPrice : undefined,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchFilterValues.minPrice, searchFilterValues.maxPrice]);
+
+  console.log(fieldValues);
   return (
     <div className='c-price-filters-wrapper'>
       <h4>{PRICE_FILTERS.PRICE_RANGE}</h4>
@@ -29,6 +39,7 @@ const PriceFilters = () => {
             type={INPUT_TYPE_NUMBER}
             name={PRICE_FILTER.MIN_PRICE}
             placeholder={PRICE_FILTER.MIN_PRICE_PLACEHOLDER}
+            value={fieldValues[PRICE_FILTER.MIN_PRICE] ? fieldValues[PRICE_FILTER.MIN_PRICE] : ''}
           />
         </div>
         <span>-</span>
@@ -38,11 +49,11 @@ const PriceFilters = () => {
             type={INPUT_TYPE_NUMBER}
             name={PRICE_FILTER.MAX_PRICE}
             placeholder={PRICE_FILTER.MAX_PRICE_PLACEHOLDER}
+            value={fieldValues[PRICE_FILTER.MAX_PRICE] ? fieldValues[PRICE_FILTER.MAX_PRICE] : ''}
           />
         </div>
       </div>
-      <div className='c-slider'>
-      </div>
+      <div className='c-slider'></div>
     </div>
   );
 };

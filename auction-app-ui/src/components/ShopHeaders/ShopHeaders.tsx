@@ -12,6 +12,7 @@ import { SORTING } from 'util/constants';
 import './shop-headers.scss';
 
 import GridIcon from 'assets/icons/GridIcon';
+import { CloseIcon } from 'assets/icons';
 
 const sortingOptions: Option[] = [
   { label: SHOP_HEADERS.DEFAULT_SORTING, value: getSortingName(ProductSort.DEFAULT) },
@@ -25,6 +26,20 @@ const ShopHeaders = () => {
   const { fieldValues } = useForm();
   const { searchFilterValues, setSearchFilterValues } = useFilter();
 
+  const handleCloseCategories = () => {
+    setSearchFilterValues({ ...searchFilterValues, category: undefined, subcategories: undefined });
+  };
+
+  const handleClosePriceRange = () => {
+    setSearchFilterValues({ ...searchFilterValues, minPrice: undefined, maxPrice: undefined });
+  };
+
+  const handleClearAll = () => {
+    setSearchFilterValues({});
+  };
+
+  console.log(searchFilterValues);
+
   useEffect(() => {
     setSearchFilterValues({ ...searchFilterValues, productSort: fieldValues[SORTING.SORTING] });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -32,7 +47,45 @@ const ShopHeaders = () => {
 
   return (
     <div className='c-shop-headers-wrapper'>
-      <div className='c-selected-filters'></div>
+      <div className='c-selected-filters'>
+        {searchFilterValues.category && (
+          <div className='c-selected-filter'>
+            <h5>Category</h5>
+            <p>
+              {searchFilterValues.category?.name}
+              {searchFilterValues.subcategories?.map((subcategory, index) => (
+                <span key={index}>/{subcategory.name}</span>
+              ))}
+              <span className='c-close-icon' onClick={handleCloseCategories}>
+                <CloseIcon />
+              </span>
+            </p>
+          </div>
+        )}
+
+        {(searchFilterValues.minPrice || searchFilterValues.maxPrice) && (
+          <div className='c-selected-filter'>
+            <h5>Price range</h5>
+            <p>
+              <span>${searchFilterValues.minPrice ? searchFilterValues.minPrice : '0'}</span>
+              <span>-</span>
+              <span>${searchFilterValues.maxPrice ? searchFilterValues.maxPrice : '10000'}</span>
+              <span className='c-close-icon' onClick={handleClosePriceRange}>
+                <CloseIcon />
+              </span>
+            </p>
+          </div>
+        )}
+
+        {(searchFilterValues.category || searchFilterValues.minPrice || searchFilterValues.maxPrice) && (
+          <div className='c-clear-button'>
+            <button onClick={handleClearAll}>
+              Clear all <CloseIcon />
+            </button>
+          </div>
+        )}
+      </div>
+
       <div className='c-sorting-header'>
         <Dropdown name='sorting' options={sortingOptions} placeholder={SHOP_HEADERS.DEFAULT_SORTING} required={true} />
         <div className='c-view-type'>

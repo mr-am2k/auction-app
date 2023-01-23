@@ -41,7 +41,7 @@ const CategoryFilters = () => {
       category.id === index ? { ...category, state: true } : { ...category, state: false }
     );
 
-    setSearchFilterValues({ ...searchFilterValues, categoryId: categories[index].categoryId });
+    setSearchFilterValues({ ...searchFilterValues, category: { name: categories[index].name, id: categories[index].categoryId } });
 
     setDisplayCategories(updatedDisplayCategories);
   };
@@ -63,18 +63,24 @@ const CategoryFilters = () => {
     subcategoryId: string
   ) => {
     if (event.target.checked) {
-      const previousSubcategories = searchFilterValues.subcategoryIds ? searchFilterValues.subcategoryIds : [];
+      const previousSubcategories = searchFilterValues.subcategories ? searchFilterValues.subcategories : [];
 
       setSearchFilterValues({
         ...searchFilterValues,
-        subcategoryIds: [...previousSubcategories, categories[categoryIndex].subcategories[subcategoryIndex].id],
+        subcategories: [
+          ...previousSubcategories,
+          {
+            name: categories[categoryIndex].subcategories[subcategoryIndex].name,
+            id: categories[categoryIndex].subcategories[subcategoryIndex].id,
+          },
+        ],
       });
     } else {
-      const updatedSubcategories = searchFilterValues.subcategoryIds?.filter(id => id !== subcategoryId);
+      const updatedSubcategories = searchFilterValues.subcategories?.filter(subcategory => subcategory.id !== subcategoryId);
 
       setSearchFilterValues({
         ...searchFilterValues,
-        subcategoryIds: updatedSubcategories,
+        subcategories: updatedSubcategories,
       });
     }
   };
@@ -82,6 +88,19 @@ const CategoryFilters = () => {
   useEffect(() => {
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    if (!searchFilterValues.category) {
+      let displayCategory: CategoryShow[] = [];
+
+      for (let i = 0; i < categories.length; i++) {
+        displayCategory.push({ id: i, state: false });
+      }
+
+      setDisplayCategories(displayCategory);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchFilterValues.category]);
 
   return (
     <div className='c-categories-wrapper'>
