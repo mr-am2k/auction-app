@@ -7,6 +7,7 @@ import productsService from 'services/productService';
 
 import { Product } from 'models/product';
 import { ProductCard, ShopFilters, ShopHeaders } from 'components';
+import { scrollToTop } from 'util/scrollUtils';
 import { EN_STRINGS, SHOP } from 'translation/en';
 
 import './shop.scss';
@@ -16,11 +17,13 @@ const Shop = () => {
   const [prevPageNumber, setPrevPageNumber] = useState(0);
   const [lastPage, setLastPage] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const { searchFilterValues } = useFilter();
   const { setNavbarTitle, setNavbarItems } = usePage();
 
   const fetchProducts = (pageNumber: number) => {
+    setLoading(true);
     const subcategoryIds = searchFilterValues.subcategories?.map(subcategory => {
       return subcategory.id;
     });
@@ -43,6 +46,7 @@ const Shop = () => {
         setProducts(products => [...products, ...fetchedPage.content]);
         setLastPage(fetchedPage.last);
       }
+      setLoading(false);
     });
   };
 
@@ -59,7 +63,7 @@ const Shop = () => {
       setNavbarTitle([]);
       setNavbarItems([EN_STRINGS.NAVBAR.HOME, searchFilterValues.name]);
     }
-    window.scrollTo(0, 0);
+    scrollToTop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchFilterValues.name]);
 
@@ -87,26 +91,24 @@ const Shop = () => {
         </div>
 
         <div className='c-products-display'>
-          {products.length ? (
-            <>
-              <div className='c-products-view'>
-                {products.map((product, index) => (
-                  <ProductCard product={product} key={index} />
-                ))}
-              </div>
+          <div className='c-products-view'>
+            {products.map((product, index) => (
+              <ProductCard product={product} key={index} />
+            ))}
+          </div>
 
-              {!lastPage && (
-                <div className='c-button-container'>
-                  <button onClick={handlePageChange}>{SHOP.EXPLORE_MORE}</button>
-                </div>
-              )}
-            </>
-          ) : (
-            <div className='c-empty-shop'>
-              <h1>{SHOP.EMPTY_SHOP}</h1>
+          {!lastPage && (
+            <div className='c-button-container'>
+              <button onClick={handlePageChange}>{SHOP.EXPLORE_MORE}</button>
             </div>
           )}
         </div>
+
+        {!loading && products.length === 0 && (
+          <div className='c-empty-shop'>
+            <h1>{SHOP.EMPTY_SHOP}</h1>
+          </div>
+        )}
       </div>
     </div>
   );

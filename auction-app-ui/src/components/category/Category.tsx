@@ -18,7 +18,7 @@ const Category: React.FC<Props> = ({ categoryName, categoryId }) => {
   return (
     <div className='c-category-wrapper'>
       <Link to={ROUTES.SHOP}>
-        <p onClick={() => setSearchFilterValues({ categoryId: categoryId })}>{categoryName}</p>
+        <p onClick={() => setSearchFilterValues({ category: { name: categoryName, id: categoryId } })}>{categoryName}</p>
       </Link>
     </div>
   );

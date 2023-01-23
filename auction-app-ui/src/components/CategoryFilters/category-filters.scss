@@ -3,7 +3,7 @@
 
 .c-categories-wrapper {
   border: 2px solid $smokeWhiteColor;
-  width: 260px;
+  min-width: 260px;
   padding: 0.5rem 3.5rem 0.5rem 1rem;
 
   .c-categories-title {

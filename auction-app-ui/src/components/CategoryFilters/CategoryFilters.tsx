@@ -12,7 +12,7 @@ import './category-filters.scss';
 
 type CategoryShow = {
   id: number;
-  state: boolean;
+  active: boolean;
 };
 
 const CategoryFilters = () => {
@@ -28,30 +28,38 @@ const CategoryFilters = () => {
 
       let displayCategory: CategoryShow[] = [];
 
-      for (let i = 0; i < organizedCategories.length; i++) {
-        displayCategory.push({ id: i, state: false });
-      }
+      organizedCategories.forEach((category, index) => {
+        displayCategories.push({ id: index, active: false });
+      });
 
       setDisplayCategories(displayCategory);
     });
   };
 
-  const toggleShowSubcategories = (index: number) => {
-    const updatedDisplayCategories = displayCategories.map(category =>
-      category.id === index ? { ...category, state: true } : { ...category, state: false }
-    );
+  const toggleShow = (index: number, show: boolean) => {
+    let updatedDisplayCategories: CategoryShow[] = [];
 
-    setSearchFilterValues({ ...searchFilterValues, category: { name: categories[index].name, id: categories[index].categoryId } });
+    if (show) {
+      updatedDisplayCategories = displayCategories.map(category => {
+        return { ...category, active: category.id === index };
+      });
 
-    setDisplayCategories(updatedDisplayCategories);
-  };
+      setSearchFilterValues({
+        ...searchFilterValues,
+        category: { name: categories[index].name, id: categories[index].categoryId },
+        subcategories: undefined,
+      });
+    } else {
+      updatedDisplayCategories = displayCategories.map(category => {
+        return { ...category, active: false };
+      });
 
-  const toggleHideSubcategories = (index: number) => {
-    const updatedDisplayCategories = displayCategories.map(category =>
-      category.id === index ? { ...category, state: false } : { ...category, state: false }
-    );
-
-    setSearchFilterValues({ ...searchFilterValues, categoryId: null, subcategoryIds: null });
+      setSearchFilterValues({
+        ...searchFilterValues,
+        category: undefined,
+        subcategories: undefined,
+      });
+    }
 
     setDisplayCategories(updatedDisplayCategories);
   };
@@ -63,7 +71,7 @@ const CategoryFilters = () => {
     subcategoryId: string
   ) => {
     if (event.target.checked) {
-      const previousSubcategories = searchFilterValues.subcategories ? searchFilterValues.subcategories : [];
+      const previousSubcategories = searchFilterValues.subcategories || [];
 
       setSearchFilterValues({
         ...searchFilterValues,
@@ -87,20 +95,23 @@ const CategoryFilters = () => {
 
   useEffect(() => {
     fetchCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (!searchFilterValues.category) {
+    if (searchFilterValues.category) {
       let displayCategory: CategoryShow[] = [];
 
-      for (let i = 0; i < categories.length; i++) {
-        displayCategory.push({ id: i, state: false });
-      }
+      categories.forEach((category, index) => {
+        searchFilterValues.category!.id === category.categoryId ?
+          displayCategory.push({ id: index, active: true }) :
+          displayCategory.push({ id: index, active: false });
+      });
 
       setDisplayCategories(displayCategory);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchFilterValues.category]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchFilterValues.category, categories]);
 
   return (
     <div className='c-categories-wrapper'>
@@ -110,13 +121,14 @@ const CategoryFilters = () => {
           <div key={index}>
             <h4 className='c-category' key={category.categoryId}>
               {category.name}
-              {displayCategories[index]?.state ? (
-                <span onClick={() => toggleHideSubcategories(index)}>-</span>
+              {displayCategories[index]?.active ? (
+                <span onClick={() => toggleShow(index, false)}>-</span>
               ) : (
-                <span onClick={() => toggleShowSubcategories(index)}>+</span>
+                <span onClick={() => toggleShow(index, true)}>+</span>
               )}
             </h4>
-            {displayCategories[index]?.state && (
+
+            {displayCategories[index]?.active && (
               <>
                 {category.subcategories.map((subcategory, id) => (
                   <div className='c-subcategories' key={subcategory.id}>

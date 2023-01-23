@@ -254,7 +254,7 @@ export const PRICE_FILTERS = {
 };
 
 export const SHOP_HEADERS = {
-  DEFAULT_SORTING: 'Default Sorting',
+  DEFAULT: 'Default Sorting',
   NEWNESS: 'Sort by Newness',
   EXPIRATION: 'Sort by Expiration',
   CHEAPEST: 'Sort by Cheapest',

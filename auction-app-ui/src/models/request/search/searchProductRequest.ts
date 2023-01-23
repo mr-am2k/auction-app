@@ -1,4 +1,4 @@
-import { ProductSort } from 'models/enum/productSort';
+import { SortingOption } from 'models/enum/sortingOption';
 
 export type SearchProductRequest = {
   pageNumber: number;
@@ -7,5 +7,5 @@ export type SearchProductRequest = {
   subcategoryIds?: string[];
   minPrice?: number;
   maxPrice?: number;
-  productSort?: ProductSort;
+  productSort?: SortingOption;
 };

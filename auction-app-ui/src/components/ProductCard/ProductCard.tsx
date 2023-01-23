@@ -1,8 +1,10 @@
-import { Product } from 'models/product';
-import './product-card.scss';
 import { Link } from 'react-router-dom';
+
+import { Product } from 'models/product';
 import { ROUTES } from 'util/routes';
 import { EN_STRINGS } from 'translation/en';
+
+import './product-card.scss';
 
 type Props = {
   children?: React.ReactNode;

@@ -21,22 +21,11 @@ import {
 } from './pages';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import { ROUTES } from './util/routes';
-import { LOCAL_STORAGE } from 'util/constants';
+import { APP, LOCAL_STORAGE } from 'util/constants';
 import { getTokenExpirationDate } from 'util/jwtUtils';
+import { hasNavbar } from 'util/navbarUtils';
 
 import './app.scss';
-
-const PAGES_WITH_NAVBAR_COMPONENT = [
-  '/',
-  ROUTES.ABOUT_US,
-  ROUTES.ADD_PRODUCT,
-  ROUTES.MY_ACCOUNT,
-  ROUTES.PRIVACY_AND_POLICY,
-  ROUTES.PRODUCT,
-  ROUTES.SHOP,
-  ROUTES.TERMS_AND_CONDITIONS,
-  `${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`,
-];
 
 const App = () => {
   const { loggedInUser, setLoggedInUser, resetLoggedInUser, loginUser, logoutUser } = useUser();
@@ -83,7 +72,7 @@ const App = () => {
       if (storageService.get(LOCAL_STORAGE.REFRESH_TOKEN)) {
         setUser();
       }
-    }, 120000);
+    }, APP.GENERATE_TOKEN_TIME);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -93,9 +82,9 @@ const App = () => {
         <FilterProvider>
           <Header />
 
-          {PAGES_WITH_NAVBAR_COMPONENT.includes(location.pathname) && (
+          {hasNavbar(location.pathname) && (
             <>
-              <Navbar/>
+              <Navbar />
               <NavbarTracker />
             </>
           )}
@@ -114,7 +103,7 @@ const App = () => {
                     path={`${ROUTES.PRODUCT}/:id`}
                     element={
                       <>
-                        <Navbar/>
+                        <Navbar />
                         <NavbarTracker />
                         <SingleProduct />
                       </>
@@ -122,7 +111,7 @@ const App = () => {
                   />
                   <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
                   <Route path={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`} element={<AddItem />} />
-                  <Route path={ROUTES.SHOP} element={<Shop/>} />
+                  <Route path={ROUTES.SHOP} element={<Shop />} />
                   <Route path='*' element={<Error />} />
                 </Routes>
               </main>

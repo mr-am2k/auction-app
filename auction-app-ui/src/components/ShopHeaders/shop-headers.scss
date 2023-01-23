@@ -2,15 +2,15 @@
 @import '/src/scss/variables';
 
 .c-shop-headers-wrapper {
-  @include flexDisplay(center, flex-start);
+  @include flexDisplay(flex-start, flex-start);
   flex-direction: column;
   width: 100%;
   font-family: $latoFont;
+  margin-top: 0;
 
   .c-selected-filters {
     @include flexDisplay(center, center);
     flex-direction: row;
-    margin-bottom: 1.5rem;
 
     h5 {
       color: $greyColor;

@@ -1,6 +1,6 @@
-import { ProductSort } from './enum/productSort';
+import { SortingOption } from './enum/sortingOption';
 
 export type Option = {
-  value: string | undefined | ProductSort;
+  value: string | undefined | SortingOption;
   label: string;
 };

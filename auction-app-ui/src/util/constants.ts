@@ -109,3 +109,12 @@ export const PRICE_FILTER = {
 export const SORTING = {
   SORTING: 'sorting',
 };
+
+export const SHOP_HEADERS_PRICE = {
+  MIN_PRICE: '0',
+  MAX_PRICE: '10000',
+};
+
+export const APP = {
+  GENERATE_TOKEN_TIME: 120000,
+};

@@ -39,9 +39,7 @@ const Home = () => {
 
   const fetchCategories = () => {
     categoryService.getCategories().then(categories => {
-      const organizedCategories = organizeCategories(categories);
-
-      setCategories(organizedCategories);
+      setCategories(organizeCategories(categories));
     });
   };
 

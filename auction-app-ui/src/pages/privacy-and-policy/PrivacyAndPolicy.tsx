@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { usePage } from 'hooks/usePage';
 
 import { EN_STRINGS } from 'translation/en';
+import { scrollToTop } from 'util/scrollUtils';
 
 import './privacy-and-policy.scss';
 
@@ -12,7 +13,7 @@ const PrivacyAndPolicy = () => {
   useEffect(() => {
     setNavbarTitle([EN_STRINGS.NAVBAR.HOME]);
     setNavbarItems([EN_STRINGS.NAVBAR.HOME, EN_STRINGS.FOOTER.PRIVACY_AND_POLICY]);
-    window.scrollTo(0, 0);
+    scrollToTop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

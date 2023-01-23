@@ -3,7 +3,7 @@
 
 .c-price-filters-wrapper {
   border: 2px solid $smokeWhiteColor;
-  width: 300px;
+  min-width: 300px;
   padding: 0.5rem 1rem;
 
   h4 {
@@ -12,10 +12,10 @@
 
   .c-input-fields {
     @include flexDisplay(space-between, center);
-    width: 240px;
+    min-width: 240px;
 
     .c-input-field {
-      width: 60px;
+      min-width: 60px;
     }
 
     span {

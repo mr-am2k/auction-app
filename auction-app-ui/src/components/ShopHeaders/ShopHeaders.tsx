@@ -4,10 +4,10 @@ import { useForm } from 'hooks/useForm';
 import { useFilter } from 'hooks/useFilter';
 
 import Dropdown from 'components/dropdown/Dropdown';
-import { ProductSort, getSortingName } from 'models/enum/productSort';
+import { SortingOption, getSortingName } from 'models/enum/sortingOption';
 import { Option } from 'models/option';
 import { SHOP_HEADERS } from 'translation/en';
-import { SORTING } from 'util/constants';
+import { SHOP_HEADERS_PRICE, SORTING } from 'util/constants';
 
 import './shop-headers.scss';
 
@@ -15,11 +15,11 @@ import GridIcon from 'assets/icons/GridIcon';
 import { CloseIcon } from 'assets/icons';
 
 const sortingOptions: Option[] = [
-  { label: SHOP_HEADERS.DEFAULT_SORTING, value: getSortingName(ProductSort.DEFAULT) },
-  { label: SHOP_HEADERS.NEWNESS, value: getSortingName(ProductSort.CREATED_DESC) },
-  { label: SHOP_HEADERS.EXPIRATION, value: getSortingName(ProductSort.EXPIRATION_ASC) },
-  { label: SHOP_HEADERS.CHEAPEST, value: getSortingName(ProductSort.PRICE_ASC) },
-  { label: SHOP_HEADERS.MOST_EXPENSIVE, value: getSortingName(ProductSort.PRICE_DESC) },
+  { label: SHOP_HEADERS.DEFAULT, value: getSortingName(SortingOption.DEFAULT) },
+  { label: SHOP_HEADERS.NEWNESS, value: getSortingName(SortingOption.CREATED_DESC) },
+  { label: SHOP_HEADERS.EXPIRATION, value: getSortingName(SortingOption.EXPIRATION_ASC) },
+  { label: SHOP_HEADERS.CHEAPEST, value: getSortingName(SortingOption.PRICE_ASC) },
+  { label: SHOP_HEADERS.MOST_EXPENSIVE, value: getSortingName(SortingOption.PRICE_DESC) },
 ];
 
 const ShopHeaders = () => {
@@ -42,6 +42,10 @@ const ShopHeaders = () => {
       minPrice: undefined,
       maxPrice: undefined,
     });
+  };
+
+  const isFilteredByPrice = () => {
+    return searchFilterValues.minPrice || searchFilterValues.maxPrice;
   };
 
   useEffect(() => {
@@ -68,14 +72,14 @@ const ShopHeaders = () => {
           </div>
         )}
 
-        {(searchFilterValues.minPrice || searchFilterValues.maxPrice) && (
+        {isFilteredByPrice() && (
           <div className='c-selected-filter'>
             <h5>{SHOP_HEADERS.PRICE_RANGE}</h5>
 
             <p>
-              <span>${searchFilterValues.minPrice ? searchFilterValues.minPrice : '0'}</span>
+              <span>${searchFilterValues.minPrice ? searchFilterValues.minPrice : SHOP_HEADERS_PRICE.MIN_PRICE}</span>
               <span>-</span>
-              <span>${searchFilterValues.maxPrice ? searchFilterValues.maxPrice : '10000'}</span>
+              <span>${searchFilterValues.maxPrice ? searchFilterValues.maxPrice : SHOP_HEADERS_PRICE.MAX_PRICE}</span>
               <span className='c-close-icon' onClick={handleClosePriceRange}>
                 <CloseIcon />
               </span>
@@ -93,7 +97,7 @@ const ShopHeaders = () => {
       </div>
 
       <div className='c-sorting-header'>
-        <Dropdown name='sorting' options={sortingOptions} placeholder={SHOP_HEADERS.DEFAULT_SORTING} required={true} />
+        <Dropdown name='sorting' options={sortingOptions} placeholder={SHOP_HEADERS.DEFAULT} required={true} />
         <div className='c-view-type'>
           <GridIcon /> <p>{SHOP_HEADERS.GRID}</p>
         </div>

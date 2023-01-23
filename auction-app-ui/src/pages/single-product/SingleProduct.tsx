@@ -14,6 +14,7 @@ import { Product } from 'models/product';
 import { Notification } from 'models/notification';
 import { createBidRequest } from 'models/request/create/createBidRequest';
 import { INPUT_TYPE_NUMBER, LOCAL_STORAGE } from 'util/constants';
+import { scrollToTop } from 'util/scrollUtils';
 import { EN_STRINGS } from 'translation/en';
 
 import './single-product.scss';
@@ -91,7 +92,7 @@ const SingleProduct = () => {
 
   useEffect(() => {
     initialLoad();
-    window.scrollTo(0, 0);
+    scrollToTop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -137,9 +138,9 @@ const SingleProduct = () => {
                 <p>
                   {`${EN_STRINGS.SINGLE_PRODUCT.TIME_LEFT}: `}
                   <span>
-                    {new Date(singleProduct.expirationDateTime) < currentDate
-                      ? EN_STRINGS.SINGLE_PRODUCT.EXPIRED
-                      : singleProduct.remainingTime}
+                    {new Date(singleProduct.expirationDateTime) < currentDate ?
+                      EN_STRINGS.SINGLE_PRODUCT.EXPIRED :
+                      singleProduct.remainingTime}
                   </span>
                 </p>
               </div>
