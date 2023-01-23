@@ -58,6 +58,7 @@ public class ProductSpecification extends PageableRequest<String> {
                     case EXPIRATION_ASC -> query.orderBy(cb.asc(root.get("expirationDateTime")));
                     case PRICE_ASC -> query.orderBy(cb.asc(root.get("startPrice")));
                     case PRICE_DESC -> query.orderBy(cb.desc(root.get("startPrice")));
+                    default -> query.orderBy(cb.asc(root.get("name")));
                 }
             }
 

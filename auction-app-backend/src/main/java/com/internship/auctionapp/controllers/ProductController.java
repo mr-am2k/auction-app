@@ -4,11 +4,14 @@ import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.SearchProductRequest;
+import com.internship.auctionapp.services.bid.DefaultBidService;
 import com.internship.auctionapp.services.product.ProductService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,10 +21,13 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/products")
-@CrossOrigin
+@CrossOrigin("*")
 @Tag(name = "Products")
 public class ProductController {
     private final ProductService productService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
+
 
     public ProductController(ProductService productService) {
         this.productService = productService;
@@ -35,6 +41,7 @@ public class ProductController {
 
     @GetMapping
     public Page<Product> getProducts(@ModelAttribute SearchProductRequest searchProductRequest) {
+        LOGGER.info(searchProductRequest.toString());
         return productService.getProducts(searchProductRequest);
     }
 
