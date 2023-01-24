@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { usePage } from 'hooks/usePage';
 
 import { EN_STRINGS } from 'translation/en';
+import { scrollToTop } from 'util/windowUtils';
 
 import './about-us.scss';
 
@@ -10,9 +11,9 @@ const AboutUs = () => {
   const { setNavbarTitle, setNavbarItems } = usePage();
 
   useEffect(() => {
-    setNavbarTitle(EN_STRINGS.NAVBAR.HOME);
+    setNavbarTitle([EN_STRINGS.NAVBAR.HOME]);
     setNavbarItems([EN_STRINGS.NAVBAR.HOME, EN_STRINGS.FOOTER.ABOUT_US]);
-    window.scrollTo(0, 0);
+    scrollToTop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

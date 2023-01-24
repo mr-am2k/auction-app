@@ -33,7 +33,7 @@ public class CategoryEntity {
     @Column(name = "parent_category_id")
     private UUID parentCategoryId;
 
-    @Formula("(SELECT COUNT(*) FROM products p WHERE p.category_id = id AND p.expiration_date_time > NOW() AND p.creation_date_time <= NOW())")
+    @Formula("(SELECT COUNT(*) FROM products p WHERE p.subcategory_id = id AND p.expiration_date_time > NOW() AND p.creation_date_time <= NOW())")
     private Integer numberOfProducts;
 
     public Category toDomainModel(){

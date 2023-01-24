@@ -111,7 +111,7 @@ const ProductForm: React.FC<Props> = ({ handleNextStep }) => {
         />
       </div>
 
-      <ImageUploader name={PRODUCT_FORM.IMAGES} value={fieldValues[PRODUCT_FORM.IMAGES] ? fieldValues[PRODUCT_FORM.IMAGES] : []} />
+      <ImageUploader name={PRODUCT_FORM.IMAGES} value={fieldValues[PRODUCT_FORM.IMAGES] || []} />
 
       <div className='c-option-buttons'>
         <Link to={ROUTES.MY_ACCOUNT}>

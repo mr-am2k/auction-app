@@ -98,3 +98,23 @@ export const ADD_ITEM = {
   PAGE_NUMBER_2: 2,
   PAGE_NUMBER_3: 3,
 };
+
+export const PRICE_FILTER = {
+  MIN_PRICE: 'minPrice',
+  MIN_PRICE_PLACEHOLDER: '$10',
+  MAX_PRICE: 'maxPrice',
+  MAX_PRICE_PLACEHOLDER: '$1000',
+};
+
+export const SORTING = {
+  SORTING: 'sorting',
+};
+
+export const SHOP_HEADERS_PRICE = {
+  MIN_PRICE: '0',
+  MAX_PRICE: '10000',
+};
+
+export const APP = {
+  TOKEN_GENERATION_TIME_IN_MS: 120000,
+};

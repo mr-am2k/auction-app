@@ -19,7 +19,7 @@ export const Form: React.FC<Props> = ({ children, onSubmit, primaryActionLabel, 
   return (
     <div className='c-form-component'>
       <form className={formClass}>
-        {children}
+        <div className='c-inputs-wrapper'>{children}</div>
 
         {errorMessage}
 

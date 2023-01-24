@@ -3,28 +3,29 @@ import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import { useUser } from 'hooks/useUser';
 
-import { PageProvider, FormProvider } from 'store/index';
+import { PageProvider, FormProvider, FilterProvider } from 'store/index';
 import { storageService } from 'services/storageService';
 
-import { PrivacyAndPolicy, TermsAndConditions, AboutUs, Home, SingleProduct, Register, Login, MyAccount, AddItem, Error } from './pages';
+import {
+  PrivacyAndPolicy,
+  TermsAndConditions,
+  AboutUs,
+  Home,
+  SingleProduct,
+  Register,
+  Login,
+  MyAccount,
+  AddItem,
+  Error,
+  Shop,
+} from './pages';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import { ROUTES } from './util/routes';
-import { LOCAL_STORAGE } from 'util/constants';
+import { APP, LOCAL_STORAGE } from 'util/constants';
 import { getTokenExpirationDate } from 'util/jwtUtils';
+import { hasNavbar } from 'util/navbarUtils';
 
 import './app.scss';
-
-const PAGES_WITH_NAVBAR_COMPONENT = [
-  '/',
-  ROUTES.ABOUT_US,
-  ROUTES.ADD_PRODUCT,
-  ROUTES.MY_ACCOUNT,
-  ROUTES.PRIVACY_AND_POLICY,
-  ROUTES.PRODUCT,
-  ROUTES.SHOP,
-  ROUTES.TERMS_AND_CONDITIONS,
-  `${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`,
-];
 
 const App = () => {
   const { loggedInUser, setLoggedInUser, resetLoggedInUser, loginUser, logoutUser } = useUser();
@@ -71,50 +72,53 @@ const App = () => {
       if (storageService.get(LOCAL_STORAGE.REFRESH_TOKEN)) {
         setUser();
       }
-    }, 120000);
+    }, APP.TOKEN_GENERATION_TIME_IN_MS);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <PageProvider>
       <FormProvider>
-        <Header />
+        <FilterProvider>
+          <Header />
 
-        {PAGES_WITH_NAVBAR_COMPONENT.includes(location.pathname) && (
-          <>
-            <Navbar />
-            <NavbarTracker />
-          </>
-        )}
+          {hasNavbar(location.pathname) && (
+            <>
+              <Navbar />
+              <NavbarTracker />
+            </>
+          )}
 
-        <div className='c-page-wrapper'>
-          <>
-            <main>
-              <Routes>
-                <Route path={ROUTES.REGISTER} element={<Register />} />
-                <Route path={ROUTES.LOGIN} element={<Login />} />
-                <Route path={ROUTES.PRIVACY_AND_POLICY} element={<PrivacyAndPolicy />} />
-                <Route path={ROUTES.TERMS_AND_CONDITIONS} element={<TermsAndConditions />} />
-                <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
-                <Route path='/' element={<Home />} />
-                <Route
-                  path={`${ROUTES.PRODUCT}/:id`}
-                  element={
-                    <>
-                      <Navbar />
-                      <NavbarTracker />
-                      <SingleProduct />
-                    </>
-                  }
-                />
-                <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
-                <Route path={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`} element={<AddItem />} />
-                <Route path='*' element={<Error />} />
-              </Routes>
-            </main>
-          </>
-        </div>
-        <Footer />
+          <div className='c-page-wrapper'>
+            <>
+              <main>
+                <Routes>
+                  <Route path={ROUTES.REGISTER} element={<Register />} />
+                  <Route path={ROUTES.LOGIN} element={<Login />} />
+                  <Route path={ROUTES.PRIVACY_AND_POLICY} element={<PrivacyAndPolicy />} />
+                  <Route path={ROUTES.TERMS_AND_CONDITIONS} element={<TermsAndConditions />} />
+                  <Route path={ROUTES.ABOUT_US} element={<AboutUs />} />
+                  <Route path='/' element={<Home />} />
+                  <Route
+                    path={`${ROUTES.PRODUCT}/:id`}
+                    element={
+                      <>
+                        <Navbar />
+                        <NavbarTracker />
+                        <SingleProduct />
+                      </>
+                    }
+                  />
+                  <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
+                  <Route path={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`} element={<AddItem />} />
+                  <Route path={ROUTES.SHOP} element={<Shop />} />
+                  <Route path='*' element={<Error />} />
+                </Routes>
+              </main>
+            </>
+          </div>
+          <Footer />
+        </FilterProvider>
       </FormProvider>
     </PageProvider>
   );

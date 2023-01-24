@@ -90,7 +90,7 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    setNavbarTitle(EN_STRINGS.MY_ACCOUNT.PROFILE);
+    setNavbarTitle([EN_STRINGS.MY_ACCOUNT.PROFILE]);
     setNavbarItems([EN_STRINGS.NAVBAR.MY_ACCOUNT, EN_STRINGS.MY_ACCOUNT.PROFILE]);
 
     fetchUser();
@@ -132,7 +132,7 @@ const UserProfile = () => {
 
         <div className='c-personal-information'>
           <div className='c-personal-image'>
-            <img src={imageUpload ? imagePreview! : user?.profileImageUrl ? user.profileImageUrl : userImage} alt='Profile' />
+            <img src={imageUpload ? imagePreview! : (user?.profileImageUrl || userImage)} alt='Profile' />
 
             <label>
               {EN_STRINGS.PROFILE.CHANGE_PHOTO}

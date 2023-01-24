@@ -30,7 +30,7 @@ const PersonalForm: React.FC<Props> = ({ user }) => {
       type={INPUT_TYPE_TEXT}
       name={USER_FORM.LAST_NAME}
       title={USER.LAST_NAME_TITLE}
-      placeholder={user?.lastName ? user.lastName : USER_FORM.LAST_NAME_PLACEHOLDER}
+      placeholder={user?.lastName || USER_FORM.LAST_NAME_PLACEHOLDER}
       value={fieldValues[USER_FORM.LAST_NAME]}
     />,
 
@@ -39,7 +39,7 @@ const PersonalForm: React.FC<Props> = ({ user }) => {
       type={INPUT_TYPE_EMAIL}
       name={USER_FORM.EMAIL}
       title={USER.EMAIL_TITLE}
-      placeholder={user?.email ? user.email : USER_FORM.EMAIL_PLACEHOLDER}
+      placeholder={user?.email || USER_FORM.EMAIL_PLACEHOLDER}
       disabled
     />,
 
@@ -57,7 +57,7 @@ const PersonalForm: React.FC<Props> = ({ user }) => {
       type={INPUT_TYPE_NUMBER}
       name={USER_FORM.PHONE_NUMBER}
       title={USER.PHONE_NUMBER_TITLE}
-      placeholder={user?.phoneNumber ? user.phoneNumber : USER_FORM.PHONE_NUMBER_PLACEHOLDER}
+      placeholder={user?.phoneNumber || USER_FORM.PHONE_NUMBER_PLACEHOLDER}
       value={fieldValues[USER_FORM.PHONE_NUMBER]}
       validator={validatePhoneNumber}
     />,

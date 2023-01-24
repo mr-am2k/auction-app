@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { usePage } from 'hooks/usePage';
 import { useUser } from 'hooks/useUser';
@@ -15,6 +14,7 @@ import { Product } from 'models/product';
 import { Notification } from 'models/notification';
 import { createBidRequest } from 'models/request/create/createBidRequest';
 import { INPUT_TYPE_NUMBER, LOCAL_STORAGE } from 'util/constants';
+import { scrollToTop } from 'util/windowUtils';
 import { EN_STRINGS } from 'translation/en';
 
 import './single-product.scss';
@@ -38,7 +38,7 @@ const SingleProduct = () => {
 
   const fetchSingleProduct = async (productId: string) => {
     const product = await productsService.getSingleProduct(productId);
-    setNavbarTitle(product.name);
+    setNavbarTitle([product.name]);
     setNavbarItems([EN_STRINGS.NAVBAR.SHOP, EN_STRINGS.SHOP.SINGLE_PRODUCT]);
     setSingleProduct(product);
 
@@ -92,7 +92,7 @@ const SingleProduct = () => {
 
   useEffect(() => {
     initialLoad();
-    window.scrollTo(0, 0);
+    scrollToTop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -100,6 +100,11 @@ const SingleProduct = () => {
     loggedInUser ? getLatestNotification(loggedInUser!.id, id!) : setLatestNotification(undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedInUser, singleProduct]);
+
+  useEffect(() => {
+    fetchSingleProduct(id!)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   if (!singleProduct) {
     return <Loading />;

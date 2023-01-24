@@ -27,3 +27,8 @@ export { default as ItemList } from './ItemList/ItemList';
 export { default as Splitter } from './splitter/Splitter';
 export { default as BiddersList } from './BiddersList/BiddersList';
 export { default as RelatedProducts } from './RelatedProducts/RelatedProducts';
+export { default as ProductCard } from './ProductCard/ProductCard';
+export { default as ShopFilters } from './ShopFilters/ShopFilters';
+export { default as CategoryFilters } from './CategoryFilters/CategoryFilters';
+export { default as PriceFilters } from './PriceFilters/PriceFilters';
+export { default as ShopHeaders } from './ShopHeaders/ShopHeaders';

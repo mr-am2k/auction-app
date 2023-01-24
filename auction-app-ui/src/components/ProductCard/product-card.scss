@@ -1,0 +1,30 @@
+@import '/src/scss/mixin';
+@import '/src/scss/variables';
+
+.c-item {
+  a {
+    text-decoration: none;
+  }
+
+  img {
+    object-fit: cover;
+    width: 360px;
+    height: 360px;
+  }
+
+  h3 {
+    color: $blackColor;
+  }
+
+  p {
+    font-weight: 500;
+    font-size: $textBase;
+    line-height: 19px;
+    letter-spacing: $letterSpacing;
+    color: $greyColor;
+
+    span {
+      color: $purpleColor;
+    }
+  }
+}

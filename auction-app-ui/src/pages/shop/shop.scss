@@ -1,0 +1,63 @@
+@import '/src/scss/mixin';
+@import '/src/scss/variables';
+
+.c-shop-page-wrapper {
+  @include flexDisplay(flex-start, flex-start);
+  flex-direction: row;
+  padding: 1rem 12rem 0;
+  font-family: $latoFont;
+  gap: 2rem;
+
+  .c-filters {
+    width: 370px;
+  }
+
+  .c-products {
+    @include flexDisplay(flex-start, flex-start);
+    flex-direction: column;
+    width: 1140px;
+    gap: 2rem;
+
+    .c-products-sorting {
+      width: 100%;
+    }
+
+    .c-products-display {
+      @include flexDisplay(flex-start, flex-start);
+      flex-direction: column;
+      width: 100%;
+
+      .c-products-view {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 1.5rem;
+        min-width: 100%;
+      }
+
+      .c-button-container {
+        @include flexDisplay(center, center);
+        width: 100%;
+        margin-top: 3rem;
+
+        button {
+          width: 15rem;
+          border: 1px solid $purpleColor;
+          background-color: $purpleColor;
+          color: $whiteColor;
+
+          &:hover {
+            cursor: pointer;
+            scale: 1.02;
+          }
+        }
+      }
+
+      .c-empty-shop {
+        @include flexDisplay(center, center);
+        width: 100%;
+        height: 300px;
+        color: $errorColor;
+      }
+    }
+  }
+}

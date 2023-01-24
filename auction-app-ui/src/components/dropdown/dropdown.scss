@@ -14,6 +14,10 @@
     background: #ffffff;
     border: 2px solid #d8d8d8;
     font-family: $latoFont;
+
+    option {
+      font-size: $textBase;
+    }
   }
 
   .c-dropdown-error-border {
