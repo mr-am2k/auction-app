@@ -88,7 +88,7 @@ const BiddersList: React.FC<Props> = ({ productId }) => {
               {bidders.map((bid, index) => (
                 <tr className='c-table-rows' key={index}>
                   <td className='c-user-data'>
-                    <img src={bid.profileImageUrl ? bid.profileImageUrl : userImage} alt='Profile' />
+                    <img src={bid.profileImageUrl || userImage} alt='Profile' />
                     <span>{bid.firstName}</span>
                     <span>{bid.lastName}</span>
                   </td>

@@ -72,7 +72,7 @@ const App = () => {
       if (storageService.get(LOCAL_STORAGE.REFRESH_TOKEN)) {
         setUser();
       }
-    }, APP.GENERATE_TOKEN_TIME);
+    }, APP.TOKEN_GENERATION_TIME_IN_MS);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

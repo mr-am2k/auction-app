@@ -132,7 +132,7 @@ const UserProfile = () => {
 
         <div className='c-personal-information'>
           <div className='c-personal-image'>
-            <img src={imageUpload ? imagePreview! : user?.profileImageUrl ? user.profileImageUrl : userImage} alt='Profile' />
+            <img src={imageUpload ? imagePreview! : (user?.profileImageUrl || userImage)} alt='Profile' />
 
             <label>
               {EN_STRINGS.PROFILE.CHANGE_PHOTO}

@@ -116,5 +116,5 @@ export const SHOP_HEADERS_PRICE = {
 };
 
 export const APP = {
-  GENERATE_TOKEN_TIME: 120000,
+  TOKEN_GENERATION_TIME_IN_MS: 120000,
 };

@@ -78,7 +78,7 @@ const Dropdown: React.FC<Props> = ({ name, options, placeholder, required, onCha
         className={classNames('c-dropdown', {
           'c-dropdown-error-border': hasError,
         })}
-        value={selectedOption ? selectedOption : placeholder}
+        value={selectedOption || placeholder}
         onChange={onDropdownChange}
       >
         <option disabled>{placeholder}</option>

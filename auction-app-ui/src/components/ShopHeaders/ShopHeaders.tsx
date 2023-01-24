@@ -77,9 +77,9 @@ const ShopHeaders = () => {
             <h5>{SHOP_HEADERS.PRICE_RANGE}</h5>
 
             <p>
-              <span>${searchFilterValues.minPrice ? searchFilterValues.minPrice : SHOP_HEADERS_PRICE.MIN_PRICE}</span>
+              <span>${searchFilterValues.minPrice || SHOP_HEADERS_PRICE.MIN_PRICE}</span>
               <span>-</span>
-              <span>${searchFilterValues.maxPrice ? searchFilterValues.maxPrice : SHOP_HEADERS_PRICE.MAX_PRICE}</span>
+              <span>${searchFilterValues.maxPrice || SHOP_HEADERS_PRICE.MAX_PRICE}</span>
               <span className='c-close-icon' onClick={handleClosePriceRange}>
                 <CloseIcon />
               </span>

@@ -14,7 +14,7 @@ import { Product } from 'models/product';
 import { Notification } from 'models/notification';
 import { createBidRequest } from 'models/request/create/createBidRequest';
 import { INPUT_TYPE_NUMBER, LOCAL_STORAGE } from 'util/constants';
-import { scrollToTop } from 'util/scrollUtils';
+import { scrollToTop } from 'util/windowUtils';
 import { EN_STRINGS } from 'translation/en';
 
 import './single-product.scss';

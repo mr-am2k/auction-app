@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { usePage } from 'hooks/usePage';
 
 import { EN_STRINGS } from 'translation/en';
-import { scrollToTop } from 'util/scrollUtils';
+import { scrollToTop } from 'util/windowUtils';
 
 import './about-us.scss';
 

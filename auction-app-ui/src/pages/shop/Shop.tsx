@@ -7,7 +7,7 @@ import productsService from 'services/productService';
 
 import { Product } from 'models/product';
 import { ProductCard, ShopFilters, ShopHeaders } from 'components';
-import { scrollToTop } from 'util/scrollUtils';
+import { scrollToTop } from 'util/windowUtils';
 import { EN_STRINGS, SHOP } from 'translation/en';
 
 import './shop.scss';
@@ -24,6 +24,7 @@ const Shop = () => {
 
   const fetchProducts = (pageNumber: number) => {
     setLoading(true);
+
     const subcategoryIds = searchFilterValues.subcategories?.map(subcategory => {
       return subcategory.id;
     });
@@ -56,13 +57,15 @@ const Shop = () => {
   };
 
   useEffect(() => {
-    if (searchFilterValues.name === undefined || searchFilterValues.name === '') {
-      setNavbarTitle([]);
-      setNavbarItems([EN_STRINGS.NAVBAR.HOME]);
-    } else {
-      setNavbarTitle([]);
-      setNavbarItems([EN_STRINGS.NAVBAR.HOME, searchFilterValues.name]);
+    const navbarItems = [EN_STRINGS.NAVBAR.HOME];
+
+    if (searchFilterValues.name !== undefined && searchFilterValues.name !== '') {
+      navbarItems.push(searchFilterValues.name!);
     }
+
+    setNavbarTitle([]);
+    setNavbarItems(navbarItems);
+
     scrollToTop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchFilterValues.name]);

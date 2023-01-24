@@ -26,7 +26,7 @@ const CategoryFilters = () => {
 
       setCategories(organizedCategories);
 
-      let displayCategory: CategoryShow[] = [];
+      const displayCategory: CategoryShow[] = [];
 
       organizedCategories.forEach((category, index) => {
         displayCategories.push({ id: index, active: false });
@@ -100,7 +100,7 @@ const CategoryFilters = () => {
 
   useEffect(() => {
     if (searchFilterValues.category) {
-      let displayCategory: CategoryShow[] = [];
+      const displayCategory: CategoryShow[] = [];
 
       categories.forEach((category, index) => {
         searchFilterValues.category!.id === category.categoryId ?

@@ -44,7 +44,7 @@ const PriceFilters = () => {
             type={INPUT_TYPE_NUMBER}
             name={PRICE_FILTER.MIN_PRICE}
             placeholder={PRICE_FILTER.MIN_PRICE_PLACEHOLDER}
-            value={minPrice ? minPrice : ''}
+            value={minPrice || ''}
           />
         </div>
 
@@ -56,7 +56,7 @@ const PriceFilters = () => {
             type={INPUT_TYPE_NUMBER}
             name={PRICE_FILTER.MAX_PRICE}
             placeholder={PRICE_FILTER.MAX_PRICE_PLACEHOLDER}
-            value={maxPrice ? maxPrice : ''}
+            value={maxPrice || ''}
           />
         </div>
       </div>
