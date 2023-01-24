@@ -98,9 +98,7 @@ const CategoryFilters = () => {
     const displayCategory: CategoryShow[] = [];
 
     categories.forEach((category, index) => {
-      searchFilterValues.category?.id === category.categoryId ?
-        displayCategory.push({ id: index, active: true }) :
-        displayCategory.push({ id: index, active: false });
+      displayCategory.push({ id: index, active: searchFilterValues.category?.id === category.categoryId });
     });
 
     setDisplayCategories(displayCategory);
