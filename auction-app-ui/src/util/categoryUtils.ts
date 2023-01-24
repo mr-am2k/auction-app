@@ -1,29 +1,21 @@
-import { Categories } from 'models/categories';
+import { SubCategory } from 'models/subCategory';
 import { Category } from 'models/category';
 
 export const organizeCategories = (categories: Category[]) => {
-  const organizedCategories: Categories[] = [];
+  const organizedCategories: SubCategory[] = [];
 
   for (const category of categories) {
     if (category.parentCategoryId === null) {
-      const newCategory: Categories = {
-        categoryId: category.id,
-        name: category.name,
-        subcategories: [],
-      };
-
-      organizedCategories.push(newCategory);
+      organizedCategories.push({ categoryId: category.id, name: category.name, subcategories: [] });
     } else {
       for (const subcategory of organizedCategories) {
         if (subcategory.categoryId === category.parentCategoryId) {
-          const newSubcategory: Category = {
+          subcategory.subcategories.push({
             id: category.id,
             name: category.name,
-            numberOfProducts: category.numberOfProducts,
             parentCategoryId: category.parentCategoryId,
-          };
-
-          subcategory.subcategories.push(newSubcategory);
+            numberOfProducts: category.numberOfProducts,
+          });
         }
       }
     }

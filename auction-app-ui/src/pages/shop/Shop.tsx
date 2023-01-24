@@ -107,7 +107,7 @@ const Shop = () => {
           )}
         </div>
 
-        {!loading && products.length === 0 && (
+        {!loading && !products.length && (
           <div className='c-empty-shop'>
             <h1>{SHOP.EMPTY_SHOP}</h1>
           </div>

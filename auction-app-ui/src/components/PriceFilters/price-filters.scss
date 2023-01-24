@@ -12,10 +12,10 @@
 
   .c-input-fields {
     @include flexDisplay(space-between, center);
-    min-width: 240px;
+    max-width: 240px;
 
     .c-input-field {
-      min-width: 60px;
+      max-width: 60px;
     }
 
     span {

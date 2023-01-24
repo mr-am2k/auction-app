@@ -4,7 +4,7 @@ import { useFilter } from 'hooks/useFilter';
 
 import categoryService from 'services/categoryService';
 
-import { Categories } from 'models/categories';
+import { SubCategory } from 'models/subCategory';
 import { organizeCategories } from 'util/categoryUtils';
 import { CATEGORY_FILTERS } from 'translation/en';
 
@@ -16,7 +16,7 @@ type CategoryShow = {
 };
 
 const CategoryFilters = () => {
-  const [categories, setCategories] = useState<Categories[]>([]);
+  const [categories, setCategories] = useState<SubCategory[]>([]);
   const [displayCategories, setDisplayCategories] = useState<CategoryShow[]>([]);
   const { searchFilterValues, setSearchFilterValues } = useFilter();
 
@@ -39,27 +39,23 @@ const CategoryFilters = () => {
   const toggleShow = (index: number, show: boolean) => {
     let updatedDisplayCategories: CategoryShow[] = [];
 
+    const filterValues = { ...searchFilterValues, subcategories: undefined };
+
     if (show) {
       updatedDisplayCategories = displayCategories.map(category => {
         return { ...category, active: category.id === index };
       });
 
-      setSearchFilterValues({
-        ...searchFilterValues,
-        category: { name: categories[index].name, id: categories[index].categoryId },
-        subcategories: undefined,
-      });
+      filterValues.category = { name: categories[index].name, id: categories[index].categoryId };
     } else {
       updatedDisplayCategories = displayCategories.map(category => {
         return { ...category, active: false };
       });
 
-      setSearchFilterValues({
-        ...searchFilterValues,
-        category: undefined,
-        subcategories: undefined,
-      });
+      filterValues.category = undefined;
     }
+
+    setSearchFilterValues(filterValues);
 
     setDisplayCategories(updatedDisplayCategories);
   };
@@ -99,17 +95,16 @@ const CategoryFilters = () => {
   }, []);
 
   useEffect(() => {
-    if (searchFilterValues.category) {
-      const displayCategory: CategoryShow[] = [];
+    const displayCategory: CategoryShow[] = [];
 
-      categories.forEach((category, index) => {
-        searchFilterValues.category!.id === category.categoryId ?
-          displayCategory.push({ id: index, active: true }) :
-          displayCategory.push({ id: index, active: false });
-      });
+    categories.forEach((category, index) => {
+      searchFilterValues.category?.id === category.categoryId ?
+        displayCategory.push({ id: index, active: true }) :
+        displayCategory.push({ id: index, active: false });
+    });
 
-      setDisplayCategories(displayCategory);
-    }
+    setDisplayCategories(displayCategory);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchFilterValues.category, categories]);
 

@@ -15,7 +15,7 @@ import './home.scss';
 
 import { GreaterIcon } from 'assets/icons';
 import categoryService from 'services/categoryService';
-import { Categories } from 'models/categories';
+import { SubCategory } from 'models/subCategory';
 import { organizeCategories } from 'util/categoryUtils';
 
 const Home = () => {
@@ -25,7 +25,7 @@ const Home = () => {
   const [newArrivalProducts, setNewArrivalProducts] = useState<Product[]>([]);
   const [newArrivalsActive, setNewArrivalsActive] = useState(true);
   const [lastChanceActive, setLastChanceActive] = useState(false);
-  const [categories, setCategories] = useState<Categories[]>([]);
+  const [categories, setCategories] = useState<SubCategory[]>([]);
 
   const navbarItemClass = 'c-navbar-item';
   const focusedNavbarItem = navbarItemClass + ' c-focus';
