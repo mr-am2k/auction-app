@@ -1,13 +1,17 @@
 package com.internship.auctionapp.services.product;
 
+import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.UserEntity;
+import com.internship.auctionapp.middleware.exception.CreditCardNotFoundException;
 import com.internship.auctionapp.middleware.exception.ProductNotFoundException;
 import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.Bid;
+import com.internship.auctionapp.models.CreditCard;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.middleware.exception.ProductExpirationDateException;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.bid.BidRepository;
+import com.internship.auctionapp.repositories.creditCard.CreditCardJpaRepository;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
@@ -15,6 +19,7 @@ import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.requests.CreatePaymentRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.SearchProductRequest;
+import com.internship.auctionapp.services.bid.BidService;
 import com.internship.auctionapp.services.stripe.StripeService;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.NotificationType;
@@ -54,6 +59,8 @@ public class DefaultProductService implements ProductService {
 
     private final UserJpaRepository userJpaRepository;
 
+    private final BidService bidService;
+
     private static final Integer DEFAULT_ELEMENTS_PER_PAGE = 8;
 
     private static final Integer RELATED_PRODUCTS_PER_PAGE = 3;
@@ -65,14 +72,18 @@ public class DefaultProductService implements ProductService {
     private static final String CREATION_DATE_TIME = "creationDateTime";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
+    private final CreditCardJpaRepository creditCardJpaRepository;
 
     public DefaultProductService(ProductRepository productCRUDRepository, BidRepository bidRepository, NotificationRepository notificationRepository, StripeService stripeService,
-                                 UserJpaRepository userJpaRepository) {
+                                 UserJpaRepository userJpaRepository, BidService bidService,
+                                 CreditCardJpaRepository creditCardJpaRepository) {
         this.productRepository = productCRUDRepository;
         this.bidRepository = bidRepository;
         this.notificationRepository = notificationRepository;
         this.stripeService = stripeService;
         this.userJpaRepository = userJpaRepository;
+        this.bidService = bidService;
+        this.creditCardJpaRepository = creditCardJpaRepository;
     }
 
     @Override
@@ -170,13 +181,65 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public void payForProduct(CreatePaymentRequest createPaymentRequest) throws StripeException {
-        final UserEntity user = userJpaRepository.findById(createPaymentRequest.getId()).orElseThrow(() ->
-                new UserNotFoundByIdException(createPaymentRequest.getId().toString())
-        );
+    public void payForProduct(String username, CreatePaymentRequest createPaymentRequest) throws StripeException {
+        final UserEntity user = userJpaRepository.findByUsername(username);
 
-        String userId = stripeService.createCustomer(user);
-        LOGGER.info(userId);
+        String stripeCustomerId = null;
+
+        if (user.getStripeCustomerId() == null) {
+            String userId = stripeService.createCustomer(user);
+            user.setStripeCustomerId(userId);
+            userJpaRepository.save(user);
+            stripeCustomerId = userId;
+        } else {
+            stripeCustomerId = user.getStripeCustomerId();
+        }
+
+        final Integer highestBidPrice = (int) (bidRepository.getHighestBid(createPaymentRequest.getProductId()).getPrice() * 100);
+
+        String stripeCreditCardId = null;
+
+        if (createPaymentRequest.getCreditCardId() == null) {
+            CreditCardEntity creditCard = new CreditCardEntity();
+
+            creditCard.setHolderFullName(createPaymentRequest.getCreateCreditCardRequest().getHolderFullName());
+            creditCard.setNumber(createPaymentRequest.getCreateCreditCardRequest().getNumber());
+            creditCard.setExpirationDate(createPaymentRequest.getCreateCreditCardRequest().getExpirationDate());
+            creditCard.setVerificationValue(createPaymentRequest.getCreateCreditCardRequest().getVerificationValue());
+
+            stripeCreditCardId = stripeService.createCard(creditCard, stripeCustomerId);
+
+            creditCard.setStripeCreditCardId(stripeCreditCardId);
+
+            final CreditCardEntity userCreditCard = creditCardJpaRepository.save(creditCard);
+
+            user.setCreditCard(userCreditCard);
+            userJpaRepository.save(user);
+        } else {
+            CreditCardEntity creditCard = creditCardJpaRepository.findById(createPaymentRequest.getCreditCardId()).orElseThrow(() ->
+                    new CreditCardNotFoundException(createPaymentRequest.getCreditCardId().toString())
+            );
+
+            if (creditCard.getStripeCreditCardId() == null) {
+                CreditCardEntity creditCardModel = new CreditCardEntity();
+
+                creditCard.setHolderFullName(createPaymentRequest.getCreateCreditCardRequest().getHolderFullName());
+                creditCard.setNumber(createPaymentRequest.getCreateCreditCardRequest().getNumber());
+                creditCard.setExpirationDate(createPaymentRequest.getCreateCreditCardRequest().getExpirationDate());
+                creditCard.setVerificationValue(createPaymentRequest.getCreateCreditCardRequest().getVerificationValue());
+
+                stripeCreditCardId = stripeService.createCard(creditCardModel, stripeCustomerId);
+
+                creditCardModel.setStripeCreditCardId(stripeCreditCardId);
+
+                creditCardJpaRepository.save(creditCardModel);
+            } else {
+                stripeCreditCardId = creditCard.getStripeCreditCardId();
+            }
+
+        }
+
+        stripeService.completePayment(highestBidPrice, stripeCustomerId, stripeCreditCardId, createPaymentRequest);
     }
 
     @Override

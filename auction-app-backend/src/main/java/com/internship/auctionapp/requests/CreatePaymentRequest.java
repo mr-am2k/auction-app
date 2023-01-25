@@ -8,5 +8,9 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 public class CreatePaymentRequest {
-    private UUID id;
+    private UUID productId;
+
+    private UUID creditCardId;
+
+    private CreateCreditCardRequest createCreditCardRequest;
 }

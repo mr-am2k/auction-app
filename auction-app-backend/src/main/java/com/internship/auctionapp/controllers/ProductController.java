@@ -7,6 +7,8 @@ import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.SearchProductRequest;
 import com.internship.auctionapp.services.product.ProductService;
 
+import com.internship.auctionapp.util.RequestUtils;
+import com.internship.auctionapp.util.security.jwt.JwtUtils;
 import com.stripe.exception.StripeException;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -25,8 +28,11 @@ import java.util.UUID;
 public class ProductController {
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
+    private final JwtUtils jwtUtils;
+
+    public ProductController(ProductService productService, JwtUtils jwtUtils) {
         this.productService = productService;
+        this.jwtUtils = jwtUtils;
     }
 
     @PostMapping
@@ -80,7 +86,10 @@ public class ProductController {
 
     @PostMapping("/pay")
     @SecurityRequirement(name = "Bearer Authentication")
-    public void payForProduct(@RequestBody CreatePaymentRequest createPaymentRequest) throws StripeException {
-        productService.payForProduct(createPaymentRequest);
+    public void payForProduct(@RequestBody CreatePaymentRequest createPaymentRequest, HttpServletRequest request) throws StripeException {
+        final String token = RequestUtils.getToken(request, RequestUtils.BEARER);
+        final String username = jwtUtils.getEmailFromJwtToken(token, true);
+
+        productService.payForProduct(username, createPaymentRequest);
     }
 }
