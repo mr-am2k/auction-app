@@ -72,6 +72,9 @@ public class UserEntity {
     @JoinColumn(name = "credit_card_id", referencedColumnName = "id")
     private CreditCardEntity creditCard;
 
+    @Column(name = "stripe_customer_id")
+    private String stripeCustomerId;
+
     public User toDomainModel() {
         User user = new User();
 

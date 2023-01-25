@@ -48,6 +48,8 @@ public class Product {
 
     private Double highestBidPrice;
 
+    private boolean paid;
+
     public Product(UUID productId, ProductEntity productEntity, List<Bid> bids, String remainingTime) {
         this.id = productId;
         this.name = productEntity.getName();
@@ -65,5 +67,6 @@ public class Product {
         this.creditCard=productEntity.getCreditCard().toDomainModel();
         this.highestBidder = productEntity.getHighestBidder();
         this.highestBidPrice = productEntity.getHighestBidPrice();
+        this.paid = productEntity.isPaid();
     }
 }
