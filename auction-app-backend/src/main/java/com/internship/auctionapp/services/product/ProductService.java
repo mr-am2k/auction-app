@@ -2,9 +2,11 @@ package com.internship.auctionapp.services.product;
 
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.requests.CreatePaymentRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 
 import com.internship.auctionapp.requests.SearchProductRequest;
+import com.stripe.exception.StripeException;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -28,6 +30,8 @@ public interface ProductService {
     List<Product> getUserProducts(UUID userId);
 
     Page<Product> getRelatedProducts(UUID categoryId, UUID productId);
+
+    void payForProduct(CreatePaymentRequest createPaymentRequest) throws StripeException;
 
     void createNotificationsAfterProductExpires();
 }

@@ -1,6 +1,8 @@
 package com.internship.auctionapp.services.product;
 
+import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.ProductNotFoundException;
+import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.middleware.exception.ProductExpirationDateException;
@@ -8,13 +10,17 @@ import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
+import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
+import com.internship.auctionapp.requests.CreatePaymentRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.SearchProductRequest;
+import com.internship.auctionapp.services.stripe.StripeService;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.NotificationType;
 
 import com.internship.auctionapp.util.filter.product.ProductFilter;
+import com.stripe.exception.StripeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +50,10 @@ public class DefaultProductService implements ProductService {
 
     private final NotificationRepository notificationRepository;
 
+    private final StripeService stripeService;
+
+    private final UserJpaRepository userJpaRepository;
+
     private static final Integer DEFAULT_ELEMENTS_PER_PAGE = 8;
 
     private static final Integer RELATED_PRODUCTS_PER_PAGE = 3;
@@ -56,10 +66,13 @@ public class DefaultProductService implements ProductService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
 
-    public DefaultProductService(ProductRepository productCRUDRepository, BidRepository bidRepository, NotificationRepository notificationRepository) {
+    public DefaultProductService(ProductRepository productCRUDRepository, BidRepository bidRepository, NotificationRepository notificationRepository, StripeService stripeService,
+                                 UserJpaRepository userJpaRepository) {
         this.productRepository = productCRUDRepository;
         this.bidRepository = bidRepository;
         this.notificationRepository = notificationRepository;
+        this.stripeService = stripeService;
+        this.userJpaRepository = userJpaRepository;
     }
 
     @Override
@@ -154,6 +167,16 @@ public class DefaultProductService implements ProductService {
         final Pageable page = PageRequest.of(0, RELATED_PRODUCTS_PER_PAGE);
 
         return productRepository.getRelatedProducts(categoryId, productId, page);
+    }
+
+    @Override
+    public void payForProduct(CreatePaymentRequest createPaymentRequest) throws StripeException {
+        final UserEntity user = userJpaRepository.findById(createPaymentRequest.getId()).orElseThrow(() ->
+                new UserNotFoundByIdException(createPaymentRequest.getId().toString())
+        );
+
+        String userId = stripeService.createCustomer(user);
+        LOGGER.info(userId);
     }
 
     @Override

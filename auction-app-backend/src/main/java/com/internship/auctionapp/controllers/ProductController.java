@@ -2,10 +2,12 @@ package com.internship.auctionapp.controllers;
 
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.requests.CreatePaymentRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.SearchProductRequest;
 import com.internship.auctionapp.services.product.ProductService;
 
+import com.stripe.exception.StripeException;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -74,5 +76,11 @@ public class ProductController {
     @GetMapping("/related")
     public Page<Product> getRelatedProducts(@RequestParam UUID categoryId, @RequestParam UUID productId) {
         return productService.getRelatedProducts(categoryId, productId);
+    }
+
+    @PostMapping("/pay")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public void payForProduct(@RequestBody CreatePaymentRequest createPaymentRequest) throws StripeException {
+        productService.payForProduct(createPaymentRequest);
     }
 }
