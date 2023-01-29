@@ -7,9 +7,7 @@ import com.internship.auctionapp.middleware.exception.CreditCardNotFoundExceptio
 import com.internship.auctionapp.middleware.exception.HighestBidderException;
 import com.internship.auctionapp.middleware.exception.PaidProductException;
 import com.internship.auctionapp.middleware.exception.ProductNotFoundException;
-import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.Bid;
-import com.internship.auctionapp.models.CreditCard;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.middleware.exception.ProductExpirationDateException;
 import com.internship.auctionapp.entities.ProductEntity;
@@ -23,8 +21,8 @@ import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.requests.CreatePaymentRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.SearchProductRequest;
-import com.internship.auctionapp.services.bid.BidService;
 import com.internship.auctionapp.services.stripe.StripeService;
+import com.internship.auctionapp.util.CreditCardUtils;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.NotificationType;
 
@@ -45,7 +43,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
-import java.time.chrono.ChronoZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -64,8 +61,6 @@ public class DefaultProductService implements ProductService {
 
     private final UserJpaRepository userJpaRepository;
 
-    private final BidService bidService;
-
     private static final Integer DEFAULT_ELEMENTS_PER_PAGE = 8;
 
     private static final Integer RELATED_PRODUCTS_PER_PAGE = 3;
@@ -80,8 +75,11 @@ public class DefaultProductService implements ProductService {
     private final CreditCardJpaRepository creditCardJpaRepository;
     private final ProductJpaRepository productJpaRepository;
 
-    public DefaultProductService(ProductRepository productCRUDRepository, BidRepository bidRepository, NotificationRepository notificationRepository, StripeService stripeService,
-                                 UserJpaRepository userJpaRepository, BidService bidService,
+    public DefaultProductService(ProductRepository productCRUDRepository,
+                                 BidRepository bidRepository,
+                                 NotificationRepository notificationRepository,
+                                 StripeService stripeService,
+                                 UserJpaRepository userJpaRepository,
                                  CreditCardJpaRepository creditCardJpaRepository,
                                  ProductJpaRepository productJpaRepository) {
         this.productRepository = productCRUDRepository;
@@ -89,7 +87,6 @@ public class DefaultProductService implements ProductService {
         this.notificationRepository = notificationRepository;
         this.stripeService = stripeService;
         this.userJpaRepository = userJpaRepository;
-        this.bidService = bidService;
         this.creditCardJpaRepository = creditCardJpaRepository;
         this.productJpaRepository = productJpaRepository;
     }
@@ -189,7 +186,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public void payForProduct(String username, CreatePaymentRequest createPaymentRequest) throws StripeException {
+    public boolean payForProduct(String username, CreatePaymentRequest createPaymentRequest) throws StripeException {
         final ProductEntity product = productJpaRepository.findById(createPaymentRequest.getProductId()).orElseThrow(() ->
                 new ProductNotFoundException(createPaymentRequest.getProductId().toString()));
 
@@ -207,7 +204,7 @@ public class DefaultProductService implements ProductService {
             throw new HighestBidderException();
         }
 
-        if (product.getExpirationDateTime().isBefore(ChronoZonedDateTime.from(LocalDateTime.now()))) {
+        if (DateUtils.isInPast(product.getExpirationDateTime().toLocalDateTime(), LocalDateTime.now())) {
             LOGGER.info("Auction is not over yet!");
             throw new AuctionNotFinishedException();
         }
@@ -250,29 +247,40 @@ public class DefaultProductService implements ProductService {
                     new CreditCardNotFoundException(createPaymentRequest.getCreditCardId().toString())
             );
 
-            if (creditCard.getStripeCreditCardId() == null) {
+            if (CreditCardUtils.compare(creditCard, createPaymentRequest.getCreateCreditCardRequest())) {
+                if (creditCard.getStripeCreditCardId() == null) {
+                    CreditCardEntity creditCardModel = new CreditCardEntity();
+
+                    creditCardModel.setHolderFullName(createPaymentRequest.getCreateCreditCardRequest().getHolderFullName());
+                    creditCardModel.setNumber(createPaymentRequest.getCreateCreditCardRequest().getNumber());
+                    creditCardModel.setExpirationDate(createPaymentRequest.getCreateCreditCardRequest().getExpirationDate());
+                    creditCardModel.setVerificationValue(createPaymentRequest.getCreateCreditCardRequest().getVerificationValue());
+
+                    stripeCreditCardId = stripeService.createCard(creditCardModel, stripeCustomerId);
+
+                    creditCard.setStripeCreditCardId(stripeCreditCardId);
+
+                    creditCardJpaRepository.save(creditCard);
+                } else {
+                    stripeCreditCardId = creditCard.getStripeCreditCardId();
+                }
+            } else {
                 CreditCardEntity creditCardModel = new CreditCardEntity();
 
-                creditCard.setHolderFullName(createPaymentRequest.getCreateCreditCardRequest().getHolderFullName());
-                creditCard.setNumber(createPaymentRequest.getCreateCreditCardRequest().getNumber());
-                creditCard.setExpirationDate(createPaymentRequest.getCreateCreditCardRequest().getExpirationDate());
-                creditCard.setVerificationValue(createPaymentRequest.getCreateCreditCardRequest().getVerificationValue());
+                creditCardModel.setHolderFullName(createPaymentRequest.getCreateCreditCardRequest().getHolderFullName());
+                creditCardModel.setNumber(createPaymentRequest.getCreateCreditCardRequest().getNumber());
+                creditCardModel.setExpirationDate(createPaymentRequest.getCreateCreditCardRequest().getExpirationDate());
+                creditCardModel.setVerificationValue(createPaymentRequest.getCreateCreditCardRequest().getVerificationValue());
 
                 stripeCreditCardId = stripeService.createCard(creditCardModel, stripeCustomerId);
-
-                creditCardModel.setStripeCreditCardId(stripeCreditCardId);
-
-                creditCardJpaRepository.save(creditCardModel);
-            } else {
-                stripeCreditCardId = creditCard.getStripeCreditCardId();
             }
-
         }
 
         stripeService.completePayment(highestBidPrice, stripeCustomerId, stripeCreditCardId, createPaymentRequest);
 
         product.setPaid(true);
         productJpaRepository.save(product);
+        return true;
     }
 
     @Override

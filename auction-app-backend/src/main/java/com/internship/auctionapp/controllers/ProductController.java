@@ -86,10 +86,10 @@ public class ProductController {
 
     @PostMapping("/pay")
     @SecurityRequirement(name = "Bearer Authentication")
-    public void payForProduct(@RequestBody CreatePaymentRequest createPaymentRequest, HttpServletRequest request) throws StripeException {
+    public boolean payForProduct(@RequestBody CreatePaymentRequest createPaymentRequest, HttpServletRequest request) throws StripeException {
         final String token = RequestUtils.getToken(request, RequestUtils.BEARER);
         final String username = jwtUtils.getEmailFromJwtToken(token, true);
 
-        productService.payForProduct(username, createPaymentRequest);
+        return productService.payForProduct(username, createPaymentRequest);
     }
 }

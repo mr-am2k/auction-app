@@ -2,15 +2,16 @@ package com.internship.auctionapp.services.stripe;
 
 import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.UserEntity;
-import com.internship.auctionapp.models.CreditCard;
-import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.requests.CreatePaymentRequest;
+import com.internship.auctionapp.services.product.DefaultProductService;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Card;
 import com.stripe.model.Charge;
 import com.stripe.model.Customer;
 import com.stripe.model.Token;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ import java.util.Map;
 
 @Service
 public class DefaultStripeService implements StripeService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
     @Value("${app.stripe_secret_key}")
     private String STRIPE_SECRET_KEY;
 
@@ -79,7 +82,7 @@ public class DefaultStripeService implements StripeService {
     private Token generateCreditCardToken(CreditCardEntity card) throws StripeException {
         Map<String, Object> cardParams = new HashMap<>();
 
-        LocalDate expirationDate = card.getExpirationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate expirationDate =  card.getExpirationDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
         Map<String, Object> creditCard = new HashMap<>();
         creditCard.put("name", card.getHolderFullName());

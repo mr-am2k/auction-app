@@ -31,7 +31,7 @@ public interface ProductService {
 
     Page<Product> getRelatedProducts(UUID categoryId, UUID productId);
 
-    void payForProduct(String username, CreatePaymentRequest createPaymentRequest) throws StripeException;
+    boolean payForProduct(String username, CreatePaymentRequest createPaymentRequest) throws StripeException;
 
     void createNotificationsAfterProductExpires();
 }
