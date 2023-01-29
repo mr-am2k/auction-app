@@ -22,6 +22,7 @@ const Payment = () => {
   const [user, setUser] = useState<User>();
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const [succeedMessage, setSucceedMessage] = useState<string | undefined>();
+  const [loading, setLoading] = useState(false);
 
   const { fieldValues, validateForm } = useForm();
 
@@ -45,11 +46,13 @@ const Payment = () => {
       return;
     }
 
+    setLoading(true);
+
     const creditCardData = getCardData(fieldValues, user!);
 
     const createPaymentRequest: CreatePaymentRequest = {
       productId: product?.id!,
-      creditCardId: user!.card.id,
+      creditCardId: user!.card?.id,
       createCreditCardRequest: creditCardData,
     };
 
@@ -58,6 +61,8 @@ const Payment = () => {
       .then(paymentResponse => {
         if (paymentResponse) {
           setSucceedMessage(PAYMENT.SUCCEED_MESSAGE);
+
+          setLoading(false);
 
           setTimeout(() => {
             navigate('/');
@@ -85,7 +90,7 @@ const Payment = () => {
 
           {errorMessage && <p className='c-error-paragraph'>{errorMessage}</p>}
 
-          <button onClick={handlePayment}>{PAYMENT.PAY}</button>
+          {loading ? <Loading /> : !product?.paid && <button onClick={handlePayment}>{PAYMENT.PAY}</button>}
         </div>
       )}
 

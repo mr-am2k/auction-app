@@ -119,6 +119,7 @@ export const EN_STRINGS = {
     BID: 'BID',
     MESSAGE: 'You don’t have any bids and there are so many cool products available for sale.',
     BUTTON: 'START BIDDING',
+    PAY: 'PAY',
   },
 
   SELLER: {

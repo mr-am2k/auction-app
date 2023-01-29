@@ -6,4 +6,5 @@ export type ProductList = {
   price: number;
   numberOfBids: number | null;
   highestBid: number | null;
+  paid?: boolean;
 };

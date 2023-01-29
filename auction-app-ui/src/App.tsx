@@ -114,7 +114,7 @@ const App = () => {
                   <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
                   <Route path={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`} element={<AddItem />} />
                   <Route path={ROUTES.SHOP} element={<Shop />} />
-                  <Route path='/:productId/pay' element={<Payment />} />
+                  <Route path={`/:productId${ROUTES.PAY}`} element={<Payment />} />
                   <Route path='*' element={<Error />} />
                 </Routes>
               </main>
