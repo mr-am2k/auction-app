@@ -151,7 +151,7 @@ const SingleProduct = () => {
             <div className='c-send-bid'>
               {new Date(singleProduct.expirationDateTime) < currentDate ? (
                 singleProduct.highestBidder === storageService.get('id') ? (
-                  <Link to='/'>
+                  <Link to={`${singleProduct.id}/pay`}>
                     <button>{EN_STRINGS.SINGLE_PRODUCT.PAY}</button>
                   </Link>
                 ) : (

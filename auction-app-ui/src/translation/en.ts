@@ -242,7 +242,7 @@ export const PRODUCTS_TABLE = {
 
 export const SHOP = {
   EXPLORE_MORE: 'Explore More',
-  EMPTY_SHOP: 'There is no products'
+  EMPTY_SHOP: 'There is no products',
 };
 
 export const CATEGORY_FILTERS = {
@@ -263,4 +263,10 @@ export const SHOP_HEADERS = {
   CATEGORY: 'Category',
   PRICE_RANGE: 'Price range',
   CLEAR_ALL: 'Clear all',
+};
+
+export const PAYMENT = {
+  PAYMENT_TITLE: 'COMPLETE PAYMENT',
+  SUCCEED_MESSAGE: 'You have successfully payed your order!',
+  PAY: 'PAY',
 };

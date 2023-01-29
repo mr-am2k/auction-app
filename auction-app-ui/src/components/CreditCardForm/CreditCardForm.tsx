@@ -18,14 +18,14 @@ type Props = {
 
 const CreditCardForm: React.FC<Props> = ({ user, required }) => {
   const { fieldValues } = useForm();
-
+  
   const children = [
     <Input
       key={CREDIT_CARD_FORM.CREDIT_CARD_NAME}
       type={INPUT_TYPE_TEXT}
       name={CREDIT_CARD_FORM.CREDIT_CARD_NAME}
       title={CREDIT_CARD.CREDIT_CARD_NAME_TITLE}
-      placeholder={user?.card.holderFullName || CREDIT_CARD_FORM.CREDIT_CARD_NAME_PLACEHOLDER}
+      placeholder={user?.card?.holderFullName || CREDIT_CARD_FORM.CREDIT_CARD_NAME_PLACEHOLDER}
       value={fieldValues[CREDIT_CARD_FORM.CREDIT_CARD_NAME]}
       required={required ? !user?.card?.holderFullName : false}
     />,
