@@ -50,13 +50,14 @@ public class DefaultStripeService implements StripeService {
     @Override
     public void completePayment(Integer amount, String customerId, String creditCardId, CreatePaymentRequest createPaymentRequest) throws StripeException {
         Map<String, Object> chargeParams = new HashMap<>();
+
         chargeParams.put("amount", amount);
         chargeParams.put("currency", "usd");
         chargeParams.put("description", "Charge for user: " + customerId);
         chargeParams.put("customer", customerId);
         chargeParams.put("source", creditCardId);
 
-        Charge charge = Charge.create(chargeParams);
+        Charge.create(chargeParams);
     }
 
     @Override

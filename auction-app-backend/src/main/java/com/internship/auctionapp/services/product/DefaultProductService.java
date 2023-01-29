@@ -2,7 +2,10 @@ package com.internship.auctionapp.services.product;
 
 import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.UserEntity;
+import com.internship.auctionapp.middleware.exception.AuctionNotFinishedException;
 import com.internship.auctionapp.middleware.exception.CreditCardNotFoundException;
+import com.internship.auctionapp.middleware.exception.HighestBidderException;
+import com.internship.auctionapp.middleware.exception.PaidProductException;
 import com.internship.auctionapp.middleware.exception.ProductNotFoundException;
 import com.internship.auctionapp.middleware.exception.UserNotFoundByIdException;
 import com.internship.auctionapp.models.Bid;
@@ -13,6 +16,7 @@ import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.creditCard.CreditCardJpaRepository;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
+import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
@@ -41,6 +45,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
+import java.time.chrono.ChronoZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -73,10 +78,12 @@ public class DefaultProductService implements ProductService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProductService.class);
     private final CreditCardJpaRepository creditCardJpaRepository;
+    private final ProductJpaRepository productJpaRepository;
 
     public DefaultProductService(ProductRepository productCRUDRepository, BidRepository bidRepository, NotificationRepository notificationRepository, StripeService stripeService,
                                  UserJpaRepository userJpaRepository, BidService bidService,
-                                 CreditCardJpaRepository creditCardJpaRepository) {
+                                 CreditCardJpaRepository creditCardJpaRepository,
+                                 ProductJpaRepository productJpaRepository) {
         this.productRepository = productCRUDRepository;
         this.bidRepository = bidRepository;
         this.notificationRepository = notificationRepository;
@@ -84,6 +91,7 @@ public class DefaultProductService implements ProductService {
         this.userJpaRepository = userJpaRepository;
         this.bidService = bidService;
         this.creditCardJpaRepository = creditCardJpaRepository;
+        this.productJpaRepository = productJpaRepository;
     }
 
     @Override
@@ -182,7 +190,27 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public void payForProduct(String username, CreatePaymentRequest createPaymentRequest) throws StripeException {
+        final ProductEntity product = productJpaRepository.findById(createPaymentRequest.getProductId()).orElseThrow(() ->
+                new ProductNotFoundException(createPaymentRequest.getProductId().toString()));
+
         final UserEntity user = userJpaRepository.findByUsername(username);
+
+        final Bid highestBid = bidRepository.getHighestBid(product.getId());
+
+        if (product.isPaid()) {
+            LOGGER.info("Product is already paid!");
+            throw new PaidProductException();
+        }
+
+        if (highestBid.getUserId() != user.getId()) {
+            LOGGER.info("You aren't the highest bidder!");
+            throw new HighestBidderException();
+        }
+
+        if (product.getExpirationDateTime().isBefore(ChronoZonedDateTime.from(LocalDateTime.now()))) {
+            LOGGER.info("Auction is not over yet!");
+            throw new AuctionNotFinishedException();
+        }
 
         String stripeCustomerId = null;
 
@@ -211,10 +239,12 @@ public class DefaultProductService implements ProductService {
 
             creditCard.setStripeCreditCardId(stripeCreditCardId);
 
-            final CreditCardEntity userCreditCard = creditCardJpaRepository.save(creditCard);
+            if (user.getCreditCard() == null) {
+                final CreditCardEntity userCreditCard = creditCardJpaRepository.save(creditCard);
 
-            user.setCreditCard(userCreditCard);
-            userJpaRepository.save(user);
+                user.setCreditCard(userCreditCard);
+                userJpaRepository.save(user);
+            }
         } else {
             CreditCardEntity creditCard = creditCardJpaRepository.findById(createPaymentRequest.getCreditCardId()).orElseThrow(() ->
                     new CreditCardNotFoundException(createPaymentRequest.getCreditCardId().toString())
@@ -240,6 +270,9 @@ public class DefaultProductService implements ProductService {
         }
 
         stripeService.completePayment(highestBidPrice, stripeCustomerId, stripeCreditCardId, createPaymentRequest);
+
+        product.setPaid(true);
+        productJpaRepository.save(product);
     }
 
     @Override

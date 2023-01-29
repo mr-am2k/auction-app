@@ -152,6 +152,21 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "There is no credit card with the id: " + ex.getMessage() + "!"));
     }
 
+    @ExceptionHandler(PaidProductException.class)
+    public ResponseEntity<Object> handlePaidProductException(HttpServletRequest req, PaidProductException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Product is already paid!"));
+    }
+
+    @ExceptionHandler(HighestBidderException.class)
+    public ResponseEntity<Object> handleHighestBidderException(HttpServletRequest req, HighestBidderException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "You aren't the highest bidder!"));
+    }
+
+    @ExceptionHandler(AuctionNotFinishedException.class)
+    public ResponseEntity<Object> handleAuctionNotFinishedException(HttpServletRequest req, AuctionNotFinishedException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Auction is not finished yet!!"));
+    }
+
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
     }
