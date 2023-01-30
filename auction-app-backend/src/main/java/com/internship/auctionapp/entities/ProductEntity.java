@@ -103,7 +103,7 @@ public class ProductEntity {
     @JoinColumn(name = "credit_card_id", nullable = false)
     private CreditCardEntity creditCard;
 
-    @Formula("EXISTS (SELECT * FROM payments pay WHERE pay.product_id = id)")
+    @Formula("EXISTS (SELECT * FROM payments p WHERE p.related_entity_id = id AND p.payment_related_entity = 'PRODUCT')")
     private boolean paid;
 
     public ProductEntity(String name, String description, List<String> imageURLs, Double startPrice,

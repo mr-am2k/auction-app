@@ -152,19 +152,34 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "There is no credit card with the id: " + ex.getMessage() + "!"));
     }
 
-    @ExceptionHandler(PaidProductException.class)
-    public ResponseEntity<Object> handlePaidProductException(HttpServletRequest req, PaidProductException ex) {
+    @ExceptionHandler(ProductAlreadyPurchasedException.class)
+    public ResponseEntity<Object> handleProductAlreadyPurchasedException(HttpServletRequest req, ProductAlreadyPurchasedException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Product is already paid!"));
     }
 
-    @ExceptionHandler(HighestBidderException.class)
-    public ResponseEntity<Object> handleHighestBidderException(HttpServletRequest req, HighestBidderException ex) {
+    @ExceptionHandler(CurrentUserIsNotTheHighestBidderException.class)
+    public ResponseEntity<Object> handleCurrentUserIsNotTheHighestBidderException(HttpServletRequest req, CurrentUserIsNotTheHighestBidderException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "You aren't the highest bidder!"));
     }
 
     @ExceptionHandler(AuctionNotFinishedException.class)
     public ResponseEntity<Object> handleAuctionNotFinishedException(HttpServletRequest req, AuctionNotFinishedException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Auction is not finished yet!!"));
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Auction is not finished yet!"));
+    }
+
+    @ExceptionHandler(StripeUserException.class)
+    public ResponseEntity<Object> handleStripeUserException(HttpServletRequest req, StripeUserException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "There has been problem while creating user for your payment!"));
+    }
+
+    @ExceptionHandler(StripeCreditCardException.class)
+    public ResponseEntity<Object> handleStripeCreditCardException(HttpServletRequest req, StripeCreditCardException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "There has been problem while creating credit card for your payment!"));
+    }
+
+    @ExceptionHandler(StripePaymentException.class)
+    public ResponseEntity<Object> handleStripePaymentException(HttpServletRequest req, StripePaymentException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "There has been problem with your payment!"));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {

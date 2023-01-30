@@ -1,6 +1,7 @@
 package com.internship.auctionapp.entities;
 
 import com.internship.auctionapp.models.Payment;
+import com.internship.auctionapp.util.PaymentRelatedEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,12 +35,15 @@ public class PaymentEntity {
     @Column(name = "amount", nullable = false)
     private Integer amount;
 
-    @Column(name = "payment_time")
-    private LocalDateTime paymentTime = LocalDateTime.now();
+    @Column(name = "time")
+    private LocalDateTime time = LocalDateTime.now();
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private ProductEntity product;
+    @Column(name = "payment_related_entity", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PaymentRelatedEntity paymentRelatedEntity;
+
+    @Column(name = "related_entity_id", nullable = false)
+    private UUID relatedEntityId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -52,8 +58,9 @@ public class PaymentEntity {
 
         payment.setId(this.id);
         payment.setAmount(this.amount);
-        payment.setPaymentTime(this.paymentTime);
-        payment.setProduct(this.product);
+        payment.setTime(this.time);
+        payment.setPaymentRelatedEntity(this.paymentRelatedEntity);
+        payment.setRelatedEntityId(this.relatedEntityId);
         payment.setUser(this.user);
         payment.setCreditCard(this.creditCard);
 

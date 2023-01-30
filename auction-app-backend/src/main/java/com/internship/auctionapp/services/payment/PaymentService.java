@@ -7,5 +7,5 @@ import com.internship.auctionapp.requests.CreatePaymentRequest;
 import com.stripe.exception.StripeException;
 
 public interface PaymentService {
-    Payment completePayment(UserEntity user, ProductEntity product, CreatePaymentRequest createPaymentRequest) throws StripeException;
+    Payment completePayment(UserEntity user, ProductEntity product, CreatePaymentRequest createPaymentRequest);
 }

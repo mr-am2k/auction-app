@@ -32,7 +32,7 @@ public interface ProductService {
 
     Page<Product> getRelatedProducts(UUID categoryId, UUID productId);
 
-    Payment purchase(String username, CreatePaymentRequest createPaymentRequest) throws StripeException;
+    Payment purchase(String username, CreatePaymentRequest createPaymentRequest);
 
     void createNotificationsAfterProductExpires();
 }

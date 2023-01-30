@@ -7,6 +7,7 @@ import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.CreditCardNotFoundException;
 import com.internship.auctionapp.models.Payment;
 import com.internship.auctionapp.repositories.creditCard.CreditCardJpaRepository;
+import com.internship.auctionapp.util.PaymentRelatedEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
@@ -31,7 +32,8 @@ public class DefaultPaymentRepository implements PaymentRepository {
         CreditCardEntity creditCard = creditCardJpaRepository.findById(creditCardId).orElseThrow(() -> new CreditCardNotFoundException(creditCardId.toString()));
 
         payment.setAmount(amount);
-        payment.setProduct(product);
+        payment.setPaymentRelatedEntity(PaymentRelatedEntity.PRODUCT);
+        payment.setRelatedEntityId(product.getId());
         payment.setUser(user);
         payment.setCreditCard(creditCard);
 
@@ -40,6 +42,6 @@ public class DefaultPaymentRepository implements PaymentRepository {
 
     @Override
     public boolean isPaid(UUID productId) {
-        return paymentJpaRepository.existsByProductId(productId);
+        return paymentJpaRepository.existsByRelatedEntityIdAndPaymentRelatedEntity(productId, PaymentRelatedEntity.PRODUCT);
     }
 }

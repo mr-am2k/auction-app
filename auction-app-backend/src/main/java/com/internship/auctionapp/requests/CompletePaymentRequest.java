@@ -1,11 +1,11 @@
-package com.internship.auctionapp.models;
+package com.internship.auctionapp.requests;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CompletePayment {
+public class CompletePaymentRequest {
     private Integer amount;
 
     private String customerId;

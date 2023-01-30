@@ -2,8 +2,8 @@ package com.internship.auctionapp.services.product;
 
 import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.AuctionNotFinishedException;
-import com.internship.auctionapp.middleware.exception.HighestBidderException;
-import com.internship.auctionapp.middleware.exception.PaidProductException;
+import com.internship.auctionapp.middleware.exception.CurrentUserIsNotTheHighestBidderException;
+import com.internship.auctionapp.middleware.exception.ProductAlreadyPurchasedException;
 import com.internship.auctionapp.middleware.exception.ProductNotFoundException;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Payment;
@@ -183,7 +183,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Payment purchase(String username, CreatePaymentRequest createPaymentRequest) throws StripeException {
+    public Payment purchase(String username, CreatePaymentRequest createPaymentRequest) {
         final ProductEntity product = productJpaRepository.findById(createPaymentRequest.getProductId()).orElseThrow(() ->
                 new ProductNotFoundException(createPaymentRequest.getProductId().toString()));
 
@@ -191,16 +191,16 @@ public class DefaultProductService implements ProductService {
 
         final Bid highestBid = bidRepository.getHighestBid(product.getId());
 
-        boolean isPaid = paymentRepository.isPaid(product.getId());
+        final boolean isPaid = paymentRepository.isPaid(product.getId());
 
         if (isPaid) {
-            LOGGER.info("Product is already paid!");
-            throw new PaidProductException();
+            LOGGER.info("Product with product_id={} is already purchased!", product.getId());
+            throw new ProductAlreadyPurchasedException();
         }
 
         if (highestBid.getUserId() != user.getId()) {
             LOGGER.info("User={} is not the highest bidder! User={} is the highest bidder", user.getId(), highestBid.getUserId());
-            throw new HighestBidderException();
+            throw new CurrentUserIsNotTheHighestBidderException();
         }
 
         if (DateUtils.isInPast(product.getExpirationDateTime().toLocalDateTime(), LocalDateTime.now())) {

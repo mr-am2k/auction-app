@@ -3,11 +3,13 @@ package com.internship.auctionapp.models;
 import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.entities.UserEntity;
+import com.internship.auctionapp.util.PaymentRelatedEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,9 +22,11 @@ public class Payment {
 
     private Integer amount;
 
-    private LocalDateTime paymentTime;
+    private LocalDateTime time;
 
-    private ProductEntity product;
+    private PaymentRelatedEntity paymentRelatedEntity;
+
+    private UUID relatedEntityId;
 
     private UserEntity user;
 

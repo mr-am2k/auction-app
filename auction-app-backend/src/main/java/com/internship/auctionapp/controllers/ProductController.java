@@ -29,11 +29,11 @@ import java.util.UUID;
 public class ProductController {
     private final ProductService productService;
 
-    private final JwtUtils jwtUtils;
+    private final JwtUtils JwtUtils;
 
     public ProductController(ProductService productService, JwtUtils jwtUtils) {
         this.productService = productService;
-        this.jwtUtils = jwtUtils;
+        this.JwtUtils = jwtUtils;
     }
 
     @PostMapping
@@ -89,7 +89,7 @@ public class ProductController {
     @SecurityRequirement(name = "Bearer Authentication")
     public Payment payForProduct(@RequestBody CreatePaymentRequest createPaymentRequest, HttpServletRequest request) throws StripeException {
         final String token = RequestUtils.getToken(request, RequestUtils.BEARER);
-        final String username = jwtUtils.getEmailFromJwtToken(token, true);
+        final String username = JwtUtils.getEmailFromJwtToken(token, true);
 
         return productService.purchase(username, createPaymentRequest);
     }
