@@ -1,20 +1,31 @@
 package com.internship.auctionapp.services.product;
 
+import com.internship.auctionapp.entities.UserEntity;
+import com.internship.auctionapp.middleware.exception.AuctionNotFinishedException;
+import com.internship.auctionapp.middleware.exception.HighestBidderException;
+import com.internship.auctionapp.middleware.exception.PaidProductException;
 import com.internship.auctionapp.middleware.exception.ProductNotFoundException;
 import com.internship.auctionapp.models.Bid;
+import com.internship.auctionapp.models.Payment;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.middleware.exception.ProductExpirationDateException;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.notification.NotificationRepository;
+import com.internship.auctionapp.repositories.payment.PaymentRepository;
+import com.internship.auctionapp.repositories.product.ProductJpaRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
+import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
+import com.internship.auctionapp.requests.CreatePaymentRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.SearchProductRequest;
+import com.internship.auctionapp.services.payment.PaymentService;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.NotificationType;
 
 import com.internship.auctionapp.util.filter.product.ProductFilter;
+import com.stripe.exception.StripeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +55,14 @@ public class DefaultProductService implements ProductService {
 
     private final NotificationRepository notificationRepository;
 
+    private final UserJpaRepository userJpaRepository;
+
+    private final ProductJpaRepository productJpaRepository;
+
+    private final PaymentRepository paymentRepository;
+
+    private final PaymentService paymentService;
+
     private static final Integer DEFAULT_ELEMENTS_PER_PAGE = 8;
 
     private static final Integer RELATED_PRODUCTS_PER_PAGE = 3;
@@ -58,11 +77,15 @@ public class DefaultProductService implements ProductService {
 
     public DefaultProductService(ProductRepository productCRUDRepository,
                                  BidRepository bidRepository,
-                                 NotificationRepository notificationRepository
-    ) {
+                                 NotificationRepository notificationRepository,
+                                 UserJpaRepository userJpaRepository, ProductJpaRepository productJpaRepository, PaymentRepository paymentRepository, PaymentService paymentService) {
         this.productRepository = productCRUDRepository;
         this.bidRepository = bidRepository;
         this.notificationRepository = notificationRepository;
+        this.userJpaRepository = userJpaRepository;
+        this.productJpaRepository = productJpaRepository;
+        this.paymentRepository = paymentRepository;
+        this.paymentService = paymentService;
     }
 
     @Override
@@ -157,6 +180,35 @@ public class DefaultProductService implements ProductService {
         final Pageable page = PageRequest.of(0, RELATED_PRODUCTS_PER_PAGE);
 
         return productRepository.getRelatedProducts(categoryId, productId, page);
+    }
+
+    @Override
+    public Payment purchase(String username, CreatePaymentRequest createPaymentRequest) throws StripeException {
+        final ProductEntity product = productJpaRepository.findById(createPaymentRequest.getProductId()).orElseThrow(() ->
+                new ProductNotFoundException(createPaymentRequest.getProductId().toString()));
+
+        final UserEntity user = userJpaRepository.findByUsername(username);
+
+        final Bid highestBid = bidRepository.getHighestBid(product.getId());
+
+        boolean isPaid = paymentRepository.isPaid(product.getId());
+
+        if (isPaid) {
+            LOGGER.info("Product is already paid!");
+            throw new PaidProductException();
+        }
+
+        if (highestBid.getUserId() != user.getId()) {
+            LOGGER.info("User={} is not the highest bidder! User={} is the highest bidder", user.getId(), highestBid.getUserId());
+            throw new HighestBidderException();
+        }
+
+        if (DateUtils.isInPast(product.getExpirationDateTime().toLocalDateTime(), LocalDateTime.now())) {
+            LOGGER.info("Auction is not over yet! Auction end time is={}", product.getExpirationDateTime().toLocalDateTime());
+            throw new AuctionNotFinishedException();
+        }
+
+        return paymentService.completePayment(user, product, createPaymentRequest);
     }
 
     @Override

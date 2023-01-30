@@ -3,12 +3,7 @@ package com.internship.auctionapp.services.payment;
 import com.internship.auctionapp.entities.CreditCardEntity;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.entities.UserEntity;
-import com.internship.auctionapp.middleware.exception.AuctionNotFinishedException;
 import com.internship.auctionapp.middleware.exception.CreditCardNotFoundException;
-import com.internship.auctionapp.middleware.exception.HighestBidderException;
-import com.internship.auctionapp.middleware.exception.PaidProductException;
-import com.internship.auctionapp.middleware.exception.ProductNotFoundException;
-import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.CompletePayment;
 import com.internship.auctionapp.models.Payment;
 import com.internship.auctionapp.models.ProcessPayment;
@@ -20,7 +15,6 @@ import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreatePaymentRequest;
 import com.internship.auctionapp.services.product.DefaultProductService;
 import com.internship.auctionapp.util.CreditCardUtils;
-import com.internship.auctionapp.util.DateUtils;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Card;
@@ -34,7 +28,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -91,31 +84,7 @@ public class DefaultPaymentService implements PaymentService {
     }
 
     @Override
-    public Payment purchase(String username, CreatePaymentRequest createPaymentRequest) throws StripeException {
-        final ProductEntity product = productJpaRepository.findById(createPaymentRequest.getProductId()).orElseThrow(() ->
-                new ProductNotFoundException(createPaymentRequest.getProductId().toString()));
-
-        final UserEntity user = userJpaRepository.findByUsername(username);
-
-        final Bid highestBid = bidRepository.getHighestBid(product.getId());
-
-        boolean isPaid = paymentRepository.isPaid(product.getId());
-
-        if (isPaid) {
-            LOGGER.info("Product is already paid!");
-            throw new PaidProductException();
-        }
-
-        if (highestBid.getUserId() != user.getId()) {
-            LOGGER.info("User={} is not the highest bidder! User={} is the highest bidder", user.getId(), highestBid.getUserId() );
-            throw new HighestBidderException();
-        }
-
-        if (DateUtils.isInPast(product.getExpirationDateTime().toLocalDateTime(), LocalDateTime.now())) {
-            LOGGER.info("Auction is not over yet! Auction end time is={}", product.getExpirationDateTime().toLocalDateTime());
-            throw new AuctionNotFinishedException();
-        }
-
+    public Payment completePayment(UserEntity user, ProductEntity product, CreatePaymentRequest createPaymentRequest) throws StripeException {
         String stripeCustomerId = null;
 
         if (user.getStripeCustomerId() == null) {
@@ -127,7 +96,7 @@ public class DefaultPaymentService implements PaymentService {
             stripeCustomerId = user.getStripeCustomerId();
         }
 
-        final Integer highestBidPrice = (int) (bidRepository.getHighestBid(createPaymentRequest.getProductId()).getPrice() * 100);
+        final Integer highestBidPrice = (int) (bidRepository.getHighestBid(product.getId()).getPrice() * 100);
 
         ProcessPayment processPayment;
 

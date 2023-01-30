@@ -1,5 +1,6 @@
 package com.internship.auctionapp.services.product;
 
+import com.internship.auctionapp.models.Payment;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreatePaymentRequest;
@@ -30,6 +31,8 @@ public interface ProductService {
     List<Product> getUserProducts(UUID userId);
 
     Page<Product> getRelatedProducts(UUID categoryId, UUID productId);
+
+    Payment purchase(String username, CreatePaymentRequest createPaymentRequest) throws StripeException;
 
     void createNotificationsAfterProductExpires();
 }

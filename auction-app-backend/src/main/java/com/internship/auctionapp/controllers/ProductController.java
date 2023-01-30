@@ -6,7 +6,6 @@ import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreatePaymentRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.SearchProductRequest;
-import com.internship.auctionapp.services.payment.PaymentService;
 import com.internship.auctionapp.services.product.ProductService;
 
 import com.internship.auctionapp.util.RequestUtils;
@@ -30,13 +29,10 @@ import java.util.UUID;
 public class ProductController {
     private final ProductService productService;
 
-    private final PaymentService paymentService;
-
     private final JwtUtils jwtUtils;
 
-    public ProductController(ProductService productService, PaymentService paymentService, JwtUtils jwtUtils) {
+    public ProductController(ProductService productService, JwtUtils jwtUtils) {
         this.productService = productService;
-        this.paymentService = paymentService;
         this.jwtUtils = jwtUtils;
     }
 
@@ -95,6 +91,6 @@ public class ProductController {
         final String token = RequestUtils.getToken(request, RequestUtils.BEARER);
         final String username = jwtUtils.getEmailFromJwtToken(token, true);
 
-        return paymentService.purchase(username, createPaymentRequest);
+        return productService.purchase(username, createPaymentRequest);
     }
 }
