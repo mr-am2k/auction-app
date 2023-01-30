@@ -90,4 +90,8 @@ public class UserEntity {
 
         return user;
     }
+
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
 }

@@ -64,7 +64,7 @@ public class Product {
         this.category = productEntity.getCategory().toDomainModel();
         this.subcategory = productEntity.getSubcategory().toDomainModel();
         this.address = productEntity.getAddress();
-        this.creditCard=productEntity.getCreditCard().toDomainModel();
+        this.creditCard = productEntity.getCreditCard().toDomainModel();
         this.highestBidder = productEntity.getHighestBidder();
         this.highestBidPrice = productEntity.getHighestBidPrice();
         this.paid = productEntity.isPaid();

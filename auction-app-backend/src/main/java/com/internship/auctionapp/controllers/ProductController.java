@@ -1,10 +1,12 @@
 package com.internship.auctionapp.controllers;
 
+import com.internship.auctionapp.models.Payment;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreatePaymentRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.SearchProductRequest;
+import com.internship.auctionapp.services.payment.PaymentService;
 import com.internship.auctionapp.services.product.ProductService;
 
 import com.internship.auctionapp.util.RequestUtils;
@@ -28,10 +30,13 @@ import java.util.UUID;
 public class ProductController {
     private final ProductService productService;
 
+    private final PaymentService paymentService;
+
     private final JwtUtils jwtUtils;
 
-    public ProductController(ProductService productService, JwtUtils jwtUtils) {
+    public ProductController(ProductService productService, PaymentService paymentService, JwtUtils jwtUtils) {
         this.productService = productService;
+        this.paymentService = paymentService;
         this.jwtUtils = jwtUtils;
     }
 
@@ -86,10 +91,10 @@ public class ProductController {
 
     @PostMapping("/pay")
     @SecurityRequirement(name = "Bearer Authentication")
-    public boolean payForProduct(@RequestBody CreatePaymentRequest createPaymentRequest, HttpServletRequest request) throws StripeException {
+    public Payment payForProduct(@RequestBody CreatePaymentRequest createPaymentRequest, HttpServletRequest request) throws StripeException {
         final String token = RequestUtils.getToken(request, RequestUtils.BEARER);
         final String username = jwtUtils.getEmailFromJwtToken(token, true);
 
-        return productService.payForProduct(username, createPaymentRequest);
+        return paymentService.purchase(username, createPaymentRequest);
     }
 }
