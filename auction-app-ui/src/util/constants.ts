@@ -83,6 +83,7 @@ export const FOLDERS = {
 
 export const ITEM_LIST = {
   PRICE_DECIMALS: 2,
+  AUCTION_EXPIRED: '-1',
 };
 
 export const VALIDATION = {
@@ -118,3 +119,5 @@ export const SHOP_HEADERS_PRICE = {
 export const APP = {
   TOKEN_GENERATION_TIME_IN_MS: 120000,
 };
+
+export const PAYMENT_SUCCESS_DELAY = 1500;

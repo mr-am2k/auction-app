@@ -42,10 +42,10 @@ const ItemList: React.FC<Props> = ({ elements, expired, emptyList, buttonLabel, 
 
             <td>
               {element.paid ? (
-                <span>Item is paid</span>
+                <span>{EN_STRINGS.ITEM_LIST.PAID_ITEM}</span>
               ) : (
                 <Link to={`${ROUTES.PRODUCT}/${element.id}`}>
-                  {element.remainingTime !== '-1' ? <button>{buttonLabel}</button> : <button>{secondButtonLabel}</button>}
+                  {element.remainingTime !== ITEM_LIST.AUCTION_EXPIRED ? <button>{buttonLabel}</button> : <button>{secondButtonLabel}</button>}
                 </Link>
               )}
             </td>

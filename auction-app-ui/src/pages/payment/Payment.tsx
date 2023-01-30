@@ -11,7 +11,7 @@ import { CreditCardForm, Loading } from 'components';
 import { Product } from 'models/product';
 import { User } from 'models/user';
 import { CreatePaymentRequest } from 'models/request/create/createPaymentRequest';
-import { LOCAL_STORAGE } from 'util/constants';
+import { LOCAL_STORAGE, PAYMENT_SUCCESS_DELAY } from 'util/constants';
 import { getCardData } from 'util/creditCardUtils';
 import { PAYMENT } from 'translation/en';
 
@@ -21,7 +21,7 @@ const Payment = () => {
   const [product, setProduct] = useState<Product>();
   const [user, setUser] = useState<User>();
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
-  const [succeedMessage, setSucceedMessage] = useState<string | undefined>();
+  const [successMessage, setSuccessMessage] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
 
   const { fieldValues, validateForm } = useForm();
@@ -60,13 +60,13 @@ const Payment = () => {
       .pay(createPaymentRequest)
       .then(paymentResponse => {
         if (paymentResponse) {
-          setSucceedMessage(PAYMENT.SUCCEED_MESSAGE);
+          setSuccessMessage(PAYMENT.SUCCESS_MESSAGE);
 
           setLoading(false);
 
           setTimeout(() => {
             navigate('/');
-          }, 1500);
+          }, PAYMENT_SUCCESS_DELAY);
         }
       })
       .catch(error => setErrorMessage(error.response.data.message));
@@ -86,7 +86,7 @@ const Payment = () => {
 
           <CreditCardForm user={user} required={true} />
 
-          {succeedMessage && <p className='c-succeed-paragraph'>{succeedMessage}</p>}
+          {successMessage && <p className='c-success-paragraph'>{successMessage}</p>}
 
           {errorMessage && <p className='c-error-paragraph'>{errorMessage}</p>}
 
