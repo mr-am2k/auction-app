@@ -1,0 +1,43 @@
+@import '/src/scss/mixin';
+@import '/src/scss/variables';
+
+.c-payment-page-wrapper {
+  @include flexDisplay(center, center);
+  width: 100%;
+  font-family: $latoFont;
+
+  .c-payment-form {
+    @include flexDisplay(center, center);
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+    flex-direction: column;
+    border: 1px solid $greyColor;
+
+    h3 {
+      margin-bottom: 0;
+    }
+
+    .c-success-paragraph {
+      color: $purpleColor;
+      font-size: 19px;
+    }
+
+    .c-error-paragraph {
+      color: $errorColor;
+      font-size: 19px;
+    }
+
+    button {
+      width: 10rem;
+      border: none;
+      outline: none;
+      background-color: $purpleColor;
+      color: $whiteColor;
+
+      &:hover {
+        cursor: pointer;
+        scale: 1.02;
+      }
+    }
+  }
+}

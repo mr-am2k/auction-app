@@ -102,8 +102,8 @@ const SingleProduct = () => {
   }, [loggedInUser, singleProduct]);
 
   useEffect(() => {
-    fetchSingleProduct(id!)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchSingleProduct(id!);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   if (!singleProduct) {
@@ -138,9 +138,9 @@ const SingleProduct = () => {
                 <p>
                   {`${EN_STRINGS.SINGLE_PRODUCT.TIME_LEFT}: `}
                   <span>
-                    {new Date(singleProduct.expirationDateTime) < currentDate ?
-                      EN_STRINGS.SINGLE_PRODUCT.EXPIRED :
-                      singleProduct.remainingTime}
+                    {new Date(singleProduct.expirationDateTime) < currentDate
+                      ? EN_STRINGS.SINGLE_PRODUCT.EXPIRED
+                      : singleProduct.remainingTime}
                   </span>
                 </p>
               </div>
@@ -151,9 +151,11 @@ const SingleProduct = () => {
             <div className='c-send-bid'>
               {new Date(singleProduct.expirationDateTime) < currentDate ? (
                 singleProduct.highestBidder === storageService.get('id') ? (
-                  <Link to='/'>
-                    <button>{EN_STRINGS.SINGLE_PRODUCT.PAY}</button>
-                  </Link>
+                  !singleProduct?.paid && (
+                    <Link to={`/${singleProduct.id}/pay`}>
+                      <button>{EN_STRINGS.SINGLE_PRODUCT.PAY}</button>
+                    </Link>
+                  )
                 ) : (
                   <p className='c-lost-message'>{EN_STRINGS.SINGLE_PRODUCT.LOST_MESSAGE}</p>
                 )

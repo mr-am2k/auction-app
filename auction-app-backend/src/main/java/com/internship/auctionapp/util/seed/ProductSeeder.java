@@ -162,7 +162,7 @@ public class ProductSeeder implements CommandLineRunner {
                     ),
                     25.25,
                     ZonedDateTime.now(ZoneOffset.UTC),
-                    ZonedDateTime.of(LocalDateTime.of(2023, 05, 11, 11, 20, 23), ZoneOffset.UTC),
+                    ZonedDateTime.of(LocalDateTime.of(2023, 1, 29, 17, 10, 23), ZoneOffset.UTC),
                     user1, category1, subcategories.get(2), address, creditCard);
 
             final ProductEntity product3 = new ProductEntity("Nike Air Force",

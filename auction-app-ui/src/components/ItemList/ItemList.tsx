@@ -13,9 +13,10 @@ type Props = {
   expired?: boolean;
   emptyList: JSX.Element;
   buttonLabel: string;
+  secondButtonLabel?: string;
 };
 
-const ItemList: React.FC<Props> = ({ elements, expired, emptyList, buttonLabel }) => {
+const ItemList: React.FC<Props> = ({ elements, expired, emptyList, buttonLabel, secondButtonLabel }) => {
   return (
     <tbody>
       {elements.length ? (
@@ -27,7 +28,7 @@ const ItemList: React.FC<Props> = ({ elements, expired, emptyList, buttonLabel }
 
             <td>{element.name}</td>
 
-            <td>{expired ? EN_STRINGS.ITEM_LIST.EXPIRED : element.remainingTime}</td>
+            <td>{element.remainingTime === '-1' ? EN_STRINGS.ITEM_LIST.EXPIRED : element.remainingTime}</td>
 
             <td>${element.price.toFixed(2)}</td>
 
@@ -40,9 +41,13 @@ const ItemList: React.FC<Props> = ({ elements, expired, emptyList, buttonLabel }
             </td>
 
             <td>
-              <Link to={`${ROUTES.PRODUCT}/${element.id}`}>
-                <button>{buttonLabel}</button>
-              </Link>
+              {element.paid ? (
+                <span>{EN_STRINGS.ITEM_LIST.PAID_ITEM}</span>
+              ) : (
+                <Link to={`${ROUTES.PRODUCT}/${element.id}`}>
+                  {element.remainingTime !== ITEM_LIST.AUCTION_EXPIRED ? <button>{buttonLabel}</button> : <button>{secondButtonLabel}</button>}
+                </Link>
+              )}
             </td>
           </tr>
         ))

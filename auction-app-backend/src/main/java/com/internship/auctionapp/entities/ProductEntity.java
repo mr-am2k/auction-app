@@ -103,6 +103,9 @@ public class ProductEntity {
     @JoinColumn(name = "credit_card_id", nullable = false)
     private CreditCardEntity creditCard;
 
+    @Formula("EXISTS (SELECT * FROM payments p WHERE p.related_entity_id = id AND p.payment_related_entity = 'PRODUCT')")
+    private boolean paid;
+
     public ProductEntity(String name, String description, List<String> imageURLs, Double startPrice,
                          ZonedDateTime creationDateTime, ZonedDateTime expirationDateTime,
                          UserEntity user, CategoryEntity category, CategoryEntity subcategory, Address address,
@@ -133,7 +136,8 @@ public class ProductEntity {
             Address address,
             CreditCardEntity creditCard,
             UUID highestBidder,
-            Double highestBidPrice
+            Double highestBidPrice,
+            boolean paid
     ) {
         this.name = name;
         this.description = description;
@@ -148,6 +152,7 @@ public class ProductEntity {
         this.creditCard = creditCard;
         this.highestBidder = highestBidder;
         this.highestBidPrice = highestBidPrice;
+        this.paid = paid;
     }
 
     public Product toDomainModel() {
@@ -168,7 +173,8 @@ public class ProductEntity {
                 this.address,
                 this.creditCard,
                 this.highestBidder,
-                this.highestBidPrice
+                this.highestBidPrice,
+                this.paid
         );
 
         return new Product(

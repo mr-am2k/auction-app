@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Bid {
     private UUID id;
 
-    private double price;
+    private Double price;
 
     private ZonedDateTime creationDateTime;
 

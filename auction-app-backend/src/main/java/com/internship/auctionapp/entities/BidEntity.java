@@ -36,7 +36,7 @@ public class BidEntity {
     private UUID id;
 
     @Column(name = "price", nullable = false)
-    private double price;
+    private Double price;
 
     @Column(name = "creation_date_time", nullable = false, columnDefinition = "timestamp with time zone")
     private ZonedDateTime creationDateTime = ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
@@ -50,7 +50,7 @@ public class BidEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    public BidEntity(double price, ProductEntity product, UserEntity user) {
+    public BidEntity(Double price, ProductEntity product, UserEntity user) {
         this.price = price;
         this.product = product;
         this.user = user;

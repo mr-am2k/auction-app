@@ -119,6 +119,7 @@ export const EN_STRINGS = {
     BID: 'BID',
     MESSAGE: 'You don’t have any bids and there are so many cool products available for sale.',
     BUTTON: 'START BIDDING',
+    PAY: 'PAY',
   },
 
   SELLER: {
@@ -133,6 +134,7 @@ export const EN_STRINGS = {
     ALT_MESSAGE: 'Product',
     EXPIRED: 'EXPIRED',
     NO_BIDS: 'No bids',
+    PAID_ITEM: 'Item is paid',
   },
 
   PROFILE: {
@@ -242,7 +244,7 @@ export const PRODUCTS_TABLE = {
 
 export const SHOP = {
   EXPLORE_MORE: 'Explore More',
-  EMPTY_SHOP: 'There is no products'
+  EMPTY_SHOP: 'There are no products',
 };
 
 export const CATEGORY_FILTERS = {
@@ -263,4 +265,10 @@ export const SHOP_HEADERS = {
   CATEGORY: 'Category',
   PRICE_RANGE: 'Price range',
   CLEAR_ALL: 'Clear all',
+};
+
+export const PAYMENT = {
+  PAYMENT_TITLE: 'COMPLETE PAYMENT',
+  SUCCESS_MESSAGE: 'You have successfully paid your order!',
+  PAY: 'PAY',
 };

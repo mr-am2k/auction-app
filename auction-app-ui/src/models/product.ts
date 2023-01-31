@@ -20,4 +20,5 @@ export type Product = {
   highestBidder: string | null;
   highestBidPrice: number | null;
   numberOfBids: number | null;
+  paid: boolean
 };

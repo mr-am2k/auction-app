@@ -1,17 +1,23 @@
 package com.internship.auctionapp.controllers;
 
+import com.internship.auctionapp.models.Payment;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.entities.ProductEntity;
+import com.internship.auctionapp.requests.CreatePaymentRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 import com.internship.auctionapp.requests.SearchProductRequest;
 import com.internship.auctionapp.services.product.ProductService;
 
+import com.internship.auctionapp.util.RequestUtils;
+import com.internship.auctionapp.util.security.jwt.JwtUtils;
+import com.stripe.exception.StripeException;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -23,8 +29,11 @@ import java.util.UUID;
 public class ProductController {
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
+    private final JwtUtils JwtUtils;
+
+    public ProductController(ProductService productService, JwtUtils jwtUtils) {
         this.productService = productService;
+        this.JwtUtils = jwtUtils;
     }
 
     @PostMapping
@@ -74,5 +83,14 @@ public class ProductController {
     @GetMapping("/related")
     public Page<Product> getRelatedProducts(@RequestParam UUID categoryId, @RequestParam UUID productId) {
         return productService.getRelatedProducts(categoryId, productId);
+    }
+
+    @PostMapping("/pay")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public Payment payForProduct(@RequestBody CreatePaymentRequest createPaymentRequest, HttpServletRequest request) throws StripeException {
+        final String token = RequestUtils.getToken(request, RequestUtils.BEARER);
+        final String username = JwtUtils.getEmailFromJwtToken(token, true);
+
+        return productService.purchase(username, createPaymentRequest);
     }
 }

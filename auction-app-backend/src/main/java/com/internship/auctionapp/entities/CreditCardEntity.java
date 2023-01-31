@@ -39,6 +39,9 @@ public class CreditCardEntity {
     @Column(name = "verification_value")
     private String verificationValue;
 
+    @Column(name = "stripe_credit_card_id")
+    private String stripeCreditCardId;
+
     public CreditCard toDomainModel(){
         CreditCard creditCard = new CreditCard();
 

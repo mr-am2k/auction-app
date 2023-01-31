@@ -45,6 +45,7 @@ const Bids = () => {
             price: bid.price,
             numberOfBids: product.bids.length,
             highestBid: product.highestBidPrice,
+            paid: product.paid,
           };
         });
 
@@ -80,6 +81,7 @@ const Bids = () => {
             <EmptyList icon={<HammerIcon />} message={EN_STRINGS.BIDS.MESSAGE} route={ROUTES.SHOP} buttonLabel={EN_STRINGS.BIDS.BUTTON} />
           }
           buttonLabel={EN_STRINGS.BIDS.BID}
+          secondButtonLabel={EN_STRINGS.BIDS.PAY}
         />
       </table>
     </div>
