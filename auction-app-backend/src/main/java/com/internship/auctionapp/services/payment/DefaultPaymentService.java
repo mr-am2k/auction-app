@@ -131,7 +131,7 @@ public class DefaultPaymentService implements PaymentService {
 
         creditCard.setStripeCreditCardId(stripeCreditCardId);
 
-        ProcessPaymentRequest processPaymentRequest = new ProcessPaymentRequest();
+        final ProcessPaymentRequest processPaymentRequest = new ProcessPaymentRequest();
         processPaymentRequest.setStripeCardId(stripeCreditCardId);
 
         if (user.getCreditCard() == null) {
@@ -152,7 +152,7 @@ public class DefaultPaymentService implements PaymentService {
 
         String stripeCreditCardId;
 
-        ProcessPaymentRequest processPaymentRequest = new ProcessPaymentRequest();
+        final ProcessPaymentRequest processPaymentRequest = new ProcessPaymentRequest();
 
         if (CreditCardUtils.compare(creditCard, createPaymentRequest.getCreateCreditCardRequest())) {
 
