@@ -86,7 +86,6 @@ const SingleProduct = () => {
   };
 
   const handleProductChange = (event: any) => {
-    console.log(JSON.parse(event.data));
     setSingleProduct(JSON.parse(event.data).product);
     setHighestBid(JSON.parse(event.data).highestBidPrice);
   };
