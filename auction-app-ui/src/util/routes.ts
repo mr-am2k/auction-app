@@ -9,4 +9,5 @@ export const ROUTES = {
   PRODUCT: '/product',
   ADD_PRODUCT: '/add-product',
   PAY: '/pay',
+  PRODUCT_EMITTER: '/products/subscribe',
 };
