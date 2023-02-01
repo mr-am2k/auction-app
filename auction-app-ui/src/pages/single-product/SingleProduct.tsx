@@ -22,6 +22,7 @@ import { EventSourcePolyfill } from 'event-source-polyfill';
 import './single-product.scss';
 
 import { GreaterIcon } from 'assets/icons';
+import { buildUrl } from 'lib/agent';
 
 const SingleProduct = () => {
   const bidInputRef = useRef<HTMLInputElement>(null);
@@ -96,13 +97,11 @@ const SingleProduct = () => {
   };
 
   useEffect(() => {
-    const eventSource = new EventSourcePolyfill(`${process.env.REACT_APP_BASE_URL}${ROUTES.PRODUCT_EMITTER}`);
+    const eventSource = new EventSourcePolyfill(buildUrl(ROUTES.PRODUCT_SUBSCRIBE));
 
     eventSource.addEventListener(singleProduct?.id!, handleProductChange, false);
 
-    return () => {
-      eventSource.close();
-    };
+    return () => eventSource.close();
   }, [singleProduct]);
 
   useEffect(() => {
