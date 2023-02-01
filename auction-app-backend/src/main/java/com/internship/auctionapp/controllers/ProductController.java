@@ -10,7 +10,7 @@ import com.internship.auctionapp.services.product.ProductService;
 
 import com.internship.auctionapp.util.RequestUtils;
 import com.internship.auctionapp.util.security.jwt.JwtUtils;
-import com.internship.auctionapp.util.sse.EventsEmitterService;
+import com.internship.auctionapp.util.sse.ProductEventService;
 import com.stripe.exception.StripeException;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,24 +36,23 @@ public class ProductController {
 
     private static Long connectionExpiration;
 
-    private final EventsEmitterService eventsEmitterService;
+    private final ProductEventService productEventService;
 
-    public ProductController(ProductService productService, JwtUtils jwtUtils, EventsEmitterService eventsEmitterService) {
+    public ProductController(ProductService productService, JwtUtils jwtUtils, ProductEventService eventsEmitterService) {
         this.productService = productService;
         this.JwtUtils = jwtUtils;
-        this.eventsEmitterService = eventsEmitterService;
+        this.productEventService = eventsEmitterService;
     }
 
-    @Value("${app.jwt_expiration_ms}")
-    public void setJwtExpiration(Long connectionExpiration) {
+    @Value("${app.connection_expiration_ms}")
+    public void setConnectionExpiration(Long connectionExpiration) {
         ProductController.connectionExpiration = connectionExpiration;
     }
 
     @GetMapping("/subscribe")
     public SseEmitter subscribe() {
-
         SseEmitter sseEmitter = new SseEmitter(connectionExpiration);
-        eventsEmitterService.addEmitter(sseEmitter);
+        productEventService.addEmitter(sseEmitter);
 
         return sseEmitter;
     }
