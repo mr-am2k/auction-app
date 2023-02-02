@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class DefaultProductEventService extends DefaultEventsEmitterService implements ProductEventService{
+public class DefaultProductEventService extends DefaultEventsEmitterService implements ProductEventService {
     @Override
     public void sendChangedProduct(ProductEventRequest productEventRequest, UUID productId) {
         final List<SseEmitter> finishedEmitters = new ArrayList<>();
