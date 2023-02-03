@@ -1,0 +1,29 @@
+@import '/src/scss/mixin';
+@import '/src/scss/variables';
+
+.c-my-account-admin-wrapper {
+  @include flexDisplay(space-between, flex-start);
+  flex-direction: column;
+  padding: 1rem 12rem 0;
+  font-family: $latoFont;
+
+  .c-my-account-admin-navbar {
+    min-width: 100%;
+    @include flexDisplay(space-between, center);
+
+    .c-my-account-admin-navbar-element {
+      @include flexDisplay(space-between, center);
+      width: 6rem;
+      height: 1.5rem;
+      padding: 16px 34px;
+      color: white;
+      font-size: 1rem;
+      gap: 10px;
+      background-color: $purpleColor;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

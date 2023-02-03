@@ -19,6 +19,7 @@ import {
   Error,
   Shop,
   Payment,
+  MyAccountAdmin,
 } from './pages';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import { ROUTES } from './util/routes';
@@ -78,6 +79,8 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log(storageService.get(LOCAL_STORAGE.ROLE))
+
   return (
     <PageProvider>
       <FormProvider>
@@ -111,7 +114,7 @@ const App = () => {
                       </>
                     }
                   />
-                  <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
+                  <Route path={ROUTES.MY_ACCOUNT} element={ storageService.get(LOCAL_STORAGE.ROLE) === 'ROLE_ADMIN' ? <MyAccountAdmin/> : <MyAccount />} />
                   <Route path={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`} element={<AddItem />} />
                   <Route path={ROUTES.SHOP} element={<Shop />} />
                   <Route path={`/:productId${ROUTES.PAY}`} element={<Payment />} />
