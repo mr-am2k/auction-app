@@ -7,10 +7,12 @@ import com.internship.auctionapp.middleware.exception.ProductExpiredException;
 import com.internship.auctionapp.models.Product;
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
+import com.internship.auctionapp.requests.ProductEventRequest;
 import com.internship.auctionapp.requests.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.services.notification.NotificationService;
+import com.internship.auctionapp.services.product.ProductService;
 import com.internship.auctionapp.util.NotificationType;
 
 import org.slf4j.Logger;
@@ -33,6 +35,8 @@ public class DefaultBidService implements BidService {
 
     private final NotificationService notificationService;
 
+    private final ProductService productService;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
 
     private final Integer DEFAULT_PAGE_SIZE = 5;
@@ -40,10 +44,12 @@ public class DefaultBidService implements BidService {
     public DefaultBidService(
             BidRepository bidRepository,
             ProductRepository productRepository,
-            NotificationService notificationService) {
+            NotificationService notificationService,
+            ProductService productService) {
         this.bidRepository = bidRepository;
         this.productRepository = productRepository;
         this.notificationService = notificationService;
+        this.productService = productService;
     }
 
     @Override
@@ -76,6 +82,17 @@ public class DefaultBidService implements BidService {
             ));
 
             final Bid savedBid = bidRepository.addBid(createBidRequest);
+
+            final Product changedProduct = productRepository.getSingleProduct(savedBid.getProductId());
+
+            ProductEventRequest productEventRequest = new ProductEventRequest();
+
+            changedProduct.getBids().add(savedBid);
+
+            productEventRequest.setProduct(changedProduct);
+            productEventRequest.setHighestBidPrice(createBidRequest.getPrice());
+
+            productService.emitEventOnProductBid(productEventRequest, product.getId());
 
             LOGGER.info("Successfully added bid={}", savedBid);
 

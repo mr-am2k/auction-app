@@ -23,3 +23,5 @@ export default {
   put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
   delete: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 };
+
+export const buildUrl = (route: string) => `${process.env.REACT_APP_BASE_URL}${route}`;

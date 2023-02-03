@@ -15,11 +15,14 @@ import { Notification } from 'models/notification';
 import { createBidRequest } from 'models/request/create/createBidRequest';
 import { INPUT_TYPE_NUMBER, LOCAL_STORAGE } from 'util/constants';
 import { scrollToTop } from 'util/windowUtils';
+import { ROUTES } from 'util/routes';
 import { EN_STRINGS } from 'translation/en';
+import { EventSourcePolyfill } from 'event-source-polyfill';
 
 import './single-product.scss';
 
 import { GreaterIcon } from 'assets/icons';
+import { buildUrl } from 'lib/agent';
 
 const SingleProduct = () => {
   const bidInputRef = useRef<HTMLInputElement>(null);
@@ -73,8 +76,6 @@ const SingleProduct = () => {
       .addBid(createBidRequest, singleProduct!.id)
       .then(() => {
         bidInputRef.current!.value = '';
-        fetchSingleProduct(id!);
-        fetchHighestBid(id!);
       })
       .catch(error => {
         setBidInputError(error.response.data.message);
@@ -85,10 +86,23 @@ const SingleProduct = () => {
     notificationService.getLatestNotification(userId, productId).then(latestNotification => setLatestNotification(latestNotification));
   };
 
+  const handleProductChange = (event: any) => {
+    setSingleProduct(JSON.parse(event.data).product);
+    setHighestBid(JSON.parse(event.data).highestBidPrice);
+  };
+
   const initialLoad = async () => {
     fetchSingleProduct(id!);
     fetchHighestBid(id!);
   };
+
+  useEffect(() => {
+    const eventSource = new EventSourcePolyfill(buildUrl(ROUTES.PRODUCT_SUBSCRIBE));
+
+    eventSource.addEventListener(singleProduct?.id!, handleProductChange, false);
+
+    return () => eventSource.close();
+  }, [singleProduct]);
 
   useEffect(() => {
     initialLoad();

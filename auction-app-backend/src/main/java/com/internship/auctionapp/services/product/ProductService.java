@@ -6,8 +6,8 @@ import com.internship.auctionapp.entities.ProductEntity;
 import com.internship.auctionapp.requests.CreatePaymentRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
 
+import com.internship.auctionapp.requests.ProductEventRequest;
 import com.internship.auctionapp.requests.SearchProductRequest;
-import com.stripe.exception.StripeException;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -35,4 +35,6 @@ public interface ProductService {
     Payment purchase(String username, CreatePaymentRequest createPaymentRequest);
 
     void createNotificationsAfterProductExpires();
+
+    void emitEventOnProductBid(ProductEventRequest productEventRequest, UUID productId);
 }

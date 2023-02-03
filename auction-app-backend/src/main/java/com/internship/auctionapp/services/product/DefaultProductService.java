@@ -19,13 +19,14 @@ import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.requests.CreatePaymentRequest;
 import com.internship.auctionapp.requests.CreateProductDataRequest;
+import com.internship.auctionapp.requests.ProductEventRequest;
 import com.internship.auctionapp.requests.SearchProductRequest;
 import com.internship.auctionapp.services.payment.PaymentService;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.NotificationType;
 
 import com.internship.auctionapp.util.filter.product.ProductFilter;
-import com.stripe.exception.StripeException;
+import com.internship.auctionapp.util.sse.ProductEventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,6 +64,8 @@ public class DefaultProductService implements ProductService {
 
     private final PaymentService paymentService;
 
+    private final ProductEventService productEventService;
+
     private static final Integer DEFAULT_ELEMENTS_PER_PAGE = 8;
 
     private static final Integer RELATED_PRODUCTS_PER_PAGE = 3;
@@ -78,7 +81,7 @@ public class DefaultProductService implements ProductService {
     public DefaultProductService(ProductRepository productCRUDRepository,
                                  BidRepository bidRepository,
                                  NotificationRepository notificationRepository,
-                                 UserJpaRepository userJpaRepository, ProductJpaRepository productJpaRepository, PaymentRepository paymentRepository, PaymentService paymentService) {
+                                 UserJpaRepository userJpaRepository, ProductJpaRepository productJpaRepository, PaymentRepository paymentRepository, PaymentService paymentService, ProductEventService productEventService) {
         this.productRepository = productCRUDRepository;
         this.bidRepository = bidRepository;
         this.notificationRepository = notificationRepository;
@@ -86,6 +89,7 @@ public class DefaultProductService implements ProductService {
         this.productJpaRepository = productJpaRepository;
         this.paymentRepository = paymentRepository;
         this.paymentService = paymentService;
+        this.productEventService = productEventService;
     }
 
     @Override
@@ -223,6 +227,11 @@ public class DefaultProductService implements ProductService {
                 .forEach(product -> {
                     createNotificationOnAuctionFinish(product);
                 });
+    }
+
+    @Override
+    public void emitEventOnProductBid(ProductEventRequest productEventRequest, UUID productId) {
+        productEventService.sendChangedProduct(productEventRequest, productId);
     }
 
     private void createNotificationOnAuctionFinish(Product product) {

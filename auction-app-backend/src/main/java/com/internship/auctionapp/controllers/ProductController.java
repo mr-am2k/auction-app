@@ -10,12 +10,15 @@ import com.internship.auctionapp.services.product.ProductService;
 
 import com.internship.auctionapp.util.RequestUtils;
 import com.internship.auctionapp.util.security.jwt.JwtUtils;
+import com.internship.auctionapp.util.sse.ProductEventService;
 import com.stripe.exception.StripeException;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -31,9 +34,27 @@ public class ProductController {
 
     private final JwtUtils JwtUtils;
 
-    public ProductController(ProductService productService, JwtUtils jwtUtils) {
+    private static Long connectionExpiration;
+
+    private final ProductEventService productEventService;
+
+    public ProductController(ProductService productService, JwtUtils jwtUtils, ProductEventService eventsEmitterService) {
         this.productService = productService;
         this.JwtUtils = jwtUtils;
+        this.productEventService = eventsEmitterService;
+    }
+
+    @Value("${app.connection_expiration_ms}")
+    public void setConnectionExpiration(Long connectionExpiration) {
+        ProductController.connectionExpiration = connectionExpiration;
+    }
+
+    @GetMapping("/subscribe")
+    public SseEmitter subscribe() {
+        SseEmitter sseEmitter = new SseEmitter(connectionExpiration);
+        productEventService.addEmitter(sseEmitter);
+
+        return sseEmitter;
     }
 
     @PostMapping
