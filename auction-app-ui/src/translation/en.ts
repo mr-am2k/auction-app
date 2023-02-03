@@ -272,3 +272,8 @@ export const PAYMENT = {
   SUCCESS_MESSAGE: 'You have successfully paid your order!',
   PAY: 'PAY',
 };
+
+export const ADMIN_MY_ACCOUNT = {
+  PRODUCT_CATEGORIES: 'Product Categories',
+  ADD_CATEGORY: '+ Add category',
+};

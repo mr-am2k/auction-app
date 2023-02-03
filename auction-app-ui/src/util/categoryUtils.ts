@@ -22,3 +22,8 @@ export const organizeCategories = (categories: Category[]) => {
   }
   return organizedCategories;
 };
+
+export const getCategoryNameById = (categories: SubCategory[], id: string | null) => {
+  const targetedCategory = categories.filter(category => category.categoryId === id);
+  return targetedCategory[0]?.name;
+};
