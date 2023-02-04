@@ -18,11 +18,19 @@
     min-height: 600px;
 
     .c-admin-category-element {
+      @include flexDisplay(space-between, center);
       margin-bottom: 1rem;
+      min-width: 100%;
 
       p {
         font-weight: $fontBold;
 
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      span {
         &:hover {
           cursor: pointer;
         }
@@ -62,6 +70,7 @@
     min-height: 600px;
 
     .c-admin-subcategory-element {
+      @include flexDisplay(space-between, center);
       border: 1px solid $greyColor;
       max-width: 300px;
       padding: 0rem 1rem;
@@ -70,6 +79,12 @@
       p {
         font-weight: $fontBold;
 
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      span {
         &:hover {
           cursor: pointer;
         }
@@ -101,5 +116,13 @@
         }
       }
     }
+  }
+
+  .c-admin-categories-error {
+    @include flexDisplay(flex-start, center);
+    flex-wrap: wrap;
+    max-width: 300px;
+    color: $errorColor;
+    font-weight: $fontBold;
   }
 }

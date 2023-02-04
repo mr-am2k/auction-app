@@ -14,12 +14,20 @@ import { ADMIN_MY_ACCOUNT } from 'translation/en';
 
 import './admin-categories.scss';
 
+import { CloseIcon } from 'assets/icons';
+
+type CategoryError = {
+  type: string;
+  message: string;
+};
+
 const AdminCategories = () => {
   const [categories, setCategories] = useState<SubCategory[]>([]);
   const [subcategories, setSubcategories] = useState<Category[]>([]);
   const [addCategory, setAddCategory] = useState(false);
   const [addSubcategory, setAddSubcategory] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
+  const [errorMessage, setErrorMessage] = useState<CategoryError>();
 
   const { fieldValues, setFieldValues } = useForm();
 
@@ -50,10 +58,11 @@ const AdminCategories = () => {
       parentCategoryId: null,
     };
 
-    categoryService.addCategory(createCategoryRequest).then(() => {
+    categoryService.addCategory(createCategoryRequest).then(response => {
       fetchCategories();
       setFieldValues({});
       setAddCategory(false);
+      setErrorMessage(undefined);
     });
   };
 
@@ -78,7 +87,30 @@ const AdminCategories = () => {
       setCategories(updatedCategories);
       setFieldValues({});
       setAddSubcategory(false);
+      setErrorMessage(undefined);
     });
+  };
+
+  const handleCategoryRemove = (categoryId: string, category: boolean, parentCategoryId?: string) => {
+    categoryService
+      .deleteCategory(categoryId)
+      .then(() => {
+        fetchCategories();
+        if (!category) {
+          const parentCategory = categories.filter(category => category.categoryId === parentCategoryId);
+
+          const updatedSubcategories = parentCategory[0].subcategories.filter(subcategory => subcategory.id !== categoryId);
+
+          setSubcategories(updatedSubcategories);
+          setErrorMessage(undefined);
+        }
+      })
+      .catch(error => {
+        setErrorMessage({
+          type: category ? MY_ACCOUNT_ADMIN.CATEGORY : MY_ACCOUNT_ADMIN.SUBCATEGORY,
+          message: error.response.data.message,
+        });
+      });
   };
 
   useEffect(() => {
@@ -93,6 +125,9 @@ const AdminCategories = () => {
         {categories.map((category, index) => (
           <div className='c-admin-category-element' key={index}>
             <p onClick={() => handleCategorySelect(category)}>{category?.name}</p>
+            <span onClick={() => handleCategoryRemove(category.categoryId, true)}>
+              <CloseIcon />
+            </span>
           </div>
         ))}
 
@@ -111,6 +146,12 @@ const AdminCategories = () => {
 
           <p onClick={() => setAddCategory(prevCategory => !prevCategory)}>{ADMIN_MY_ACCOUNT.ADD_CATEGORY}</p>
         </div>
+
+        {errorMessage?.type === MY_ACCOUNT_ADMIN.CATEGORY && (
+          <div className='c-admin-categories-error'>
+            <p>{errorMessage.message}</p>
+          </div>
+        )}
       </div>
 
       {selectedCategory && (
@@ -120,6 +161,9 @@ const AdminCategories = () => {
           {subcategories.map((subcategory, index) => (
             <div className='c-admin-subcategory-element' key={index}>
               <p>{subcategory.name}</p>
+              <span onClick={() => handleCategoryRemove(subcategory.id, false, subcategory.parentCategoryId!)}>
+                <CloseIcon />
+              </span>
             </div>
           ))}
 
@@ -138,6 +182,12 @@ const AdminCategories = () => {
 
             <p onClick={() => setAddSubcategory(prevSubcategory => !prevSubcategory)}>{ADMIN_MY_ACCOUNT.ADD_CATEGORY}</p>
           </div>
+
+          {errorMessage?.type === MY_ACCOUNT_ADMIN.SUBCATEGORY && (
+            <div className='c-admin-categories-error'>
+              <p>{errorMessage.message}</p>
+            </div>
+          )}
         </div>
       )}
     </div>
