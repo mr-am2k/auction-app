@@ -121,3 +121,5 @@ export const APP = {
 };
 
 export const PAYMENT_SUCCESS_DELAY = 1500;
+
+export const PURPLE_COLOR = '#8367d8';

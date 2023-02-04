@@ -32,3 +32,4 @@ export { default as ShopFilters } from './ShopFilters/ShopFilters';
 export { default as CategoryFilters } from './CategoryFilters/CategoryFilters';
 export { default as PriceFilters } from './PriceFilters/PriceFilters';
 export { default as ShopHeaders } from './ShopHeaders/ShopHeaders';
+export { default as ProductListView } from './ProdcutListView/ProductListView';

@@ -50,7 +50,20 @@
 
     .c-view-type {
       @include flexDisplay(center, center);
-      gap: 0.5rem;
+      gap: 1rem;
+
+      .c-view--active {
+        color: $purpleColor;
+      }
+
+      span {
+        @include flexDisplay(center, center);
+        gap: 0.5rem;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
     }
   }
 }

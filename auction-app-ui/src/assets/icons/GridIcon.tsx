@@ -1,4 +1,9 @@
-const GridIcon = () => {
+type Props = {
+  children?: React.ReactNode;
+  fill?: string | null;
+};
+
+const GridIcon: React.FC<Props> = ({ fill }) => {
   return (
     <svg width='19' height='20' viewBox='0 0 19 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path
@@ -12,7 +17,7 @@ const GridIcon = () => {
             18.4414C16.5304 18.4414 17.0391 18.2307 17.4142 17.8556C17.7893 17.4805 18 16.9718 18 16.4414V13.4414H13V18.4414H16ZM18 
             7.44141H13V12.4414H18V7.44141ZM18 3.44141C18 2.91097 17.7893 2.40227 17.4142 2.02719C17.0391 1.65212 16.5304 
             1.44141 16 1.44141H13V6.44141H18V3.44141ZM7 1.44141V6.44141H12V1.44141H7ZM7 18.4414H12V13.4414H7V18.4414ZM12 7.44141H7V12.4414H12V7.44141Z'
-        fill='#9B9B9B'
+        fill={fill || '#9B9B9B'}
       />
     </svg>
   );

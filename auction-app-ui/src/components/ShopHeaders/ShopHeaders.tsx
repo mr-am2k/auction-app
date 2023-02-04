@@ -7,12 +7,13 @@ import Dropdown from 'components/dropdown/Dropdown';
 import { SortingOption, getSortingName } from 'models/enum/sortingOption';
 import { Option } from 'models/option';
 import { SHOP_HEADERS } from 'translation/en';
-import { SHOP_HEADERS_PRICE, SORTING } from 'util/constants';
+import { PURPLE_COLOR, SHOP_HEADERS_PRICE, SORTING } from 'util/constants';
 
 import './shop-headers.scss';
 
-import GridIcon from 'assets/icons/GridIcon';
-import { CloseIcon } from 'assets/icons';
+import classNames from 'classnames';
+
+import { CloseIcon, OptionsGreyIcon, GridIcon } from 'assets/icons';
 
 const sortingOptions: Option[] = [
   { label: SHOP_HEADERS.DEFAULT, value: getSortingName(SortingOption.DEFAULT) },
@@ -22,7 +23,13 @@ const sortingOptions: Option[] = [
   { label: SHOP_HEADERS.MOST_EXPENSIVE, value: getSortingName(SortingOption.PRICE_DESC) },
 ];
 
-const ShopHeaders = () => {
+type Props = {
+  children?: React.ReactNode;
+  gridView: boolean;
+  setGridView: (value: boolean) => void;
+};
+
+const ShopHeaders: React.FC<Props> = ({ gridView, setGridView }) => {
   const { fieldValues } = useForm();
   const { searchFilterValues, setSearchFilterValues } = useFilter();
 
@@ -46,6 +53,14 @@ const ShopHeaders = () => {
 
   const isFilteredByPrice = () => {
     return searchFilterValues.minPrice || searchFilterValues.maxPrice;
+  };
+
+  const handleGridView = () => {
+    setGridView(true);
+  };
+
+  const handleListView = () => {
+    setGridView(false);
   };
 
   useEffect(() => {
@@ -99,7 +114,23 @@ const ShopHeaders = () => {
       <div className='c-sorting-header'>
         <Dropdown name='sorting' options={sortingOptions} placeholder={SHOP_HEADERS.DEFAULT} required={true} />
         <div className='c-view-type'>
-          <GridIcon /> <p>{SHOP_HEADERS.GRID}</p>
+          <span
+            onClick={handleGridView}
+            className={classNames({
+              'c-view--active': gridView,
+            })}
+          >
+            <GridIcon fill={gridView ? PURPLE_COLOR : null} /> <p>{SHOP_HEADERS.GRID}</p>
+          </span>
+
+          <span
+            onClick={handleListView}
+            className={classNames({
+              'c-view--active': !gridView,
+            })}
+          >
+            <OptionsGreyIcon fill={!gridView ? PURPLE_COLOR : null} /> <p>{SHOP_HEADERS.LIST}</p>
+          </span>
         </div>
       </div>
     </div>

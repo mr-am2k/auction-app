@@ -27,11 +27,17 @@
       flex-direction: column;
       width: 100%;
 
-      .c-products-view {
+      .c-products-grid-view {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 1.5rem;
         min-width: 100%;
+      }
+
+      .c-products-list-view {
+        @include flexDisplay(center, flex-start);
+        flex-direction: column;
+        gap: 1rem;
       }
 
       .c-button-container {
