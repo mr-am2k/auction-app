@@ -53,12 +53,14 @@ public class DefaultCategoryService implements CategoryService {
 
         Integer numberOfProducts = categoryJpaRepository.numberOfProductsPerSubcategory(categoryId);
 
+        CategoryEntity category = categoryJpaRepository.findById(categoryId).get();
+
         if (numberOfSubcategories > 0) {
-            throw new SubcategoriesExistException();
+            throw new SubcategoriesExistException(category.getName());
         }
 
         if (numberOfProducts > 0) {
-            throw new SubcategoryHasProductsException();
+            throw new SubcategoryHasProductsException(category.getName());
         }
 
         categoryRepository.deleteCategory(categoryId);

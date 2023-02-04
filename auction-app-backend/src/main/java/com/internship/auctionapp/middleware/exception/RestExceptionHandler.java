@@ -184,12 +184,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(SubcategoriesExistException.class)
     public ResponseEntity<Object> handleSubcategoriesExistException(HttpServletRequest req, SubcategoriesExistException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "This category can't be removed, because it has subcategories!"));
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage() + " can't be removed, because it has subcategories!"));
     }
 
     @ExceptionHandler(SubcategoryHasProductsException.class)
     public ResponseEntity<Object> handleSubcategoryHasProductsException(HttpServletRequest req, SubcategoryHasProductsException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "This subcategory can't be removed because it has products!"));
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST,   ex.getMessage() + " can't be removed because it has products!"));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
