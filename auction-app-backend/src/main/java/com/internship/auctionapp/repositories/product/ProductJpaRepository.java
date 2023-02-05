@@ -26,5 +26,11 @@ public interface ProductJpaRepository extends JpaRepository<ProductEntity, UUID>
 
     Page<ProductEntity> findAllByExpirationDateTimeAfter(ZonedDateTime expirationDateTime, Pageable page);
 
-    Page<ProductEntity> findAllByCategoryIdAndIdNot(UUID categoryId, UUID productId, Pageable page);
+    Page<ProductEntity> findAllByCategoryIdAndIdNotAndCreationDateTimeBeforeAndExpirationDateTimeAfter(
+            UUID categoryId,
+            UUID productId,
+            ZonedDateTime startDate,
+            ZonedDateTime endDate,
+            Pageable page
+    );
 }

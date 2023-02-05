@@ -4,6 +4,10 @@ import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.AuctionNotFinishedException;
 import com.internship.auctionapp.middleware.exception.CurrentUserIsNotTheHighestBidderException;
 import com.internship.auctionapp.middleware.exception.ProductAlreadyPurchasedException;
+import com.internship.auctionapp.middleware.exception.ProductCreationDateTimeException;
+import com.internship.auctionapp.middleware.exception.ProductImagesMaximumException;
+import com.internship.auctionapp.middleware.exception.ProductImagesMinimumException;
+import com.internship.auctionapp.middleware.exception.ProductNegativeStartPriceException;
 import com.internship.auctionapp.middleware.exception.ProductNotFoundException;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.models.Payment;
@@ -116,6 +120,30 @@ public class DefaultProductService implements ProductService {
             LOGGER.error("Product expiration date is before product creation date. Product={}", createProductDataRequest.getCreateProductRequest());
 
             throw new ProductExpirationDateException();
+        }
+
+        if (createProductDataRequest.getCreateProductRequest().getStartPrice() < 1) {
+            LOGGER.error("Product price={}, is lower than 1", createProductDataRequest.getCreateProductRequest());
+
+            throw new ProductNegativeStartPriceException();
+        }
+
+        if (createProductDataRequest.getCreateProductRequest().getImageURLs().size() < 3) {
+            LOGGER.error("Number of uploaded images {}, is lower than 3", createProductDataRequest.getCreateProductRequest().getImageURLs().size());
+
+            throw new ProductImagesMinimumException();
+        }
+
+        if (createProductDataRequest.getCreateProductRequest().getImageURLs().size() > 10) {
+            LOGGER.error("Number of uploaded images {}, is greater than 10", createProductDataRequest.getCreateProductRequest().getImageURLs().size());
+
+            throw new ProductImagesMaximumException();
+        }
+
+        if(DateUtils.isInPast(createProductDataRequest.getCreateProductRequest().getCreationDateTime())){
+            LOGGER.error("Date={} is in the past", createProductDataRequest.getCreateProductRequest().getCreationDateTime());
+
+            throw new ProductCreationDateTimeException();
         }
 
         final Product savedProduct = productRepository.addProduct(createProductDataRequest);

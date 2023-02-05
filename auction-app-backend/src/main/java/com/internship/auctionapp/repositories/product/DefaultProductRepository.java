@@ -140,6 +140,13 @@ public class DefaultProductRepository implements ProductRepository {
 
     @Override
     public Page<Product> getRelatedProducts(UUID categoryId, UUID productId, Pageable page) {
-        return productJpaRepository.findAllByCategoryIdAndIdNot(categoryId, productId, page).map(ProductEntity::toDomainModel);
+        ZonedDateTime currentTime = ZonedDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
+        return productJpaRepository.findAllByCategoryIdAndIdNotAndCreationDateTimeBeforeAndExpirationDateTimeAfter(
+                categoryId,
+                productId,
+                currentTime,
+                currentTime,
+                page
+        ).map(ProductEntity::toDomainModel);
     }
 }
