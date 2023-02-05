@@ -28,3 +28,9 @@
     color: $greyColor;
   }
 }
+
+@media only screen and (max-width: 1850px) {
+  .c-categories-wrapper {
+    min-width: 200px;
+  }
+}

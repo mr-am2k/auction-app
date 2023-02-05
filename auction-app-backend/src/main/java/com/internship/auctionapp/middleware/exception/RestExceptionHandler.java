@@ -182,6 +182,26 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "There has been problem with your payment!"));
     }
 
+    @ExceptionHandler(ProductNegativeStartPriceException.class)
+    public ResponseEntity<Object> handleProductNegativeStartPriceException(HttpServletRequest req, ProductNegativeStartPriceException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Product price can't be lower than 1$"));
+    }
+
+    @ExceptionHandler(ProductImagesMinimumException.class)
+    public ResponseEntity<Object> handleProductImagesMinimumException(HttpServletRequest req, ProductImagesMinimumException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "You need to upload at least 3 images!"));
+    }
+
+    @ExceptionHandler(ProductImagesMaximumException.class)
+    public ResponseEntity<Object> handleProductImagesMaximumException(HttpServletRequest req, ProductImagesMaximumException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "You can't upload more than 10 images"));
+    }
+
+    @ExceptionHandler(ProductCreationDateTimeException.class)
+    public ResponseEntity<Object> handleProductCreationDateTimeException(HttpServletRequest req, ProductCreationDateTimeException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Creation date can't be in the past"));
+    }
+
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
     }

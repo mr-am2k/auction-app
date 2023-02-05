@@ -8,3 +8,9 @@
   font-family: $latoFont;
   gap: 2rem;
 }
+
+@media only screen and (max-width: 1600px) {
+  .c-shop-filters-wrapper {
+    width: 260px;
+  }
+}
