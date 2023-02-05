@@ -51,9 +51,13 @@ const SingleProduct = () => {
   };
 
   const fetchHighestBid = async (productId: string) => {
-    const highestBid = await bidService.getHighestBid(productId);
-    setHighestBid(highestBid);
-    setInputPlaceholderValue(highestBid);
+    try {
+      const fetchedHighestBid = await bidService.getHighestBid(productId);
+      setHighestBid(fetchedHighestBid);
+      setInputPlaceholderValue(fetchedHighestBid);
+    } catch (error) {
+      setHighestBid(undefined);
+    }
   };
 
   const sendBid = () => {
@@ -83,7 +87,10 @@ const SingleProduct = () => {
   };
 
   const getLatestNotification = (userId: string, productId: string) => {
-    notificationService.getLatestNotification(userId, productId).then(latestNotification => setLatestNotification(latestNotification));
+    notificationService
+      .getLatestNotification(userId, productId)
+      .then(latestNotification => setLatestNotification(latestNotification))
+      .catch(() => setLatestNotification(undefined));
   };
 
   const handleProductChange = (event: any) => {
@@ -108,7 +115,7 @@ const SingleProduct = () => {
     initialLoad();
     scrollToTop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     loggedInUser ? getLatestNotification(loggedInUser!.id, id!) : setLatestNotification(undefined);
