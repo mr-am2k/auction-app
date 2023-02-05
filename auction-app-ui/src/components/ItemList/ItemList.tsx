@@ -12,7 +12,7 @@ type Props = {
   elements: any[];
   expired?: boolean;
   emptyList: JSX.Element;
-  buttonLabel: string;
+  buttonLabel?: string;
   secondButtonLabel?: string;
 };
 
