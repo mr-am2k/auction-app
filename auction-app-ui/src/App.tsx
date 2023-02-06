@@ -19,17 +19,17 @@ import {
   Error,
   Shop,
   Payment,
+  MyAccountAdmin,
 } from './pages';
 import { Navbar, Header, Footer, NavbarTracker } from './layouts';
 import { ROUTES } from './util/routes';
-import { APP, LOCAL_STORAGE } from 'util/constants';
+import { APP, LOCAL_STORAGE, ROLE_ADMIN } from 'util/constants';
 import { getTokenExpirationDate } from 'util/jwtUtils';
 import { hasNavbar } from 'util/navbarUtils';
 
 import './app.scss';
 
 const App = () => {
-  
   const { loggedInUser, setLoggedInUser, resetLoggedInUser, loginUser, logoutUser } = useUser();
   const location = useLocation();
   const navigate = useNavigate();
@@ -111,7 +111,10 @@ const App = () => {
                       </>
                     }
                   />
-                  <Route path={ROUTES.MY_ACCOUNT} element={<MyAccount />} />
+                  <Route
+                    path={ROUTES.MY_ACCOUNT}
+                    element={storageService.get(LOCAL_STORAGE.ROLE) === ROLE_ADMIN ? <MyAccountAdmin /> : <MyAccount />}
+                  />
                   <Route path={`${ROUTES.MY_ACCOUNT}${ROUTES.ADD_PRODUCT}`} element={<AddItem />} />
                   <Route path={ROUTES.SHOP} element={<Shop />} />
                   <Route path={`/:productId${ROUTES.PAY}`} element={<Payment />} />

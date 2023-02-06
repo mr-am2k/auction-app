@@ -10,3 +10,4 @@ export { default as SellerIcon } from './SellerIcon';
 export { default as BidIcon } from './BidIcon';
 export { default as ListOptionIcon } from './ListOptionIcon/ListOptionIcon';
 export { default as GridIcon } from './GridIcon/GridIcon';
+export { default as OptionsIcon } from './OptionsIcon'

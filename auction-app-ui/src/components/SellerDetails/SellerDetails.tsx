@@ -121,7 +121,7 @@ const SellerDetails = () => {
                   buttonLabel={EN_STRINGS.SELLER.BUTTON}
                 />
               }
-              buttonLabel={EN_STRINGS.SELLER.VIEW}
+              secondButtonLabel={EN_STRINGS.SELLER.VIEW}
             />
           )}
         </table>

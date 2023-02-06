@@ -56,6 +56,8 @@ public class DefaultBidService implements BidService {
     public Bid addBid(CreateBidRequest createBidRequest) {
         final Product product = productRepository.getSingleProduct(createBidRequest.getProductId());
 
+        createBidRequest.setPrice(Math.round(createBidRequest.getPrice() * 100.0) / 100.0);
+
         if (createBidRequest.getPrice() <= product.getStartPrice()) {
             LOGGER.info("Price user entered={} is lower than product start price={}.", createBidRequest.getPrice(), product.getStartPrice());
             throw new BidPriceLowerThanProductPriceException();

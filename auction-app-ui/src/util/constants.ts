@@ -8,6 +8,7 @@ export const INPUT_TYPE_EMAIL = 'email';
 export const INPUT_TYPE_DATE = 'date';
 export const INPUT_TYPE_NUMBER = 'number';
 export const INPUT_TYPE_FILE = 'file';
+export const ROLE_ADMIN = 'ROLE_ADMIN';
 export const USER_FORM = {
   FIRST_NAME: 'firstName',
   FIRST_NAME_PLACEHOLDER: 'John',
@@ -122,4 +123,8 @@ export const APP = {
 
 export const PAYMENT_SUCCESS_DELAY = 1500;
 
-export const PURPLE_COLOR = '#8367d8';
+export const MY_ACCOUNT_ADMIN = {
+  CATEGORY: 'category',
+  CATEGORY_PLACEHOLDER: 'Enter Category',
+  SUBCATEGORY: 'subcategory',
+};
