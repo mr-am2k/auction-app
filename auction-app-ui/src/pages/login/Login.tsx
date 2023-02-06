@@ -15,6 +15,7 @@ import { LOCAL_STORAGE } from 'util/constants';
 import logo from 'assets/logo/auction-app-logo.svg';
 
 import './login.scss';
+import { ROUTES } from 'util/routes';
 
 const Login = () => {
   const { fieldValues, isValid } = useForm();
@@ -77,6 +78,8 @@ const Login = () => {
           <img src={logo} alt='Logo' />
         </Link>
       </div>
+
+      <a href={ROUTES.GOOGLE_LOGIN}>LOGIN WITH GOOGLE</a>
 
       <LoginForm onSubmit={submitForm} errorMessage={error} />
     </div>
