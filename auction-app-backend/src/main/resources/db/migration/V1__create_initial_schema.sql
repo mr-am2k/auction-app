@@ -77,7 +77,7 @@ create table products (
 );
 
 create table users (
-    id uuid not null,
+    id uuid not null default gen_random_uuid(),
     active boolean not null,
     city varchar(255),
     country varchar(255),
