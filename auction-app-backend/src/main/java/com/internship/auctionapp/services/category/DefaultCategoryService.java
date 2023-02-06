@@ -49,15 +49,15 @@ public class DefaultCategoryService implements CategoryService {
 
     @Override
     public void deleteCategory(UUID categoryId) {
-        Integer numberOfSubcategories = categoryJpaRepository.countAllByParentCategoryId(categoryId);
+        final CategoryEntity category = categoryJpaRepository.findById(categoryId).get();
 
-        Integer numberOfProducts = categoryJpaRepository.numberOfProductsPerSubcategory(categoryId);
-
-        CategoryEntity category = categoryJpaRepository.findById(categoryId).get();
+        final Integer numberOfSubcategories = categoryJpaRepository.countAllByParentCategoryId(categoryId);
 
         if (numberOfSubcategories > 0) {
             throw new SubcategoriesExistException(category.getName());
         }
+
+        final Integer numberOfProducts = categoryJpaRepository.numberOfProductsPerSubcategory(categoryId);
 
         if (numberOfProducts > 0) {
             throw new SubcategoryHasProductsException(category.getName());
