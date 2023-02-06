@@ -7,6 +7,7 @@ import com.internship.auctionapp.requests.CreateCategoryRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
@@ -35,5 +36,10 @@ public class DefaultCategoryRepository implements CategoryRepository{
         return categoryJpaRepository.findAll().stream()
                 .map(CategoryEntity::toDomainModel)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteCategory(UUID categoryId) {
+        categoryJpaRepository.deleteById(categoryId);
     }
 }

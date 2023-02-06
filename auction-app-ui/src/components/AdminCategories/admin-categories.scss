@@ -1,0 +1,128 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
+
+.c-admin-categories-wrapper {
+  @include flexDisplay(space-between, flex-start);
+  font-family: $latoFont;
+  min-width: 100%;
+  margin-top: 2rem;
+
+  h4 {
+    margin-bottom: 3rem;
+  }
+
+  .c-admin-categories-provider {
+    min-width: 20%;
+    border: 1px solid $greyColor;
+    padding: 0.5rem 2rem;
+    min-height: 600px;
+
+    .c-admin-category-element {
+      @include flexDisplay(space-between, center);
+      margin-bottom: 1rem;
+      min-width: 100%;
+
+      p {
+        font-weight: $fontBold;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      span {
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
+    .c-admin-category-add {
+      min-width: 100%;
+
+      .c-admin-category-add-input {
+        @include flexDisplay(flex-start, center);
+
+        span {
+          padding-top: 1.5rem;
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+
+      p {
+        color: $purpleColor;
+        font-weight: $fontBold;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .c-admin-subcategories-provider {
+    min-width: 70%;
+    border: 1px solid $greyColor;
+    padding: 0.5rem 2rem;
+    min-height: 600px;
+
+    .c-admin-subcategory-element {
+      @include flexDisplay(space-between, center);
+      border: 1px solid $greyColor;
+      max-width: 300px;
+      padding: 0rem 1rem;
+      margin-bottom: 1rem;
+
+      p {
+        font-weight: $fontBold;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      span {
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
+    .c-admin-subcategories-add {
+      min-width: 100%;
+
+      .c-admin-subcategory-add-input {
+        @include flexDisplay(flex-start, center);
+        max-width: 300px;
+
+        span {
+          padding-top: 1.5rem;
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+
+      p {
+        color: $purpleColor;
+        font-weight: $fontBold;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .c-admin-categories-error {
+    @include flexDisplay(flex-start, center);
+    flex-wrap: wrap;
+    max-width: 300px;
+    color: $errorColor;
+    font-weight: $fontBold;
+  }
+}

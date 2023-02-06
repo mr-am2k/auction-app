@@ -182,6 +182,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "There has been problem with your payment!"));
     }
 
+    @ExceptionHandler(SubcategoriesExistException.class)
+    public ResponseEntity<Object> handleSubcategoriesExistException(HttpServletRequest req, SubcategoriesExistException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage() + " can't be removed, because it has subcategories!"));
+    }
+
+    @ExceptionHandler(SubcategoryHasProductsException.class)
+    public ResponseEntity<Object> handleSubcategoryHasProductsException(HttpServletRequest req, SubcategoryHasProductsException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage() + " can't be removed because it has products!"));
+    }
     @ExceptionHandler(ProductNegativeStartPriceException.class)
     public ResponseEntity<Object> handleProductNegativeStartPriceException(HttpServletRequest req, ProductNegativeStartPriceException ex) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Product price can't be lower than 1$"));

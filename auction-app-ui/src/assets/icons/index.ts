@@ -8,3 +8,4 @@ export { default as GreaterIcon } from './GreaterIcon';
 export { default as ProfileIcon } from './ProfileIcon';
 export { default as SellerIcon } from './SellerIcon';
 export { default as BidIcon } from './BidIcon';
+export { default as OptionsIcon } from './OptionsIcon'
