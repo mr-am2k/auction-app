@@ -11,7 +11,7 @@ jobs:
         env:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           AUCTION_APP_JWTSECRET: ${{ secrets.AUCTION_APP_JWTSECRET }}
-          REACT_APP_BASE_URL:  http://ec2-3-120-228-194.eu-central-1.compute.amazonaws.com:8080/api/v1
+          REACT_APP_BASE_URL: http://ec2-3-120-228-194.eu-central-1.compute.amazonaws.com:8080/api/v1
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
         run: docker-compose up -d --build && docker system prune -f
         shell: bash
