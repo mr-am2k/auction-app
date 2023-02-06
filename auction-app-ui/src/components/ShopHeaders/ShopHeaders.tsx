@@ -11,8 +11,9 @@ import { SHOP_HEADERS_PRICE, SORTING } from 'util/constants';
 
 import './shop-headers.scss';
 
-import GridIcon from 'assets/icons/GridIcon';
-import { CloseIcon } from 'assets/icons';
+import classNames from 'classnames';
+
+import { CloseIcon, GridIcon, ListOptionIcon } from 'assets/icons';
 
 const sortingOptions: Option[] = [
   { label: SHOP_HEADERS.DEFAULT, value: getSortingName(SortingOption.DEFAULT) },
@@ -22,7 +23,13 @@ const sortingOptions: Option[] = [
   { label: SHOP_HEADERS.MOST_EXPENSIVE, value: getSortingName(SortingOption.PRICE_DESC) },
 ];
 
-const ShopHeaders = () => {
+type Props = {
+  children?: React.ReactNode;
+  gridViewActive: boolean;
+  setGridViewActive: (value: boolean) => void;
+};
+
+const ShopHeaders: React.FC<Props> = ({ gridViewActive, setGridViewActive }) => {
   const { fieldValues } = useForm();
   const { searchFilterValues, setSearchFilterValues } = useFilter();
 
@@ -99,7 +106,23 @@ const ShopHeaders = () => {
       <div className='c-sorting-header'>
         <Dropdown name='sorting' options={sortingOptions} placeholder={SHOP_HEADERS.DEFAULT} required={true} />
         <div className='c-view-type'>
-          <GridIcon /> <p>{SHOP_HEADERS.GRID}</p>
+          <span
+            onClick={() => setGridViewActive(true)}
+            className={classNames({
+              'c-view--active': gridViewActive,
+            })}
+          >
+            <GridIcon isActive={gridViewActive} /> <p>{SHOP_HEADERS.GRID}</p>
+          </span>
+
+          <span
+            onClick={() => setGridViewActive(false)}
+            className={classNames({
+              'c-view--active': !gridViewActive,
+            })}
+          >
+            <ListOptionIcon isActive={!gridViewActive} /> <p>{SHOP_HEADERS.LIST}</p>
+          </span>
         </div>
       </div>
     </div>

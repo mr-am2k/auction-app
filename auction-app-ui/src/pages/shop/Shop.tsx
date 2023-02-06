@@ -6,7 +6,7 @@ import { usePage } from 'hooks/usePage';
 import productsService from 'services/productService';
 
 import { Product } from 'models/product';
-import { ProductCard, ShopFilters, ShopHeaders } from 'components';
+import { ProductCard, ProductListView, ShopFilters, ShopHeaders } from 'components';
 import { scrollToTop } from 'util/windowUtils';
 import { EN_STRINGS, SHOP } from 'translation/en';
 
@@ -18,6 +18,7 @@ const Shop = () => {
   const [lastPage, setLastPage] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
+  const [gridViewActive, setGridViewActive] = useState(true);
 
   const { searchFilterValues } = useFilter();
   const { setNavbarTitle, setNavbarItems } = usePage();
@@ -90,15 +91,23 @@ const Shop = () => {
 
       <div className='c-products'>
         <div className='c-products-sorting'>
-          <ShopHeaders />
+          <ShopHeaders gridViewActive={gridViewActive} setGridViewActive={setGridViewActive} />
         </div>
 
         <div className='c-products-display'>
-          <div className='c-products-view'>
-            {products.map((product, index) => (
-              <ProductCard product={product} key={index} />
-            ))}
-          </div>
+          {gridViewActive ? (
+            <div className='c-products-grid-view'>
+              {products.map((product, index) => (
+                <ProductCard product={product} key={index} />
+              ))}
+            </div>
+          ) : (
+            <div className='c-products-list-view'>
+              {products.map((product, index) => (
+                <ProductListView product={product} key={index} />
+              ))}
+            </div>
+          )}
 
           {!lastPage && (
             <div className='c-button-container'>

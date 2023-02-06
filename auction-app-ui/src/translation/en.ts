@@ -262,6 +262,7 @@ export const SHOP_HEADERS = {
   CHEAPEST: 'Sort by Cheapest',
   MOST_EXPENSIVE: 'Sort by Most Expensive',
   GRID: 'Grid',
+  LIST: 'List',
   CATEGORY: 'Category',
   PRICE_RANGE: 'Price range',
   CLEAR_ALL: 'Clear all',
