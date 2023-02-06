@@ -10,3 +10,4 @@ export { default as AddItem } from './add-item/AddItem';
 export { default as Shop } from './shop/Shop';
 export { default as Error } from './error/Error';
 export { default as Payment } from './payment/Payment';
+export { default as MyAccountAdmin } from './my-account-admin/MyAccountAdmin';

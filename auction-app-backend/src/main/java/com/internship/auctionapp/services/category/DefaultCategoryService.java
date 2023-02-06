@@ -1,16 +1,21 @@
 package com.internship.auctionapp.services.category;
 
 import com.internship.auctionapp.entities.CategoryEntity;
-import com.internship.auctionapp.middleware.exception.CategoryNotFoundException;
 import com.internship.auctionapp.middleware.exception.CreditCardNotFoundException;
+import com.internship.auctionapp.middleware.exception.SubcategoriesExistException;
 import com.internship.auctionapp.middleware.exception.SubcategoryAlreadyExistsException;
+import com.internship.auctionapp.middleware.exception.SubcategoryHasProductsException;
 import com.internship.auctionapp.models.Category;
 import com.internship.auctionapp.repositories.category.CategoryJpaRepository;
 import com.internship.auctionapp.repositories.category.CategoryRepository;
 import com.internship.auctionapp.requests.CreateCategoryRequest;
+import com.internship.auctionapp.services.bid.DefaultBidService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class DefaultCategoryService implements CategoryService {
@@ -40,5 +45,24 @@ public class DefaultCategoryService implements CategoryService {
     @Override
     public List<Category> getAllCategories() {
         return categoryRepository.getAllCategories();
+    }
+
+    @Override
+    public void deleteCategory(UUID categoryId) {
+        final CategoryEntity category = categoryJpaRepository.findById(categoryId).get();
+
+        final Integer numberOfSubcategories = categoryJpaRepository.countAllByParentCategoryId(categoryId);
+
+        if (numberOfSubcategories > 0) {
+            throw new SubcategoriesExistException(category.getName());
+        }
+
+        final Integer numberOfProducts = categoryJpaRepository.numberOfProductsPerSubcategory(categoryId);
+
+        if (numberOfProducts > 0) {
+            throw new SubcategoryHasProductsException(category.getName());
+        }
+
+        categoryRepository.deleteCategory(categoryId);
     }
 }

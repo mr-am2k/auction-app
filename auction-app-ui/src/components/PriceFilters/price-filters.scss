@@ -26,3 +26,17 @@
     }
   }
 }
+
+@media only screen and (max-width: 1850px) {
+  .c-price-filters-wrapper {
+    min-width: 240px;
+
+    .c-input-fields {
+      max-width: 180px;
+
+      .c-input-field {
+        max-width: 40px;
+      }
+    }
+  }
+}

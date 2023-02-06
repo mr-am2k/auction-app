@@ -1,6 +1,6 @@
 export type Category = {
   id: string;
   name: string;
-  parentCategoryId: string | null;
-  numberOfProducts: number | null;
+  parentCategoryId?: string | null;
+  numberOfProducts?: number | null;
 };
