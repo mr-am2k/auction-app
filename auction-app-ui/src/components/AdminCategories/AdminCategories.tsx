@@ -24,12 +24,12 @@ type CategoryError = {
 const AdminCategories = () => {
   const [categories, setCategories] = useState<SubCategory[]>([]);
   const [subcategories, setSubcategories] = useState<Category[]>([]);
-  const [addCategory, setAddCategory] = useState(false);
-  const [addSubcategory, setAddSubcategory] = useState(false);
+  const [addCategoryActive , setAddCategoryActive] = useState(false);
+  const [addSubcategoryActive, setAddSubcategoryActive] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
   const [errorMessage, setErrorMessage] = useState<CategoryError>();
 
-  const { fieldValues, setFieldValues } = useForm();
+  const { fieldValues, resetFieldValues } = useForm();
 
   const fetchCategories = () => {
     categoryService.getCategories().then(categories => {
@@ -60,8 +60,8 @@ const AdminCategories = () => {
 
     categoryService.addCategory(createCategoryRequest).then(response => {
       fetchCategories();
-      setFieldValues({});
-      setAddCategory(false);
+      resetFieldValues();
+      setAddCategoryActive(false);
       setErrorMessage(undefined);
     });
   };
@@ -78,25 +78,24 @@ const AdminCategories = () => {
       const updatedCategories = categories.map(c => {
         if (c.categoryId === category.id) {
           c.subcategories.push(createdCategory);
-          return c;
         }
 
         return c;
       });
 
       setCategories(updatedCategories);
-      setFieldValues({});
-      setAddSubcategory(false);
+      resetFieldValues();
+      setAddSubcategoryActive(false);
       setErrorMessage(undefined);
     });
   };
 
-  const handleCategoryRemove = (categoryId: string, category: boolean, parentCategoryId?: string) => {
+  const handleCategoryRemove = (categoryId: string, isCategory: boolean, parentCategoryId?: string) => {
     categoryService
       .deleteCategory(categoryId)
       .then(() => {
         fetchCategories();
-        if (!category) {
+        if (!isCategory) {
           const parentCategory = categories.filter(category => category.categoryId === parentCategoryId);
 
           const updatedSubcategories = parentCategory[0].subcategories.filter(subcategory => subcategory.id !== categoryId);
@@ -107,7 +106,7 @@ const AdminCategories = () => {
       })
       .catch(error => {
         setErrorMessage({
-          type: category ? MY_ACCOUNT_ADMIN.CATEGORY : MY_ACCOUNT_ADMIN.SUBCATEGORY,
+          type: isCategory ? MY_ACCOUNT_ADMIN.CATEGORY : MY_ACCOUNT_ADMIN.SUBCATEGORY,
           message: error.response.data.message,
         });
       });
@@ -119,7 +118,7 @@ const AdminCategories = () => {
 
   return (
     <div className='c-admin-categories-wrapper'>
-      <div className='c-admin-categories-manage'>
+      <div className='c-admin-categories-provider'>
         <h4>{ADMIN_MY_ACCOUNT.PRODUCT_CATEGORIES}</h4>
 
         {categories.map((category, index) => (
@@ -132,7 +131,7 @@ const AdminCategories = () => {
         ))}
 
         <div className='c-admin-category-add'>
-          {addCategory && (
+          {addCategoryActive && (
             <div className='c-admin-category-add-input'>
               <Input
                 key={MY_ACCOUNT_ADMIN.CATEGORY}
@@ -144,7 +143,7 @@ const AdminCategories = () => {
             </div>
           )}
 
-          <p onClick={() => setAddCategory(prevCategory => !prevCategory)}>{ADMIN_MY_ACCOUNT.ADD_CATEGORY}</p>
+          <p onClick={() => setAddCategoryActive(prevCategory => !prevCategory)}>{ADMIN_MY_ACCOUNT.ADD_CATEGORY}</p>
         </div>
 
         {errorMessage?.type === MY_ACCOUNT_ADMIN.CATEGORY && (
@@ -155,7 +154,7 @@ const AdminCategories = () => {
       </div>
 
       {selectedCategory && (
-        <div className='c-admin-subcategories-manage'>
+        <div className='c-admin-subcategories-provider'>
           <h4>{selectedCategory?.name}</h4>
 
           {subcategories.map((subcategory, index) => (
@@ -168,7 +167,7 @@ const AdminCategories = () => {
           ))}
 
           <div className='c-admin-subcategories-add'>
-            {addSubcategory && (
+            {addSubcategoryActive && (
               <div className='c-admin-subcategory-add-input'>
                 <Input
                   key={MY_ACCOUNT_ADMIN.SUBCATEGORY}
@@ -180,7 +179,7 @@ const AdminCategories = () => {
               </div>
             )}
 
-            <p onClick={() => setAddSubcategory(prevSubcategory => !prevSubcategory)}>{ADMIN_MY_ACCOUNT.ADD_CATEGORY}</p>
+            <p onClick={() => setAddSubcategoryActive(prevSubcategory => !prevSubcategory)}>{ADMIN_MY_ACCOUNT.ADD_CATEGORY}</p>
           </div>
 
           {errorMessage?.type === MY_ACCOUNT_ADMIN.SUBCATEGORY && (
