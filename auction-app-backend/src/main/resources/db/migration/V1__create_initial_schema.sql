@@ -99,64 +99,64 @@ create table users (
 );
 
 alter table users
-    add constraint UK_6dotkott2kjsp8vw4d0m25fb7 unique (email);
+    add constraint UK_EMAIL unique (email);
 
 alter table bids
-    add constraint FKhtewr5n8ee2tlu0rj67d6y14p
+    add constraint FK_BID_ON_PRODUCT
         foreign key (product_id)
             references products;
 
 alter table bids
-    add constraint FKmb21nl8gr3srgnlch3s18oqv9
+    add constraint FK_BID_ON_USER
         foreign key (user_id)
             references users;
 
 alter table notifications
-    add constraint FKix2l63ilcu384ke5kprwx1xy
+    add constraint FK_NOTIFICATION_ON_PRODUCT
         foreign key (product_id)
             references products;
 
 alter table notifications
-    add constraint FK9y21adhxn0ayjhfocscqox7bh
+    add constraint FK_NOTIFICATION_ON_USER
         foreign key (user_id)
             references users;
 
 alter table payments
-    add constraint FKiaw2wnqv3bmuu9vkskt4rgv60
+    add constraint FK_PAYMENT_ON_CREDIT_CARD
         foreign key (credit_card_id)
             references credit_cards;
 
 alter table payments
-    add constraint FKj94hgy9v5fw1munb90tar2eje
+    add constraint FK_PAYMENT_ON_USER
         foreign key (user_id)
             references users;
 
 alter table product_entity_imageurls
-    add constraint FKfndoffr0mr8ilshhvc0axvrtf
+    add constraint FK_PRODUCT_ENTITY_IMAGE_URL_ON_PRODUCT
         foreign key (product_entity_id)
             references products;
 
 alter table products
-    add constraint FKog2rp4qthbtt2lfyhfo32lsw9
+    add constraint FK_PRODUCT_ON_CATEGORY
         foreign key (category_id)
             references categories;
 
 alter table products
-    add constraint FK44q8yqco6qu6r4hsp8emphc0x
+    add constraint FK_PRODUCT_ON_CREDIT_CARD
         foreign key (credit_card_id)
             references credit_cards;
 
 alter table products
-    add constraint FKthircok9tneu7d7kmrpg24do9
+    add constraint FK_PRODUCT_ON_SUBCATEGORY
         foreign key (subcategory_id)
             references categories;
 
 alter table products
-    add constraint FKdb050tk37qryv15hd932626th
+    add constraint FK_PRODUCT_ON_USER
         foreign key (user_id)
             references users;
 
 alter table users
-    add constraint FK79uy6vvmr5rq8bmavnmjnsau5
+    add constraint FK_USER_ON_CREDIT_CARD
         foreign key (credit_card_id)
             references credit_cards;
