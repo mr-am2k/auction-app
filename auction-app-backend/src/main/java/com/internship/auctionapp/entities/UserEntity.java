@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.internship.auctionapp.models.Address;
 import com.internship.auctionapp.models.User;
+import com.internship.auctionapp.util.AuthenticationProvider;
 import com.internship.auctionapp.util.UserRole;
 
 import lombok.AllArgsConstructor;
@@ -74,6 +75,9 @@ public class UserEntity {
 
     @Column(name = "stripe_customer_id")
     private String stripeCustomerId;
+
+    @Column(name = "auth_provider", nullable = false)
+    private AuthenticationProvider authenticationProvider;
 
     public User toDomainModel() {
         User user = new User();
