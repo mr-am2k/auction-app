@@ -55,14 +55,6 @@ const ShopHeaders: React.FC<Props> = ({ gridViewActive, setGridViewActive }) => 
     return searchFilterValues.minPrice || searchFilterValues.maxPrice;
   };
 
-  const handleGridView = () => {
-    setGridViewActive(true);
-  };
-
-  const handleListView = () => {
-    setGridViewActive(false);
-  };
-
   useEffect(() => {
     setSearchFilterValues({ ...searchFilterValues, productSort: fieldValues[SORTING.SORTING] });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -115,21 +107,21 @@ const ShopHeaders: React.FC<Props> = ({ gridViewActive, setGridViewActive }) => 
         <Dropdown name='sorting' options={sortingOptions} placeholder={SHOP_HEADERS.DEFAULT} required={true} />
         <div className='c-view-type'>
           <span
-            onClick={handleGridView}
+            onClick={() => setGridViewActive(true)}
             className={classNames({
               'c-view--active': gridViewActive,
             })}
           >
-            <GridIcon isFill={gridViewActive} /> <p>{SHOP_HEADERS.GRID}</p>
+            <GridIcon isActive={gridViewActive} /> <p>{SHOP_HEADERS.GRID}</p>
           </span>
 
           <span
-            onClick={handleListView}
+            onClick={() => setGridViewActive(false)}
             className={classNames({
               'c-view--active': !gridViewActive,
             })}
           >
-            <ListOptionIcon isFill={!gridViewActive} /> <p>{SHOP_HEADERS.GRID}</p>
+            <ListOptionIcon isActive={!gridViewActive} /> <p>{SHOP_HEADERS.LIST}</p>
           </span>
         </div>
       </div>

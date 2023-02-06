@@ -4,14 +4,14 @@ import classNames from 'classnames';
 
 type Props = {
   children?: React.ReactNode;
-  isFill?: boolean;
+  isActive?: boolean;
 };
 
-const GridIcon: React.FC<Props> = ({ isFill }) => {
+const GridIcon: React.FC<Props> = ({ isActive }) => {
   return (
     <svg className='c-grid-icon' width='19' height='20' viewBox='0 0 19 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path
-        className={classNames({ 'c-grid-path': !isFill, 'c-grid-path--active': isFill })}
+        className={classNames({ 'c-grid-path': !isActive, 'c-grid-path--active': isActive })}
         d='M3 0.441406H16C16.7956 0.441406 17.5587 0.757477 18.1213 1.32009C18.6839 
               1.8827 19 2.64576 19 3.44141V16.4414C19 17.2371 18.6839 18.0001 18.1213 18.5627C17.5587 
               19.1253 16.7956 19.4414 16 19.4414H3C2.20435 19.4414 1.44129 19.1253 0.87868 18.5627C0.316071 
