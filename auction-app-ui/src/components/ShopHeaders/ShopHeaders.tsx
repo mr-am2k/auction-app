@@ -7,13 +7,13 @@ import Dropdown from 'components/dropdown/Dropdown';
 import { SortingOption, getSortingName } from 'models/enum/sortingOption';
 import { Option } from 'models/option';
 import { SHOP_HEADERS } from 'translation/en';
-import { PURPLE_COLOR, SHOP_HEADERS_PRICE, SORTING } from 'util/constants';
+import { SHOP_HEADERS_PRICE, SORTING } from 'util/constants';
 
 import './shop-headers.scss';
 
 import classNames from 'classnames';
 
-import { CloseIcon, OptionsGreyIcon, GridIcon } from 'assets/icons';
+import { CloseIcon, GridIcon, ListOptionIcon } from 'assets/icons';
 
 const sortingOptions: Option[] = [
   { label: SHOP_HEADERS.DEFAULT, value: getSortingName(SortingOption.DEFAULT) },
@@ -25,11 +25,11 @@ const sortingOptions: Option[] = [
 
 type Props = {
   children?: React.ReactNode;
-  gridView: boolean;
-  setGridView: (value: boolean) => void;
+  gridViewActive: boolean;
+  setGridViewActive: (value: boolean) => void;
 };
 
-const ShopHeaders: React.FC<Props> = ({ gridView, setGridView }) => {
+const ShopHeaders: React.FC<Props> = ({ gridViewActive, setGridViewActive }) => {
   const { fieldValues } = useForm();
   const { searchFilterValues, setSearchFilterValues } = useFilter();
 
@@ -56,11 +56,11 @@ const ShopHeaders: React.FC<Props> = ({ gridView, setGridView }) => {
   };
 
   const handleGridView = () => {
-    setGridView(true);
+    setGridViewActive(true);
   };
 
   const handleListView = () => {
-    setGridView(false);
+    setGridViewActive(false);
   };
 
   useEffect(() => {
@@ -117,19 +117,19 @@ const ShopHeaders: React.FC<Props> = ({ gridView, setGridView }) => {
           <span
             onClick={handleGridView}
             className={classNames({
-              'c-view--active': gridView,
+              'c-view--active': gridViewActive,
             })}
           >
-            <GridIcon fill={gridView ? PURPLE_COLOR : null} /> <p>{SHOP_HEADERS.GRID}</p>
+            <GridIcon isFill={gridViewActive} /> <p>{SHOP_HEADERS.GRID}</p>
           </span>
 
           <span
             onClick={handleListView}
             className={classNames({
-              'c-view--active': !gridView,
+              'c-view--active': !gridViewActive,
             })}
           >
-            <OptionsGreyIcon fill={!gridView ? PURPLE_COLOR : null} /> <p>{SHOP_HEADERS.LIST}</p>
+            <ListOptionIcon isFill={!gridViewActive} /> <p>{SHOP_HEADERS.GRID}</p>
           </span>
         </div>
       </div>

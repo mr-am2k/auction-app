@@ -1,0 +1,12 @@
+@import '/src/scss/variables';
+@import '/src/scss/mixin';
+
+.c-grid-icon {
+  .c-grid-path {
+    fill: $greyColor;
+  }
+
+  .c-grid-path--active {
+    fill: $purpleColor;
+  }
+}

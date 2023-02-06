@@ -18,7 +18,7 @@ const Shop = () => {
   const [lastPage, setLastPage] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
-  const [gridView, setGridView] = useState(true);
+  const [gridViewActive, setGridViewActive] = useState(true);
 
   const { searchFilterValues } = useFilter();
   const { setNavbarTitle, setNavbarItems } = usePage();
@@ -91,11 +91,11 @@ const Shop = () => {
 
       <div className='c-products'>
         <div className='c-products-sorting'>
-          <ShopHeaders gridView={gridView} setGridView={setGridView} />
+          <ShopHeaders gridViewActive={gridViewActive} setGridViewActive={setGridViewActive} />
         </div>
 
         <div className='c-products-display'>
-          {gridView ? (
+          {gridViewActive ? (
             <div className='c-products-grid-view'>
               {products.map((product, index) => (
                 <ProductCard product={product} key={index} />

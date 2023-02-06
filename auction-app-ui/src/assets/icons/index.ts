@@ -8,5 +8,5 @@ export { default as GreaterIcon } from './GreaterIcon';
 export { default as ProfileIcon } from './ProfileIcon';
 export { default as SellerIcon } from './SellerIcon';
 export { default as BidIcon } from './BidIcon';
-export { default as OptionsGreyIcon } from './OptionsGreyIcon';
-export { default as GridIcon } from './GridIcon';
+export { default as ListOptionIcon } from './ListOptionIcon/ListOptionIcon';
+export { default as GridIcon } from './GridIcon/GridIcon';
