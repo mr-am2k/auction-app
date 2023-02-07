@@ -9,10 +9,11 @@ import { validate as validatePassword } from 'validators/validatePassword';
 type Props = {
   children?: React.ReactNode;
   onSubmit: () => void;
+  googleAuth?: JSX.Element;
   errorMessage: JSX.Element | string;
 };
 
-const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
+const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage, googleAuth }) => {
   const { resetFieldValues, setFieldValidationResults } = useForm();
 
   const children = [
@@ -54,6 +55,7 @@ const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage }) => {
         onSubmit={onSubmit}
         primaryActionLabel={EN_STRINGS.LOGIN.LOGIN}
         errorMessage={errorMessage}
+        googleAuth={googleAuth}
         className='c-form-border'
       />
     </div>

@@ -8,10 +8,11 @@ type Props = {
   primaryActionLabel?: string;
   errorMessage?: JSX.Element | string;
   otherOptions?: JSX.Element;
+  googleAuth?: JSX.Element;
   className?: string;
 };
 
-export const Form: React.FC<Props> = ({ children, onSubmit, primaryActionLabel, otherOptions, errorMessage, className }) => {
+export const Form: React.FC<Props> = ({ children, onSubmit, primaryActionLabel, otherOptions, errorMessage, className, googleAuth }) => {
   const { validateForm } = useForm();
 
   const formClass = `c-form ${className}`;
@@ -22,6 +23,8 @@ export const Form: React.FC<Props> = ({ children, onSubmit, primaryActionLabel, 
         <div className='c-inputs-wrapper'>{children}</div>
 
         {errorMessage}
+
+        {googleAuth && googleAuth}
 
         {onSubmit && (
           <>
