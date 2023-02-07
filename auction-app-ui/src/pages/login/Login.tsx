@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -15,7 +15,10 @@ import { LOCAL_STORAGE } from 'util/constants';
 import logo from 'assets/logo/auction-app-logo.svg';
 
 import './login.scss';
-import { ROUTES } from 'util/routes';
+
+import { GoogleLogin } from '@react-oauth/google';
+import { decode } from 'punycode';
+import jwtDecode from 'jwt-decode';
 
 const Login = () => {
   const { fieldValues, isValid } = useForm();
@@ -63,6 +66,11 @@ const Login = () => {
     loginUser(loginRequest);
   };
 
+  const handleGoogleLogin = (response: any) => {
+    const decoded = jwtDecode(response.credential);
+    console.log(decoded);
+  };
+
   const error = loginError ? (
     <div className='c-error-message'>
       <p>{loginError}</p>
@@ -78,9 +86,12 @@ const Login = () => {
           <img src={logo} alt='Logo' />
         </Link>
       </div>
-
-      <a href={ROUTES.GOOGLE_LOGIN}>LOGIN WITH GOOGLE</a>
-
+      <GoogleLogin
+        onSuccess={credentialsResponse => handleGoogleLogin(credentialsResponse)}
+        onError={() => {
+          console.log('Login Failed');
+        }}
+      />
       <LoginForm onSubmit={submitForm} errorMessage={error} />
     </div>
   );
