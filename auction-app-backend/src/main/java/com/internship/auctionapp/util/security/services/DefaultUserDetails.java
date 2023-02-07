@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.internship.auctionapp.entities.UserEntity;
 
+import com.internship.auctionapp.util.AuthenticationProvider;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,8 @@ public class DefaultUserDetails implements UserDetails {
 
     private String fullName;
 
+    private AuthenticationProvider authenticationProvider;
+
     private Collection<? extends GrantedAuthority> authorities;
 
     public static DefaultUserDetails build(UserEntity user) {
@@ -44,6 +47,7 @@ public class DefaultUserDetails implements UserDetails {
                 user.getEmail(),
                 user.getPasswordHash(),
                 fullName,
+                user.getAuthenticationProvider(),
                 authorities
         );
     }

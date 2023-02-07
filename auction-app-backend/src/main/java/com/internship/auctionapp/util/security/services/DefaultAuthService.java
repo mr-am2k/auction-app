@@ -16,11 +16,14 @@ import com.internship.auctionapp.repositories.user.UserRepository;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 import com.internship.auctionapp.requests.UserSocialLoginRequest;
+import com.internship.auctionapp.services.bid.DefaultBidService;
 import com.internship.auctionapp.services.blacklistedToken.AuthTokenService;
 import com.internship.auctionapp.util.AuthenticationProvider;
 import com.internship.auctionapp.util.RegexUtils;
 import com.internship.auctionapp.util.security.jwt.JwtUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,6 +51,9 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
 
     private final AuthTokenService authTokenService;
     private final UserJpaRepository userJpaRepository;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
+
 
     public DefaultAuthService(
             UserRepository userRepository,
@@ -81,6 +87,12 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
 
     @Override
     public LoginResponse login(UserLoginRequest loginRequest) {
+        final UserEntity user = userJpaRepository.findByUsername(loginRequest.getUsername());
+
+        if (user.getAuthenticationProvider() != AuthenticationProvider.LOCAL) {
+            throw new UsernameNotFoundException(user.getUsername());
+        }
+
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
@@ -88,6 +100,7 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         final DefaultUserDetails userPrincipal = (DefaultUserDetails) authentication.getPrincipal();
+
 
         final String accessToken = jwtUtils.generateJwtAccessToken(userPrincipal.getUsername());
 

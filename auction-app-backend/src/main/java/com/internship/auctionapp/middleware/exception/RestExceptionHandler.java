@@ -218,7 +218,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserSocialAccountException.class)
     public ResponseEntity<Object> handleUserSocialAccountException(HttpServletRequest req, UserSocialAccountException ex) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "This isn't profile create with social account!"));
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "This isn't profile created with social account!"));
     }
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
