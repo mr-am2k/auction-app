@@ -10,6 +10,7 @@ export const getUserData = (fieldValues: any, user: User) => {
     profileImageUrl: user?.profileImageUrl || null,
     dateOfBirth: fieldValues?.dateOfBirth || user?.dateOfBirth,
     address: null,
+    authenticationProvider: user?.authenticationProvider,
   };
 
   return updateUserRequest;

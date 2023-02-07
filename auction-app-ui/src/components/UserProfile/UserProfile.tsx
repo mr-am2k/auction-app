@@ -63,6 +63,8 @@ const UserProfile = () => {
     const updateCreditCardRequest = getCardData(fieldValues, user!);
     const updateAddressRequest = getAddressData(fieldValues, user!);
 
+    console.log(updateUserRequest)
+
     updateUserRequest.address = updateAddressRequest;
 
     let profileImageUrl = undefined;
@@ -86,7 +88,9 @@ const UserProfile = () => {
         setUploading(false);
         navigate('/');
       })
-      .catch(error => setUpdateError(error.data.response.message));
+      .catch(error => {
+        setUpdateError(error.response.data.message);
+      });
   };
 
   useEffect(() => {
@@ -132,7 +136,7 @@ const UserProfile = () => {
 
         <div className='c-personal-information'>
           <div className='c-personal-image'>
-            <img src={imageUpload ? imagePreview! : (user?.profileImageUrl || userImage)} alt='Profile' />
+            <img src={imageUpload ? imagePreview! : user?.profileImageUrl || userImage} alt='Profile' />
 
             <label>
               {EN_STRINGS.PROFILE.CHANGE_PHOTO}

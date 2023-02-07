@@ -1,3 +1,4 @@
+import { AuthenticationProvider } from 'models/enum/authenticationProvider';
 import { CreateAddressRequest } from 'models/request/create/createAddressRequest';
 
 export type UpdateUserRequest = {
@@ -8,4 +9,5 @@ export type UpdateUserRequest = {
   profileImageUrl: string | null;
   dateOfBirth: Date;
   address: CreateAddressRequest | null;
+  authenticationProvider: AuthenticationProvider;
 };
