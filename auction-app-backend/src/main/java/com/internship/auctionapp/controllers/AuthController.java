@@ -5,6 +5,7 @@ import com.internship.auctionapp.models.LoginResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
+import com.internship.auctionapp.requests.UserSocialLoginRequest;
 import com.internship.auctionapp.services.user.UserService;
 
 import com.internship.auctionapp.util.RequestUtils;
@@ -37,6 +38,11 @@ public class AuthController {
     @PostMapping("/login")
     public LoginResponse login(@RequestBody UserLoginRequest loginRequest) {
         return userService.login(loginRequest);
+    }
+
+    @PostMapping("/social-login")
+    public LoginResponse googleLogin(@RequestBody UserSocialLoginRequest userSocialLoginRequest){
+        return userService.googleLogin(userSocialLoginRequest);
     }
 
     @PostMapping("/register")

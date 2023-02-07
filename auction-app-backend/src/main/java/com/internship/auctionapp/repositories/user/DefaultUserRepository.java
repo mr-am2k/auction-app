@@ -85,9 +85,9 @@ public class DefaultUserRepository implements UserRepository {
             CreateCreditCardRequest createCreditCardRequest,
             Address address
     ) {
-        UserEntity user = userJpaRepository.findByUsername(username);
+        final UserEntity user = userJpaRepository.findByUsername(username);
 
-        UserEntity updatedUser = modelMapper.map(updateUserRequest, UserEntity.class);
+        final UserEntity updatedUser = modelMapper.map(updateUserRequest, UserEntity.class);
 
         updatedUser.setId(user.getId());
         updatedUser.setUsername(updatedUser.getEmail());
@@ -106,7 +106,7 @@ public class DefaultUserRepository implements UserRepository {
 
     @Override
     public void deactivate(String username) {
-        UserEntity user = userJpaRepository.findByUsername(username);
+        final UserEntity user = userJpaRepository.findByUsername(username);
         user.setActive(false);
 
         userJpaRepository.save(user);

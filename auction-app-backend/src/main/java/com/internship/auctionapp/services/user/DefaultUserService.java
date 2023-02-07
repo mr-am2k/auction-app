@@ -16,6 +16,7 @@ import com.internship.auctionapp.requests.UpdateUserDataRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
+import com.internship.auctionapp.requests.UserSocialLoginRequest;
 import com.internship.auctionapp.services.bid.DefaultBidService;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.RegexUtils;
@@ -107,5 +108,10 @@ public class DefaultUserService implements UserService {
     @Override
     public boolean checkIfUserExists(CheckIfUserExistsRequest checkIfUserExistsRequest) {
         return userRepository.existsByEmail(checkIfUserExistsRequest.getEmail());
+    }
+
+    @Override
+    public LoginResponse googleLogin(UserSocialLoginRequest userSocialLoginRequest) {
+        return authService.googleLogin(userSocialLoginRequest);
     }
 }

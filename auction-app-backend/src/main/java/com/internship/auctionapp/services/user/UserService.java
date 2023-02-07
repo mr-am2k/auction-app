@@ -10,6 +10,7 @@ import com.internship.auctionapp.requests.UpdateUserDataRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
+import com.internship.auctionapp.requests.UserSocialLoginRequest;
 
 import java.util.UUID;
 
@@ -29,4 +30,6 @@ public interface UserService {
     void deactivate(String username);
 
     boolean checkIfUserExists(CheckIfUserExistsRequest checkIfUserExistsRequest);
+
+    LoginResponse googleLogin(UserSocialLoginRequest userSocialLoginRequest);
 }

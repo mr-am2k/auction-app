@@ -5,6 +5,7 @@ import com.internship.auctionapp.models.LoginResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
+import com.internship.auctionapp.requests.UserSocialLoginRequest;
 
 public interface AuthService {
     LoginResponse login(UserLoginRequest loginRequest);
@@ -14,4 +15,6 @@ public interface AuthService {
     void logout(String token);
 
     AuthResponse refreshToken(String username);
+
+    LoginResponse googleLogin(UserSocialLoginRequest socialLoginRequest);
 }
