@@ -10,11 +10,10 @@ type Props = {
   children?: React.ReactNode;
   onSubmit: () => void;
   googleAuth?: JSX.Element;
-  facebookAuth?: JSX.Element;
   errorMessage: JSX.Element | string;
 };
 
-const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage, googleAuth, facebookAuth }) => {
+const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage, googleAuth }) => {
   const { resetFieldValues, setFieldValidationResults } = useForm();
 
   const children = [
@@ -57,7 +56,6 @@ const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage, googleAuth, facebo
         primaryActionLabel={EN_STRINGS.LOGIN.LOGIN}
         errorMessage={errorMessage}
         googleAuth={googleAuth}
-        facebookAuth={facebookAuth}
         className='c-form-border'
       />
     </div>

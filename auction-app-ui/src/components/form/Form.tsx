@@ -9,20 +9,10 @@ type Props = {
   errorMessage?: JSX.Element | string;
   otherOptions?: JSX.Element;
   googleAuth?: JSX.Element;
-  facebookAuth?: JSX.Element;
   className?: string;
 };
 
-export const Form: React.FC<Props> = ({
-  children,
-  onSubmit,
-  primaryActionLabel,
-  otherOptions,
-  errorMessage,
-  className,
-  googleAuth,
-  facebookAuth,
-}) => {
+export const Form: React.FC<Props> = ({ children, onSubmit, primaryActionLabel, otherOptions, errorMessage, className, googleAuth }) => {
   const { validateForm } = useForm();
 
   const formClass = `c-form ${className}`;
@@ -35,7 +25,6 @@ export const Form: React.FC<Props> = ({
         {errorMessage}
 
         {googleAuth && googleAuth}
-        {facebookAuth && facebookAuth}
 
         {onSubmit && (
           <>
