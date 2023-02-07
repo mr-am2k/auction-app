@@ -9,9 +9,9 @@ import authService from 'services/authService';
 import { storageService } from 'services/storageService';
 
 import LoginForm from 'components/LoginForm/LoginForm';
-import { LoginGoogle } from 'components';
+import { LoginFacebook, LoginGoogle } from 'components';
 import { LoggedInUser } from 'models/loggedInUser';
-import { userLoginRequest } from 'models/request/auth/userLoginRequest';
+import { UserLoginRequest } from 'models/request/auth/userLoginRequest';
 import { LOCAL_STORAGE } from 'util/constants';
 
 import './login.scss';
@@ -26,7 +26,7 @@ const Login = () => {
 
   const [loginError, setLoginError] = useState<string>();
 
-  const loginUser = async (loginRequest: userLoginRequest) => {
+  const loginUser = async (loginRequest: UserLoginRequest) => {
     authService
       .login(loginRequest)
       .then(authResponse => {
@@ -52,7 +52,7 @@ const Login = () => {
   const submitForm = () => {
     const { email, password } = fieldValues;
 
-    const loginRequest: userLoginRequest = {
+    const loginRequest: UserLoginRequest = {
       username: email!,
       password: password!,
     };
@@ -79,7 +79,12 @@ const Login = () => {
           <img src={logo} alt='Logo' />
         </Link>
       </div>
-      <LoginForm onSubmit={submitForm} errorMessage={error} googleAuth={<LoginGoogle setLoginError={setLoginError} />} />
+      <LoginForm
+        onSubmit={submitForm}
+        errorMessage={error}
+        googleAuth={<LoginGoogle setLoginError={setLoginError} />}
+        facebookAuth={<LoginFacebook setLoginError={setLoginError} />}
+      />
     </div>
   );
 };

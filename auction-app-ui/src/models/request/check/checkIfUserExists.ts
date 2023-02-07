@@ -1,3 +1,3 @@
-export type checkIfUserExists = {
+export type CheckIfUserExists = {
   email: string;
 };

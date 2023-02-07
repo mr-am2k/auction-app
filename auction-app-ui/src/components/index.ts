@@ -35,3 +35,4 @@ export { default as ShopHeaders } from './ShopHeaders/ShopHeaders';
 export { default as ProductListView } from './ProductListView/ProductListView';
 export { default as AdminCategories } from './AdminCategories/AdminCategories';
 export { default as LoginGoogle } from './LoginGoogle/LoginGoogle';
+export { default as LoginFacebook } from './LoginFacebook/LoginFacebook'

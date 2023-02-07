@@ -7,7 +7,7 @@ import { useForm } from 'hooks/useForm';
 import authService from 'services/authService';
 
 import { RegisterForm } from 'components';
-import { userRegisterRequest } from 'models/request/auth/userRegisterRequest';
+import { UserRegisterRequest } from 'models/request/auth/userRegisterRequest';
 import logo from 'assets/logo/auction-app-logo.svg';
 import { ROUTES } from 'util/routes';
 import { EN_STRINGS } from 'translation/en';
@@ -22,7 +22,7 @@ const Register = () => {
 
   const [registerError, setRegisterError] = useState<string>();
 
-  const registerUser = async (userRegisterRequest: userRegisterRequest) => {
+  const registerUser = async (userRegisterRequest: UserRegisterRequest) => {
     authService
       .register(userRegisterRequest)
       .then(() => {
@@ -40,7 +40,7 @@ const Register = () => {
       return;
     }
 
-    const userRegisterRequest: userRegisterRequest = {
+    const userRegisterRequest: UserRegisterRequest = {
       firstName: firstName!,
       lastName: lastName!,
       email: email!,

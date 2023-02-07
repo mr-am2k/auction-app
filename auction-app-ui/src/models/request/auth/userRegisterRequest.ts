@@ -1,6 +1,6 @@
 import { AuthenticationProvider } from 'models/enum/authenticationProvider';
 
-export type userRegisterRequest = {
+export type UserRegisterRequest = {
   firstName: string;
   lastName: string;
   email: string;
