@@ -10,15 +10,19 @@ import com.internship.auctionapp.models.AuthResponse;
 import com.internship.auctionapp.models.LoginResponse;
 import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.repositories.user.UserRepository;
+import com.internship.auctionapp.requests.CheckIfUserExistsRequest;
 import com.internship.auctionapp.requests.CreateCreditCardRequest;
 import com.internship.auctionapp.requests.UpdateUserDataRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
+import com.internship.auctionapp.services.bid.DefaultBidService;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.RegexUtils;
 import com.internship.auctionapp.util.security.services.AuthService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -31,6 +35,8 @@ public class DefaultUserService implements UserService {
 
     private final Integer EXPECTED_CREDIT_CARD_NUMBER_LENGTH = 16;
     private final Integer EXPECTED_CVV_LENGTH = 3;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
 
     public DefaultUserService(AuthService authService, UserRepository userRepository) {
         this.authService = authService;
@@ -96,5 +102,10 @@ public class DefaultUserService implements UserService {
     @Override
     public void deactivate(String username) {
         userRepository.deactivate(username);
+    }
+
+    @Override
+    public boolean checkIfUserExists(CheckIfUserExistsRequest checkIfUserExistsRequest) {
+        return userRepository.existsByEmail(checkIfUserExistsRequest.getEmail());
     }
 }

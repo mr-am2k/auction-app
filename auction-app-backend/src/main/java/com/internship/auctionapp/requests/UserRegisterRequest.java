@@ -1,5 +1,6 @@
 package com.internship.auctionapp.requests;
 
+import com.internship.auctionapp.util.AuthenticationProvider;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,8 @@ public class UserRegisterRequest {
     @NotBlank
     private String role;
 
-    @NotBlank
     private String password;
+
+    @NotBlank
+    private AuthenticationProvider authenticationProvider;
 }

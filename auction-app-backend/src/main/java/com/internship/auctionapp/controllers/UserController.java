@@ -1,6 +1,7 @@
 package com.internship.auctionapp.controllers;
 
 import com.internship.auctionapp.models.User;
+import com.internship.auctionapp.requests.CheckIfUserExistsRequest;
 import com.internship.auctionapp.requests.UpdateUserDataRequest;
 import com.internship.auctionapp.services.user.UserService;
 import com.internship.auctionapp.util.RequestUtils;
@@ -54,5 +55,10 @@ public class UserController {
         final String username = jwtUtils.getEmailFromJwtToken(token, true);
 
         userService.deactivate(username);
+    }
+
+    @PostMapping("/check-if-exists")
+    public boolean checkIfUserExists(@RequestBody CheckIfUserExistsRequest checkIfUserExistsRequest) {
+        return userService.checkIfUserExists(checkIfUserExistsRequest);
     }
 }

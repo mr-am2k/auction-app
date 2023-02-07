@@ -50,7 +50,11 @@ public class DefaultUserRepository implements UserRepository {
         user.setLastName(userRegisterRequest.getLastName());
         user.setEmail(userRegisterRequest.getEmail());
         user.setUsername(userRegisterRequest.getEmail());
-        user.setPasswordHash(userRegisterRequest.getPassword());
+        user.setAuthenticationProvider(userRegisterRequest.getAuthenticationProvider());
+
+        if (userRegisterRequest.getPassword() != null) {
+            user.setPasswordHash(userRegisterRequest.getPassword());
+        }
 
         if (userRegisterRequest.getRole().equalsIgnoreCase(UserRole.ROLE_ADMIN.getValue())) {
             user.setRole(UserRole.ROLE_ADMIN);

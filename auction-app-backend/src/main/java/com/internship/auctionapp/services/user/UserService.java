@@ -3,6 +3,7 @@ package com.internship.auctionapp.services.user;
 import com.internship.auctionapp.models.AuthResponse;
 import com.internship.auctionapp.models.LoginResponse;
 import com.internship.auctionapp.models.User;
+import com.internship.auctionapp.requests.CheckIfUserExistsRequest;
 import com.internship.auctionapp.requests.CreateAddressRequest;
 import com.internship.auctionapp.requests.CreateCreditCardRequest;
 import com.internship.auctionapp.requests.UpdateUserDataRequest;
@@ -26,4 +27,6 @@ public interface UserService {
     User updateUser(UpdateUserDataRequest updateUserDataRequest, String username);
 
     void deactivate(String username);
+
+    boolean checkIfUserExists(CheckIfUserExistsRequest checkIfUserExistsRequest);
 }

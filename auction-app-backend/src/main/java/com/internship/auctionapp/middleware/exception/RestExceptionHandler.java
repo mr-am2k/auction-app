@@ -211,6 +211,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Creation date can't be in the past"));
     }
 
+    @ExceptionHandler(PasswordRequiredException.class)
+    public ResponseEntity<Object> handlePasswordRequiredException(HttpServletRequest req, PasswordRequiredException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Password is required"));
+    }
+
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
     }

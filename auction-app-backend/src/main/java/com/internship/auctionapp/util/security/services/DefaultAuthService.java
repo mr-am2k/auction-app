@@ -4,6 +4,7 @@ import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.AccountDeactivatedException;
 import com.internship.auctionapp.middleware.exception.EmailNotValidException;
 import com.internship.auctionapp.middleware.exception.PasswordNotValidException;
+import com.internship.auctionapp.middleware.exception.PasswordRequiredException;
 import com.internship.auctionapp.middleware.exception.UserAlreadyExistsException;
 import com.internship.auctionapp.middleware.exception.UsernameNotFoundException;
 import com.internship.auctionapp.models.AuthResponse;
@@ -13,6 +14,7 @@ import com.internship.auctionapp.repositories.user.UserRepository;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
 import com.internship.auctionapp.services.blacklistedToken.AuthTokenService;
+import com.internship.auctionapp.util.AuthenticationProvider;
 import com.internship.auctionapp.util.RegexUtils;
 import com.internship.auctionapp.util.security.jwt.JwtUtils;
 
@@ -63,7 +65,7 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
             throw new UsernameNotFoundException(username);
         }
 
-        if(!user.isActive()){
+        if (!user.isActive()) {
             throw new AccountDeactivatedException();
         }
 
@@ -105,11 +107,17 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
             throw new EmailNotValidException();
         }
 
-        if (!RegexUtils.match(RegexUtils.VALID_PASSWORD_REGEX, registerRequest.getPassword())) {
+        if (registerRequest.getPassword() == null && registerRequest.getAuthenticationProvider() == AuthenticationProvider.LOCAL) {
+            throw new PasswordRequiredException();
+        }
+
+        if (registerRequest.getAuthenticationProvider() == AuthenticationProvider.LOCAL && !RegexUtils.match(RegexUtils.VALID_PASSWORD_REGEX, registerRequest.getPassword())) {
             throw new PasswordNotValidException();
         }
 
-        registerRequest.setPassword(encoder.encode(registerRequest.getPassword()));
+        if (registerRequest.getAuthenticationProvider() == AuthenticationProvider.LOCAL) {
+            registerRequest.setPassword(encoder.encode(registerRequest.getPassword()));
+        }
 
         return userRepository.registerUser(registerRequest).toDomainModel();
     }
