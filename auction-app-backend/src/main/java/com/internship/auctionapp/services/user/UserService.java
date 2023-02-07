@@ -31,5 +31,5 @@ public interface UserService {
 
     boolean checkIfUserExists(CheckIfUserExistsRequest checkIfUserExistsRequest);
 
-    LoginResponse googleLogin(UserSocialLoginRequest userSocialLoginRequest);
+    LoginResponse socialLogin(UserSocialLoginRequest userSocialLoginRequest);
 }

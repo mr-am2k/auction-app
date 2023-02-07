@@ -2,7 +2,8 @@ package com.internship.auctionapp.util;
 
 public enum AuthenticationProvider {
     LOCAL("LOCAL"),
-    GOOGLE("GOOGLE");
+    GOOGLE("GOOGLE"),
+    FACEBOOK("FACEBOOK");
     private String value;
 
     AuthenticationProvider(String value) {

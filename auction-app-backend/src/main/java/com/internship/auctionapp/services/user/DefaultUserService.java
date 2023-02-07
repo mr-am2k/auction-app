@@ -111,7 +111,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Override
-    public LoginResponse googleLogin(UserSocialLoginRequest userSocialLoginRequest) {
-        return authService.googleLogin(userSocialLoginRequest);
+    public LoginResponse socialLogin(UserSocialLoginRequest userSocialLoginRequest) {
+        return authService.socialLogin(userSocialLoginRequest);
     }
 }

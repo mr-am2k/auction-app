@@ -16,5 +16,5 @@ public interface AuthService {
 
     AuthResponse refreshToken(String username);
 
-    LoginResponse googleLogin(UserSocialLoginRequest socialLoginRequest);
+    LoginResponse socialLogin(UserSocialLoginRequest socialLoginRequest);
 }

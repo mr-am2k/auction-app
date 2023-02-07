@@ -153,7 +153,7 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
     }
 
     @Override
-    public LoginResponse googleLogin(UserSocialLoginRequest socialLoginRequest) {
+    public LoginResponse socialLogin(UserSocialLoginRequest socialLoginRequest) {
         final UserEntity user = userJpaRepository.findByUsername(socialLoginRequest.getEmail());
 
         if (user.getAuthenticationProvider() == AuthenticationProvider.LOCAL) {
