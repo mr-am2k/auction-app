@@ -13,6 +13,7 @@ import { ROUTES } from 'util/routes';
 import { EN_STRINGS } from 'translation/en';
 
 import './register.scss';
+import { AuthenticationProvider } from 'models/enum/authenticationProvider';
 
 const Register = () => {
   const { fieldValues, isValid } = useForm();
@@ -45,6 +46,7 @@ const Register = () => {
       email: email!,
       role: EN_STRINGS.REGISTER.ROLE_USER,
       password: password!,
+      authenticationProvider: AuthenticationProvider.LOCAL,
     };
 
     registerUser(userRegisterRequest);

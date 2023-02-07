@@ -19,6 +19,11 @@ import './login.scss';
 import { GoogleLogin } from '@react-oauth/google';
 import { decode } from 'punycode';
 import jwtDecode from 'jwt-decode';
+import userService from 'services/userService';
+import { userRegisterRequest } from 'models/request/auth/userRegisterRequest';
+import { EN_STRINGS } from 'translation/en';
+import { AuthenticationProvider } from 'models/enum/authenticationProvider';
+import { checkIfUserExists } from 'models/request/check/checkIfUserExists';
 
 const Login = () => {
   const { fieldValues, isValid } = useForm();
@@ -67,8 +72,24 @@ const Login = () => {
   };
 
   const handleGoogleLogin = (response: any) => {
-    const decoded = jwtDecode(response.credential);
-    console.log(decoded);
+    const userDecoded: any = jwtDecode(response.credential);
+    console.log(userDecoded);
+    const checkIfUserExists: checkIfUserExists = {
+      email: userDecoded.email!,
+    };
+    userService.checkIfUserExists(checkIfUserExists).then(userExists => {
+      console.log(userExists);
+      if (!userExists) {
+        const userRegisterRequest: userRegisterRequest = {
+          firstName: userDecoded.given_name!,
+          lastName: userDecoded.family_name!,
+          email: userDecoded.email!,
+          role: EN_STRINGS.REGISTER.ROLE_USER,
+          authenticationProvider: AuthenticationProvider.GOOGLE,
+        };
+        authService.register(userRegisterRequest).then(response => console.log(response));
+      }
+    });
   };
 
   const error = loginError ? (
