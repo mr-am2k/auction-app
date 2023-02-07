@@ -3,7 +3,6 @@ package com.internship.auctionapp.util.security;
 import com.internship.auctionapp.util.UserRole;
 import com.internship.auctionapp.util.security.jwt.AuthEntryPoint;
 import com.internship.auctionapp.util.security.jwt.AuthTokenFilter;
-import com.internship.auctionapp.util.security.oauth.DefaultCustomOAuth2UserService;
 import com.internship.auctionapp.util.security.services.DefaultAuthService;
 
 import org.springframework.context.annotation.Bean;
@@ -27,7 +26,6 @@ public class WebSecurityConfig {
 
     private final AuthEntryPoint unauthorizedHandler;
 
-    private final DefaultCustomOAuth2UserService customOAuth2UserService;
     private final String[] SWAGGER_WHITELIST = {
             "/v2/api-docs",
             "/swagger-resources",
@@ -40,10 +38,9 @@ public class WebSecurityConfig {
             "/swagger-ui/**"
     };
 
-    public WebSecurityConfig(DefaultAuthService userDetailsService, AuthEntryPoint unauthorizedHandler, DefaultCustomOAuth2UserService customOAuth2UserService) {
+    public WebSecurityConfig(DefaultAuthService userDetailsService, AuthEntryPoint unauthorizedHandler) {
         this.userDetailsService = userDetailsService;
         this.unauthorizedHandler = unauthorizedHandler;
-        this.customOAuth2UserService = customOAuth2UserService;
     }
 
     @Bean
@@ -84,18 +81,7 @@ public class WebSecurityConfig {
                 .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/**").permitAll()
                 .antMatchers("/api/v1/**").hasAnyAuthority(UserRole.ROLE_USER.getValue(), UserRole.ROLE_ADMIN.getValue())
-                .anyRequest().authenticated()
-                .and()
-                .oauth2Login()
-                .authorizationEndpoint()
-                .baseUri("/oauth2/authorize")
-                .and()
-                .redirectionEndpoint()
-                .baseUri("/oauth2/callback/*")
-                .and()
-                .userInfoEndpoint()
-                .userService(customOAuth2UserService);
-
+                .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());
 
