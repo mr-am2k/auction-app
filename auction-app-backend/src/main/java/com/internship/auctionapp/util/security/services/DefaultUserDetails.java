@@ -32,8 +32,6 @@ public class DefaultUserDetails implements UserDetails {
 
     private String fullName;
 
-    private AuthenticationProvider authenticationProvider;
-
     private Collection<? extends GrantedAuthority> authorities;
 
     public static DefaultUserDetails build(UserEntity user) {
@@ -47,7 +45,6 @@ public class DefaultUserDetails implements UserDetails {
                 user.getEmail(),
                 user.getPasswordHash(),
                 fullName,
-                user.getAuthenticationProvider(),
                 authorities
         );
     }

@@ -1,18 +1,23 @@
 package com.internship.auctionapp.services.bid;
 
+import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.BidCreationFailedException;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanHighestBidPriceException;
 import com.internship.auctionapp.middleware.exception.BidPriceLowerThanProductPriceException;
+import com.internship.auctionapp.middleware.exception.MissingCreditCardException;
 import com.internship.auctionapp.middleware.exception.ProductExpiredException;
 import com.internship.auctionapp.models.Product;
+import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
+import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.requests.ProductEventRequest;
 import com.internship.auctionapp.requests.CreateBidRequest;
 import com.internship.auctionapp.models.Bid;
 import com.internship.auctionapp.requests.CreateNotificationRequest;
 import com.internship.auctionapp.services.notification.NotificationService;
 import com.internship.auctionapp.services.product.ProductService;
+import com.internship.auctionapp.util.CreditCardUtils;
 import com.internship.auctionapp.util.NotificationType;
 
 import org.slf4j.Logger;
@@ -40,21 +45,30 @@ public class DefaultBidService implements BidService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
 
     private final Integer DEFAULT_PAGE_SIZE = 5;
+    private final UserJpaRepository userJpaRepository;
 
     public DefaultBidService(
             BidRepository bidRepository,
             ProductRepository productRepository,
             NotificationService notificationService,
-            ProductService productService) {
+            ProductService productService,
+            UserJpaRepository userJpaRepository) {
         this.bidRepository = bidRepository;
         this.productRepository = productRepository;
         this.notificationService = notificationService;
         this.productService = productService;
+        this.userJpaRepository = userJpaRepository;
     }
 
     @Override
     public Bid addBid(CreateBidRequest createBidRequest) {
         final Product product = productRepository.getSingleProduct(createBidRequest.getProductId());
+
+        final UserEntity user = userJpaRepository.findById(createBidRequest.getUserId()).get();
+
+        if(user.getCreditCard() == null || !CreditCardUtils.validCard(user.getCreditCard().toDomainModel())){
+            throw new MissingCreditCardException();
+        }
 
         createBidRequest.setPrice(Math.round(createBidRequest.getPrice() * 100.0) / 100.0);
 

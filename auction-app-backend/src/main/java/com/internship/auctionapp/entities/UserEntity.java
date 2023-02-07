@@ -91,6 +91,7 @@ public class UserEntity {
         user.setDateOfBirth(this.dateOfBirth);
         user.setAddress(this.address);
         user.setCard(this.creditCard != null ? this.creditCard.toDomainModel() : null);
+        user.setAuthenticationProvider(this.authenticationProvider);
 
         return user;
     }

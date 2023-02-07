@@ -73,7 +73,7 @@ public class DefaultUserRepository implements UserRepository {
     @Override
     public User getUser(UUID userId) {
         final UserEntity user = userJpaRepository.findById(userId).orElseThrow(() -> new UserNotFoundByIdException(userId.toString()));
-
+        System.out.println(user.toString());
         return user.toDomainModel();
     }
 
@@ -95,6 +95,7 @@ public class DefaultUserRepository implements UserRepository {
         updatedUser.setRole(user.getRole());
         updatedUser.setActive(user.isActive());
         updatedUser.setAddress(address);
+        updatedUser.setAuthenticationProvider(updatedUser.getAuthenticationProvider());
 
         if (createCreditCardRequest != null) {
             CreditCardEntity creditCard = creditCardService.updateCreditCard(user.getCreditCard(), createCreditCardRequest);

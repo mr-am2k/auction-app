@@ -15,16 +15,6 @@ spring:
         format_sql: true
         jdbc:
           time_zone: UTC
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            clientId: 616700214183-g6m6o9uajkij3gkk000qnucp1gvhabdq.apps.googleusercontent.com
-            clientSecret: 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
-            scope:
-              - email
-              - profile
 
 scheduler:
   auction_finished_delay: 300000
