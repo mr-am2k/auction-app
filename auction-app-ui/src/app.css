@@ -1,9 +1,0 @@
-.c-page-wrapper {
-  min-height: 60vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.c-page-wrapper main {
-  flex: 1;
-}/*# sourceMappingURL=app.css.map */
