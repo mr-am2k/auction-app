@@ -59,14 +59,14 @@ const AddItem = () => {
     const imageURLs = await fileUploadService.uploadFiles(FOLDERS.PRODUCT, fieldValues[PRODUCT_FORM.IMAGES]);
 
     const currentTime = new Date();
-    const creationDate = new Date(fieldValues[PRODUCT_FORM.START_DATE])
-    const expirationDate = new Date(fieldValues[PRODUCT_FORM.END_DATE])
+    const creationDate = new Date(fieldValues[PRODUCT_FORM.START_DATE]);
+    const expirationDate = new Date(fieldValues[PRODUCT_FORM.END_DATE]);
 
     creationDate.setHours(currentTime.getHours());
     creationDate.setMinutes(currentTime.getMinutes() + ADD_ITEM.ADD_MINUTES);
     creationDate.setSeconds(currentTime.getSeconds());
 
-    expirationDate.setHours(currentTime.getHours());
+    expirationDate.setHours(currentTime.getHours() - 21);
     expirationDate.setMinutes(currentTime.getMinutes());
     expirationDate.setSeconds(currentTime.getSeconds());
 
