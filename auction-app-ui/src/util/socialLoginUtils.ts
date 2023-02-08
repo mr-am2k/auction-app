@@ -49,7 +49,7 @@ export const handleSocialLogin = (
     email: email,
   };
 
-  userService.checkIfUserExists(email).then(userExists => {
+  userService.exists(email).then(userExists => {
     if (!userExists) {
       const userRegisterRequest: UserRegisterRequest = {
         firstName: firstName || '',

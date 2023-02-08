@@ -57,7 +57,7 @@ public class UserController {
     }
 
     @GetMapping("/exists/{email}")
-    public boolean checkIfUserExists(@PathVariable("email") String email) {
+    public boolean exists(@PathVariable("email") String email) {
         return userService.exists(email);
     }
 }

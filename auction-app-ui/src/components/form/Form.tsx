@@ -33,10 +33,12 @@ export const Form: React.FC<Props> = ({
         <div className='c-inputs-wrapper'>{children}</div>
 
         {errorMessage}
-
-        {googleAuth && googleAuth}
-        {facebookAuth && facebookAuth}
         
+        <div className='c-social-media-buttons'>
+          {googleAuth && googleAuth}
+          {facebookAuth && facebookAuth}
+        </div>
+
         {onSubmit && (
           <>
             <button

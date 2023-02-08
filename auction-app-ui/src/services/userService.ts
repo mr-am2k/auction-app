@@ -8,7 +8,7 @@ const userService = {
   deactivate: () => agent.post<any>(`${BASE_URL}/current/deactivate`, {}),
   getUser: (userId: string) => agent.get<User>(`${BASE_URL}/current/${userId}`),
   updateUser: (id: string, updateUserDataRequest: UpdateUserDataRequest) => agent.put<any>(`${BASE_URL}/${id}`, updateUserDataRequest),
-  checkIfUserExists: (email: string) => agent.get<boolean>(`${BASE_URL}/exists/${email}`),
+  exists: (email: string) => agent.get<boolean>(`${BASE_URL}/exists/${email}`),
 };
 
 export default userService;

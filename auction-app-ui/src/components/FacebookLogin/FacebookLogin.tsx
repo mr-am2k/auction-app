@@ -8,6 +8,8 @@ import { AuthenticationProvider } from 'models/enum/authenticationProvider';
 import { handleSocialLogin } from 'util/socialLoginUtils';
 import { EN_STRINGS } from 'translation/en';
 
+import './facebook-login.scss';
+
 type Props = {
   children?: React.ReactNode;
   setLoginError: (message: string) => void;
@@ -34,7 +36,7 @@ const FacebookLogin: React.FC<Props> = ({ setLoginError }) => {
       }
       onReject={() => setLoginError(EN_STRINGS.LOGIN.FACEBOOK_ERROR)}
     >
-      <FacebookLoginButton />
+      <FacebookLoginButton className='c-facebook-button' />
     </LoginSocialFacebook>
   );
 };
