@@ -4,7 +4,6 @@ import { storageService } from 'services/storageService';
 
 import { UserSocialLoginRequest } from 'models/request/auth/userSocialLoginRequest';
 import { LoggedInUser } from 'models/loggedInUser';
-import { CheckIfUserExists } from 'models/request/check/checkIfUserExists';
 import { AuthenticationProvider } from 'models/enum/authenticationProvider';
 import { UserRegisterRequest } from 'models/request/auth/userRegisterRequest';
 import { LOCAL_STORAGE } from 'util/constants';
@@ -17,7 +16,7 @@ const socialLogin = (
   setLoginError: (message: string) => void
 ) => {
   authService
-    .googleLogin(userSocialLoginRequest)
+    .socialLogin(userSocialLoginRequest)
     .then(loginResponse => {
       storageService.add(LOCAL_STORAGE.ACCESS_TOKEN, loginResponse.accessToken);
       storageService.add(LOCAL_STORAGE.REFRESH_TOKEN, loginResponse.refreshToken);
@@ -45,15 +44,12 @@ export const handleSocialLogin = (
   navigate: (route: string) => void,
   setLoginError: (message: string) => void
 ) => {
-  const checkIfUserExists: CheckIfUserExists = {
-    email: email,
-  };
 
   const userSocialLoginRequest: UserSocialLoginRequest = {
     email: email,
   };
 
-  userService.checkIfUserExists(checkIfUserExists).then(userExists => {
+  userService.checkIfUserExists(email).then(userExists => {
     if (!userExists) {
       const userRegisterRequest: UserRegisterRequest = {
         firstName: firstName || '',

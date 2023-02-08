@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import { useUser } from 'hooks/useUser';
 import { useForm } from 'hooks/useForm';
@@ -9,7 +10,7 @@ import authService from 'services/authService';
 import { storageService } from 'services/storageService';
 
 import LoginForm from 'components/LoginForm/LoginForm';
-import { LoginFacebook, LoginGoogle } from 'components';
+import { FacebookLogin, GoogleLogin } from 'components';
 import { LoggedInUser } from 'models/loggedInUser';
 import { UserLoginRequest } from 'models/request/auth/userLoginRequest';
 import { LOCAL_STORAGE } from 'util/constants';
@@ -79,12 +80,14 @@ const Login = () => {
           <img src={logo} alt='Logo' />
         </Link>
       </div>
-      <LoginForm
-        onSubmit={submitForm}
-        errorMessage={error}
-        googleAuth={<LoginGoogle setLoginError={setLoginError} />}
-        facebookAuth={<LoginFacebook setLoginError={setLoginError} />}
-      />
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}>
+        <LoginForm
+          onSubmit={submitForm}
+          errorMessage={error}
+          googleAuth={<GoogleLogin setLoginError={setLoginError} />}
+          facebookAuth={<FacebookLogin setLoginError={setLoginError} />}
+        />
+      </GoogleOAuthProvider>
     </div>
   );
 };

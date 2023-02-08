@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin as GoogleLoginComponent } from '@react-oauth/google';
 
 import { useUser } from 'hooks/useUser';
 
@@ -20,7 +20,7 @@ const LoginGoogle: React.FC<Props> = ({ setLoginError }) => {
 
   const handleGoogleLogin = (credentialsResponse: any) => {
     const userDecoded: any = jwtDecode(credentialsResponse.credential);
-    console.log(userDecoded)
+
     handleSocialLogin(
       userDecoded.given_name,
       userDecoded.family_name,
@@ -33,7 +33,7 @@ const LoginGoogle: React.FC<Props> = ({ setLoginError }) => {
   };
 
   return (
-    <GoogleLogin
+    <GoogleLoginComponent
       onSuccess={credentialsResponse => handleGoogleLogin(credentialsResponse)}
       onError={() => setLoginError(EN_STRINGS.LOGIN.GOOGLE_ERROR)}
     />

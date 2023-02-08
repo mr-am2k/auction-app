@@ -46,7 +46,7 @@ const Register = () => {
       email: email!,
       role: EN_STRINGS.REGISTER.ROLE_USER,
       password: password!,
-      authenticationProvider: AuthenticationProvider.LOCAL,
+      authenticationProvider: AuthenticationProvider.AUCTION_APP,
     };
 
     registerUser(userRegisterRequest);

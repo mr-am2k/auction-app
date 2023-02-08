@@ -13,7 +13,7 @@ type Props = {
   setLoginError: (message: string) => void;
 };
 
-const LoginFacebook: React.FC<Props> = ({ setLoginError }) => {
+const FacebookLogin: React.FC<Props> = ({ setLoginError }) => {
   const navigate = useNavigate();
 
   const { setLoggedInUser } = useUser();
@@ -39,4 +39,4 @@ const LoginFacebook: React.FC<Props> = ({ setLoginError }) => {
   );
 };
 
-export default LoginFacebook;
+export default FacebookLogin;

@@ -1,5 +1,5 @@
 export enum AuthenticationProvider {
-  LOCAL,
+  AUCTION_APP,
   GOOGLE,
   FACEBOOK,
 }

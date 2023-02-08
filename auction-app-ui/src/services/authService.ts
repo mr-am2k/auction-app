@@ -13,7 +13,7 @@ const authService = {
   login: (userLoginRequest: UserLoginRequest) => agent.post<LoginResponse>(`${BASE_URL}/login`, userLoginRequest),
   logout: () => agent.post<any>(`${BASE_URL}/logout`, {}),
   refreshToken: () => agent.get<AuthResponse>(`${BASE_URL}/refresh-token`),
-  googleLogin: (userSocialLoginRequest: UserSocialLoginRequest) =>
+  socialLogin: (userSocialLoginRequest: UserSocialLoginRequest) =>
     agent.post<LoginResponse>(`${BASE_URL}/social-login`, userSocialLoginRequest),
 };
 
