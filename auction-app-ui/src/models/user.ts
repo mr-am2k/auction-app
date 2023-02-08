@@ -1,5 +1,6 @@
 import { Address } from './address';
 import { Card } from './card';
+import { AuthenticationProvider } from './enum/authenticationProvider';
 
 export type User = {
   id: string;
@@ -11,4 +12,5 @@ export type User = {
   dateOfBirth: Date;
   address: Address;
   card: Card;
+  authenticationProvider: AuthenticationProvider;
 };

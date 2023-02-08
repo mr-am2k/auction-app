@@ -211,6 +211,21 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Creation date can't be in the past"));
     }
 
+    @ExceptionHandler(RequiredPasswordException.class)
+    public ResponseEntity<Object> handleRequiredPasswordException(HttpServletRequest req, RequiredPasswordException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Password is required"));
+    }
+
+    @ExceptionHandler(UserSocialAccountException.class)
+    public ResponseEntity<Object> handleUserSocialAccountException(HttpServletRequest req, UserSocialAccountException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "This isn't profile created with social account!"));
+    }
+
+    @ExceptionHandler(MissingCreditCardException.class)
+    public ResponseEntity<Object> handleMissingCreditCardException(HttpServletRequest req, MissingCreditCardException ex) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, "Add credit card to your account to be able to bid!"));
+    }
+
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<Object>(errorResponse, errorResponse.getStatus());
     }

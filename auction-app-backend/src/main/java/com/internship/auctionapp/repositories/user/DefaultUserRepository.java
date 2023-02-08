@@ -50,7 +50,11 @@ public class DefaultUserRepository implements UserRepository {
         user.setLastName(userRegisterRequest.getLastName());
         user.setEmail(userRegisterRequest.getEmail());
         user.setUsername(userRegisterRequest.getEmail());
-        user.setPasswordHash(userRegisterRequest.getPassword());
+        user.setAuthenticationProvider(userRegisterRequest.getAuthenticationProvider());
+
+        if (userRegisterRequest.getPassword() != null) {
+            user.setPasswordHash(userRegisterRequest.getPassword());
+        }
 
         if (userRegisterRequest.getRole().equalsIgnoreCase(UserRole.ROLE_ADMIN.getValue())) {
             user.setRole(UserRole.ROLE_ADMIN);
@@ -69,7 +73,6 @@ public class DefaultUserRepository implements UserRepository {
     @Override
     public User getUser(UUID userId) {
         final UserEntity user = userJpaRepository.findById(userId).orElseThrow(() -> new UserNotFoundByIdException(userId.toString()));
-
         return user.toDomainModel();
     }
 
@@ -81,9 +84,9 @@ public class DefaultUserRepository implements UserRepository {
             CreateCreditCardRequest createCreditCardRequest,
             Address address
     ) {
-        UserEntity user = userJpaRepository.findByUsername(username);
+        final UserEntity user = userJpaRepository.findByUsername(username);
 
-        UserEntity updatedUser = modelMapper.map(updateUserRequest, UserEntity.class);
+        final UserEntity updatedUser = modelMapper.map(updateUserRequest, UserEntity.class);
 
         updatedUser.setId(user.getId());
         updatedUser.setUsername(updatedUser.getEmail());
@@ -91,6 +94,7 @@ public class DefaultUserRepository implements UserRepository {
         updatedUser.setRole(user.getRole());
         updatedUser.setActive(user.isActive());
         updatedUser.setAddress(address);
+        updatedUser.setAuthenticationProvider(updatedUser.getAuthenticationProvider());
 
         if (createCreditCardRequest != null) {
             CreditCardEntity creditCard = creditCardService.updateCreditCard(user.getCreditCard(), createCreditCardRequest);
@@ -102,7 +106,7 @@ public class DefaultUserRepository implements UserRepository {
 
     @Override
     public void deactivate(String username) {
-        UserEntity user = userJpaRepository.findByUsername(username);
+        final UserEntity user = userJpaRepository.findByUsername(username);
         user.setActive(false);
 
         userJpaRepository.save(user);

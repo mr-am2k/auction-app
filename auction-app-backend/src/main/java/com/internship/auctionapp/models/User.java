@@ -1,5 +1,6 @@
 package com.internship.auctionapp.models;
 
+import com.internship.auctionapp.util.AuthenticationProvider;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,6 @@ public class User {
     private Address address;
 
     private CreditCard card;
+
+    private AuthenticationProvider authenticationProvider;
 }

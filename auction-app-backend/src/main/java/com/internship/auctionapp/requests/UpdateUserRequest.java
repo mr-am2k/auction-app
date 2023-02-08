@@ -1,6 +1,7 @@
 package com.internship.auctionapp.requests;
 
 import com.internship.auctionapp.models.Address;
+import com.internship.auctionapp.util.AuthenticationProvider;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,6 @@ public class UpdateUserRequest {
     private Date dateOfBirth;
 
     private Address address;
+
+    private AuthenticationProvider authenticationProvider;
 }

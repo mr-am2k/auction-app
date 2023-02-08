@@ -70,6 +70,8 @@ export const EN_STRINGS = {
 
   LOGIN: {
     LOGIN: 'LOGIN',
+    GOOGLE_ERROR: 'There has been problem with Google authentication',
+    FACEBOOK_ERROR: 'There has been problem with Facebook authentication',
   },
 
   ERROR_MESSAGE: {

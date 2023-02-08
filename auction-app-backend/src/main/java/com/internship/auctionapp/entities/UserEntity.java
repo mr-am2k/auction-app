@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.internship.auctionapp.models.Address;
 import com.internship.auctionapp.models.User;
+import com.internship.auctionapp.util.AuthenticationProvider;
 import com.internship.auctionapp.util.UserRole;
 
 import lombok.AllArgsConstructor;
@@ -46,7 +47,7 @@ public class UserEntity {
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "password_hash", nullable = false)
+    @Column(name = "password_hash")
     @JsonIgnore
     private String passwordHash;
 
@@ -75,6 +76,9 @@ public class UserEntity {
     @Column(name = "stripe_customer_id")
     private String stripeCustomerId;
 
+    @Column(name = "auth_provider", nullable = false)
+    private AuthenticationProvider authenticationProvider;
+
     public User toDomainModel() {
         User user = new User();
 
@@ -87,6 +91,7 @@ public class UserEntity {
         user.setDateOfBirth(this.dateOfBirth);
         user.setAddress(this.address);
         user.setCard(this.creditCard != null ? this.creditCard.toDomainModel() : null);
+        user.setAuthenticationProvider(this.authenticationProvider);
 
         return user;
     }

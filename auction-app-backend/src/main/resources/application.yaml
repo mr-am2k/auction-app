@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/auction
+    username: postgres
+    password: admin
+    tomcat:
+      validation-query: SELECT 1
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+
+scheduler:
+  auction_finished_delay: 300000
+
+app:
+  jwt_secret: k7L5a35QTaFBLfG9wCFIFECqJe2skWqK
+  jwt_expiration_ms: 180000
+  jwt_refresh_secret: 3rEtGUoSof8J358aW1GvugkvkW1y2g2x
+  jwt_refresh_expiration_ms: 86400000
+  tokens_removal_interval_ms: 1200000
+  stripe_publishable_key: pk_test_51MUBvdE2FvjoQp7LMT6mcIjhngWav6q2bbq9689yMbtxU4TdatuJpVzsnkvVzXGqRMKLwhQhbvwBaO0eSzanVQuQ009KC0VkqB
+  stripe_secret_key: sk_test_51MUBvdE2FvjoQp7Licyi0VTKnaJMF2PXViThRFSHHRDCyPysm8nff74RXkOekcqqBsK5g3joxGTJTOd2JUejgfLR00uKzNZTGn
+  connection_expiration_ms: 180000

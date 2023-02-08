@@ -15,6 +15,7 @@ import com.internship.auctionapp.requests.UpdateUserDataRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
+import com.internship.auctionapp.requests.UserSocialLoginRequest;
 import com.internship.auctionapp.util.DateUtils;
 import com.internship.auctionapp.util.RegexUtils;
 import com.internship.auctionapp.util.security.services.AuthService;
@@ -96,5 +97,15 @@ public class DefaultUserService implements UserService {
     @Override
     public void deactivate(String username) {
         userRepository.deactivate(username);
+    }
+
+    @Override
+    public boolean exists(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public LoginResponse socialLogin(UserSocialLoginRequest userSocialLoginRequest) {
+        return authService.socialLogin(userSocialLoginRequest);
     }
 }

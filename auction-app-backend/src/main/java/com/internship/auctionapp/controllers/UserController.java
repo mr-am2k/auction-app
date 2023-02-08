@@ -55,4 +55,9 @@ public class UserController {
 
         userService.deactivate(username);
     }
+
+    @GetMapping("/exists/{email}")
+    public boolean exists(@PathVariable("email") String email) {
+        return userService.exists(email);
+    }
 }

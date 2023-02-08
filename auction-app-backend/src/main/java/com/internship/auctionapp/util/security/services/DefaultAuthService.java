@@ -4,18 +4,26 @@ import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.AccountDeactivatedException;
 import com.internship.auctionapp.middleware.exception.EmailNotValidException;
 import com.internship.auctionapp.middleware.exception.PasswordNotValidException;
+import com.internship.auctionapp.middleware.exception.RequiredPasswordException;
 import com.internship.auctionapp.middleware.exception.UserAlreadyExistsException;
+import com.internship.auctionapp.middleware.exception.UserSocialAccountException;
 import com.internship.auctionapp.middleware.exception.UsernameNotFoundException;
 import com.internship.auctionapp.models.AuthResponse;
 import com.internship.auctionapp.models.LoginResponse;
 import com.internship.auctionapp.models.User;
+import com.internship.auctionapp.repositories.user.UserJpaRepository;
 import com.internship.auctionapp.repositories.user.UserRepository;
 import com.internship.auctionapp.requests.UserLoginRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
+import com.internship.auctionapp.requests.UserSocialLoginRequest;
+import com.internship.auctionapp.services.bid.DefaultBidService;
 import com.internship.auctionapp.services.blacklistedToken.AuthTokenService;
+import com.internship.auctionapp.util.AuthenticationProvider;
 import com.internship.auctionapp.util.RegexUtils;
 import com.internship.auctionapp.util.security.jwt.JwtUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +35,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,18 +50,24 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
     private final JwtUtils jwtUtils;
 
     private final AuthTokenService authTokenService;
+    private final UserJpaRepository userJpaRepository;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBidService.class);
+
 
     public DefaultAuthService(
             UserRepository userRepository,
             @Lazy AuthenticationManager authenticationManager,
             @Lazy PasswordEncoder encoder,
             JwtUtils jwtUtils,
-            AuthTokenService authTokenService) {
+            AuthTokenService authTokenService,
+            UserJpaRepository userJpaRepository) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.encoder = encoder;
         this.jwtUtils = jwtUtils;
         this.authTokenService = authTokenService;
+        this.userJpaRepository = userJpaRepository;
     }
 
     @Override
@@ -63,7 +78,7 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
             throw new UsernameNotFoundException(username);
         }
 
-        if(!user.isActive()){
+        if (!user.isActive()) {
             throw new AccountDeactivatedException();
         }
 
@@ -72,6 +87,12 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
 
     @Override
     public LoginResponse login(UserLoginRequest loginRequest) {
+        final UserEntity user = userJpaRepository.findByUsername(loginRequest.getUsername());
+
+        if (user.getAuthenticationProvider() != AuthenticationProvider.AUCTION_APP) {
+            throw new UsernameNotFoundException(user.getUsername());
+        }
+
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
@@ -79,6 +100,7 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         final DefaultUserDetails userPrincipal = (DefaultUserDetails) authentication.getPrincipal();
+
 
         final String accessToken = jwtUtils.generateJwtAccessToken(userPrincipal.getUsername());
 
@@ -105,11 +127,17 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
             throw new EmailNotValidException();
         }
 
-        if (!RegexUtils.match(RegexUtils.VALID_PASSWORD_REGEX, registerRequest.getPassword())) {
+        if (registerRequest.getPassword() == null && registerRequest.getAuthenticationProvider() == AuthenticationProvider.AUCTION_APP) {
+            throw new RequiredPasswordException();
+        }
+
+        if (registerRequest.getAuthenticationProvider() == AuthenticationProvider.AUCTION_APP && !RegexUtils.match(RegexUtils.VALID_PASSWORD_REGEX, registerRequest.getPassword())) {
             throw new PasswordNotValidException();
         }
 
-        registerRequest.setPassword(encoder.encode(registerRequest.getPassword()));
+        if (registerRequest.getAuthenticationProvider() == AuthenticationProvider.AUCTION_APP) {
+            registerRequest.setPassword(encoder.encode(registerRequest.getPassword()));
+        }
 
         return userRepository.registerUser(registerRequest).toDomainModel();
     }
@@ -122,5 +150,26 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
     @Override
     public AuthResponse refreshToken(String username) {
         return new AuthResponse(jwtUtils.generateJwtAccessToken(username));
+    }
+
+    @Override
+    public LoginResponse socialLogin(UserSocialLoginRequest socialLoginRequest) {
+        final UserEntity user = userJpaRepository.findByUsername(socialLoginRequest.getEmail());
+
+        if (user.getAuthenticationProvider() == AuthenticationProvider.AUCTION_APP) {
+            throw new UserSocialAccountException();
+        }
+
+        final String accessToken = jwtUtils.generateJwtAccessToken(user.getUsername());
+
+        final String refreshToken = jwtUtils.generateJwtRefreshToken(user.getUsername());
+
+        final List<String> roles = new ArrayList<>();
+
+        roles.add(user.getRole().getValue());
+
+        authTokenService.addToken(accessToken, false);
+
+        return new LoginResponse(accessToken, refreshToken, user.getId(), user.getEmail(), user.getFullName(), roles);
     }
 }

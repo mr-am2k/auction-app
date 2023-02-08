@@ -12,7 +12,7 @@ import { storageService } from 'services/storageService';
 import { Loading, ImagePicker, NotificationBar, BiddersList, RelatedProducts } from 'components';
 import { Product } from 'models/product';
 import { Notification } from 'models/notification';
-import { createBidRequest } from 'models/request/create/createBidRequest';
+import { CreateBidRequest } from 'models/request/create/createBidRequest';
 import { INPUT_TYPE_NUMBER, LOCAL_STORAGE } from 'util/constants';
 import { scrollToTop } from 'util/windowUtils';
 import { ROUTES } from 'util/routes';
@@ -68,7 +68,7 @@ const SingleProduct = () => {
       return;
     }
 
-    const createBidRequest: createBidRequest = {
+    const createBidRequest: CreateBidRequest = {
       price: Number(bidInputPrice),
       productId: singleProduct!.id,
       userId: loggedInUser!.id,

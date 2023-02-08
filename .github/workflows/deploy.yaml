@@ -13,5 +13,7 @@ jobs:
           AUCTION_APP_JWTSECRET: ${{ secrets.AUCTION_APP_JWTSECRET }}
           REACT_APP_BASE_URL: http://ec2-3-120-228-194.eu-central-1.compute.amazonaws.com:8080/api/v1
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          REACT_APP_GOOGLE_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}
+          REACT_APP_FACEBOOK_APP_ID: ${{ secrets.REACT_APP_FACEBOOK_APP_ID }}
         run: docker-compose up -d --build && docker system prune -f
         shell: bash

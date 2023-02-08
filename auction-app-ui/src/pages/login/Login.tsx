@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import { useUser } from 'hooks/useUser';
 import { useForm } from 'hooks/useForm';
@@ -9,12 +10,14 @@ import authService from 'services/authService';
 import { storageService } from 'services/storageService';
 
 import LoginForm from 'components/LoginForm/LoginForm';
+import { FacebookLogin, GoogleLogin } from 'components';
 import { LoggedInUser } from 'models/loggedInUser';
-import { userLoginRequest } from 'models/request/auth/userLoginRequest';
+import { UserLoginRequest } from 'models/request/auth/userLoginRequest';
 import { LOCAL_STORAGE } from 'util/constants';
-import logo from 'assets/logo/auction-app-logo.svg';
 
 import './login.scss';
+
+import logo from 'assets/logo/auction-app-logo.svg';
 
 const Login = () => {
   const { fieldValues, isValid } = useForm();
@@ -24,7 +27,7 @@ const Login = () => {
 
   const [loginError, setLoginError] = useState<string>();
 
-  const loginUser = async (loginRequest: userLoginRequest) => {
+  const loginUser = async (loginRequest: UserLoginRequest) => {
     authService
       .login(loginRequest)
       .then(authResponse => {
@@ -50,7 +53,7 @@ const Login = () => {
   const submitForm = () => {
     const { email, password } = fieldValues;
 
-    const loginRequest: userLoginRequest = {
+    const loginRequest: UserLoginRequest = {
       username: email!,
       password: password!,
     };
@@ -77,8 +80,14 @@ const Login = () => {
           <img src={logo} alt='Logo' />
         </Link>
       </div>
-
-      <LoginForm onSubmit={submitForm} errorMessage={error} />
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}>
+        <LoginForm
+          onSubmit={submitForm}
+          errorMessage={error}
+          googleAuth={<GoogleLogin setLoginError={setLoginError} />}
+          facebookAuth={<FacebookLogin setLoginError={setLoginError} />}
+        />
+      </GoogleOAuthProvider>
     </div>
   );
 };
