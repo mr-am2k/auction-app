@@ -50,9 +50,9 @@ public class AuthController {
         return userService.register(registerRequest);
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public void logout(HttpServletRequest request) {
-        final String token = RequestUtils.getToken(request, RequestUtils.REFRESH);
+        final String token = RequestUtils.getToken(request, RequestUtils.BEARER);
 
         userService.logout(token);
     }

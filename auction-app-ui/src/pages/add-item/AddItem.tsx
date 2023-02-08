@@ -63,7 +63,7 @@ const AddItem = () => {
     const expirationDate = new Date(fieldValues[PRODUCT_FORM.END_DATE])
 
     creationDate.setHours(currentTime.getHours());
-    creationDate.setMinutes(currentTime.getMinutes());
+    creationDate.setMinutes(currentTime.getMinutes() + ADD_ITEM.ADD_MINUTES);
     creationDate.setSeconds(currentTime.getSeconds());
 
     expirationDate.setHours(currentTime.getHours());

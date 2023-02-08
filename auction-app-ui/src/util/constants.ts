@@ -99,6 +99,7 @@ export const VALIDATION = {
 export const ADD_ITEM = {
   PAGE_NUMBER_2: 2,
   PAGE_NUMBER_3: 3,
+  ADD_MINUTES: 5,
 };
 
 export const PRICE_FILTER = {

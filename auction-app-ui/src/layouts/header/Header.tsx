@@ -18,20 +18,20 @@ const Header = () => {
 
   const navigate = useNavigate();
 
-  const logoutUser = async () => {
-    authService.logout();
+  const logoutUser = () => {
+    authService.logout().then(() => {
+      storageService.removeAll([
+        LOCAL_STORAGE.ACCESS_TOKEN,
+        LOCAL_STORAGE.REFRESH_TOKEN,
+        LOCAL_STORAGE.ID,
+        LOCAL_STORAGE.FULL_NAME,
+        LOCAL_STORAGE.ROLE,
+      ]);
 
-    storageService.removeAll([
-      LOCAL_STORAGE.ACCESS_TOKEN,
-      LOCAL_STORAGE.REFRESH_TOKEN,
-      LOCAL_STORAGE.ID,
-      LOCAL_STORAGE.FULL_NAME,
-      LOCAL_STORAGE.ROLE,
-    ]);
+      resetLoggedInUser();
 
-    resetLoggedInUser();
-
-    navigate('/');
+      navigate('/');
+    });
   };
 
   return (
