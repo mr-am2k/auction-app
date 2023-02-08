@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.internship.auctionapp.entities.UserEntity;
 
-import com.internship.auctionapp.util.AuthenticationProvider;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

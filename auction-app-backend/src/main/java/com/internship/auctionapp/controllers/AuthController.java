@@ -41,7 +41,7 @@ public class AuthController {
     }
 
     @PostMapping("/social-login")
-    public LoginResponse socialLogin(@RequestBody UserSocialLoginRequest userSocialLoginRequest){
+    public LoginResponse socialLogin(@RequestBody UserSocialLoginRequest userSocialLoginRequest) {
         return userService.socialLogin(userSocialLoginRequest);
     }
 

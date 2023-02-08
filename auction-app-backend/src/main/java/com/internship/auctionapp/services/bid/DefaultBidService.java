@@ -7,7 +7,6 @@ import com.internship.auctionapp.middleware.exception.BidPriceLowerThanProductPr
 import com.internship.auctionapp.middleware.exception.MissingCreditCardException;
 import com.internship.auctionapp.middleware.exception.ProductExpiredException;
 import com.internship.auctionapp.models.Product;
-import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.repositories.bid.BidRepository;
 import com.internship.auctionapp.repositories.product.ProductRepository;
 import com.internship.auctionapp.repositories.user.UserJpaRepository;
@@ -66,7 +65,7 @@ public class DefaultBidService implements BidService {
 
         final UserEntity user = userJpaRepository.findById(createBidRequest.getUserId()).get();
 
-        if(user.getCreditCard() == null || !CreditCardUtils.validCard(user.getCreditCard().toDomainModel())){
+        if(user.getCreditCard() == null || !CreditCardUtils.isValid(user.getCreditCard().toDomainModel())){
             throw new MissingCreditCardException();
         }
 

@@ -8,13 +8,10 @@ import com.internship.auctionapp.models.User;
 import com.internship.auctionapp.requests.CreateCreditCardRequest;
 import com.internship.auctionapp.requests.UpdateUserRequest;
 import com.internship.auctionapp.requests.UserRegisterRequest;
-import com.internship.auctionapp.services.bid.DefaultBidService;
 import com.internship.auctionapp.services.creditCard.CreditCardService;
 import com.internship.auctionapp.util.UserRole;
 
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -76,7 +73,6 @@ public class DefaultUserRepository implements UserRepository {
     @Override
     public User getUser(UUID userId) {
         final UserEntity user = userJpaRepository.findById(userId).orElseThrow(() -> new UserNotFoundByIdException(userId.toString()));
-        System.out.println(user.toString());
         return user.toDomainModel();
     }
 

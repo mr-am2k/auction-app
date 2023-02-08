@@ -4,7 +4,7 @@ import com.internship.auctionapp.entities.UserEntity;
 import com.internship.auctionapp.middleware.exception.AccountDeactivatedException;
 import com.internship.auctionapp.middleware.exception.EmailNotValidException;
 import com.internship.auctionapp.middleware.exception.PasswordNotValidException;
-import com.internship.auctionapp.middleware.exception.PasswordRequiredException;
+import com.internship.auctionapp.middleware.exception.RequiredPasswordException;
 import com.internship.auctionapp.middleware.exception.UserAlreadyExistsException;
 import com.internship.auctionapp.middleware.exception.UserSocialAccountException;
 import com.internship.auctionapp.middleware.exception.UsernameNotFoundException;
@@ -89,7 +89,7 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
     public LoginResponse login(UserLoginRequest loginRequest) {
         final UserEntity user = userJpaRepository.findByUsername(loginRequest.getUsername());
 
-        if (user.getAuthenticationProvider() != AuthenticationProvider.LOCAL) {
+        if (user.getAuthenticationProvider() != AuthenticationProvider.AUCTION_APP) {
             throw new UsernameNotFoundException(user.getUsername());
         }
 
@@ -127,15 +127,15 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
             throw new EmailNotValidException();
         }
 
-        if (registerRequest.getPassword() == null && registerRequest.getAuthenticationProvider() == AuthenticationProvider.LOCAL) {
-            throw new PasswordRequiredException();
+        if (registerRequest.getPassword() == null && registerRequest.getAuthenticationProvider() == AuthenticationProvider.AUCTION_APP) {
+            throw new RequiredPasswordException();
         }
 
-        if (registerRequest.getAuthenticationProvider() == AuthenticationProvider.LOCAL && !RegexUtils.match(RegexUtils.VALID_PASSWORD_REGEX, registerRequest.getPassword())) {
+        if (registerRequest.getAuthenticationProvider() == AuthenticationProvider.AUCTION_APP && !RegexUtils.match(RegexUtils.VALID_PASSWORD_REGEX, registerRequest.getPassword())) {
             throw new PasswordNotValidException();
         }
 
-        if (registerRequest.getAuthenticationProvider() == AuthenticationProvider.LOCAL) {
+        if (registerRequest.getAuthenticationProvider() == AuthenticationProvider.AUCTION_APP) {
             registerRequest.setPassword(encoder.encode(registerRequest.getPassword()));
         }
 
@@ -156,7 +156,7 @@ public class DefaultAuthService implements UserDetailsService, AuthService {
     public LoginResponse socialLogin(UserSocialLoginRequest socialLoginRequest) {
         final UserEntity user = userJpaRepository.findByUsername(socialLoginRequest.getEmail());
 
-        if (user.getAuthenticationProvider() == AuthenticationProvider.LOCAL) {
+        if (user.getAuthenticationProvider() == AuthenticationProvider.AUCTION_APP) {
             throw new UserSocialAccountException();
         }
 

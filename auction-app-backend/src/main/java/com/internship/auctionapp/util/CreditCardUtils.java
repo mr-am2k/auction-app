@@ -11,7 +11,7 @@ public class CreditCardUtils {
                 && creditCard.getVerificationValue().equalsIgnoreCase(createCreditCardRequest.getVerificationValue());
     }
 
-    public static boolean validCard(CreditCard creditCard){
+    public static boolean isValid(CreditCard creditCard){
         return creditCard.getHolderFullName() != null &&
                 creditCard.getNumber() != null &&
                 creditCard.getExpirationDate() != null &&
