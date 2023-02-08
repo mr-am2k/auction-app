@@ -80,7 +80,7 @@ const Login = () => {
           <img src={logo} alt='Logo' />
         </Link>
       </div>
-      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID!}>
+      <GoogleOAuthProvider clientId='616700214183-g6m6o9uajkij3gkk000qnucp1gvhabdq.apps.googleusercontent.com'>
         <LoginForm
           onSubmit={submitForm}
           errorMessage={error}
