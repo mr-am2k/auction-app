@@ -76,9 +76,10 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests().antMatchers(SWAGGER_WHITELIST).permitAll()
-                .antMatchers("/api/v1/users/check-if-exists").permitAll()
+                .antMatchers("/api/v1/users/exists").permitAll()
                 .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/v1/**").permitAll()
+                .antMatchers("/api/v1/categories/*").hasAnyAuthority(UserRole.ROLE_ADMIN.getValue())
                 .antMatchers("/api/v1/**").hasAnyAuthority(UserRole.ROLE_USER.getValue(), UserRole.ROLE_ADMIN.getValue())
                 .anyRequest().authenticated();
 

@@ -11,7 +11,7 @@ const BASE_URL = '/auth';
 const authService = {
   register: (userRegisterRequest: UserRegisterRequest) => agent.post<UserRegisterRequest>(`${BASE_URL}/register`, userRegisterRequest),
   login: (userLoginRequest: UserLoginRequest) => agent.post<LoginResponse>(`${BASE_URL}/login`, userLoginRequest),
-  logout: () => agent.post<any>(`${BASE_URL}/logout`, {}),
+  logout: () => agent.get<any>(`${BASE_URL}/logout`),
   refreshToken: () => agent.get<AuthResponse>(`${BASE_URL}/refresh-token`),
   socialLogin: (userSocialLoginRequest: UserSocialLoginRequest) =>
     agent.post<LoginResponse>(`${BASE_URL}/social-login`, userSocialLoginRequest),
