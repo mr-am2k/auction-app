@@ -56,8 +56,6 @@ const LoginForm: React.FC<Props> = ({ onSubmit, errorMessage, googleAuth, facebo
         onSubmit={onSubmit}
         primaryActionLabel={EN_STRINGS.LOGIN.LOGIN}
         errorMessage={errorMessage}
-        googleAuth={googleAuth}
-        facebookAuth={facebookAuth}
         className='c-form-border'
       />
     </div>

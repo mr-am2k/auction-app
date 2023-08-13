@@ -22,9 +22,10 @@
     border: 1px solid $smokeWhiteColor;
     font-family: $latoFont;
     font-size: $textBase;
+    border-radius: 20px;
 
     &:focus {
-      outline: 2px solid $purpleColor;
+      outline: 2px solid $blueColor;
     }
   }
 

@@ -39,7 +39,8 @@
       font-weight: $fontBold;
       font-size: 18px;
       line-height: 27px;
-      background: $purpleColor;
+      background: $blueColor;
+      border-radius: 20px;
     }
 
     button:hover {
@@ -73,7 +74,7 @@
         font-weight: $fontBold;
         font-size: $textBase;
         line-height: 19px;
-        color: $purpleColor;
+        color: $blueColor;
       }
     }
   }

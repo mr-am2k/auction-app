@@ -18,7 +18,7 @@
         font-weight: $fontBold;
         font-size: $textBase;
         line-height: $lineHeightBase;
-        color: $purpleColor;
+        color: $blueColor;
         padding: 16px;
       }
     }
@@ -40,7 +40,7 @@
         }
 
         .c-price {
-          color: $purpleColor;
+          color: $blueColor;
         }
 
         p {
@@ -61,7 +61,7 @@
           background-color: transparent;
           padding: 1rem 3rem;
           width: 15rem;
-          border: 2px solid $purpleColor;
+          border: 2px solid $blueColor;
           font-weight: $fontBold;
           font-size: 18px;
           line-height: 27px;
@@ -71,7 +71,7 @@
 
           &:hover {
             cursor: pointer;
-            background-color: $purpleColor;
+            background-color: $blueColor;
           }
         }
       }
@@ -106,7 +106,7 @@
       }
 
       .c-focus {
-        border-bottom: 2px solid $purpleColor;
+        border-bottom: 2px solid $blueColor;
       }
       p:hover {
         cursor: pointer;

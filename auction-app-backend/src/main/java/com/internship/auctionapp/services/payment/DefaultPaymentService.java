@@ -51,7 +51,7 @@ import java.util.Map;
  * If they are the same, we check is his card registered on Stripe, if it's not we create new one using registerCreditCard method
  * and link it to the credit card in our app, if he has credit card linked to Stripe, we just take stripe credit card id.
  *
- * If cards aren't the same, we create new card, register it on stripe and save it in out database.
+ * If cards aren't the same, we create new card, register it on stripe and save it in our database.
  *
  * At the end, we complete payment with the highest bid amount, users stripe account id and his stipe credit card id.
  */

@@ -51,7 +51,7 @@
       color: $greyColor;
 
       span {
-        color: $purpleColor;
+        color: $blueColor;
         font-weight: $fontBold;
       }
     }
@@ -66,7 +66,7 @@
       }
 
       h3 {
-        color: $purpleColor;
+        color: $blueColor;
       }
 
       .c-send-bid {
@@ -79,7 +79,7 @@
 
         .c-lost-message{
           font-size: 21px;
-          color: $purpleColor;
+          color: $blueColor;
         }
 
         input {
@@ -99,7 +99,7 @@
           }
 
           &:focus {
-            outline: 2px solid $purpleColor;
+            outline: 2px solid $blueColor;
           }
 
           &::-webkit-outer-spin-button,
@@ -118,7 +118,7 @@
           background-color: transparent;
           padding: 0.7rem 2rem;
           width: 13rem;
-          border: 2px solid $purpleColor;
+          border: 2px solid $blueColor;
           font-weight: $fontBold;
           font-size: 18px;
           line-height: 27px;
@@ -126,7 +126,7 @@
           color: $blackColor;
 
           &:hover {
-            background-color: $purpleColor;
+            background-color: $blueColor;
             cursor: pointer;
           }
 
@@ -139,7 +139,7 @@
 
       .c-bid-error {
         p {
-          color: $purpleColor;
+          color: $blueColor;
           font-size: $textBase;
           font-weight: $fontBold;
         }
@@ -169,8 +169,8 @@
         }
 
         .c-focus {
-          border-bottom: 2px solid $purpleColor;
-          color: $purpleColor;
+          border-bottom: 2px solid $blueColor;
+          color: $blueColor;
           font-weight: $fontBold;
         }
         p:hover {

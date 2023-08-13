@@ -19,14 +19,14 @@
     }
 
     .c-hr--active{
-      background-color: $purpleColor;
+      background-color: $blueColor;
     }
 
     .c-dot {
       height: 10px;
       width: 10px;
       background-color: $whiteColor;
-      border: 1px solid $purpleColor;
+      border: 1px solid $blueColor;
       outline: 5px solid $whiteColor;
       border-radius: 50%;
       display: inline-block;
@@ -34,7 +34,7 @@
     }
 
     .c-dot--active{
-      background-color: $purpleColor;
+      background-color: $blueColor;
     }
   }
 }

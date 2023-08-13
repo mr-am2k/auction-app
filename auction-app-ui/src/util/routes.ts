@@ -9,5 +9,5 @@ export const ROUTES = {
   PRODUCT: '/product',
   ADD_PRODUCT: '/add-product',
   PAY: '/pay',
-  PRODUCT_SUBSCRIBE: '/products/subscribe',
+  PRODUCT_SUBSCRIBE: 'products/subscribe',
 };

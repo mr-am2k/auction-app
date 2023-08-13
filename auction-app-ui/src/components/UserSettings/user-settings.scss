@@ -21,7 +21,7 @@
       gap: 1rem;
 
       input {
-        accent-color: $purpleColor;
+        accent-color: $blueColor;
       }
     }
   }
@@ -34,7 +34,7 @@
       gap: 1rem;
 
       p {
-        color: $purpleColor;
+        color: $blueColor;
       }
     }
   }
@@ -52,7 +52,7 @@
 
         &:hover{
             cursor: pointer;
-            background-color: $purpleColor;
+            background-color: $blueColor;
         }
     }
   }
